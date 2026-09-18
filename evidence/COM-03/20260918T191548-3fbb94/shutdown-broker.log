@@ -1,0 +1,17 @@
+1789726559: mosquitto version 2.1.2 starting
+1789726559: Config loaded from /mosquitto/config/mosquitto.conf.
+1789726559: Bridge support available.
+1789726559: Persistence support available.
+1789726559: TLS support available.
+1789726559: TLS-PSK support available.
+1789726559: Websockets support available.
+1789726559: Opening ipv4 listen socket on port 1883.
+1789726559: mosquitto version 2.1.2 running
+1789726560: New connection from 172.17.0.1:34894 on port 1883.
+1789726560: Client 172.17.0.1 [172.17.0.1:34894] disconnected: connection closed by client.
+1789726560: New connection from 172.17.0.1:34898 on port 1883.
+1789726560: New client connected from 172.17.0.1:34898 as amr-control-71b7252c226d43d0b6f7aa5cd0be49c2 (p5, c1, k2).
+1789726560: No will message specified.
+1789726560: Sending CONNACK to amr-control-71b7252c226d43d0b6f7aa5cd0be49c2 (0, 0)
+1789726560: mosquitto version 2.1.2 terminating
+1789726559: Info: running mosquitto as user: mosquitto.

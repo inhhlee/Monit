@@ -77,24 +77,34 @@
     },
     {
       "id": "DN-03",
-      "status": "unresolved",
+      "status": "adopted",
       "topic": "접속 및 감시 설정",
       "detail": "Broker 주소, 포트, 인증 필요 여부, KeepAlive, AMR별 Heartbeat Timeout, 감시 주기와 감시 대상 등록 방법을 설정 및 인터페이스로 정한다. 구체 시간값은 원문에서 확정되지 않았으므로 테스트 설정값과 운영 정책을 구분하여 기록한다. Heartbeat 수신 시각을 감시 기준으로 사용하고 Payload ts와 혼동하지 않는다.",
       "affects": [
         "COM-03",
         "COM-02"
-      ]
+      ],
+      "adoption": "provisional",
+      "decision": "COM-03 개발 계약: MQTT 5/TCP, 기본 host 127.0.0.1/port 1883, 익명 로컬 접속(선택적 환경변수 인증), KeepAlive 5초/연결 및 통신 timeout 3초. 실증은 별도 Mosquitto 2.1.2 컨테이너의 임의 localhost 포트, KeepAlive 2초, 무업무 메시지 6초 관찰, 정상 종료 감지 5초 이내/응답 차단 감지 8초 이내/최초 연결 실패 5초 이내. MQTTnet 5.2.0.1603의 KeepAlive 및 연결 끊김 알림을 사용한다. AMR Heartbeat 감시 설정은 미결정으로 유지.",
+      "reason": "기존 Docker Mosquitto 이미지와 설치된 MQTTnet 버전을 활용하여 빠르고 독립적인 재현 검증을 수행한다. 운영 정책은 확정하지 않는다.",
+      "decided_at": "2026-09-18",
+      "review_trigger": "실제 Core 통합, 운영 Broker 인증/TLS, 네트워크 지연 또는 COM-02 착수 시 재검토"
     },
     {
       "id": "DN-04",
-      "status": "unresolved",
+      "status": "adopted",
       "topic": "QoS, 중복 전달 및 장애 복구",
       "detail": "Command별 QoS, 중복 메시지 처리, 재접속 주기·횟수·Backoff·재구독 상세는 원문의 미확정 설계 사항이다. 송수신 검증 전에 적용 QoS를 기록한다. 자동 복구 전체와 복구 후 송수신 재개 검증은 INT-04와 연계할 후속 범위로 관리하며 COM-03의 최초 연결·유지·단절 감지 통과와 구분한다.",
       "affects": [
         "COM-01",
         "COM-03",
         "COM-05"
-      ]
+      ],
+      "adoption": "provisional",
+      "decision": "COM-03에서는 자동 재접속/재구독 및 업무 메시지 송수신을 구현하지 않는다. 실패는 상태와 원인 로그로 전달하며 호출자가 명시적으로 다시 ConnectAsync를 호출할 수 있다. 연결 시도마다 별도 클라이언트를 소유하고 이전 시도의 늦은 이벤트는 무시한다. QoS/중복/전체 복구 정책은 후속 기능에서 결정한다.",
+      "reason": "초기 연결·유지·단절 감지 범위를 검증하고 자동 복구가 오류를 숨기지 않도록 한다.",
+      "decided_at": "2026-09-18",
+      "review_trigger": "COM-01/05 송수신 또는 후속 INT-04 복구 구현 시 재검토"
     },
     {
       "id": "DN-05",
@@ -123,7 +133,7 @@
       "area": "Amr.Communication",
       "title": "MQTT Broker 연결 및 연결 상태 감시",
       "user_visible_behavior": "통신 모듈이 설정된 Mosquitto Broker에 연결하고 MQTT KeepAlive로 연결을 유지하며 Client-Broker 연결 이상을 감지한다.",
-      "status": "not_started",
+      "status": "passing",
       "depends_on": [],
       "verification": [
         "Broker 접속 정보와 KeepAlive 설정을 기록하고 실제 Mosquitto Broker를 실행한다. 통신 모듈 접속 후 클라이언트 연결 상태 및 Broker 로그에서 연결 성공을 확인한다.",
@@ -132,9 +142,139 @@
         "Broker가 실행되지 않은 주소 또는 포트로 최초 연결을 시도한다. 연결 성공으로 표시하지 않고 실패 상태와 원인을 남기며 처리되지 않은 예외로 프로세스가 종료되지 않는지 확인한다.",
         "연결 수명주기 관련 자동 테스트와 위 실제 Broker 연동 검증을 실행하고 실행 명령, 설정, 관찰 시간 및 로그를 evidence에 기록한다."
       ],
-      "evidence": [],
-      "notes": "9페이지 COM-03, 7페이지 통신 실패 로그 정책 참조. 연결 성공 로그는 검증을 위한 관측 수단이다. 자동 재접속·재구독의 전체 복구 정책은 DN-04 및 후속 INT-04에서 다룬다.",
-      "spec_revision": 1,
+      "evidence": [
+        {
+          "spec_revision": 2,
+          "verification_index": 1,
+          "executed_at": "2026-09-18T10:15:51.745115+00:00",
+          "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
+          "environment": {
+            "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
+            "os": "Windows-11-10.0.26200-SP0",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "image_id": "sha256:6f8d8a947c506f8a2290ec65cd4bd2bc7cb4d43fb5f6271f861cb013e2ef9797",
+            "docker": "29.7.2",
+            "library": "MQTTnet 5.2.0.1603",
+            "settings": "MQTT5/TCP, isolated localhost dynamic ports, anonymous, KeepAlive=2s, Timeout=3s, idle=6s, shutdown<=5s/response block<=8s/failure<=5s",
+            "test_doubles": "Fake IBrokerClient for unit tests; actual Mosquitto + TCP response-drop proxy for integration; no Core/AMR test double"
+          },
+          "expected": "Broker 접속 정보와 KeepAlive 설정을 기록하고 실제 Mosquitto Broker를 실행한다. 통신 모듈 접속 후 클라이언트 연결 상태 및 Broker 로그에서 연결 성공을 확인한다.",
+          "actual": "Client connected to actual Mosquitto at 127.0.0.1:62398",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260918T191548-3fbb94/idle-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/healthy-broker.log",
+            "evidence/COM-03/20260918T191548-3fbb94/mosquitto.conf",
+            "evidence/COM-03/20260918T191548-3fbb94/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 2,
+          "executed_at": "2026-09-18T10:15:57.923539+00:00",
+          "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
+          "environment": {
+            "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
+            "os": "Windows-11-10.0.26200-SP0",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "image_id": "sha256:6f8d8a947c506f8a2290ec65cd4bd2bc7cb4d43fb5f6271f861cb013e2ef9797",
+            "docker": "29.7.2",
+            "library": "MQTTnet 5.2.0.1603",
+            "settings": "MQTT5/TCP, isolated localhost dynamic ports, anonymous, KeepAlive=2s, Timeout=3s, idle=6s, shutdown<=5s/response block<=8s/failure<=5s",
+            "test_doubles": "Fake IBrokerClient for unit tests; actual Mosquitto + TCP response-drop proxy for integration; no Core/AMR test double"
+          },
+          "expected": "업무 메시지를 발행하지 않은 상태로 설정된 KeepAlive 주기의 2배 이상 연결을 관찰한다. 연결이 유지되고 PINGREQ/PINGRESP 교환 또는 MQTT 라이브러리 진단 정보로 KeepAlive 동작을 확인한다.",
+          "actual": "Idle connection maintained for 6.000s with PINGREQ/PINGRESP and no business messages",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260918T191548-3fbb94/idle-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/healthy-broker.log",
+            "evidence/COM-03/20260918T191548-3fbb94/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 3,
+          "executed_at": "2026-09-18T10:16:06.039489+00:00",
+          "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
+          "environment": {
+            "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
+            "os": "Windows-11-10.0.26200-SP0",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "image_id": "sha256:6f8d8a947c506f8a2290ec65cd4bd2bc7cb4d43fb5f6271f861cb013e2ef9797",
+            "docker": "29.7.2",
+            "library": "MQTTnet 5.2.0.1603",
+            "settings": "MQTT5/TCP, isolated localhost dynamic ports, anonymous, KeepAlive=2s, Timeout=3s, idle=6s, shutdown<=5s/response block<=8s/failure<=5s",
+            "test_doubles": "Fake IBrokerClient for unit tests; actual Mosquitto + TCP response-drop proxy for integration; no Core/AMR test double"
+          },
+          "expected": "Broker를 정상 종료하는 경우와 네트워크 응답을 차단하는 경우를 각각 재현한다. 설정 및 라이브러리 기준으로 정한 감지 시간 내 연결 이상이 관찰되고 원인 또는 연결 끊김 로그가 기록되는지 확인한다.",
+          "actual": "Normal shutdown detected in 0.063s; blocked responses in 3.078s; broker remained alive",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260918T191548-3fbb94/shutdown-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/shutdown-broker.log",
+            "evidence/COM-03/20260918T191548-3fbb94/blackhole-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/blackhole-broker.log",
+            "evidence/COM-03/20260918T191548-3fbb94/broker-still-alive-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/fault-timing.json",
+            "evidence/COM-03/20260918T191548-3fbb94/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 4,
+          "executed_at": "2026-09-18T10:16:08.843586+00:00",
+          "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
+          "environment": {
+            "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
+            "os": "Windows-11-10.0.26200-SP0",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "image_id": "sha256:6f8d8a947c506f8a2290ec65cd4bd2bc7cb4d43fb5f6271f861cb013e2ef9797",
+            "docker": "29.7.2",
+            "library": "MQTTnet 5.2.0.1603",
+            "settings": "MQTT5/TCP, isolated localhost dynamic ports, anonymous, KeepAlive=2s, Timeout=3s, idle=6s, shutdown<=5s/response block<=8s/failure<=5s",
+            "test_doubles": "Fake IBrokerClient for unit tests; actual Mosquitto + TCP response-drop proxy for integration; no Core/AMR test double"
+          },
+          "expected": "Broker가 실행되지 않은 주소 또는 포트로 최초 연결을 시도한다. 연결 성공으로 표시하지 않고 실패 상태와 원인을 남기며 처리되지 않은 예외로 프로세스가 종료되지 않는지 확인한다.",
+          "actual": "Unavailable broker produced ConnectFailed with reason, no Connected state and controlled exit 2",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260918T191548-3fbb94/unavailable-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 5,
+          "executed_at": "2026-09-18T19:18:43.8381342+09:00",
+          "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
+          "environment": {
+            "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
+            "os": "Windows-11-10.0.26200-SP0",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "image_id": "sha256:6f8d8a947c506f8a2290ec65cd4bd2bc7cb4d43fb5f6271f861cb013e2ef9797",
+            "docker": "29.7.2",
+            "library": "MQTTnet 5.2.0.1603",
+            "settings": "MQTT5/TCP, isolated localhost dynamic ports, anonymous, KeepAlive=2s, Timeout=3s, idle=6s, shutdown<=5s/response block<=8s/failure<=5s",
+            "test_doubles": "Fake IBrokerClient for unit tests; actual Mosquitto + TCP response-drop proxy for integration; no Core/AMR test double"
+          },
+          "expected": "연결 수명주기 관련 자동 테스트와 위 실제 Broker 연동 검증을 실행하고 실행 명령, 설정, 관찰 시간 및 로그를 evidence에 기록한다.",
+          "actual": "20 automatic tests passed; real Mosquitto checks 1-4 and host restart passed; final init.ps1 restore/build/20 .NET tests/8 harness tests passed",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260918T191548-3fbb94/build.log",
+            "evidence/COM-03/20260918T191548-3fbb94/unit.log",
+            "evidence/COM-03/20260918T191548-3fbb94/unit.trx",
+            "evidence/COM-03/20260918T191548-3fbb94/restart-client.log",
+            "evidence/COM-03/20260918T191548-3fbb94/result.json",
+            "evidence/bootstrap/20260918T191840700+0900-54e1a4/summary.log",
+            "evidence/bootstrap/20260918T191840700+0900-54e1a4/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260918T191840700+0900-54e1a4/harness-tests.log"
+          ]
+        }
+      ],
+      "notes": "9페이지 COM-03, 7페이지 통신 실패 로그 정책 참조. 연결 성공 로그는 검증을 위한 관측 수단이다. 자동 재접속·재구독의 전체 복구 정책은 DN-04 및 후속 INT-04에서 다룬다. S007: DN-03/04에 연결 상태·명시적 재시도·시간 경계 계약을 채택해 revision 2로 관리. 초기화 evidence는 기능 통과 근거가 아니다.",
+      "spec_revision": 2,
       "blocker": null
     },
     {
@@ -281,6 +421,17 @@
         "COM-05"
       ],
       "reverification": "전체 솔루션 빌드, .NET 스모크 4건, Python 검사기 테스트 8건 및 재시작 검증. 제품 MQTT 검증은 미실행; 기존 제품 passing 증거 없음."
+    },
+    {
+      "date": "2026-09-18",
+      "type": "contract_adoption",
+      "reason": "COM-03 구현에 필요한 개발용 연결·감지 시간 경계와 수명주기 계약 구체화.",
+      "before": "설정 및 실패 처리 경계 미확정; COM-03 revision 1, 기능 증거 없음.",
+      "after": "DN-03/04 부분 임시 채택; COM-03 revision 2. 다른 기능 계약/상태 유지.",
+      "affected_features": [
+        "COM-03"
+      ],
+      "reverification": "COM-03 verification 1~5 전체, 연결 수명주기 단위 테스트, 실제 Mosquitto 및 콘솔 재시작 검증."
     }
   ],
   "initialization": {
@@ -298,6 +449,7 @@
       "실제 MQTT 및 WPF GUI 실행 미검증",
       "Docker/Mosquitto 실행 환경 확보 필요",
       "PDF 및 S003/S004 원본 증거 미전달"
-    ]
+    ],
+    "historical_snapshot": true
   }
 }

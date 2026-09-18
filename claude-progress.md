@@ -8,17 +8,17 @@
 | --- | --- |
 | Last updated | 2026-09-18, Asia/Seoul |
 | Repository root directory | C:\Users\Admin\Desktop\repos\AmrControlSystem; S005에서 신규 Git 저장소 생성. |
-| Standard startup path | PowerShell 7에서 `./init.ps1 -Start`; Git for Windows Bash에서 `bash ./init.sh -Start`. 현재 콘솔은 Hello World 출력 후 종료하는 골격. |
+| Standard startup path | PowerShell 7에서 ./init.ps1 -Start. Broker localhost:1883 선행 실행 후 연결 상태를 JSON으로 출력하며 Ctrl+C로 종료. 설정은 README 참조. |
 | Standard verification path | `./init.ps1`: 추적기 검사, Python 검사기 테스트, 전체 솔루션 restore/build, .NET tests, TRX 0건·실패·미실행 거부 검사. 전체 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
-| Highest priority unfinished feature | COM-03: MQTT Broker 연결 및 연결 상태 감시 |
-| Active feature | 없음. 모든 기능은 not_started. |
-| Verified product behavior | 전체 솔루션 빌드, 기존 DTO/빈 ID 거부 스모크 4건, 검사기 테스트 8건 통과. COM 기능 검증 및 실제 MQTT 동작은 미실행. |
-| Current blocker | 초기화 기준선에는 없음. Docker CLI/daemon 및 Mosquitto 실행 환경 미확보로 실제 Broker 검증은 미실행. COM-03의 첫 작업에서 확보·확인할 것. |
+| Highest priority unfinished feature | COM-04: 수신 Topic 및 메시지 유효성 검증 |
+| Active feature | 없음. COM-03 passing (revision 2); COM-04/01/02/05 not_started. |
+| Verified product behavior | COM-03 실제 Mosquitto 연결, 업무 메시지 없이 6초 KeepAlive(PINGREQ/PINGRESP), Broker 종료 0.063초/응답 차단 3.078초 감지, 최초 연결 실패의 처리된 종료, 프로세스 재시작. .NET 20건/Python 8건 통과. |
+| Current blocker | 현재 없음. 사용자 폴더 Docker Desktop을 찾아 엔진을 시작하고 실제 Mosquitto 연동 검증 완료. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
-| Harness verification | S005에서 누락된 검사기를 새로 작성하고 검사기 테스트 8건 통과. S003/S004가 언급한 증거 파일은 현재 전달받지 못했다. 과거 기록은 보존하되 현재 증거로 사용하지 않는다. |
-| Working rules | 루트 AGENTS.md 적용. 초기화 세션에서 COM 기능은 시작하지 않았으며 5개 모두 not_started, revision 1, evidence 빈 배열 유지. |
-| Environment | Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git Bash 5.3.15, Python 3.12.14. |
+| Harness verification | S007의 최종 init.ps1에서 추적기 검사 및 8건 검사기 테스트 통과. 구조 검사와 실제 제품 검증은 별도 증거로 관리. |
+| Working rules | 루트 AGENTS.md 적용. S007에서 COM-03만 구현·통과. DN-03/04 부분 임시 채택 및 revision 2 증거 5개 기록. |
+| Environment | Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Python 3.12.14, MQTTnet 5.2.0.1603, Docker Desktop 4.90.0/Engine 29.7.2, Mosquitto 2.1.2. |
 | Python executable | C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe. 새 환경은 PATH의 실제 Python 또는 init.ps1 -Python 경로 사용. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 | Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
@@ -89,7 +89,19 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 
 ## 다음 세션 작성 양식
 
-### S007 - YYYY-MM-DD - 작업 제목
+### S007 - 2026-09-18 - COM-03 연결 수명주기 구현
+
+- Goal: COM-03 Broker 연결, KeepAlive 유지, 정상 종료/응답 차단 감지 및 최초 연결 실패를 구현·검증한다.
+- Completed: 설정 기반 MqttClientService와 MqttConnectionManager 구현. 연결/실패/단절/정상 종료 상태 및 Int64 Unix milliseconds 로그, 제한 시간, 취소, 명시적 재시도, 이전 연결 이벤트 무시, 자원 해제, 관측자 오류 격리를 추가했다. 싱글톤 골격을 연결별 소유 구조로 변경했다. 콘솔은 실제 Broker에 연결하고 JSON 상태·이유 및 종료 코드(정상 0/설정 오류 1/접속 실패 2/연결 후 단절 3)를 제공한다. 자동 재접속·업무 메시지·AMR Heartbeat는 추가하지 않았다. DN-03/04를 부분 임시 채택하고 COM-03 revision 2의 5개 검증 증거를 기록하여 passing으로 전환했다.
+- Verification run: 시작 시 init.ps1는 NuGet.Config 접근 제한으로 실패(기존 Python 8건은 통과). 전체 헬퍼 권한 요청 거부 후 좁힌 restore가 승인되어 성공했고 초기 build 및 기존 .NET 4건이 통과했다. 사용자 폴더에서 Docker Desktop을 발견하고 엔진을 시작했다. 개발 중 단위 테스트 20건 통과. 19:15:48+09:00 실제 Mosquitto 자동 시나리오에서 연결/6초 idle 및 PINGREQ/PINGRESP/정상 종료 0.063초/응답 차단 3.078초/최초 연결 실패/프로세스 재시작 전부 통과했다. 응답 차단은 TCP 프록시에서 Broker→Client 방향만 폐기했으며 이후 직접 접속으로 Broker 생존도 확인했다. 19:18:40+09:00 최종 ./init.ps1의 restore/build/.NET 20건/Python 8건 통과. 기존 WPF NU1701 경고 6건 외 신규 경고 없음.
+- Evidence recorded: evidence/COM-03/20260918T191548-3fbb94/result.json 및 연결/Broker 로그·TRX·타이밍·소스 SHA-256. 최종 기준선 evidence/bootstrap/20260918T191840700+0900-54e1a4/. 최초 권한 실패 evidence/bootstrap/20260918T185931831+0900-973bc4/와 S007-baseline/S007-development 기록도 보존했다. Core/AMR 대역은 사용하지 않았으며 단위 테스트에서만 IBrokerClient 대역 사용.
+- Commits: 구현 및 증거 검토 후 커밋 예정. 실제 해시는 종료 시 갱신한다.
+- Known risks: 적용 값은 로컬 개발용이며 운영 TLS/인증과 지연 환경은 별도 검증 필요. 연결 상태 콜백은 짧게 처리하고 수명주기 메서드를 동기 대기하지 않는다. MQTTnet 단절 reason enum만으로 정상/비정상을 판단하지 않고 상태 원인 ConnectionLost 및 Exception을 함께 본다. 테스트용 컨테이너만 정리하며 기존 서비스·데이터는 보존했다. COM-01/04의 기존 Topic·Payload 계약 차이, WPF NU1701, GUI의 실험용 직접 DB/MQTT 접근은 후속이다.
+- Next best action: **COM-04**. feature_list.json의 COM-04/DN-01/DN-02와 src/Amr.Communication/Validation/ 및 Models/를 읽고 ./init.ps1 실행. 필수 필드 누락 로그 및 현재 사용할 메시지 계약을 기록한 뒤 COM-04 하나를 in_progress로 전환하고 정상/비정상 수신 유효성 검증 구현. COM-03 회귀가 필요하면 python scripts/verify_com03.py --docker <실제 Docker 실행 파일> 실행.
+
+## 다음 세션 작성 양식
+
+### S008 - YYYY-MM-DD - 작업 제목
 
 - Goal:
 - Completed:
@@ -99,4 +111,4 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Known risks:
 - Next best action:
 
-위 S007은 미작성 양식이며 실제 수행된 세션이 아니다.
+위 S008은 미작성 양식이며 실제 수행된 세션이 아니다.

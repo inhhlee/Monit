@@ -1,33 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using MQTTnet;
+using MQTTnet.Formatter;
 
-namespace Amr.Communication.Mqtt
+namespace Amr.Communication.Mqtt;
+
+/// <summary>One MQTT transport session. Ownership belongs to MqttConnectionManager.</summary>
+public sealed class MqttClientService : IBrokerClient
 {
-    public class MqttClientService
+    private readonly IMqttClient _client = new MqttClientFactory().CreateMqttClient();
+
+    public MqttClientService() => _client.DisconnectedAsync += OnDisconnectedAsync;
+    public bool IsConnected => _client.IsConnected;
+    private event Action<BrokerDisconnected>? Disconnected;
+    event Action<BrokerDisconnected>? IBrokerClient.Disconnected
     {
-        // 싱글톤 패턴을 이용한 인스턴스 객체 한개 생성
-        private static readonly MqttClientService _instance = new MqttClientService();
+        add => Disconnected += value;
+        remove => Disconnected -= value;
+    }
 
-        // 기본 생성자 만들기 
-        private MqttClientService()
-        {
-        }
+    public async Task ConnectAsync(BrokerConnectionOptions options, CancellationToken cancellationToken = default)
+    {
+        options.Validate();
+        var builder = new MqttClientOptionsBuilder()
+            .WithTcpServer(options.Host, options.Port)
+            .WithClientId(options.ClientId)
+            .WithProtocolVersion(MqttProtocolVersion.V500)
+            .WithCleanStart()
+            .WithKeepAlivePeriod(options.KeepAlive)
+            .WithTimeout(options.Timeout);
+        if (options.Username is not null) builder.WithCredentials(options.Username, options.Password);
+        var result = await _client.ConnectAsync(builder.Build(), cancellationToken).ConfigureAwait(false);
+        if (result.ResultCode != MqttClientConnectResultCode.Success)
+            throw new InvalidOperationException($"Broker rejected connection: {result.ResultCode}");
+    }
 
+    public Task DisconnectAsync(CancellationToken cancellationToken = default) =>
+        _client.DisconnectAsync(new MqttClientDisconnectOptions(), cancellationToken);
 
-        // 밖에서 참조 할 수 있는 생성자 통로 
-        public static MqttClientService instance
-        {
-            get {  return _instance; }
-        }
+    private Task OnDisconnectedAsync(MqttClientDisconnectedEventArgs args)
+    {
+        Disconnected?.Invoke(new(args.ClientWasConnected, args.Reason.ToString(), args.Exception));
+        return Task.CompletedTask;
+    }
 
-        // 비동기 메서드
-        public async Task ConnectAsync()
-        {
-            // 실제 연결 로직 
-        }
-
-        // get,set 
-        public bool IsConnected {get; private set; }
+    public void Dispose()
+    {
+        _client.DisconnectedAsync -= OnDisconnectedAsync;
+        _client.Dispose();
     }
 }

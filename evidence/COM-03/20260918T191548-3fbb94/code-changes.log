@@ -1,0 +1,13 @@
+ M claude-progress.md
+ M feature_list.json
+ M src/Amr.Communication.Console/Program.cs
+ M src/Amr.Communication/Amr.Communication.csproj
+ M src/Amr.Communication/Mqtt/MqttClientService.cs
+ M src/Amr.Communication/Mqtt/MqttConnectionManager.cs
+?? evidence/COM-03/
+?? evidence/bootstrap/20260918T185931831+0900-973bc4/
+?? scripts/verify_com03.py
+?? src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs
+?? src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs
+?? src/Amr.Communication/Mqtt/IBrokerClient.cs
+?? tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs

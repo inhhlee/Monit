@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d966faa8-ca8a-4f83-a26d-a2bcc23a82c1" name="Admin@DESKTOP-N1BSNS3 2026-09-18 19:00:28" runUser="DESKTOP-N1BSNS3\CodexSandboxOffline" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-18T19:00:28.1360794+09:00" queuing="2026-09-18T19:00:28.1360797+09:00" start="2026-09-18T19:00:25.3530237+09:00" finish="2026-09-18T19:00:28.1399874+09:00" />
+  <TestSettings name="default" id="ffc94c22-ef02-48dd-a2b6-bcc2275cb860">
+    <Deployment runDeploymentRoot="Admin_DESKTOP-N1BSNS3_2026-09-18_19_00_28" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ada78f05-62db-407d-8696-38b26c3e1b77" testId="4ff0b859-349b-4a80-5385-f5b382730bcd" testName="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: null)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0000074" startTime="2026-09-18T19:00:28.0842052+09:00" endTime="2026-09-18T19:00:28.0842374+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ada78f05-62db-407d-8696-38b26c3e1b77" />
+    <UnitTestResult executionId="b1cc7240-1059-4e00-844d-4e69409b94e7" testId="96fc3691-36d5-4387-be5e-8f80e9446d56" testName="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;   &quot;)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0001092" startTime="2026-09-18T19:00:28.0840997+09:00" endTime="2026-09-18T19:00:28.0841396+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b1cc7240-1059-4e00-844d-4e69409b94e7" />
+    <UnitTestResult executionId="77ee8902-d2b1-434d-a695-108738bcb876" testId="5dc2d887-6fbb-828a-5fe3-83106b895939" testName="Amr.Communication.Tests.ScaffoldTests.TelemetryJsonPreservesTimestampBeyond2038" computerName="DESKTOP-N1BSNS3" duration="00:00:00.9271012" startTime="2026-09-18T19:00:27.1598212+09:00" endTime="2026-09-18T19:00:28.0771386+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77ee8902-d2b1-434d-a695-108738bcb876" />
+    <UnitTestResult executionId="fa07aefc-172a-4c5a-8b24-0f97dad897b5" testId="ea0fe7aa-f928-5ef4-736a-1bda61d8c29e" testName="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;&quot;)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0004259" startTime="2026-09-18T19:00:28.0836333+09:00" endTime="2026-09-18T19:00:28.0837161+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fa07aefc-172a-4c5a-8b24-0f97dad897b5" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;&quot;)" storage="c:\users\admin\desktop\repos\amrcontrolsystem\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="ea0fe7aa-f928-5ef4-736a-1bda61d8c29e">
+      <Execution id="fa07aefc-172a-4c5a-8b24-0f97dad897b5" />
+      <TestMethod codeBase="C:\Users\Admin\Desktop\repos\AmrControlSystem\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="CommandTopicRejectsMissingAmrId" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.TelemetryJsonPreservesTimestampBeyond2038" storage="c:\users\admin\desktop\repos\amrcontrolsystem\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="5dc2d887-6fbb-828a-5fe3-83106b895939">
+      <Execution id="77ee8902-d2b1-434d-a695-108738bcb876" />
+      <TestMethod codeBase="C:\Users\Admin\Desktop\repos\AmrControlSystem\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="TelemetryJsonPreservesTimestampBeyond2038" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: null)" storage="c:\users\admin\desktop\repos\amrcontrolsystem\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="4ff0b859-349b-4a80-5385-f5b382730bcd">
+      <Execution id="ada78f05-62db-407d-8696-38b26c3e1b77" />
+      <TestMethod codeBase="C:\Users\Admin\Desktop\repos\AmrControlSystem\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="CommandTopicRejectsMissingAmrId" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;   &quot;)" storage="c:\users\admin\desktop\repos\amrcontrolsystem\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="96fc3691-36d5-4387-be5e-8f80e9446d56">
+      <Execution id="b1cc7240-1059-4e00-844d-4e69409b94e7" />
+      <TestMethod codeBase="C:\Users\Admin\Desktop\repos\AmrControlSystem\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="CommandTopicRejectsMissingAmrId" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="4ff0b859-349b-4a80-5385-f5b382730bcd" executionId="ada78f05-62db-407d-8696-38b26c3e1b77" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="96fc3691-36d5-4387-be5e-8f80e9446d56" executionId="b1cc7240-1059-4e00-844d-4e69409b94e7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5dc2d887-6fbb-828a-5fe3-83106b895939" executionId="77ee8902-d2b1-434d-a695-108738bcb876" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea0fe7aa-f928-5ef4-736a-1bda61d8c29e" executionId="fa07aefc-172a-4c5a-8b24-0f97dad897b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="목록에 없는 결과" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="로드된 모든 결과" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="4" executed="4" passed="4" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:01.44]   Discovering: Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:01.47]   Discovered:  Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:01.48]   Starting:    Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:02.44]   Finished:    Amr.Communication.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

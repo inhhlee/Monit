@@ -28,7 +28,7 @@ Push-Location $root
 try {
     Record "Started: $(Get-Date -Format o)"
     Record "Root: $root; PowerShell: $($PSVersionTable.PSVersion)"
-    Record 'Scope: scaffold build/tests only; no MQTT feature is certified.'
+    Record 'Scope: build and automatic tests. Run scripts/verify_com03.py separately for real Mosquitto evidence.'
     if (-not $Python) {
         $pythonCommand = Get-Command python.exe -All -ErrorAction SilentlyContinue |
             Where-Object { $_.Source -notmatch '[/\\]WindowsApps[/\\]' } |

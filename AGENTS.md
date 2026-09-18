@@ -2,7 +2,7 @@
 
 이 저장소는 가상 AMR 제어·통신·관제 시스템을 개발하는 장기 작업 공간이다. 현재 범위의 기능을 구현·검증하고, 다음 세션이 추측 없이 이어갈 수 있도록 코드·설계 결정·검증 상태를 함께 관리한다.
 
-현재 실제 프로젝트 루트는 이 파일이 있는 `AmrControlSystem/`이다. Windows + .NET SDK 10.0.401 + PowerShell 7 + Python 3.10 이상에서 `./init.ps1`로 기준선을 검증한다. Git for Windows Bash에서는 `bash ./init.sh`가 같은 파이프라인을 호출한다. `-Start`는 검증 후 아직 Hello World 골격인 통신 콘솔을 실행한다. 상세 준비·제약은 `README.md`, 최신 실행 증거는 `claude-progress.md`를 따른다.
+현재 실제 프로젝트 루트는 이 파일이 있는 `AmrControlSystem/`이다. Windows + .NET SDK 10.0.401 + PowerShell 7 + Python 3.10 이상에서 `./init.ps1`로 기준선을 검증한다. Git for Windows Bash에서는 `bash ./init.sh`가 같은 파이프라인을 호출한다. `-Start`는 검증 후 Broker에 연결하는 통신 콘솔을 실행한다. 실제 Mosquitto COM-03 검증은 `python scripts/verify_com03.py`를 별도로 실행한다. 상세 준비·제약은 `README.md`, 최신 실행 증거는 `claude-progress.md`를 따른다.
 
 ## 1. 기준 문서와 파일별 책임
 
