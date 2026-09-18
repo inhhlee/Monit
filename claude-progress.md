@@ -21,6 +21,7 @@
 | Environment | Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git Bash 5.3.15, Python 3.12.14. |
 | Python executable | C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe. 새 환경은 PATH의 실제 Python 또는 init.ps1 -Python 경로 사용. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
+| Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
 
 ## 세션 레코드 (Session Record)
 
@@ -76,9 +77,19 @@
 
 S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S005-clean-checkout`으로 복제하여 기존 bin/obj 없이 `init.ps1 -Start` 실행. restore/build, Python 8건, .NET 4건, 콘솔 시작 모두 통과했다. 이 검증은 같은 머신의 SDK/NuGet 캐시를 사용했으며 새 머신 설치 또는 실제 Broker 연동 검증을 의미하지 않는다. 증거는 evidence/initialization/S005/clean-checkout/ 및 clean-checkout-run.log. 검증용 복제본은 .tools 아래 제외된 로컬 자료로 보존했다.
 
+### S006 - 2026-09-18 - 사용자 지정 GitHub 저장소에 초기 업로드
+
+- Goal: 업로드할 파일과 제외 대상을 확인하고 사용자가 지정한 indsf/practice 저장소에 프로젝트를 전송한다.
+- Completed: 추적 파일 및 제외 상태 확인. 소스·솔루션·문서·테스트·설정·검증 기록을 포함하고 bin/obj, .vs, .tools, 사용자 IDE 설정, 로컬 DB 및 Broker/Seq 실행 데이터를 제외했다. 원격의 기존 master에는 README 제목 practice만 있었으며, 해당 초기 이력을 보존해 병합했다. README 제목에 저장소 이름을 반영하고 로컬 브랜치를 master로 맞췄다. git push -u origin master 성공.
+- Verification run: git ls-remote/fetch로 기존 이력 확인, README 충돌 해결 후 git diff --cached --check 및 Python scripts/verify_harness.py 통과. git push가 0d71d33..9c75afc의 정상 갱신을 보고했다. 제품 코드는 변경하지 않았으므로 빌드·MQTT 테스트는 반복하지 않았다.
+- Evidence recorded: evidence/repository/S006/upload.txt. COM 기능 상태·revision·evidence는 변경하지 않았다.
+- Commits: 병합 및 최초 업로드 9c75afcf190c501a8418367c7cf5f6dcbf80bcc7. 본 인수인계 기록은 별도 문서 커밋으로 보존한다.
+- Known risks: 제품의 미구현·미검증 범위는 S005와 동일. 업로드는 제품 기능 통과를 의미하지 않는다.
+- Next best action: COM-03. 프로젝트 루트에서 ./init.ps1로 기준선을 확인하고 실제 Mosquitto 환경과 연결 감시 구현을 진행한다. 이후 변경은 master에서 커밋하고 git push로 같은 저장소에 전송한다.
+
 ## 다음 세션 작성 양식
 
-### S006 - YYYY-MM-DD - 작업 제목
+### S007 - YYYY-MM-DD - 작업 제목
 
 - Goal:
 - Completed:
@@ -88,4 +99,4 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Known risks:
 - Next best action:
 
-위 S006은 미작성 양식이며 실제 수행된 세션이 아니다.
+위 S007은 미작성 양식이며 실제 수행된 세션이 아니다.
