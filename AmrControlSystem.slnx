@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj" />
+  </Folder>
+  <Project Path="src/Amr.Communication.Console/Amr.Communication.Console.csproj" />
+  <Project Path="src/Amr.Communication/Amr.Communication.csproj" />
+  <Project Path="src/Amr.TestClient/Amr.TestClient.csproj" />
+  <Project Path="src/AmrControlSystem/AmrControlSystem.csproj" />
+  <Project Path="src/AmrControlTest/AmrControlTest.csproj" />
+</Solution>

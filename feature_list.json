@@ -1,0 +1,303 @@
+{
+  "project": "AmrControlSystem",
+  "last_updated": "2026-09-18",
+  "scope": {
+    "title": "과제 1 - MQTT 기반 실시간 통신",
+    "included": [
+      "COM-01",
+      "COM-02",
+      "COM-03",
+      "COM-04",
+      "COM-05"
+    ],
+    "boundary": "Amr.Communication의 Broker 연결, 메시지 송수신, 유효성 검증, AMR별 Heartbeat 감시, Command/ACK 전달을 구현한다. Control Core의 장비 등록, SQLite, 명령 업무 상태 관리, GUI 및 가상 AMR의 실제 이동 구현은 후속 과제이다.",
+    "test_boundary": "과제 1은 실제 Mosquitto Broker와 테스트용 AMR 발행/구독 클라이언트, Control Core 테스트 대역으로 검증할 수 있다. 테스트 대역 사용 여부를 증거에 명시하며, 과제 1 통과를 전체 시스템 통합 검증 통과로 해석하지 않는다."
+  },
+  "source": {
+    "document": "260917_SI생태계_요구사항 정의 및 기능명세_이인호 연구원_v0.3.pdf",
+    "pages": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      16,
+      17
+    ],
+    "primary_section": "IV.A. 과제 1 - MQTT 기반 실시간 통신",
+    "note": "PDF v0.3은 변경 가능한 초기 명세이다. 구현 중 발견한 문제와 실행 결과를 근거로 현재 동작 계약 및 검증을 갱신한다. 원문과의 차이, 이유, 영향 기능은 design_notes와 change_log에 기록한다."
+  },
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true,
+    "spec_changes_require_record": true,
+    "changed_contract_requires_reverification": true,
+    "provisional_decisions_allowed": true
+  },
+  "status_legend": {
+    "not_started": "Work has not begun.",
+    "in_progress": "The feature is the current active task.",
+    "blocked": "Work cannot continue until a documented blocker is resolved.",
+    "passing": "Required verification has passed and evidence is recorded."
+  },
+  "workflow": {
+    "selection": "기존 in_progress가 있으면 재개한다. 없으면 의존 기능이 모두 passing이고 실제 blocker가 없는 미완료 항목 중 priority가 가장 작은 항목을 선택한다. blocked 항목은 해결 조건을 충족했는지 확인한 후 재개한다.",
+    "active_limit": "in_progress는 동시에 최대 1개만 허용한다. blocked는 차단 사유와 재개 조건을 notes에 기록한다.",
+    "passing_gate": "현재 spec_revision의 verification 전체에 대한 최신 실행 결과가 passed이고 증거가 기록된 경우에만 passing으로 변경한다. 미실행·실패·현재 동작과 무관해진 과거 증거는 통과 근거가 아니다. 임시 결정은 적용 범위와 값을 명확히 기록하여 해당 범위에서 검증할 수 있다. 현재 판정에 필요한 계약이 불명확하면 passing으로 변경하지 않는다.",
+    "execution": "실제 저장소의 실행 및 테스트 명령을 확인해 사용한다. init.sh의 존재를 가정하지 않으며, 단순 초기화 성공이나 테스트 종료 코드만으로 Broker 연동 성공을 판정하지 않는다.",
+    "evidence_format": "각 evidence에 spec_revision, verification_index(1부터 시작), executed_at(ISO 8601, 시간대 포함), command_or_procedure, environment(코드 버전 또는 변경 상태, Broker 및 라이브러리 버전, 설정, 테스트 대역 여부), expected, actual, result(passed/failed/not_run), artifact_paths(저장소 상대 경로 배열)를 기록한다. 검증 항목마다 하나씩 실행 순서대로 추가하고 같은 항목은 마지막 기록을 현재 결과로 사용한다. 공유 로그를 여러 항목에서 참조할 수 있다.",
+    "session_log": "세션 시작 시 claude-progress.md를 먼저 읽고, 중간 체크포인트 및 종료 시 현재 검증된 상태와 해당 세션 레코드를 갱신한다. 기능별 상세 상태는 이 추적기와 일치시킨다.",
+    "harness_check": "프로젝트 루트에서 python scripts/verify_harness.py를 실행한다. 제품 검증과 별개인 추적기 구조·증거 연결 검사이다."
+  },
+  "design_notes": [
+    {
+      "id": "DN-01",
+      "status": "proposed",
+      "topic": "필수 필드 누락 로그 정책 충돌",
+      "detail": "6페이지와 9페이지는 비정상 메시지 실패 원인 기록을 요구하지만 7페이지 표는 필수 Field 누락의 Log를 x로 표시한다.",
+      "proposed_resolution": "6페이지 검증 기준과 9페이지 COM-04 검증 기준을 따라 실패 원인을 기록하고 Core 전달 없이 폐기한다. 현재 적용할 정책을 임시 또는 확정 결정으로 기록하고 검증한다.",
+      "affects": [
+        "COM-04"
+      ]
+    },
+    {
+      "id": "DN-02",
+      "status": "unresolved",
+      "topic": "메시지 스키마 확정",
+      "detail": "6페이지 Payload는 예시이며 3페이지 AMR ID 예시 키와도 표기가 다르다. 메시지별 필수 필드, 자료형, 허용 값, Topic과 메시지 유형의 대응을 현재 구현·검증에 사용할 버전과 적용 범위를 기록한다. 내부 테스트 계약은 임시 채택할 수 있으며 외부 연동 호환성은 별도로 확인한다. 6페이지 예시의 id, ts, cmdId를 출발점으로 사용하되, Command와 ACK 예시에 없는 id나 모든 Payload에 type을 임의로 요구하지 않는다. AMR ID를 포함한 Payload에는 Topic ID와의 일치 검증을 적용한다. Timestamp는 Unix Timestamp의 Int64 기준을 적용한다.",
+      "affects": [
+        "COM-04",
+        "COM-01",
+        "COM-02",
+        "COM-05"
+      ]
+    },
+    {
+      "id": "DN-03",
+      "status": "unresolved",
+      "topic": "접속 및 감시 설정",
+      "detail": "Broker 주소, 포트, 인증 필요 여부, KeepAlive, AMR별 Heartbeat Timeout, 감시 주기와 감시 대상 등록 방법을 설정 및 인터페이스로 정한다. 구체 시간값은 원문에서 확정되지 않았으므로 테스트 설정값과 운영 정책을 구분하여 기록한다. Heartbeat 수신 시각을 감시 기준으로 사용하고 Payload ts와 혼동하지 않는다.",
+      "affects": [
+        "COM-03",
+        "COM-02"
+      ]
+    },
+    {
+      "id": "DN-04",
+      "status": "unresolved",
+      "topic": "QoS, 중복 전달 및 장애 복구",
+      "detail": "Command별 QoS, 중복 메시지 처리, 재접속 주기·횟수·Backoff·재구독 상세는 원문의 미확정 설계 사항이다. 송수신 검증 전에 적용 QoS를 기록한다. 자동 복구 전체와 복구 후 송수신 재개 검증은 INT-04와 연계할 후속 범위로 관리하며 COM-03의 최초 연결·유지·단절 감지 통과와 구분한다.",
+      "affects": [
+        "COM-01",
+        "COM-03",
+        "COM-05"
+      ]
+    },
+    {
+      "id": "DN-05",
+      "status": "unresolved",
+      "topic": "Heartbeat Timeout 이후 책임",
+      "detail": "COM-02는 AMR별 Timeout 감지와 통신 이상 이벤트 전달을 담당한다. 최종 Offline 판정, MqttAlive Ping/Pong 적용 여부 및 후속 대응은 미확정이다. Timeout 이벤트의 전달 대상과 계약을 정의하되 임의로 Offline 확정이나 Ping/Pong을 추가하지 않는다.",
+      "affects": [
+        "COM-02"
+      ]
+    },
+    {
+      "id": "DN-06",
+      "status": "proposed",
+      "topic": "CommandId 생성 및 ACK 매핑 책임",
+      "detail": "9페이지 COM-05에도 CommandId 생성·매핑이 기술되어 있으나 5페이지 공통 기준과 16페이지 CORE-04는 관제 시스템의 생성 및 Control Core의 매핑·결과 관리를 명시한다.",
+      "proposed_resolution": "Control Core가 CommandId를 한 번 생성하고 Communication은 변경 없이 전달한다. ACK를 수신하면 대상 AMR과 cmdId 및 결과를 Core로 전달한다. 과제 1에서는 Core 테스트 대역으로 1:1 연결 가능성을 확인하고, 실제 명령 상태 갱신·GUI 제공·ACK 미수신 Timeout은 CORE-04에서 구현·검증한다. 현재 구현에 적용할 컴포넌트 계약에 이 경계를 기록한다. 실제 Core와의 통합 시 다시 확인할 임시 결정으로 채택할 수 있다.",
+      "affects": [
+        "COM-05"
+      ]
+    }
+  ],
+  "features": [
+    {
+      "id": "COM-03",
+      "priority": 1,
+      "area": "Amr.Communication",
+      "title": "MQTT Broker 연결 및 연결 상태 감시",
+      "user_visible_behavior": "통신 모듈이 설정된 Mosquitto Broker에 연결하고 MQTT KeepAlive로 연결을 유지하며 Client-Broker 연결 이상을 감지한다.",
+      "status": "not_started",
+      "depends_on": [],
+      "verification": [
+        "Broker 접속 정보와 KeepAlive 설정을 기록하고 실제 Mosquitto Broker를 실행한다. 통신 모듈 접속 후 클라이언트 연결 상태 및 Broker 로그에서 연결 성공을 확인한다.",
+        "업무 메시지를 발행하지 않은 상태로 설정된 KeepAlive 주기의 2배 이상 연결을 관찰한다. 연결이 유지되고 PINGREQ/PINGRESP 교환 또는 MQTT 라이브러리 진단 정보로 KeepAlive 동작을 확인한다.",
+        "Broker를 정상 종료하는 경우와 네트워크 응답을 차단하는 경우를 각각 재현한다. 설정 및 라이브러리 기준으로 정한 감지 시간 내 연결 이상이 관찰되고 원인 또는 연결 끊김 로그가 기록되는지 확인한다.",
+        "Broker가 실행되지 않은 주소 또는 포트로 최초 연결을 시도한다. 연결 성공으로 표시하지 않고 실패 상태와 원인을 남기며 처리되지 않은 예외로 프로세스가 종료되지 않는지 확인한다.",
+        "연결 수명주기 관련 자동 테스트와 위 실제 Broker 연동 검증을 실행하고 실행 명령, 설정, 관찰 시간 및 로그를 evidence에 기록한다."
+      ],
+      "evidence": [],
+      "notes": "9페이지 COM-03, 7페이지 통신 실패 로그 정책 참조. 연결 성공 로그는 검증을 위한 관측 수단이다. 자동 재접속·재구독의 전체 복구 정책은 DN-04 및 후속 INT-04에서 다룬다.",
+      "spec_revision": 1,
+      "blocker": null
+    },
+    {
+      "id": "COM-04",
+      "priority": 2,
+      "area": "Amr.Communication",
+      "title": "수신 Topic 및 메시지 유효성 검증",
+      "user_visible_behavior": "수신 Topic, 메시지 유형, JSON 구조, 필수 필드와 정의된 값 범위를 검증하여 정상 메시지만 Control Core에 전달하고 비정상 메시지는 실패 원인을 기록한 뒤 폐기한다.",
+      "status": "not_started",
+      "depends_on": [
+        "COM-03"
+      ],
+      "verification": [
+        "DN-01 로그 정책과 DN-02 스키마의 현재 적용 버전·범위를 기록한다. 임시 채택한 계약도 그 범위를 명시한다. Telemetry, Alarm, Heartbeat, ACK 각각의 정상 Payload와 필수 필드별 누락 사례를 준비한다.",
+        "각 정상 메시지를 검증기 또는 수신 처리기에 입력한다. 메시지 유형이 올바르게 식별되고 AMR ID, Timestamp 및 유형별 데이터가 보존되어 Core 테스트 대역에 전달되는지 확인한다.",
+        "깨진 JSON, 빈 Payload, 스키마에서 허용하지 않는 최상위 JSON 구조를 각각 입력한다. 처리되지 않은 예외 없이 실패 원인이 기록되고 Core 호출 횟수가 0인지 확인한다.",
+        "각 메시지 유형의 필수 필드를 하나씩 누락하거나 자료형을 틀리게 입력한다. 실패 원인 로그와 Core 미전달을 확인한다.",
+        "지원하지 않는 Topic, Topic과 맞지 않는 Payload, Payload에 id가 존재하는 유형에서 Topic AMR ID와 다른 id를 입력한다. 유효하지 않은 메시지로 거부되는지 확인한다.",
+        "정의되지 않은 State·Alarm Level 등 확정 스키마의 허용 범위를 벗어나는 값을 입력한다. 해당 메시지가 거부되는지 확인하고, Int64 범위의 2038년 이후 Timestamp는 정상 수용되는지 확인한다.",
+        "비정상 메시지 직후 정상 메시지를 입력한다. 정상 메시지는 계속 처리되고 오류 로그에는 실패 이유와 식별 가능한 Topic 정보가 남는지 확인한다.",
+        "전체 검증 테스트를 실행하여 입력 사례, Core 호출 결과 및 로그를 기록한다. 실제 MQTT 수신 경로에서 동일 검증기를 거치는지는 COM-01에서 추가 확인한다."
+      ],
+      "evidence": [],
+      "notes": "4페이지 AMR 식별 기준, 5페이지 Timestamp 기준, 6페이지 MQTT 메시지 규칙, 9페이지 COM-04 참조. Command Type 검증은 관제의 Command 발행 입력을 받는 COM-01 검증에도 적용한다. 필드 누락 로그 정책은 DN-01을 따른다.",
+      "spec_revision": 1,
+      "blocker": null
+    },
+    {
+      "id": "COM-01",
+      "priority": 3,
+      "area": "Amr.Communication",
+      "title": "MQTT 메시지 구독·발행 및 AMR별 처리 큐",
+      "user_visible_behavior": "AMR의 Telemetry·Alarm·Heartbeat·ACK를 구독해 검증 후 전달하고, 관제 Command를 대상 AMR Topic으로 발행한다. 같은 AMR의 수신 메시지는 순차 처리하고 다른 AMR은 서로 독립적으로 처리한다.",
+      "status": "not_started",
+      "depends_on": [
+        "COM-03",
+        "COM-04"
+      ],
+      "verification": [
+        "실제 Broker에 연결한 뒤 amr/{amrId}/telemetry, alarm, heartbeat, ack에 대응하는 구독이 완료되었는지 확인하고 구독 Topic과 QoS 설정을 기록한다.",
+        "테스트용 AMR 2대가 각 수신 유형의 정상 메시지를 발행한다. 통신 모듈이 AMR과 유형을 구분하여 해당 처리 경로 및 Core 테스트 대역에 전달하는지 확인한다.",
+        "구독 Topic으로 깨진 JSON, 필수 필드 누락, Topic ID 불일치 메시지를 실제 발행한다. COM-04 검증을 거쳐 로그만 남고 Core에는 전달되지 않는지 확인한다.",
+        "같은 AMR의 여러 메시지를 수신 처리기에 정해진 순서로 입력하고 첫 처리에 지연을 준다. 이후 메시지가 앞선 처리를 추월하거나 같은 AMR 처리와 중첩되지 않는지 실행 기록으로 확인한다.",
+        "AMR_001의 메시지 처리를 지연시킨 상태에서 AMR_002 메시지를 입력한다. AMR_001 처리 완료 전 AMR_002가 처리되어 AMR별 큐가 독립적으로 동작하는지 확인한다.",
+        "Core 테스트 대역에서 MOVE, STOP, RESET을 각각 요청한다. amr/{대상AMR ID}/command로 발행되고 대상 AMR 구독 클라이언트가 Command Type과 Payload를 그대로 수신하며 다른 AMR의 전용 구독에는 전달되지 않는지 확인한다.",
+        "정의되지 않은 Command Type 또는 확정 스키마에 맞지 않는 Command를 요청한다. 발행 전에 거부되고 이유가 확인되는지 검증한다.",
+        "AMR 메시지 수신과 Core의 Command 요청을 동시에 발생시킨다. 두 입력 경로가 구분되어 수신 검증과 대상 Topic 발행이 모두 수행되는지 확인하고 큐 테스트 및 실제 송수신 로그를 기록한다."
+      ],
+      "evidence": [],
+      "notes": "6페이지 Topic 규칙, 9페이지 COM-01 참조. 순서 검증은 통신 모듈에 도착한 순서를 기준으로 하며 서로 다른 발행자의 전역 순서를 보장한다는 의미가 아니다. 중복 전달 정책은 DN-04에서 별도로 정한다.",
+      "spec_revision": 1,
+      "blocker": null
+    },
+    {
+      "id": "COM-02",
+      "priority": 4,
+      "area": "Amr.Communication",
+      "title": "AMR별 Heartbeat 수신 관리 및 Timeout 감지",
+      "user_visible_behavior": "AMR별 마지막 정상 Heartbeat 수신 시각을 관리하고 설정된 시간 동안 Heartbeat가 없으면 해당 AMR의 통신 이상을 감지하여 연결 감시 및 관제 연계 경로로 알린다.",
+      "status": "not_started",
+      "depends_on": [
+        "COM-01"
+      ],
+      "verification": [
+        "감시 대상 AMR 2대, Heartbeat Timeout, 감시 주기, 최초 Heartbeat 이전 감시 시작 기준 및 이벤트 계약을 정해 기록한다. 테스트 시간값은 운영 확정값과 구분한다.",
+        "두 AMR이 Timeout보다 짧은 주기로 정상 Heartbeat를 발행한다. 마지막 수신 시각이 AMR별로 갱신되고 Timeout 이벤트가 발생하지 않는지 확인한다.",
+        "Broker 연결과 AMR_002 Heartbeat를 유지한 채 AMR_001 Heartbeat만 중단한다. Timeout과 감시 주기로 정한 판정 시간 내 AMR_001 통신 이상이 감지되고 AMR_002에는 같은 이상이 발생하지 않는지 확인한다.",
+        "제어 가능한 테스트 시계로 Timeout 직전·경계·직후를 검증한다. Payload의 과거 또는 미래 ts가 실제 마지막 수신 시각을 덮어써 Timeout을 왜곡하지 않는지 확인한다.",
+        "정상 Heartbeat 중단 후 비정상 Heartbeat만 발행한다. 유효성 검증에 실패한 메시지가 마지막 정상 수신 시각을 갱신하지 않고 Timeout을 숨기지 않는지 확인한다.",
+        "Timeout 이벤트에 대상 AMR, 마지막 정상 수신 시각 및 판정 정보가 포함되고 계약된 연결 감시 및 관제 연계 수신자에게 전달되는지 확인한다. Broker 연결 끊김과 개별 AMR Heartbeat Timeout을 구분하여 관찰한다.",
+        "테스트 시계 기반 자동 테스트와 실제 Broker 기반 Heartbeat 중단 시나리오를 실행하고 AMR별 시각, 이벤트 및 로그를 기록한다."
+      ],
+      "evidence": [],
+      "notes": "5페이지 Heartbeat 기준, 9페이지 COM-02 참조. AMR별 독립 감시를 검증하되 스레드 또는 비동기 작업 등 실행 구조는 구현 설계에서 정한다. 장비 SQLite 등록은 CORE-01 범위이며 최종 Offline·MqttAlive 정책은 DN-05에서 관리한다.",
+      "spec_revision": 1,
+      "blocker": null
+    },
+    {
+      "id": "COM-05",
+      "priority": 5,
+      "area": "Amr.Communication",
+      "title": "Command/ACK 전달 및 CommandId 보존 검증",
+      "user_visible_behavior": "관제에서 생성한 고유 CommandId를 포함한 명령을 대상 AMR로 보내고, 동일 CommandId를 포함한 ACK를 관제로 전달하여 요청과 결과를 1:1로 연결할 수 있게 한다.",
+      "status": "not_started",
+      "depends_on": [
+        "COM-01"
+      ],
+      "verification": [
+        "DN-06의 생성·매핑 책임과 DN-04의 적용 QoS를 기록한다. Core 테스트 대역이 요청마다 고유 cmdId를 생성하고 요청 AMR과 함께 보관하도록 준비한다.",
+        "MOVE, STOP, RESET 각각을 실제 Broker를 통해 테스트용 AMR로 전송한다. AMR이 받은 cmdId가 Core에서 생성한 값과 동일하며 통신 모듈에서 재생성되거나 누락되지 않는지 확인한다.",
+        "테스트용 AMR이 동일 cmdId의 ACK를 amr/{amrId}/ack로 반환한다. 통신 모듈이 ACK의 cmdId, result, ts와 Topic의 대상 AMR 정보를 보존하여 Core 테스트 대역에 전달하는지 확인한다.",
+        "여러 AMR에 서로 다른 cmdId의 명령을 요청한 뒤 ACK를 요청 순서와 반대로 반환한다. Core 테스트 대역에서 각 ACK가 해당 AMR의 정확한 원래 요청에만 연결되는지 확인한다.",
+        "정상 처리 ACK와 실패 결과 ACK를 확정 스키마에 따라 각각 반환한다. 통신 모듈이 실패 결과를 성공으로 바꾸거나 유효한 실패 ACK를 폐기하지 않고 원래 결과를 전달하는지 확인한다.",
+        "cmdId가 없거나 자료형이 잘못된 ACK를 발행한다. COM-04 검증에서 폐기되어 Core에 전달되지 않고 실패 원인 로그가 남는지 확인한다.",
+        "요청·발행·AMR 수신·ACK 발행·Core 수신·테스트 대역 매핑까지 cmdId로 추적 가능한 검증 기록을 남긴다. 실제 CORE-04 상태 갱신 및 전체 INT-02 시나리오는 별도 미검증 범위로 명시한다."
+      ],
+      "evidence": [],
+      "notes": "5페이지 Command/ACK 연계 기준, 9페이지 COM-05, 16페이지 CORE-04, 17페이지 INT-02 참조. 실제 CommandId 생성기, 명령 업무 상태 갱신, 미요청·중복·다른 AMR의 ACK에 대한 업무 처리 정책 및 ACK 미수신 Timeout은 CORE-04와의 계약 및 후속 검증에서 다룬다.",
+      "spec_revision": 1,
+      "blocker": null
+    }
+  ],
+  "decision_policy": {
+    "principle": "미완성 명세는 구현과 실행으로 발전시킨다. 모든 미확정 항목을 일괄 차단하지 않고 현재 기능에 필요한 범위부터 결정한다.",
+    "status_legend": {
+      "unresolved": "아직 적용할 결정을 정하지 않음.",
+      "proposed": "해결안이 있으나 아직 적용하지 않음.",
+      "adopted": "현재 적용할 결정이 기록됨. adoption으로 provisional 또는 confirmed를 구분함.",
+      "superseded": "후속 결정으로 대체됨. 과거 기록은 보존함."
+    },
+    "provisional_decision": "되돌릴 수 있는 개발·테스트 설정이나 내부 구현 선택은 근거를 기록하고 진행한다. 해당 design_note에 status=adopted, adoption=provisional, decision, reason, decided_at, affects, review_trigger를 기록한다. 아직 채택하지 않은 값을 원문의 확정값처럼 표현하지 않는다.",
+    "clarification": "기존 사용자 지시와 근거로 결정할 수 없는 외부 호환성·업무 의미·실제 운행 정책은 필요한 정보만 확인한다. 관련 없는 기능 작업은 계속할 수 있다.",
+    "scope_of_resolution": "하나의 design_note에 여러 쟁점이 묶였으면 현재 해결한 범위만 기록한다. COM-03의 개발용 Broker 설정을 정했다고 COM-02의 운영 Heartbeat Timeout까지 확정한 것으로 표시하지 않는다.",
+    "revision": "동작 계약·합격 기준·verification 순서가 바뀌면 영향 기능 spec_revision을 증가시키고 change_log에 변경 전후, 근거 및 재검증 범위를 기록한다. 이전 evidence를 삭제하지 않는다.",
+    "reopen": "영향받은 passing 기능은 not_started로 되돌리고 notes에 재검증 필요를 기록한다. 실제 작업할 하나만 in_progress로 변경한다. 단순 오탈자 수정은 계약 변경과 구분한다. 코드 변경으로 기존 증거가 현재 동작을 입증하지 못하면 계약 변경이 없어도 해당 기능을 다시 연다."
+  },
+  "change_log": [
+    {
+      "date": "2026-09-18",
+      "type": "workflow_update",
+      "reason": "사용자가 PDF가 미완성이고 구현·동작 중 수정할 계획임을 명시했다.",
+      "before": "현재 구현에 필요한 계약과 향후 운영 정책의 확정 범위가 명확히 구분되지 않았다.",
+      "after": "임시 결정을 기록하여 진행하고 계약 변경 시 revision과 증거를 갱신하는 규칙을 추가했다. 기능별 초기 spec_revision은 1이다.",
+      "affected_features": [
+        "COM-03",
+        "COM-04",
+        "COM-01",
+        "COM-02",
+        "COM-05"
+      ],
+      "reverification": "제품 기능 상태와 동작 범위는 바꾸지 않았다. 기존 제품 통과 증거가 없어 무효화할 증거는 없다. 추적기 구조와 검사기 동작을 검증한다."
+    },
+    {
+      "date": "2026-09-18",
+      "type": "initialization",
+      "reason": "사용자가 초기화 플레이북 실행 및 안전 기준선 커밋을 요청했다.",
+      "before": "복사용 문서만 상위 폴더에 존재. 실제 솔루션은 Git 이력 및 자동 테스트가 없고 중복 클래스/MQTTnet API 오류로 빌드 실패.",
+      "after": "실제 루트에 문서 배치, 최소 빌드 복구, PowerShell/Git Bash 공통 검증 경로, 검사기와 스모크 테스트 추가. COM 동작 계약, verification 순서, revision과 상태는 유지.",
+      "affected_features": [
+        "COM-03",
+        "COM-04",
+        "COM-01",
+        "COM-02",
+        "COM-05"
+      ],
+      "reverification": "전체 솔루션 빌드, .NET 스모크 4건, Python 검사기 테스트 8건 및 재시작 검증. 제품 MQTT 검증은 미실행; 기존 제품 passing 증거 없음."
+    }
+  ],
+  "initialization": {
+    "session": "S005",
+    "scope": "운영 환경 및 빌드 기준선 초기화. COM 제품 기능 구현/통과 판정 제외.",
+    "repository_root": ".",
+    "solution": "AmrControlSystem.slnx",
+    "verify": "./init.ps1",
+    "start": "./init.ps1 -Start",
+    "bash": "Git for Windows Bash: bash ./init.sh [-Start]",
+    "next_feature": "COM-03",
+    "evidence_index": "evidence/initialization/S005/README.md",
+    "limitations": [
+      "콘솔과 AMR 테스트 클라이언트는 Hello World 골격",
+      "실제 MQTT 및 WPF GUI 실행 미검증",
+      "Docker/Mosquitto 실행 환경 확보 필요",
+      "PDF 및 S003/S004 원본 증거 미전달"
+    ]
+  }
+}

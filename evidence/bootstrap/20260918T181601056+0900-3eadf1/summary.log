@@ -1,0 +1,27 @@
+Started: 2026-09-18T18:16:01.0811776+09:00
+Root: C:\Users\Admin\Desktop\repos\AmrControlSystem; PowerShell: 7.6.5
+Scope: scaffold build/tests only; no MQTT feature is certified.
+BEGIN python-version : C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe --version
+PASS python-version
+BEGIN dotnet-info : dotnet --info
+PASS dotnet-info
+BEGIN git-state : git status --short
+PASS git-state
+Code version: initial uncommitted scaffold
+BEGIN harness : C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/verify_harness.py
+PASS harness
+BEGIN harness-tests : C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe -m unittest discover -s tests/harness -v
+PASS harness-tests
+BEGIN restore : dotnet restore AmrControlSystem.slnx
+PASS restore
+BEGIN build : dotnet build AmrControlSystem.slnx --no-restore
+PASS build
+BEGIN test-Amr.Communication.Tests : dotnet test C:\Users\Admin\Desktop\repos\AmrControlSystem\tests\Amr.Communication.Tests\Amr.Communication.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Communication.Tests.trx --results-directory C:\Users\Admin\Desktop\repos\AmrControlSystem\evidence\bootstrap\20260918T181601056+0900-3eadf1
+PASS test-Amr.Communication.Tests
+BEGIN test-count-Amr.Communication.Tests : C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/verify_test_results.py C:\Users\Admin\Desktop\repos\AmrControlSystem\evidence\bootstrap\20260918T181601056+0900-3eadf1\Amr.Communication.Tests.trx
+PASS test-count-Amr.Communication.Tests
+BASELINE PASSED. Product COM-01..05 verification remains separate.
+BEGIN start : dotnet run --project src/Amr.Communication.Console/Amr.Communication.Console.csproj --no-build --no-restore
+PASS start
+Finished: 2026-09-18T18:16:04.6655554+09:00
+Evidence: C:\Users\Admin\Desktop\repos\AmrControlSystem\evidence\bootstrap\20260918T181601056+0900-3eadf1

@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+**/__pycache__/
+**/TestResults/
+.tools/
+.env
+.env.*
+!.env.example
+**/devtest.db*
+docker/mosquitto/data/
+docker/mosquitto/log/
+docker/seq/data/

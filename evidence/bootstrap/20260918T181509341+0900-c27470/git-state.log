@@ -1,0 +1,8 @@
+fatal: detected dubious ownership in repository at 'C:/Users/Admin/Desktop/repos/AmrControlSystem'
+'C:/Users/Admin/Desktop/repos/AmrControlSystem/.git' is owned by:
+	DESKTOP-N1BSNS3/CodexSandboxOffline (S-1-5-21-2578819437-1273611056-4154928992-1003)
+but the current user is:
+	DESKTOP-N1BSNS3/Admin (S-1-5-21-2578819437-1273611056-4154928992-1000)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Admin/Desktop/repos/AmrControlSystem

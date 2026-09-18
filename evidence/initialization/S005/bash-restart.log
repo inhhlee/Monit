@@ -1,0 +1,64 @@
+Started: 2026-09-18T18:15:09.3661731+09:00
+Root: C:\Users\Admin\Desktop\repos\AmrControlSystem; PowerShell: 7.6.5
+Scope: scaffold build/tests only; no MQTT feature is certified.
+BEGIN python-version : C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe --version
+Python 3.12.14
+PASS python-version
+BEGIN dotnet-info : dotnet --info
+.NET SDK:
+ Version:           10.0.401
+ Commit:            e34a38d2ae
+ Workload version:  10.0.400-manifests.b0700452
+ MSBuild version:   18.9.11+e34a38d2a
+
+런타임 환경:
+ OS Name:     Windows
+ OS Version:  10.0.26200
+ OS Platform: Windows
+ RID:         win-x64
+ Base Path:   C:\Program Files\dotnet\sdk\10.0.401\
+
+설치된 .NET 워크로드:
+표시할 설치된 워크로드가 없습니다.
+새 매니페스트를 설치할 때 use workload sets 사용하도록 구성됩니다.
+워크로드 집합이 설치되어 있지 않습니다. "dotnet workload restore"를 실행하여 워크로드 집합을 설치하세요.
+
+Host:
+  Version:      10.0.12
+  Architecture: x64
+  Commit:       95017c711e
+
+.NET SDKs installed:
+  10.0.401 [C:\Program Files\dotnet\sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 10.0.12 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 10.0.12 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 10.0.12 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+Other architectures found:
+  x86   [C:\Program Files (x86)\dotnet]
+    registered at [HKLM\SOFTWARE\dotnet\Setup\InstalledVersions\x86\InstallLocation]
+
+Environment variables:
+  Not set
+
+global.json file:
+  C:\Users\Admin\Desktop\repos\AmrControlSystem\global.json
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+PASS dotnet-info
+BEGIN git-state : git status --short
+fatal: detected dubious ownership in repository at 'C:/Users/Admin/Desktop/repos/AmrControlSystem'
+'C:/Users/Admin/Desktop/repos/AmrControlSystem/.git' is owned by:
+	DESKTOP-N1BSNS3/CodexSandboxOffline (S-1-5-21-2578819437-1273611056-4154928992-1003)
+but the current user is:
+	DESKTOP-N1BSNS3/Admin (S-1-5-21-2578819437-1273611056-4154928992-1000)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Admin/Desktop/repos/AmrControlSystem
+FAILED stage=git-state : git-state failed with exit code 128

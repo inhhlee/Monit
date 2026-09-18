@@ -1,0 +1,78 @@
+﻿<Window x:Class="AmrControlSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        Title="AMR 개발환경 테스트"
+        Height="650"
+        Width="700">
+
+    <Grid Margin="20">
+
+        <Grid.RowDefinitions>
+
+            <!-- 테스트 버튼 영역 -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- 테스트 결과 영역 -->
+            <RowDefinition Height="180"/>
+
+            <!-- Chart 영역 -->
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+
+        <!-- 테스트 버튼 -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+
+            <Button Content="MQTT TEST"
+                    Width="120"
+                    Height="40"
+                    Margin="5"
+                    Click="MqttTest_Click"/>
+
+            <Button Content="SQLite TEST"
+                    Width="120"
+                    Height="40"
+                    Margin="5"
+                    Click="SqliteTest_Click"/>
+
+            <Button Content="SEQ TEST"
+                    Width="120"
+                    Height="40"
+                    Margin="5"
+                    Click="SeqTest_Click"/>
+
+            <Button Content="CHART TEST"
+                    Width="120"
+                    Height="40"
+                    Margin="5"
+                    Click="ChartTest_Click"/>
+
+            <Button Content="INTEGRATION TEST"
+                    Width="140"
+                    Height="40"
+                    Margin="5"
+                    Click="IntegrationTest_Click"/>
+
+        </StackPanel>
+
+
+        <!-- 테스트 결과 -->
+        <TextBox x:Name="ResultTextBox"
+                 Grid.Row="1"
+                 Margin="5,20,5,5"
+                 IsReadOnly="True"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"/>
+
+
+        <!-- LiveCharts -->
+        <lvc:CartesianChart x:Name="TestChart"
+                            Grid.Row="2"
+                            Margin="5,10,5,5"/>
+
+    </Grid>
+
+</Window>
