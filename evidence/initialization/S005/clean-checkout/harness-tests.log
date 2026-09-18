@@ -1,0 +1,13 @@
+test_bad_json_cli_fails (test_harness.HarnessTests.test_bad_json_cli_fails) ... ok
+test_complete_evidence (test_harness.HarnessTests.test_complete_evidence) ... ok
+test_initial_structure (test_harness.HarnessTests.test_initial_structure) ... ok
+test_latest_failure_invalidates_pass (test_harness.HarnessTests.test_latest_failure_invalidates_pass) ... ok
+test_old_revision_cannot_certify (test_harness.HarnessTests.test_old_revision_cannot_certify) ... ok
+test_reject_bad_evidence (test_harness.HarnessTests.test_reject_bad_evidence) ... ok
+test_reject_invalid_structures (test_harness.HarnessTests.test_reject_invalid_structures) ... ok
+test_trx_gate (test_harness.HarnessTests.test_trx_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.054s
+
+OK

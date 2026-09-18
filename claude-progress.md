@@ -20,6 +20,7 @@
 | Working rules | 루트 AGENTS.md 적용. 초기화 세션에서 COM 기능은 시작하지 않았으며 5개 모두 not_started, revision 1, evidence 빈 배열 유지. |
 | Environment | Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git Bash 5.3.15, Python 3.12.14. |
 | Python executable | C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe. 새 환경은 PATH의 실제 Python 또는 init.ps1 -Python 경로 사용. |
+| Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 
 ## 세션 레코드 (Session Record)
 
@@ -69,9 +70,11 @@
 - Completed: 실제 프로젝트 루트 확인, 기존 5개 프로젝트 보존, 문서 배치, 신규 Git 저장소(main) 구성. 빈 클래스 5개의 잘못된 MqttSubscriber 이름을 파일 책임에 맞게 분리하고 기존 WPF 실험 서비스의 MQTTnet 4 API를 설치된 5.2.0.1603 API로 수정하여 빌드 복구. init.ps1 및 Git Bash 래퍼 init.sh, SDK 기준 global.json, 자동 테스트 프로젝트와 추적기/TRX 검사기, README 및 제외 규칙 추가. 사용자 DB·Broker/Seq 데이터·IDE 상태는 삭제하거나 커밋하지 않는다. COM 기능은 모두 not_started 유지.
 - Verification run: 최초 restore는 샌드박스 NuGet.Config 접근 제한으로 실패한 뒤 승인된 재시도에서 성공. 최초 build는 중복 클래스 및 MQTTnet API 오류 10건으로 실패했다. 첫 헬퍼 실행은 Windows Store Python 별칭 때문에 종료 코드 1; 실제 Python을 선택하도록 복구했다. 18:13:55+09:00 PowerShell 전체 기준선 및 콘솔 시작 통과(.NET 4건, Python 8건). Git Bash 재시작은 새 .git의 샌드박스 계정 소유권으로 종료 코드 1; .git 소유자만 실제 Admin으로 복구하고 전역 신뢰 설정은 변경하지 않았다. 18:16:01+09:00 상위 repos에서 Git Bash 절대 경로 호출로 전체 기준선 및 콘솔 재시작 통과.
 - Evidence recorded: evidence/initialization/S005/README.md의 실행별 목록. 실패 로그와 재시도 로그 모두 보존. 기능별 evidence 배열은 비어 있으며 초기화 결과를 제품 기능 통과 증거로 등록하지 않았다.
-- Commits: 초기 기준선 커밋 생성 직전. 생성 후 실제 해시를 이 레코드에 기록한다.
+- Commits: `58a53008c02cde8765e37a23375cf54c35f7dc85` — Initialize AMR scaffold with reproducible build and verification workflow. 검증 증거 및 인수인계 갱신은 별도 문서 커밋으로 남긴다(최신 해시는 git log -1로 확인).
 - Known risks: WPF의 OpenTK/SkiaSharp NU1701 호환성 경고. 통신 메서드는 빈 골격이며 GUI가 MQTT/SQLite에 직접 접근하는 실험 코드는 목표 아키텍처 미충족. MqttTopics의 cmd/cmd/ack/state와 현재 추적기 계약 차이를 COM-01/04에서 검토해야 한다. Docker CLI 및 실제 Broker 실행 환경, WPF GUI 실행, 실제 MQTT, Core/AMR 전체 통합은 미검증. PDF 및 S003/S004 원본 검사기·증거는 전달되지 않아 해당 과거 세션 기록을 재검증된 사실로 간주하지 않는다.
 - Next best action: **COM-03**. 먼저 claude-progress.md, feature_list.json의 COM-03/DN-03/DN-04, src/Amr.Communication/Mqtt/MqttClientService.cs 및 MqttConnectionManager.cs를 읽고 `./init.ps1` 실행. 실제 Mosquitto 환경을 확보한 후 개발용 Broker/KeepAlive/단절 감지 설정만 임시 결정으로 기록하고 COM-03 하나를 in_progress로 바꾼다. 실제 연결·KeepAlive·정상 종료/응답 차단·최초 연결 실패 검증 전체와 증거를 구현한다.
+
+S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S005-clean-checkout`으로 복제하여 기존 bin/obj 없이 `init.ps1 -Start` 실행. restore/build, Python 8건, .NET 4건, 콘솔 시작 모두 통과했다. 이 검증은 같은 머신의 SDK/NuGet 캐시를 사용했으며 새 머신 설치 또는 실제 Broker 연동 검증을 의미하지 않는다. 증거는 evidence/initialization/S005/clean-checkout/ 및 clean-checkout-run.log. 검증용 복제본은 .tools 아래 제외된 로컬 자료로 보존했다.
 
 ## 다음 세션 작성 양식
 
