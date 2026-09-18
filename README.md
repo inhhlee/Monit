@@ -1,4 +1,4 @@
-# AmrControlSystem
+# AmrControlSystem (practice)
 
 가상 AMR 제어·통신·관제 시스템의 개발 저장소다. 현재 개발 범위는 MQTT 통신 모듈 `Amr.Communication`의 COM-01~05이며 다음 작업은 **COM-03: Broker 연결 및 연결 상태 감시**다. 기존 GUI는 개발 실험용이며 Core·SQLite·GUI 제품 통합은 후속 범위다.
 
