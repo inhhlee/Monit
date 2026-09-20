@@ -1,0 +1,1 @@
+Windows PowerShell 5.1 passed. Initial Bash check exposed missing dirname despite exit 0; corrected helper subsequently passed absolute-path check. Invalid JSON CLI exited 1. See README.md and bash-absolute.log.

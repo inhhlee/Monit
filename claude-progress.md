@@ -1,25 +1,25 @@
 # AmrControlSystem Progress Log
 
-새 세션은 이 파일을 먼저 읽고 `AGENTS.md`, `feature_list.json`과 관련 소스·테스트를 확인한다. 이 파일이 있는 AmrControlSystem이 실제 프로젝트 루트다. 상위 repos의 동명 파일은 과거 복사용 문서이며 현재 상태의 기준이 아니다.
+새 세션은 이 파일을 먼저 읽고 `AGENTS.md`, `feature_list.json`과 관련 소스·테스트를 확인한다. 이 파일과 AmrControlSystem.slnx가 있는 폴더가 실제 프로젝트 루트다. PC별 경로와 폴더 이름은 고정하지 않는다. 과거 세션의 PC 경로·명령은 당시 기록이며 현재 실행 경로는 아래 표와 README를 따른다.
 
 ## 현재 검증된 상태 (Current Verified State)
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-18, Asia/Seoul |
-| Repository root directory | C:\Users\Admin\Desktop\repos\AmrControlSystem; S005에서 신규 Git 저장소 생성. |
-| Standard startup path | PowerShell 7에서 ./init.ps1 -Start. Broker localhost:1883 선행 실행 후 연결 상태를 JSON으로 출력하며 Ctrl+C로 종료. 설정은 README 참조. |
-| Standard verification path | `./init.ps1`: 추적기 검사, Python 검사기 테스트, 전체 솔루션 restore/build, .NET tests, TRX 0건·실패·미실행 거부 검사. 전체 로그는 evidence/bootstrap/실행ID/. |
+| Last updated | 2026-09-20, Asia/Seoul |
+| Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
+| Standard startup path | ./init.cmd broker 후 ./init.cmd start. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. 직접 시작은 테스트 없이 콘솔 빌드·실행. Ctrl+C 종료. |
+| Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
 | Highest priority unfinished feature | COM-04: 수신 Topic 및 메시지 유효성 검증 |
 | Active feature | 없음. COM-03 passing (revision 2); COM-04/01/02/05 not_started. |
-| Verified product behavior | COM-03 실제 Mosquitto 연결, 업무 메시지 없이 6초 KeepAlive(PINGREQ/PINGRESP), Broker 종료 0.063초/응답 차단 3.078초 감지, 최초 연결 실패의 처리된 종료, 프로세스 재시작. .NET 20건/Python 8건 통과. |
-| Current blocker | 현재 없음. 사용자 폴더 Docker Desktop을 찾아 엔진을 시작하고 실제 Mosquitto 연동 검증 완료. |
+| Verified product behavior | S009 .NET 검증기로 COM-03 실제 Mosquitto 5항목 통과: idle 6.017초/PINGREQ·PINGRESP, 종료 0.198초/응답 차단 3.099초 감지, 최초 연결 실패, 프로세스 재시작. 제품 테스트 20건과 도구 테스트 37건 통과. |
+| Current blocker | 제품 기능 blocker 없음. S009 기준선과 클린 소스 재시작 검증 완료; 안전 커밋 기록은 S009 참조. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
-| Harness verification | S007의 최종 init.ps1에서 추적기 검사 및 8건 검사기 테스트 통과. 구조 검사와 실제 제품 검증은 별도 증거로 관리. |
+| Harness verification | S009 init.cmd verify-broker에서 .NET 추적기 및 자동 테스트 총 57건/TRX 검사 통과. PowerShell 5.1 → cmd → PowerShell 7 및 Git Bash 절대 경로 check 통과. Python 없는 PATH, 공백·한글 경로의 bin/obj 없는 소스 복제본에서도 57건 및 콘솔 재시작 통과. |
 | Working rules | 루트 AGENTS.md 적용. S007에서 COM-03만 구현·통과. DN-03/04 부분 임시 채택 및 revision 2 증거 5개 기록. |
-| Environment | Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Python 3.12.14, MQTTnet 5.2.0.1603, Docker Desktop 4.90.0/Engine 29.7.2, Mosquitto 2.1.2. |
-| Python executable | C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe. 새 환경은 PATH의 실제 Python 또는 init.ps1 -Python 경로 사용. |
+| Environment | S009: Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git 2.42.0.windows.2, Docker Engine 29.8.0, Mosquitto 2.1.2, MQTTnet 5.2.0.1603. Python 불필요. |
+| Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 | Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
 
@@ -101,14 +101,22 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 
 ## 다음 세션 작성 양식
 
-### S008 - YYYY-MM-DD - 작업 제목
+### S008 - 2026-09-20 - PowerShell 한글 출력 인코딩 수정
 
-- Goal:
-- Completed:
-- Verification run:
-- Evidence recorded:
-- Commits:
-- Known risks:
-- Next best action:
+- Goal: Windows PowerShell 5.1에서 PowerShell 7 실행 후 발생한 한글 출력 깨짐을 해결한다.
+- Completed: 현재 체크아웃 C:\practice의 기존 로그에서 깨진 한글 경고를 확인했다. init.ps1에서 콘솔 입출력과 PowerShell 파이프 인코딩을 UTF-8로 일치시키고 Tee-Object 로그 인코딩도 명시했다. README에 Windows PowerShell 5.1에서 pwsh로 실행하는 명령을 추가했다. 기존 솔루션 src 배치 수정과 미추적 검증 폴더는 보존했다. 제품 기능 상태·revision·증거는 변경하지 않았다.
+- Verification run: 시작 기준선은 샌드박스 NuGet 소켓 접근 제한으로 restore 실패; 승인된 전체 재실행은 통과. 수정 후 입력·출력·파이프를 CP949로 설정한 PowerShell 7.6.5에서 ./init.ps1 -Python C:\msys64\mingw64\bin\python.exe 실행, restore/build/.NET 20건/Python 8건 및 TRX 검사 통과. 저장된 UTF-8 build.log에서 '프로젝트 대상 프레임워크' 문자열과 대체 문자 부재를 확인했다. git diff --check 통과. 실제 MQTT와 사용자 터미널의 글꼴 표시는 이번 범위에서 미검증이다.
+- Evidence recorded: evidence/bootstrap/20260920T182911700+0900-37eddc/ (샌드박스 실패), evidence/bootstrap/20260920T182948643+0900-807927/ (수정 전 기준선), evidence/bootstrap/20260920T183043149+0900-80b621/ (CP949 환경에서 수정 후 기준선 및 한글 로그).
+- Commits: 없음. 앞선 솔루션 수정의 커밋 권한 요청이 사용자에게 거절되어 이번에는 커밋을 재요청하지 않았다. 변경은 작업 폴더에 보존한다.
+- Known risks: 이미 깨져 저장된 이전 로그는 복원하지 않는다. 기존 WPF NU1701 경고 6건은 그대로다. 현재 검증은 .NET SDK 10.0.401, PowerShell 7.6.5, Python 3.12.11 환경이며 제품 COM-03 통과 범위를 확대하지 않는다.
+- Next best action: 기존 실행이 남아 있으면 Ctrl+C로 종료한 뒤 pwsh -NoProfile -File "C:\practice\init.ps1" -Start로 새 출력을 확인한다. 기능 개발 재개는 COM-04이며 feature_list.json 및 Validation/Models 확인 후 ./init.ps1 실행부터 시작한다.
 
-위 S008은 미작성 양식이며 실제 수행된 세션이 아니다.
+### S009 - 2026-09-20 - Windows 재현 기준선 및 Python 제거
+
+- Goal: 초기화 플레이북에 맞춰 다른 Windows 노트북·다른 경로에서 사용 가능한 기준선 구축. 사용자 확인에 따라 scripts 제거 및 필요한 검증의 .NET/PowerShell 이관.
+- Completed: init.cmd check/verify/broker/start/verify-broker, 공통 PowerShell 헬퍼, .NET 추적기·TRX·실제 Mosquitto 검사, 검증 도구 테스트 37건 추가. Python scripts 및 Python 테스트 제거. README와 AGENTS의 현재 절차를 새 경로로 정리했다. 기존 제품 코드·기능 status·spec_revision은 유지한다.
+- Verification run: 시작 기준선 evidence/bootstrap/20260920T184455642+0900-8b371d 통과(.NET 20건/Python 8건). 이관 도구 테스트 37건 통과. 실제 Mosquitto COM-03 5항목·제품 테스트 20건·프로세스 재시작 통과. 정상 종료 0.203초, 응답 차단 3.096초, idle 6.010초. 새 init.cmd verify-broker 전체 파이프라인 통과(총 57건 및 실제 Broker 5항목). Windows PowerShell 5.1 호출·PowerShell 누락 종료 코드 2·잘못된 JSON 종료 코드 1 확인. 최초 Bash check에서 dirname 미발견 경고가 있어 내장 경로 계산으로 수정 후 C:/에서 절대 경로 호출 통과. C:\practice\.tools\S009 clean 한글의 bin/obj 없는 소스 복제본을 C:/에서 절대 경로로 실행했다. PATH에서 Python을 제거하고 전체 빌드/57건 테스트 및 2초 Broker 연결·정상 종료 통과. 같은 PC의 SDK/NuGet 캐시를 사용했고 PowerShell 경로는 POWERSHELL_EXE로 명시했다. 다른 실물 노트북 검증은 아니다.
+- Evidence recorded: evidence/initialization/S009/development/migration.trx; evidence/COM-03/20260920T185653-164f13bba34041e69e2102a1e397de72/result.json. 최종 인덱스 evidence/initialization/S009/README.md. 새 전체 진입점 evidence/bootstrap/20260920T190439753+0900-acf92c, 최신 COM-03 evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7, clean-verify/ 및 clean-start/에 로그·TRX 보존.
+- Commits: 검증된 Windows 기준선 커밋 준비 완료. 실제 커밋 해시는 커밋 후 아래에 기록한다. 이전 S008 미커밋 수정 중 관련 솔루션 배치·UTF-8 설정·문서를 포함하며, 사용자의 기존 실행 로그 3개는 미추적으로 보존한다.
+- Known risks: 새 Windows 노트북 실물 검증은 수행하지 않았다. 기존 WPF NU1701·미완성 제품 범위 유지. 과거 증거 속 Python 명령과 PC별 경로는 역사 기록으로 보존한다. 사용 한도 중단 시 이 레코드에서 이어간다.
+- Next best action: COM-04 재개. claude-progress.md → AGENTS.md → feature_list.json의 COM-04/DN-01/DN-02 → src/Amr.Communication/Validation 및 Models를 읽고 ./init.cmd verify 실행. 실제 다른 노트북에서는 README의 준비 도구를 설치하고 check → verify → broker → start로 재현한다. 원격 업로드는 이번 작업에서 수행하지 않는다.

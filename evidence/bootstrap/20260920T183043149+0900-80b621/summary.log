@@ -1,0 +1,25 @@
+Started: 2026-09-20T18:30:43.2601027+09:00
+Root: C:\practice; PowerShell: 7.6.5
+Scope: build and automatic tests. Run scripts/verify_com03.py separately for real Mosquitto evidence.
+BEGIN python-version : C:\msys64\mingw64\bin\python.exe --version
+PASS python-version
+BEGIN dotnet-info : dotnet --info
+PASS dotnet-info
+BEGIN git-state : git status --short
+PASS git-state
+Code version: e2306b7bbacfacc32313a33bedcb46b3c47cd06a
+BEGIN harness : C:\msys64\mingw64\bin\python.exe scripts/verify_harness.py
+PASS harness
+BEGIN harness-tests : C:\msys64\mingw64\bin\python.exe -m unittest discover -s tests/harness -v
+PASS harness-tests
+BEGIN restore : dotnet restore AmrControlSystem.slnx
+PASS restore
+BEGIN build : dotnet build AmrControlSystem.slnx --no-restore
+PASS build
+BEGIN test-Amr.Communication.Tests : dotnet test C:\practice\tests\Amr.Communication.Tests\Amr.Communication.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Communication.Tests.trx --results-directory C:\practice\evidence\bootstrap\20260920T183043149+0900-80b621
+PASS test-Amr.Communication.Tests
+BEGIN test-count-Amr.Communication.Tests : C:\msys64\mingw64\bin\python.exe scripts/verify_test_results.py C:\practice\evidence\bootstrap\20260920T183043149+0900-80b621\Amr.Communication.Tests.trx
+PASS test-count-Amr.Communication.Tests
+BASELINE PASSED. Product COM-01..05 verification remains separate.
+Finished: 2026-09-20T18:30:56.4060869+09:00
+Evidence: C:\practice\evidence\bootstrap\20260920T183043149+0900-80b621

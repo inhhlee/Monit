@@ -1,6 +1,6 @@
 {
   "project": "AmrControlSystem",
-  "last_updated": "2026-09-18",
+  "last_updated": "2026-09-20",
   "scope": {
     "title": "과제 1 - MQTT 기반 실시간 통신",
     "included": [
@@ -50,7 +50,7 @@
     "execution": "실제 저장소의 실행 및 테스트 명령을 확인해 사용한다. init.sh의 존재를 가정하지 않으며, 단순 초기화 성공이나 테스트 종료 코드만으로 Broker 연동 성공을 판정하지 않는다.",
     "evidence_format": "각 evidence에 spec_revision, verification_index(1부터 시작), executed_at(ISO 8601, 시간대 포함), command_or_procedure, environment(코드 버전 또는 변경 상태, Broker 및 라이브러리 버전, 설정, 테스트 대역 여부), expected, actual, result(passed/failed/not_run), artifact_paths(저장소 상대 경로 배열)를 기록한다. 검증 항목마다 하나씩 실행 순서대로 추가하고 같은 항목은 마지막 기록을 현재 결과로 사용한다. 공유 로그를 여러 항목에서 참조할 수 있다.",
     "session_log": "세션 시작 시 claude-progress.md를 먼저 읽고, 중간 체크포인트 및 종료 시 현재 검증된 상태와 해당 세션 레코드를 갱신한다. 기능별 상세 상태는 이 추적기와 일치시킨다.",
-    "harness_check": "프로젝트 루트에서 python scripts/verify_harness.py를 실행한다. 제품 검증과 별개인 추적기 구조·증거 연결 검사이다."
+    "harness_check": "프로젝트 루트에서 dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker feature_list.json 실행. 도구는 init.cmd verify에서 빌드한다. 제품 검증과 별개인 추적기 구조·증거 연결 검사이다."
   },
   "design_notes": [
     {
@@ -146,7 +146,7 @@
         {
           "spec_revision": 2,
           "verification_index": 1,
-          "executed_at": "2026-09-18T10:15:51.745115+00:00",
+          "executed_at": "2026-09-18T19:15:51.745115+09:00",
           "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
           "environment": {
             "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
@@ -171,7 +171,7 @@
         {
           "spec_revision": 2,
           "verification_index": 2,
-          "executed_at": "2026-09-18T10:15:57.923539+00:00",
+          "executed_at": "2026-09-18T19:15:57.923539+09:00",
           "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
           "environment": {
             "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
@@ -195,7 +195,7 @@
         {
           "spec_revision": 2,
           "verification_index": 3,
-          "executed_at": "2026-09-18T10:16:06.039489+00:00",
+          "executed_at": "2026-09-18T19:16:06.039489+09:00",
           "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
           "environment": {
             "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
@@ -223,7 +223,7 @@
         {
           "spec_revision": 2,
           "verification_index": 4,
-          "executed_at": "2026-09-18T10:16:08.843586+00:00",
+          "executed_at": "2026-09-18T19:16:08.843586+09:00",
           "command_or_procedure": "PowerShell 7, project root: & 'C:/Users/Admin/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/verify_com03.py --docker 'C:/Users/Admin/AppData/Local/Programs/DockerDesktop/resources/bin/docker.exe'; final baseline: ./init.ps1",
           "environment": {
             "code": "9c6802e + S007 COM-03 working changes; exact source SHA-256 in result.json",
@@ -270,6 +270,138 @@
             "evidence/bootstrap/20260918T191840700+0900-54e1a4/summary.log",
             "evidence/bootstrap/20260918T191840700+0900-54e1a4/Amr.Communication.Tests.trx",
             "evidence/bootstrap/20260918T191840700+0900-54e1a4/harness-tests.log"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 1,
+          "executed_at": "2026-09-20T19:05:05.5144886+09:00",
+          "command_or_procedure": "./init.cmd verify-broker",
+          "environment": {
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "dotnet": "10.0.12",
+            "docker": "29.8.0",
+            "mqttnet": "5.2.0.1603",
+            "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+            "code_commit": "e2306b7bbacfacc32313a33bedcb46b3c47cd06a",
+            "code_state": "S009 uncommitted .NET tooling migration; product sources unchanged",
+            "configuration": "MQTT 5/TCP, anonymous localhost, KeepAlive 2s, timeout 3s",
+            "test_doubles": "No Core/AMR doubles; lifecycle fake in unit tests and response-drop TCP proxy only",
+            "manifest": "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/result.json"
+          },
+          "expected": "Broker 접속 정보와 KeepAlive 설정을 기록하고 실제 Mosquitto Broker를 실행한다. 통신 모듈 접속 후 클라이언트 연결 상태 및 Broker 로그에서 연결 성공을 확인한다.",
+          "actual": "Connected to actual Mosquitto at 127.0.0.1:61298",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/idle-client.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/healthy-broker.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/mosquitto.conf"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 2,
+          "executed_at": "2026-09-20T19:05:11.8496483+09:00",
+          "command_or_procedure": "./init.cmd verify-broker",
+          "environment": {
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "dotnet": "10.0.12",
+            "docker": "29.8.0",
+            "mqttnet": "5.2.0.1603",
+            "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+            "code_commit": "e2306b7bbacfacc32313a33bedcb46b3c47cd06a",
+            "code_state": "S009 uncommitted .NET tooling migration; product sources unchanged",
+            "configuration": "MQTT 5/TCP, anonymous localhost, KeepAlive 2s, timeout 3s",
+            "test_doubles": "No Core/AMR doubles; lifecycle fake in unit tests and response-drop TCP proxy only",
+            "manifest": "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/result.json"
+          },
+          "expected": "업무 메시지를 발행하지 않은 상태로 설정된 KeepAlive 주기의 2배 이상 연결을 관찰한다. 연결이 유지되고 PINGREQ/PINGRESP 교환 또는 MQTT 라이브러리 진단 정보로 KeepAlive 동작을 확인한다.",
+          "actual": "Idle maintained 6.017s with PINGREQ/PINGRESP and no business messages",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/idle-client.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/healthy-broker.log"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 3,
+          "executed_at": "2026-09-20T19:05:24.1644535+09:00",
+          "command_or_procedure": "./init.cmd verify-broker",
+          "environment": {
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "dotnet": "10.0.12",
+            "docker": "29.8.0",
+            "mqttnet": "5.2.0.1603",
+            "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+            "code_commit": "e2306b7bbacfacc32313a33bedcb46b3c47cd06a",
+            "code_state": "S009 uncommitted .NET tooling migration; product sources unchanged",
+            "configuration": "MQTT 5/TCP, anonymous localhost, KeepAlive 2s, timeout 3s",
+            "test_doubles": "No Core/AMR doubles; lifecycle fake in unit tests and response-drop TCP proxy only",
+            "manifest": "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/result.json"
+          },
+          "expected": "Broker를 정상 종료하는 경우와 네트워크 응답을 차단하는 경우를 각각 재현한다. 설정 및 라이브러리 기준으로 정한 감지 시간 내 연결 이상이 관찰되고 원인 또는 연결 끊김 로그가 기록되는지 확인한다.",
+          "actual": "Shutdown detected in 0.198s; blocked responses in 3.099s; broker remained alive",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/shutdown-client.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/shutdown-broker.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/blackhole-client.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/blackhole-broker.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/broker-still-alive-client.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/fault-timing.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 4,
+          "executed_at": "2026-09-20T19:05:27.6477758+09:00",
+          "command_or_procedure": "./init.cmd verify-broker",
+          "environment": {
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "dotnet": "10.0.12",
+            "docker": "29.8.0",
+            "mqttnet": "5.2.0.1603",
+            "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+            "code_commit": "e2306b7bbacfacc32313a33bedcb46b3c47cd06a",
+            "code_state": "S009 uncommitted .NET tooling migration; product sources unchanged",
+            "configuration": "MQTT 5/TCP, anonymous localhost, KeepAlive 2s, timeout 3s",
+            "test_doubles": "No Core/AMR doubles; lifecycle fake in unit tests and response-drop TCP proxy only",
+            "manifest": "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/result.json"
+          },
+          "expected": "Broker가 실행되지 않은 주소 또는 포트로 최초 연결을 시도한다. 연결 성공으로 표시하지 않고 실패 상태와 원인을 남기며 처리되지 않은 예외로 프로세스가 종료되지 않는지 확인한다.",
+          "actual": "Unavailable broker produced ConnectFailed with reason, no Connected state and controlled exit 2",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/unavailable-client.log"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 5,
+          "executed_at": "2026-09-20T19:05:31.9513439+09:00",
+          "command_or_procedure": "./init.cmd verify-broker",
+          "environment": {
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "dotnet": "10.0.12",
+            "docker": "29.8.0",
+            "mqttnet": "5.2.0.1603",
+            "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+            "code_commit": "e2306b7bbacfacc32313a33bedcb46b3c47cd06a",
+            "code_state": "S009 uncommitted .NET tooling migration; product sources unchanged",
+            "configuration": "MQTT 5/TCP, anonymous localhost, KeepAlive 2s, timeout 3s",
+            "test_doubles": "No Core/AMR doubles; lifecycle fake in unit tests and response-drop TCP proxy only",
+            "manifest": "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/result.json"
+          },
+          "expected": "연결 수명주기 관련 자동 테스트와 위 실제 Broker 연동 검증을 실행하고 실행 명령, 설정, 관찰 시간 및 로그를 evidence에 기록한다.",
+          "actual": "20 tests passed; actual Mosquitto checks 1-4 and process restart passed",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/build.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/unit.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/unit.trx",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/restart-client.log",
+            "evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/result.json"
           ]
         }
       ],
@@ -432,6 +564,21 @@
         "COM-03"
       ],
       "reverification": "COM-03 verification 1~5 전체, 연결 수명주기 단위 테스트, 실제 Mosquitto 및 콘솔 재시작 검증."
+    },
+    {
+      "type": "baseline_portability",
+      "after": "Python scripts를 tools/Amr.Verification 및 .NET 테스트로 이관. init.cmd check/verify/broker/start/verify-broker와 PowerShell·Git Bash 공통 진입점. 제품 동작 계약·verification 순서·revision·상태는 유지.",
+      "reverification": "init.cmd verify-broker: 제품 테스트 20건, 도구 테스트 37건, 실제 Mosquitto revision 2의 5항목 통과. Windows PowerShell 5.1 진입점과 Git Bash 절대 경로 확인, 누락 PowerShell 및 잘못된 JSON 실패 반환 확인. 동일 PC에서 Python 없는 PATH·공백/한글 경로·bin/obj 없는 소스 복제본의 전체 빌드/57건 테스트/콘솔 연결과 정상 종료 통과. 다른 노트북 실물 검증은 미실행.",
+      "before": "Python 검사기 및 PC별 도구 경로, 검증과 실행이 합쳐진 시작 절차.",
+      "date": "2026-09-20",
+      "affected_features": [
+        "COM-03",
+        "COM-04",
+        "COM-01",
+        "COM-02",
+        "COM-05"
+      ],
+      "reason": "사용자가 다른 Windows 노트북에서 재현할 초기화 기준선과 Python scripts 제거를 요청했다."
     }
   ],
   "initialization": {
@@ -451,5 +598,27 @@
       "PDF 및 S003/S004 원본 증거 미전달"
     ],
     "historical_snapshot": true
+  },
+  "baseline": {
+    "platform": "Windows",
+    "session": "S009",
+    "start": "./init.cmd start",
+    "verify": "./init.cmd verify",
+    "verification_status": "passed",
+    "prerequisites": [
+      "Git for Windows",
+      "PowerShell >= 7.4",
+      ".NET SDK per global.json"
+    ],
+    "broker": "./init.cmd broker",
+    "next_feature": "COM-04",
+    "evidence_index": "evidence/initialization/S009/README.md",
+    "verify_broker": "./init.cmd verify-broker",
+    "check": "./init.cmd check",
+    "repository_root": ".",
+    "bash": "Git for Windows Bash: bash ./init.sh verify",
+    "optional": "Docker Desktop Linux engine for local Broker and verify-broker",
+    "solution": "AmrControlSystem.slnx",
+    "verification_scope": "Windows current machine: full pipeline, actual Mosquitto, source copy without bin/obj at a spaced Korean path, Python absent from PATH; not a second physical laptop."
   }
 }

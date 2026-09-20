@@ -1,0 +1,25 @@
+1789898718: mosquitto version 2.1.2 starting
+1789898718: Config loaded from /mosquitto/config/mosquitto.conf.
+1789898718: Bridge support available.
+1789898718: Persistence support available.
+1789898718: TLS support available.
+1789898718: TLS-PSK support available.
+1789898718: Websockets support available.
+1789898718: Opening ipv4 listen socket on port 1883.
+1789898718: mosquitto version 2.1.2 running
+1789898719: New connection from 172.17.0.1:52536 on port 1883.
+1789898719: Client 172.17.0.1 [172.17.0.1:52536] disconnected: connection closed by client.
+1789898719: New connection from 172.17.0.1:52544 on port 1883.
+1789898719: New client connected from 172.17.0.1:52544 as amr-control-d70c20a86dfb4dae8303bfff64e15d89 (p5, c1, k2).
+1789898719: No will message specified.
+1789898719: Sending CONNACK to amr-control-d70c20a86dfb4dae8303bfff64e15d89 (0, 0)
+1789898721: Received PINGREQ from amr-control-d70c20a86dfb4dae8303bfff64e15d89
+1789898721: Sending PINGRESP to amr-control-d70c20a86dfb4dae8303bfff64e15d89
+1789898722: Client amr-control-d70c20a86dfb4dae8303bfff64e15d89 [172.17.0.1:52544] disconnected: connection closed by client.
+1789898722: New connection from 172.17.0.1:52560 on port 1883.
+1789898723: New client connected from 172.17.0.1:52560 as amr-control-2123bb50f9c74cc98b17e0718bd433a8 (p5, c1, k2).
+1789898723: No will message specified.
+1789898723: Sending CONNACK to amr-control-2123bb50f9c74cc98b17e0718bd433a8 (0, 0)
+1789898724: Received DISCONNECT from amr-control-2123bb50f9c74cc98b17e0718bd433a8
+1789898724: Client amr-control-2123bb50f9c74cc98b17e0718bd433a8 [172.17.0.1:52560] disconnected.
+1789898718: Info: running mosquitto as user: mosquitto.

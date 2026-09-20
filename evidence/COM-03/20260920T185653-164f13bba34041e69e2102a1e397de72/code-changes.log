@@ -1,0 +1,17 @@
+ M .gitattributes
+ M AmrControlSystem.slnx
+ M README.md
+ M claude-progress.md
+ M init.ps1
+?? evidence/COM-03/20260920T185653-164f13bba34041e69e2102a1e397de72/
+?? evidence/bootstrap/20260920T181713558+0900-2a5ac8/
+?? evidence/bootstrap/20260920T182811028+0900-186850/
+?? evidence/bootstrap/20260920T182911700+0900-37eddc/
+?? evidence/bootstrap/20260920T182948643+0900-807927/
+?? evidence/bootstrap/20260920T183043149+0900-80b621/
+?? evidence/bootstrap/20260920T183157436+0900-682ebb/
+?? evidence/bootstrap/20260920T184455642+0900-8b371d/
+?? evidence/initialization/S009/
+?? init.cmd
+?? tests/Amr.Verification.Tests/
+?? tools/

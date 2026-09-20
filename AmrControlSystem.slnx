@@ -1,11 +1,16 @@
 <Solution>
-  <Folder Name="/src/" />
+  <Folder Name="/src/">
+    <Project Path="src/Amr.Communication.Console/Amr.Communication.Console.csproj" />
+    <Project Path="src/Amr.Communication/Amr.Communication.csproj" />
+    <Project Path="src/Amr.TestClient/Amr.TestClient.csproj" />
+    <Project Path="src/AmrControlSystem/AmrControlSystem.csproj" />
+    <Project Path="src/AmrControlTest/AmrControlTest.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj" />
+    <Project Path="tests/Amr.Verification.Tests/Amr.Verification.Tests.csproj" />
   </Folder>
-  <Project Path="src/Amr.Communication.Console/Amr.Communication.Console.csproj" />
-  <Project Path="src/Amr.Communication/Amr.Communication.csproj" />
-  <Project Path="src/Amr.TestClient/Amr.TestClient.csproj" />
-  <Project Path="src/AmrControlSystem/AmrControlSystem.csproj" />
-  <Project Path="src/AmrControlTest/AmrControlTest.csproj" />
+  <Folder Name="/tools/">
+    <Project Path="tools/Amr.Verification/Amr.Verification.csproj" />
+  </Folder>
 </Solution>

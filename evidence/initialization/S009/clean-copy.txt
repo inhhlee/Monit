@@ -1,0 +1,1 @@
+Prepared 197 files at C:\practice\.tools\S009 clean 한글, without .git/bin/obj/scripts. Copies current reviewed source and tracker evidence; not an independent machine.

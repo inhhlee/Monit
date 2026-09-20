@@ -1,0 +1,11 @@
+Started: 2026-09-20T19:09:47.7234206+09:00
+Root: C:\practice\.tools\S009 clean 한글; PowerShell: 7.6.5; Mode: start
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+Code version: source archive (no Git metadata)
+BEGIN start : dotnet run --project src/Amr.Communication.Console/Amr.Communication.Console.csproj -- --duration-seconds 2
+PASS start
+Finished: 2026-09-20T19:09:57.9840871+09:00
+Evidence: C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190947631+0900-2d9c99

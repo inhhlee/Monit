@@ -1,0 +1,43 @@
+Started: 2026-09-20T19:06:23.9768766+09:00
+Root: C:\practice; PowerShell: 7.6.5; Mode: check
+BEGIN dotnet-sdk : dotnet --version
+10.0.401
+PASS dotnet-sdk
+BEGIN git-version : git --version
+git version 2.42.0.windows.2
+PASS git-version
+BEGIN git-state : git status --short
+ M .gitattributes
+ M AGENTS.md
+ M AmrControlSystem.slnx
+ M README.md
+ M claude-progress.md
+ M feature_list.json
+ M init.ps1
+ M init.sh
+ D scripts/verify_com03.py
+ D scripts/verify_harness.py
+ D scripts/verify_test_results.py
+ D tests/harness/test_harness.py
+?? evidence/COM-03/20260920T185653-164f13bba34041e69e2102a1e397de72/
+?? evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7/
+?? evidence/bootstrap/20260920T181713558+0900-2a5ac8/
+?? evidence/bootstrap/20260920T182811028+0900-186850/
+?? evidence/bootstrap/20260920T182911700+0900-37eddc/
+?? evidence/bootstrap/20260920T182948643+0900-807927/
+?? evidence/bootstrap/20260920T183043149+0900-80b621/
+?? evidence/bootstrap/20260920T183157436+0900-682ebb/
+?? evidence/bootstrap/20260920T184455642+0900-8b371d/
+?? evidence/bootstrap/20260920T190439753+0900-acf92c/
+?? evidence/bootstrap/20260920T190542851+0900-88209b/
+?? evidence/bootstrap/20260920T190545455+0900-3e630a/
+?? evidence/bootstrap/20260920T190623878+0900-34547c/
+?? evidence/initialization/S009/
+?? init.cmd
+?? tests/Amr.Verification.Tests/
+?? tools/
+PASS git-state
+Code version: e2306b7bbacfacc32313a33bedcb46b3c47cd06a
+PREREQUISITES PASSED. Build/tests and Broker have not been checked.
+Finished: 2026-09-20T19:06:24.6491493+09:00
+Evidence: C:\practice\evidence\bootstrap\20260920T190623878+0900-34547c

@@ -1,0 +1,2 @@
+PowerShell 7.4 or newer is required. Install it, restart the terminal, and retry. 
+Alternatively set POWERSHELL_EXE to the full path of pwsh.exe. 

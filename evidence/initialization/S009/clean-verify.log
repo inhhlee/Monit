@@ -1,0 +1,87 @@
+Started: 2026-09-20T19:09:20.5160828+09:00
+Root: C:\practice\.tools\S009 clean 한글; PowerShell: 7.6.5; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+10.0.401
+PASS dotnet-sdk
+BEGIN git-version : git --version
+git version 2.42.0.windows.2
+PASS git-version
+Code version: source archive (no Git metadata)
+BEGIN restore : dotnet restore AmrControlSystem.slnx
+  복원할 프로젝트를 확인하는 중...
+  C:\practice\.tools\S009 clean 한글\tools\Amr.Verification\Amr.Verification.csproj을(를) 220밀리초 동안 복원했습니다.
+  C:\practice\.tools\S009 clean 한글\src\Amr.Communication.Console\Amr.Communication.Console.csproj을(를) 485밀리초 동안 복원했습니다.
+  C:\practice\.tools\S009 clean 한글\src\Amr.TestClient\Amr.TestClient.csproj을(를) 485밀리초 동안 복원했습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다. [C:\practice\.tools\S009 clean 한글\AmrControlSystem.slnx]
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다. [C:\practice\.tools\S009 clean 한글\AmrControlSystem.slnx]
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다. [C:\practice\.tools\S009 clean 한글\AmrControlSystem.slnx]
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다. [C:\practice\.tools\S009 clean 한글\AmrControlSystem.slnx]
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다. [C:\practice\.tools\S009 clean 한글\AmrControlSystem.slnx]
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다. [C:\practice\.tools\S009 clean 한글\AmrControlSystem.slnx]
+  C:\practice\.tools\S009 clean 한글\src\Amr.Communication\Amr.Communication.csproj을(를) 485밀리초 동안 복원했습니다.
+  C:\practice\.tools\S009 clean 한글\tests\Amr.Communication.Tests\Amr.Communication.Tests.csproj을(를) 543밀리초 동안 복원했습니다.
+  C:\practice\.tools\S009 clean 한글\tests\Amr.Verification.Tests\Amr.Verification.Tests.csproj을(를) 543밀리초 동안 복원했습니다.
+  C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj을(를) 609밀리초 동안 복원했습니다.
+  C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj을(를) 609밀리초 동안 복원했습니다.
+PASS restore
+BEGIN build : dotnet build AmrControlSystem.slnx --no-restore
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest_5eyau4cn_wpftmp.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest_5eyau4cn_wpftmp.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest_5eyau4cn_wpftmp.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+  Amr.Communication -> C:\practice\.tools\S009 clean 한글\src\Amr.Communication\bin\Debug\net10.0\Amr.Communication.dll
+  AmrControlSystem -> C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\bin\Debug\net10.0-windows\AmrControlSystem.dll
+  Amr.Verification -> C:\practice\.tools\S009 clean 한글\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll
+  AmrControlTest -> C:\practice\.tools\S009 clean 한글\src\AmrControlTest\bin\Debug\net10.0-windows\AmrControlTest.dll
+  Amr.TestClient -> C:\practice\.tools\S009 clean 한글\src\Amr.TestClient\bin\Debug\net10.0\Amr.TestClient.dll
+  Amr.Communication.Console -> C:\practice\.tools\S009 clean 한글\src\Amr.Communication.Console\bin\Debug\net10.0\Amr.Communication.Console.dll
+  Amr.Verification.Tests -> C:\practice\.tools\S009 clean 한글\tests\Amr.Verification.Tests\bin\Debug\net10.0\Amr.Verification.Tests.dll
+  Amr.Communication.Tests -> C:\practice\.tools\S009 clean 한글\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll
+
+빌드했습니다.
+
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlSystem\AmrControlSystem.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest_5eyau4cn_wpftmp.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK 3.3.1'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest_5eyau4cn_wpftmp.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'OpenTK.GLWpfControl 3.3.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+C:\practice\.tools\S009 clean 한글\src\AmrControlTest\AmrControlTest_5eyau4cn_wpftmp.csproj : warning NU1701: 프로젝트 대상 프레임워크 'net10.0-windows7.0' 대신 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1'을(를) 사용하여 패키지 'SkiaSharp.Views.WPF 3.119.0'을(를) 복원했습니다. 이 패키지는 프로젝트와 완벽하게 호환되지 않을 수 있습니다.
+    경고 9개
+    오류 0개
+
+경과 시간: 00:00:08.32
+PASS build
+BEGIN harness : dotnet C:\practice\.tools\S009 clean 한글\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll tracker C:\practice\.tools\S009 clean 한글\feature_list.json
+PASS: 5 features, 35 verification items; structure and artifact links only
+PASS harness
+BEGIN test-Amr.Communication.Tests : dotnet test C:\practice\.tools\S009 clean 한글\tests\Amr.Communication.Tests\Amr.Communication.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Communication.Tests.trx --results-directory C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a
+C:\practice\.tools\S009 clean 한글\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll(.NETCoreApp,Version=v10.0)에 대한 테스트 실행
+지정된 패턴과 일치한 총 테스트 파일 수는 1개입니다.
+결과 파일: C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a\Amr.Communication.Tests.trx
+
+통과!  - 실패:     0, 통과:    20, 건너뜀:     0, 전체:    20, 기간: 600 ms - Amr.Communication.Tests.dll (net10.0)
+PASS test-Amr.Communication.Tests
+BEGIN test-count-Amr.Communication.Tests : dotnet C:\practice\.tools\S009 clean 한글\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll trx C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a\Amr.Communication.Tests.trx
+PASS: 20 tests executed and passed
+PASS test-count-Amr.Communication.Tests
+BEGIN test-Amr.Verification.Tests : dotnet test C:\practice\.tools\S009 clean 한글\tests\Amr.Verification.Tests\Amr.Verification.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Verification.Tests.trx --results-directory C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a
+C:\practice\.tools\S009 clean 한글\tests\Amr.Verification.Tests\bin\Debug\net10.0\Amr.Verification.Tests.dll(.NETCoreApp,Version=v10.0)에 대한 테스트 실행
+지정된 패턴과 일치한 총 테스트 파일 수는 1개입니다.
+결과 파일: C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a\Amr.Verification.Tests.trx
+
+통과!  - 실패:     0, 통과:    37, 건너뜀:     0, 전체:    37, 기간: 754 ms - Amr.Verification.Tests.dll (net10.0)
+PASS test-Amr.Verification.Tests
+BEGIN test-count-Amr.Verification.Tests : dotnet C:\practice\.tools\S009 clean 한글\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll trx C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a\Amr.Verification.Tests.trx
+PASS: 37 tests executed and passed
+PASS test-count-Amr.Verification.Tests
+BASELINE PASSED. Actual Broker verification remains separate.
+Finished: 2026-09-20T19:09:45.9387521+09:00
+Evidence: C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190920429+0900-b0ef2a

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="9b48694e-bb9b-4131-8d3d-7b024a292b7a" name="north@DESKTOP-K864S01 2026-09-20 18:30:56" runUser="DESKTOP-K864S01\north" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-20T18:30:56.0518222+09:00" queuing="2026-09-20T18:30:56.0518227+09:00" start="2026-09-20T18:30:54.4280749+09:00" finish="2026-09-20T18:30:56.1455428+09:00" />
+  <TestSettings name="default" id="c261172f-4a32-4e8c-846d-e4d7cdabf3cd">
+    <Deployment runDeploymentRoot="north_DESKTOP-K864S01_2026-09-20_18_30_56" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ea9e66a0-940a-44c7-9376-fd0d27ede6e2" testId="9ad93bdb-bc21-cf01-8971-f1b2f5a2cf73" testName="Amr.Communication.Tests.ConnectionLifecycleTests.CallerCancellationIsDistinctFromFailure" computerName="DESKTOP-K864S01" duration="00:00:00.0033686" startTime="2026-09-20T18:30:55.9940568+09:00" endTime="2026-09-20T18:30:56.0058881+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea9e66a0-940a-44c7-9376-fd0d27ede6e2" />
+    <UnitTestResult executionId="84b308f3-193f-4130-b0d3-279db7b73a6d" testId="5dc2d887-6fbb-828a-5fe3-83106b895939" testName="Amr.Communication.Tests.ScaffoldTests.TelemetryJsonPreservesTimestampBeyond2038" computerName="DESKTOP-K864S01" duration="00:00:00.0848203" startTime="2026-09-20T18:30:55.8311755+09:00" endTime="2026-09-20T18:30:55.9254017+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="84b308f3-193f-4130-b0d3-279db7b73a6d" />
+    <UnitTestResult executionId="f035bf1d-8527-43a4-9720-048e92e322d8" testId="d4dedc93-0467-f04f-897e-a0c4792f103b" testName="Amr.Communication.Tests.ConnectionLifecycleTests.FailedConnectionAndLateCallbackCannotFaultExplicitRetry" computerName="DESKTOP-K864S01" duration="00:00:00.0164018" startTime="2026-09-20T18:30:55.9936070+09:00" endTime="2026-09-20T18:30:55.9937269+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f035bf1d-8527-43a4-9720-048e92e322d8" />
+    <UnitTestResult executionId="6bab71d6-139b-4ca8-9a21-ed62b8119796" testId="703b6194-050e-9146-fd43-4e4bcce8f763" testName="Amr.Communication.Tests.ConnectionLifecycleTests.TimeoutReturnsFailureAndReleasesResources" computerName="DESKTOP-K864S01" duration="00:00:00.0721177" startTime="2026-09-20T18:30:55.8816491+09:00" endTime="2026-09-20T18:30:55.9909697+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6bab71d6-139b-4ca8-9a21-ed62b8119796" />
+    <UnitTestResult executionId="03640ba1-9974-4208-bc2e-cc921716fae7" testId="1c080c57-cff5-1205-5187-b973696a570c" testName="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 5, timeout: 0)" computerName="DESKTOP-K864S01" duration="00:00:00.0005679" startTime="2026-09-20T18:30:55.8789777+09:00" endTime="2026-09-20T18:30:55.8790652+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03640ba1-9974-4208-bc2e-cc921716fae7" />
+    <UnitTestResult executionId="6cc6fd9f-688f-4752-8d53-380a55e4e424" testId="ea0fe7aa-f928-5ef4-736a-1bda61d8c29e" testName="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;&quot;)" computerName="DESKTOP-K864S01" duration="00:00:00.0014537" startTime="2026-09-20T18:30:55.9259161+09:00" endTime="2026-09-20T18:30:55.9266309+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6cc6fd9f-688f-4752-8d53-380a55e4e424" />
+    <UnitTestResult executionId="c6d174e8-ea30-4058-8e9c-d81379c7f077" testId="3d0711c4-4d5a-a268-d0a6-1b4bc7bba0e6" testName="Amr.Communication.Tests.ConnectionLifecycleTests.SuccessAndExplicitDisconnectReportStateAndDisposeTransport" computerName="DESKTOP-K864S01" duration="00:00:00.0207428" startTime="2026-09-20T18:30:56.0132550+09:00" endTime="2026-09-20T18:30:56.0338538+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6d174e8-ea30-4058-8e9c-d81379c7f077" />
+    <UnitTestResult executionId="40cf61de-146f-41a9-b26f-3a26bdfaa473" testId="962a69c6-cd5e-a162-1acf-87b4caa4173f" testName="Amr.Communication.Tests.ConnectionLifecycleTests.DisconnectBeforeConnectReturnsCannotPublishConnectedState" computerName="DESKTOP-K864S01" duration="00:00:00.0023649" startTime="2026-09-20T18:30:55.9930065+09:00" endTime="2026-09-20T18:30:55.9931836+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40cf61de-146f-41a9-b26f-3a26bdfaa473" />
+    <UnitTestResult executionId="c9bb96fc-c3ff-4a0c-aedb-2124857617f9" testId="c86b88ae-2952-05dc-6604-7bad767c28d6" testName="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 0, keepAlive: 5, timeout: 3)" computerName="DESKTOP-K864S01" duration="00:00:00.0000262" startTime="2026-09-20T18:30:55.8795617+09:00" endTime="2026-09-20T18:30:55.8796366+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c9bb96fc-c3ff-4a0c-aedb-2124857617f9" />
+    <UnitTestResult executionId="0a312286-47c7-4c1c-9afd-f1b82410fb2e" testId="2ae28900-90d2-7188-7972-0f1ed3e45888" testName="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 65536, keepAlive: 5, timeout: 3)" computerName="DESKTOP-K864S01" duration="00:00:00.0000439" startTime="2026-09-20T18:30:55.8792123+09:00" endTime="2026-09-20T18:30:55.8792784+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a312286-47c7-4c1c-9afd-f1b82410fb2e" />
+    <UnitTestResult executionId="2bea9698-8d14-4930-88cb-1fc17e24ec49" testId="d63f5e08-fc83-c8da-d5d9-ab2b6caa2fea" testName="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 0, timeout: 3)" computerName="DESKTOP-K864S01" duration="00:00:00.0004572" startTime="2026-09-20T18:30:55.8778606+09:00" endTime="2026-09-20T18:30:55.8779747+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2bea9698-8d14-4930-88cb-1fc17e24ec49" />
+    <UnitTestResult executionId="a70ef359-ca7e-46a8-8bd1-e8e1cb6ec69f" testId="2ba4ba2b-e98d-323b-2dc1-81a51611cb69" testName="Amr.Communication.Tests.ConnectionLifecycleTests.UnexpectedDisconnectFaultsOnceWithoutAutomaticReconnect" computerName="DESKTOP-K864S01" duration="00:00:00.0051784" startTime="2026-09-20T18:30:55.9924807+09:00" endTime="2026-09-20T18:30:55.9926689+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a70ef359-ca7e-46a8-8bd1-e8e1cb6ec69f" />
+    <UnitTestResult executionId="97250205-99f4-4c4f-baba-5e2fc1c0d20f" testId="8243d3ad-979b-a925-2a46-2acd666d69c5" testName="Amr.Communication.Tests.ConnectionLifecycleTests.FailingObserverCannotBreakLifecycleOrOtherObservers" computerName="DESKTOP-K864S01" duration="00:00:00.0075719" startTime="2026-09-20T18:30:55.9919609+09:00" endTime="2026-09-20T18:30:55.9921566+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="97250205-99f4-4c4f-baba-5e2fc1c0d20f" />
+    <UnitTestResult executionId="0a07b7b4-f8cd-43a4-b58a-097aad3d2bf5" testId="96fc3691-36d5-4387-be5e-8f80e9446d56" testName="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;   &quot;)" computerName="DESKTOP-K864S01" duration="00:00:00.0003845" startTime="2026-09-20T18:30:55.9867759+09:00" endTime="2026-09-20T18:30:55.9869122+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a07b7b4-f8cd-43a4-b58a-097aad3d2bf5" />
+    <UnitTestResult executionId="8cf3f9a5-642a-4c52-9c9c-3316227af40e" testId="b9f192b4-5c27-6490-4d75-9d0908f6788f" testName="Amr.Communication.Tests.ConnectionLifecycleTests.ConcurrentConnectsDoNotDuplicateSessions" computerName="DESKTOP-K864S01" duration="00:00:00.0053599" startTime="2026-09-20T18:30:56.0105017+09:00" endTime="2026-09-20T18:30:56.0129411+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8cf3f9a5-642a-4c52-9c9c-3316227af40e" />
+    <UnitTestResult executionId="8c18c783-8a2e-4b78-b9a4-22df6485d010" testId="4ff0b859-349b-4a80-5385-f5b382730bcd" testName="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: null)" computerName="DESKTOP-K864S01" duration="00:00:00.0000352" startTime="2026-09-20T18:30:55.9874560+09:00" endTime="2026-09-20T18:30:55.9875374+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8c18c783-8a2e-4b78-b9a4-22df6485d010" />
+    <UnitTestResult executionId="4d0deaee-d28b-4e7a-ba6f-0f9907b279ae" testId="182ea4fb-a2cb-bb7e-45de-ef960b660003" testName="Amr.Communication.Tests.ConnectionLifecycleTests.DisconnectDuringConnectWaitsThenClosesSession" computerName="DESKTOP-K864S01" duration="00:00:00.0131421" startTime="2026-09-20T18:30:55.9915628+09:00" endTime="2026-09-20T18:30:55.9916851+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4d0deaee-d28b-4e7a-ba6f-0f9907b279ae" />
+    <UnitTestResult executionId="57ed7041-9d97-4586-9cca-b45bfab0576c" testId="1b47212e-1d37-f1a8-0b39-4135a99bfdbc" testName="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 65536, timeout: 3)" computerName="DESKTOP-K864S01" duration="00:00:00.0000183" startTime="2026-09-20T18:30:55.8793973+09:00" endTime="2026-09-20T18:30:55.8794514+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57ed7041-9d97-4586-9cca-b45bfab0576c" />
+    <UnitTestResult executionId="afe3bcfe-d011-4a09-a64a-f4147a365a03" testId="c8b4030b-e86a-b999-1fe1-9679f602cf4a" testName="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 0.5, timeout: 3)" computerName="DESKTOP-K864S01" duration="00:00:00.0126158" startTime="2026-09-20T18:30:55.8338768+09:00" endTime="2026-09-20T18:30:55.8576754+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="afe3bcfe-d011-4a09-a64a-f4147a365a03" />
+    <UnitTestResult executionId="e1f8dfc1-85e7-48a3-bc83-aa5eb2ecb455" testId="1fbcd662-8326-b32e-c53e-269e034ec5f5" testName="Amr.Communication.Tests.ConnectionLifecycleTests.DisconnectFailureStillClosesTransportAndDisposeIsIdempotent" computerName="DESKTOP-K864S01" duration="00:00:00.0167176" startTime="2026-09-20T18:30:56.0101069+09:00" endTime="2026-09-20T18:30:56.0102383+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e1f8dfc1-85e7-48a3-bc83-aa5eb2ecb455" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.DisconnectDuringConnectWaitsThenClosesSession" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="182ea4fb-a2cb-bb7e-45de-ef960b660003">
+      <Execution id="4d0deaee-d28b-4e7a-ba6f-0f9907b279ae" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="DisconnectDuringConnectWaitsThenClosesSession" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;   &quot;)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="96fc3691-36d5-4387-be5e-8f80e9446d56">
+      <Execution id="0a07b7b4-f8cd-43a4-b58a-097aad3d2bf5" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="CommandTopicRejectsMissingAmrId" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 0.5, timeout: 3)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="c8b4030b-e86a-b999-1fe1-9679f602cf4a">
+      <Execution id="afe3bcfe-d011-4a09-a64a-f4147a365a03" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="InvalidSettingsAreRejectedBeforeAnyTransport" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.TelemetryJsonPreservesTimestampBeyond2038" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="5dc2d887-6fbb-828a-5fe3-83106b895939">
+      <Execution id="84b308f3-193f-4130-b0d3-279db7b73a6d" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="TelemetryJsonPreservesTimestampBeyond2038" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.DisconnectBeforeConnectReturnsCannotPublishConnectedState" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="962a69c6-cd5e-a162-1acf-87b4caa4173f">
+      <Execution id="40cf61de-146f-41a9-b26f-3a26bdfaa473" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="DisconnectBeforeConnectReturnsCannotPublishConnectedState" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: &quot;&quot;)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="ea0fe7aa-f928-5ef4-736a-1bda61d8c29e">
+      <Execution id="6cc6fd9f-688f-4752-8d53-380a55e4e424" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="CommandTopicRejectsMissingAmrId" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.ConcurrentConnectsDoNotDuplicateSessions" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="b9f192b4-5c27-6490-4d75-9d0908f6788f">
+      <Execution id="8cf3f9a5-642a-4c52-9c9c-3316227af40e" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="ConcurrentConnectsDoNotDuplicateSessions" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.DisconnectFailureStillClosesTransportAndDisposeIsIdempotent" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="1fbcd662-8326-b32e-c53e-269e034ec5f5">
+      <Execution id="e1f8dfc1-85e7-48a3-bc83-aa5eb2ecb455" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="DisconnectFailureStillClosesTransportAndDisposeIsIdempotent" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.CallerCancellationIsDistinctFromFailure" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="9ad93bdb-bc21-cf01-8971-f1b2f5a2cf73">
+      <Execution id="ea9e66a0-940a-44c7-9376-fd0d27ede6e2" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="CallerCancellationIsDistinctFromFailure" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.FailingObserverCannotBreakLifecycleOrOtherObservers" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="8243d3ad-979b-a925-2a46-2acd666d69c5">
+      <Execution id="97250205-99f4-4c4f-baba-5e2fc1c0d20f" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="FailingObserverCannotBreakLifecycleOrOtherObservers" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 0, timeout: 3)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="d63f5e08-fc83-c8da-d5d9-ab2b6caa2fea">
+      <Execution id="2bea9698-8d14-4930-88cb-1fc17e24ec49" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="InvalidSettingsAreRejectedBeforeAnyTransport" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ScaffoldTests.CommandTopicRejectsMissingAmrId(amrId: null)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="4ff0b859-349b-4a80-5385-f5b382730bcd">
+      <Execution id="8c18c783-8a2e-4b78-b9a4-22df6485d010" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ScaffoldTests" name="CommandTopicRejectsMissingAmrId" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.UnexpectedDisconnectFaultsOnceWithoutAutomaticReconnect" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="2ba4ba2b-e98d-323b-2dc1-81a51611cb69">
+      <Execution id="a70ef359-ca7e-46a8-8bd1-e8e1cb6ec69f" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="UnexpectedDisconnectFaultsOnceWithoutAutomaticReconnect" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 5, timeout: 0)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="1c080c57-cff5-1205-5187-b973696a570c">
+      <Execution id="03640ba1-9974-4208-bc2e-cc921716fae7" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="InvalidSettingsAreRejectedBeforeAnyTransport" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.FailedConnectionAndLateCallbackCannotFaultExplicitRetry" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="d4dedc93-0467-f04f-897e-a0c4792f103b">
+      <Execution id="f035bf1d-8527-43a4-9720-048e92e322d8" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="FailedConnectionAndLateCallbackCannotFaultExplicitRetry" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 65536, keepAlive: 5, timeout: 3)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="2ae28900-90d2-7188-7972-0f1ed3e45888">
+      <Execution id="0a312286-47c7-4c1c-9afd-f1b82410fb2e" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="InvalidSettingsAreRejectedBeforeAnyTransport" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.TimeoutReturnsFailureAndReleasesResources" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="703b6194-050e-9146-fd43-4e4bcce8f763">
+      <Execution id="6bab71d6-139b-4ca8-9a21-ed62b8119796" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="TimeoutReturnsFailureAndReleasesResources" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 1883, keepAlive: 65536, timeout: 3)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="1b47212e-1d37-f1a8-0b39-4135a99bfdbc">
+      <Execution id="57ed7041-9d97-4586-9cca-b45bfab0576c" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="InvalidSettingsAreRejectedBeforeAnyTransport" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.SuccessAndExplicitDisconnectReportStateAndDisposeTransport" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="3d0711c4-4d5a-a268-d0a6-1b4bc7bba0e6">
+      <Execution id="c6d174e8-ea30-4058-8e9c-d81379c7f077" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="SuccessAndExplicitDisconnectReportStateAndDisposeTransport" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.ConnectionLifecycleTests.InvalidSettingsAreRejectedBeforeAnyTransport(port: 0, keepAlive: 5, timeout: 3)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="c86b88ae-2952-05dc-6604-7bad767c28d6">
+      <Execution id="c9bb96fc-c3ff-4a0c-aedb-2124857617f9" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.ConnectionLifecycleTests" name="InvalidSettingsAreRejectedBeforeAnyTransport" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="9ad93bdb-bc21-cf01-8971-f1b2f5a2cf73" executionId="ea9e66a0-940a-44c7-9376-fd0d27ede6e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5dc2d887-6fbb-828a-5fe3-83106b895939" executionId="84b308f3-193f-4130-b0d3-279db7b73a6d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d4dedc93-0467-f04f-897e-a0c4792f103b" executionId="f035bf1d-8527-43a4-9720-048e92e322d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="703b6194-050e-9146-fd43-4e4bcce8f763" executionId="6bab71d6-139b-4ca8-9a21-ed62b8119796" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c080c57-cff5-1205-5187-b973696a570c" executionId="03640ba1-9974-4208-bc2e-cc921716fae7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea0fe7aa-f928-5ef4-736a-1bda61d8c29e" executionId="6cc6fd9f-688f-4752-8d53-380a55e4e424" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d0711c4-4d5a-a268-d0a6-1b4bc7bba0e6" executionId="c6d174e8-ea30-4058-8e9c-d81379c7f077" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="962a69c6-cd5e-a162-1acf-87b4caa4173f" executionId="40cf61de-146f-41a9-b26f-3a26bdfaa473" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c86b88ae-2952-05dc-6604-7bad767c28d6" executionId="c9bb96fc-c3ff-4a0c-aedb-2124857617f9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ae28900-90d2-7188-7972-0f1ed3e45888" executionId="0a312286-47c7-4c1c-9afd-f1b82410fb2e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d63f5e08-fc83-c8da-d5d9-ab2b6caa2fea" executionId="2bea9698-8d14-4930-88cb-1fc17e24ec49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ba4ba2b-e98d-323b-2dc1-81a51611cb69" executionId="a70ef359-ca7e-46a8-8bd1-e8e1cb6ec69f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8243d3ad-979b-a925-2a46-2acd666d69c5" executionId="97250205-99f4-4c4f-baba-5e2fc1c0d20f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="96fc3691-36d5-4387-be5e-8f80e9446d56" executionId="0a07b7b4-f8cd-43a4-b58a-097aad3d2bf5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b9f192b4-5c27-6490-4d75-9d0908f6788f" executionId="8cf3f9a5-642a-4c52-9c9c-3316227af40e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ff0b859-349b-4a80-5385-f5b382730bcd" executionId="8c18c783-8a2e-4b78-b9a4-22df6485d010" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="182ea4fb-a2cb-bb7e-45de-ef960b660003" executionId="4d0deaee-d28b-4e7a-ba6f-0f9907b279ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1b47212e-1d37-f1a8-0b39-4135a99bfdbc" executionId="57ed7041-9d97-4586-9cca-b45bfab0576c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c8b4030b-e86a-b999-1fe1-9679f602cf4a" executionId="afe3bcfe-d011-4a09-a64a-f4147a365a03" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1fbcd662-8326-b32e-c53e-269e034ec5f5" executionId="e1f8dfc1-85e7-48a3-bc83-aa5eb2ecb455" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="목록에 없는 결과" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="로드된 모든 결과" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="20" executed="20" passed="20" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:00.18]   Discovering: Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:00.28]   Discovered:  Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:00.33]   Starting:    Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:00.59]   Finished:    Amr.Communication.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

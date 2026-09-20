@@ -1,0 +1,20 @@
+Started: 2026-09-20T19:09:47.7234206+09:00
+Root: C:\practice\.tools\S009 clean 한글; PowerShell: 7.6.5; Mode: start
+BEGIN dotnet-sdk : dotnet --version
+10.0.401
+PASS dotnet-sdk
+BEGIN git-version : git --version
+git version 2.42.0.windows.2
+PASS git-version
+Code version: source archive (no Git metadata)
+BEGIN start : dotnet run --project src/Amr.Communication.Console/Amr.Communication.Console.csproj -- --duration-seconds 2
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-3805032b52d24e26989411dd74b78264","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1789898995437,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1789898995816,"Error":null}
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1789898997836,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1789898997877,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1789898997879,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1789898997879,"Error":null}
+PASS start
+Finished: 2026-09-20T19:09:57.9840871+09:00
+Evidence: C:\practice\.tools\S009 clean 한글\evidence\bootstrap\20260920T190947631+0900-2d9c99

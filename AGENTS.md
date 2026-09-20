@@ -2,7 +2,7 @@
 
 이 저장소는 가상 AMR 제어·통신·관제 시스템을 개발하는 장기 작업 공간이다. 현재 범위의 기능을 구현·검증하고, 다음 세션이 추측 없이 이어갈 수 있도록 코드·설계 결정·검증 상태를 함께 관리한다.
 
-현재 실제 프로젝트 루트는 이 파일이 있는 `AmrControlSystem/`이다. Windows + .NET SDK 10.0.401 + PowerShell 7 + Python 3.10 이상에서 `./init.ps1`로 기준선을 검증한다. Git for Windows Bash에서는 `bash ./init.sh`가 같은 파이프라인을 호출한다. `-Start`는 검증 후 Broker에 연결하는 통신 콘솔을 실행한다. 실제 Mosquitto COM-03 검증은 `python scripts/verify_com03.py`를 별도로 실행한다. 상세 준비·제약은 `README.md`, 최신 실행 증거는 `claude-progress.md`를 따른다.
+프로젝트 루트는 이 파일과 `AmrControlSystem.slnx`가 있는 디렉터리이며 폴더 이름·사용자 경로에 의존하지 않는다. Windows + .NET SDK 10.0.401 + PowerShell 7.4 이상 + Git에서 `./init.cmd verify`로 기준선을 검증한다. Python은 필요하지 않다. Windows PowerShell 5.1 창에서는 `init.cmd`가 PowerShell 7을 호출한다. PowerShell 7의 `./init.ps1 verify`, Git for Windows Bash의 `bash ./init.sh verify`도 같은 파이프라인이다. 개발 Broker는 Docker Desktop 실행 후 `./init.cmd broker`, 통신 콘솔은 `./init.cmd start`로 실행한다. 실제 Mosquitto COM-03 검증은 `./init.cmd verify-broker`를 사용한다. 상세 준비·제약은 `README.md`, 최신 실행 증거는 `claude-progress.md`를 따른다.
 
 ## 1. 기준 문서와 파일별 책임
 
@@ -12,8 +12,8 @@
 | `claude-progress.md` | 현재 검증된 시스템 상태, 세션 기록, blocker, 다음 작업 |
 | `feature_list.json` | 기능별 범위·우선순위·상태·검증·증거의 기준 |
 | `feature_list.json`의 `design_notes`, `change_log` | 현재 설계 결정, 미해결 쟁점, 명세 변경 이력 |
-| `init.sh` | 실제 프로젝트에 마련할 표준 준비·빌드·테스트 진입점 |
-| `scripts/verify_harness.py` | 추적기 구조·상태·증거 연결 검사 |
+| `init.cmd`, `init.ps1`, `init.sh` | Windows 진입점과 공통 준비·빌드·테스트·실행 헬퍼 |
+| `tools/Amr.Verification/` | .NET 추적기·TRX·실제 Broker 검증 도구 |
 | PDF v0.3 | 변경 가능한 최초 요구사항 출처 |
 
 - 현재 적용 기준은 사용자 지시와 기록된 설계 결정을 반영한 기능 추적기이다. PDF와 다르면 출처·차이·이유를 기록한다.
@@ -32,7 +32,7 @@
 5. 진행 로그에 기록된 표준 명령으로 기준선을 확인한다. 실제 프로젝트에 `init.sh`가 준비되어 있다면 정해진 Bash 환경에서 실행한다.
 6. 기준선 결과와 이번 작업 범위를 기록한 뒤 기능 구현을 시작한다. 기존 진행 기능이 없으면 선택한 기능 하나만 `in_progress`로 변경한다.
 
-문서 검토·규칙 편집만 수행하는 세션은 관련 파일·추적기 검사로 검증한다. 제품 실행 검증을 생략한 이유와 미검증 범위를 기록하며, 이 경우 제품 기능을 `passing`으로 변경하지 않는다.
+문서 검토·규칙 편집만 수행하는 세션은 관련 파일·추적기 검사로 검증한다. 제품 실행 검증을 생략한 이유와 미검증 범위를 기록하며, 이 경우 제품 기능을 `passing`으로 변경하지 않는다. 사용자 요청이 기준선·개발 도구 정비에 한정되면 제품 기능을 새로 선택하거나 in_progress로 바꾸지 않고 세션 기록에서 해당 범위를 관리한다.
 
 ## 3. 표준 실행 경로와 기준선 복구
 
@@ -51,7 +51,7 @@
 
 - 제품 소스 및 비즈니스 로직: `src/<프로젝트>/`
 - 단위·통합 테스트 및 테스트 대역: `tests/<테스트프로젝트>/`
-- 실행·개발·검사 도구: `scripts/` (표준 진입점 `init.sh` 또는 `init.ps1`은 루트)
+- 실행·개발·검사 도구: `tools/<프로젝트>/` (표준 진입점 `init.cmd`, `init.sh`, `init.ps1`은 루트). S009 사용자 요청으로 Python scripts는 .NET 도구로 대체했다.
 - 검증 증거: `evidence/<기능ID>/<실행식별자>/`
 - 진행 로그·기능 추적기·에이전트 규칙·솔루션 파일: 프로젝트 루트
 
@@ -99,7 +99,7 @@
 - `result`는 `passed`, `failed`, `not_run` 중 하나다. 실행 환경에는 코드 버전 또는 변경 상태, Broker·라이브러리 버전, 설정, 테스트 대역 여부를 남기고 인증정보는 제외한다.
 - 증거 경로는 저장소 상대 경로를 사용한다. 실행 순서대로 추가하고 같은 revision·항목의 마지막 기록을 현재 결과로 사용한다. 실패와 재시도 기록 모두 보존한다.
 - 이전 revision의 증거, 이후 실패·변경으로 무효화된 증거, 실행하지 않은 검증은 현재 통과 근거로 사용하지 않는다.
-- 종료 전 `python scripts/verify_harness.py`를 실행한다. 실제 Python 실행 경로는 환경에 맞춰 기록한다. 이 검사는 제품 동작 테스트나 증거 내용의 진실성 확인을 대신하지 않는다.
+- 종료 전 `dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker feature_list.json`을 실행한다(도구가 없으면 먼저 `./init.cmd verify`). 이 검사는 제품 동작 테스트나 증거 내용의 진실성 확인을 대신하지 않는다. 추적기·TRX 검증 테스트는 tests/Amr.Verification.Tests에서 실행한다.
 
 ## 8. 완료 정의
 
