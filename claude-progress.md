@@ -20,6 +20,7 @@
 | Working rules | 루트 AGENTS.md 적용. S007에서 COM-03만 구현·통과. DN-03/04 부분 임시 채택 및 revision 2 증거 5개 기록. |
 | Environment | S009: Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git 2.42.0.windows.2, Docker Engine 29.8.0, Mosquitto 2.1.2, MQTTnet 5.2.0.1603. Python 불필요. |
 | Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
+| Current Windows baseline commit | cc356d980a94b9e3a76b546250e34e3533ce827f. S009 전체 및 클린 소스 검증 완료. 로컬 커밋이며 원격 push 미실행. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 | Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
 
@@ -117,6 +118,6 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Completed: init.cmd check/verify/broker/start/verify-broker, 공통 PowerShell 헬퍼, .NET 추적기·TRX·실제 Mosquitto 검사, 검증 도구 테스트 37건 추가. Python scripts 및 Python 테스트 제거. README와 AGENTS의 현재 절차를 새 경로로 정리했다. 기존 제품 코드·기능 status·spec_revision은 유지한다.
 - Verification run: 시작 기준선 evidence/bootstrap/20260920T184455642+0900-8b371d 통과(.NET 20건/Python 8건). 이관 도구 테스트 37건 통과. 실제 Mosquitto COM-03 5항목·제품 테스트 20건·프로세스 재시작 통과. 정상 종료 0.203초, 응답 차단 3.096초, idle 6.010초. 새 init.cmd verify-broker 전체 파이프라인 통과(총 57건 및 실제 Broker 5항목). Windows PowerShell 5.1 호출·PowerShell 누락 종료 코드 2·잘못된 JSON 종료 코드 1 확인. 최초 Bash check에서 dirname 미발견 경고가 있어 내장 경로 계산으로 수정 후 C:/에서 절대 경로 호출 통과. C:\practice\.tools\S009 clean 한글의 bin/obj 없는 소스 복제본을 C:/에서 절대 경로로 실행했다. PATH에서 Python을 제거하고 전체 빌드/57건 테스트 및 2초 Broker 연결·정상 종료 통과. 같은 PC의 SDK/NuGet 캐시를 사용했고 PowerShell 경로는 POWERSHELL_EXE로 명시했다. 다른 실물 노트북 검증은 아니다.
 - Evidence recorded: evidence/initialization/S009/development/migration.trx; evidence/COM-03/20260920T185653-164f13bba34041e69e2102a1e397de72/result.json. 최종 인덱스 evidence/initialization/S009/README.md. 새 전체 진입점 evidence/bootstrap/20260920T190439753+0900-acf92c, 최신 COM-03 evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7, clean-verify/ 및 clean-start/에 로그·TRX 보존.
-- Commits: 검증된 Windows 기준선 커밋 준비 완료. 실제 커밋 해시는 커밋 후 아래에 기록한다. 이전 S008 미커밋 수정 중 관련 솔루션 배치·UTF-8 설정·문서를 포함하며, 사용자의 기존 실행 로그 3개는 미추적으로 보존한다.
+- Commits: 안전 기준선 커밋: cc356d980a94b9e3a76b546250e34e3533ce827f (Create portable Windows baseline with .NET verification tools). 이전 S008 미커밋 수정 중 관련 솔루션 배치·UTF-8 설정·문서를 포함하며, 사용자의 기존 실행 로그 3개는 미추적으로 보존한다.
 - Known risks: 새 Windows 노트북 실물 검증은 수행하지 않았다. 기존 WPF NU1701·미완성 제품 범위 유지. 과거 증거 속 Python 명령과 PC별 경로는 역사 기록으로 보존한다. 사용 한도 중단 시 이 레코드에서 이어간다.
 - Next best action: COM-04 재개. claude-progress.md → AGENTS.md → feature_list.json의 COM-04/DN-01/DN-02 → src/Amr.Communication/Validation 및 Models를 읽고 ./init.cmd verify 실행. 실제 다른 노트북에서는 README의 준비 도구를 설치하고 check → verify → broker → start로 재현한다. 원격 업로드는 이번 작업에서 수행하지 않는다.
