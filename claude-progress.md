@@ -20,7 +20,7 @@
 | Working rules | 루트 AGENTS.md 적용. DN-01/02 내부 수신 계약 v1 임시 채택; COM-04 revision 2 실패·재시도 및 최종 8항목 증거 기록. DN-03/04의 COM-03 결정 유지. |
 | Environment | S010: Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git 2.41.0.windows.1. MQTTnet 5.2.0.1603. COM-04 검증은 Broker 미사용. Docker/Mosquitto의 S009 환경 기록은 해당 세션 참조. Python 불필요. |
 | Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
-| Current Windows baseline commit | cc356d980a94b9e3a76b546250e34e3533ce827f. S009 전체 및 클린 소스 검증 완료. 로컬 커밋이며 원격 push 미실행. |
+| Current Windows baseline commit | eb296f376c04d441e5d067a1cb8e060ccb199eac. S010 COM-04 및 전체 301건 검증 완료. S009 클린 소스 기준선은 cc356d980a94b9e3a76b546250e34e3533ce827f. 이번 커밋의 원격 push 미실행. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 | Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
 
@@ -128,6 +128,6 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Completed: 지정 순서로 인수인계·규칙·추적기와 소스 확인. 시작 HEAD는 f28c407936a0fa802a8d8b3f5b152b7bcdb21511. COM-04 하나만 진행해 DN-01/02 임시 계약, 불변 메시지 모델, Topic/JSON/필수 필드/자료형/범위 검증, Core 전달·실패 로그 인터페이스 및 244개 검증 사례 구현. 잘못된 Unicode escape 예외 누출도 수정했다. COM-04 revision 2의 8항목 완료 후 passing. 표준 helper의 restore/build를 작업자 하나·재사용 비활성화로 제한해 기준선 복구. README 및 추적기·인수인계 갱신. 사용자 global.json 빈 줄 변경과 기존 실행 로그는 보존했다.
 - Verification run: 최초 init.cmd 및 승인된 Git Bash 실행은 SDK 부재로 실패. 재개 후 SDK 인식; 21:31 restore 실패(상세 로그 미생성), 전체 권한 재실행 요청은 거절되어 실행하지 않았다. 중단 사이의 21:37 표준 verify 로그·TRX에서 제품 20건/도구 37건 통과를 검사해 시작 기준선으로 사용했다. 개발 테스트 259건 통과 후 Unicode 추가 검사 2통과/3실패, 수정 후 264건 통과. 최종 기본 helper 복원 2회 실패; DOTNET_PROCESSOR_COUNT 제한도 실패, 직렬/no-reuse 복원 성공. init.ps1에 그 설정을 적용한 21:52 표준 init.cmd verify는 환경변수 덮어쓰기 없이 restore/build/제품 264건/도구 37건/추적기/TRX 전체 통과. 기존 WPF NU1701 6건 외 신규 빌드 경고 없음. 최종 pipeline의 새 테스트 프로세스에서 재실행 통과했으며 실제 애플리케이션 MQTT 수신 재시작은 COM-01 후속이다.
 - Evidence recorded: evidence/COM-04/20260921T215259-S010/README.md, result.json, source-sha256.json 및 starting-baseline/ 복사본. 개발 성공·Unicode 실패·수정 결과는 evidence/COM-04/S010-development/. 최종 전체 기준선 evidence/bootstrap/20260921T215259887+0900-ec2624/. 최초 SDK/restore 실패와 재시도 로그 모두 보존. 항목 3/7/8의 실패 기록 뒤 최종 1~8 passing 증거를 순서대로 추가했다. 독립적인 21:41 실제 Broker 실행 완료도 확인했지만 COM-03 구현·계약은 변경하지 않아 기존 기능 증거를 그대로 유지했다.
-- Commits: 없음. 검증 완료 후 관련 파일만 선택하여 커밋할 예정이며 원격 push는 수행하지 않는다.
+- Commits: `eb296f376c04d441e5d067a1cb8e060ccb199eac` — Implement COM-04 inbound message validation with recorded evidence. 사용자 global.json 변경·기존 실행 로그는 제외했다. 실제 해시를 기록한 이 인수인계 갱신은 별도 문서 커밋으로 보존한다. 원격 push 미실행.
 - Known risks: PDF 원본 부재로 DN-02는 외부 호환성을 주장하지 않는 내부 실험 계약이다. 기존 TelemetryPayload 및 WPF 경로는 검증기를 사용하지 않는다. MqttTopics의 cmd/cmd/ack/state는 COM-01에서 수정·검증해야 한다. 기본 병렬 restore 실패의 근본 원인은 미확정이나 직렬 경로는 검증했다. 최종 helper의 Git Bash·클린 소스 복제본 재검증과 다른 실물 노트북 검증은 미실행. 사용자가 남긴 global.json 빈 줄은 diff --check 경고가 있으나 수정·커밋에 포함하지 않는다.
 - Next best action: **COM-01**. feature_list.json의 COM-01/DN-02/DN-04, src/Amr.Communication/Validation/CONTRACT.md, IncomingMessageProcessor.cs, Mqtt/MqttSubscriber.cs·MqttPublisher.cs·MqttTopics.cs를 읽고 ./init.cmd verify. 적용 QoS와 큐·송수신 계약을 기록하여 COM-01 하나를 in_progress로 바꾼 뒤 실제 Mosquitto로 구독/발행/검증기 연결/AMR별 순차·독립 처리를 검증한다.
