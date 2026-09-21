@@ -1,0 +1,9 @@
+Executed: 2026-09-22T00:19:19.5050197+09:00
+Scope: study2.md documentation only; no COM-01 implementation or policy adoption.
+PASS: 19 local Markdown link targets exist; 3 official web sources reviewed separately.
+PASS: 25 source/test symbols found; ReadAllAsync is a documented framework learning candidate, not a repository implementation.
+PASS: 28 code fence markers paired.
+PASS: COM-03 passing and COM-01 not_started match tracker; all 8 COM-01 verification items mapped to proposed checks.
+PASS: product source, tests, tools, feature tracker and launch helpers unchanged from HEAD.
+Product build/tests/MQTT not rerun: documentation-only work. Future queue examples/tests are proposals, not executed results.
+PASS: 5 features, 35 verification items; structure and artifact links only
