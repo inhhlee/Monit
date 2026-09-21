@@ -1,0 +1,10 @@
+Started: 2026-09-21T11:18:32.0274891+09:00
+Root: C:\Users\Admin\Downloads\practice; PowerShell: 7.6.6; Mode: start
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: 9a443869de1c675460b7fad9420ef9b49d045258
+BEGIN start : dotnet run --project src/Amr.Communication.Console/Amr.Communication.Console.csproj

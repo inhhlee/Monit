@@ -1,0 +1,3 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-ddb1b1ee235a4cbfa0b24358ca17e453","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1789957214874,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1789957214915,"Error":null}

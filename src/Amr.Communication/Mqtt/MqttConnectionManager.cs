@@ -5,13 +5,16 @@ namespace Amr.Communication.Mqtt;
 /// <summary>
 /// Serializes explicit lifecycle requests and isolates late callbacks from retired sessions.
 /// No automatic reconnect. Event handlers must be brief and must not synchronously wait
-/// on lifecycle methods. Observer failures cannot interrupt connection processing.
+/// on lifecycle methods. Observer failures cannot interrupt connection processing. 
 /// </summary>
-public sealed class MqttConnectionManager : IAsyncDisposable
+/// 
+
+// mqtt 연결 상태 감시 
+public sealed class MqttConnectionManager : IAsyncDisposable // mqtt관리 매니저 
 {
-    private readonly BrokerConnectionOptions _options;
-    private readonly Func<IBrokerClient> _createClient;
-    private readonly SemaphoreSlim _operation = new(1, 1);
+    private readonly BrokerConnectionOptions _options; //
+    private readonly Func<IBrokerClient> _createClient; // 추상 함수를 관리하는 Broker 클라이언트 생성 
+    private readonly SemaphoreSlim _operation = new(1, 1); // 세마포어(비동기) 동작 ( 동시에 최대 1개)
     private readonly object _stateLock = new();
     private IBrokerClient? _client;
     private bool _disposed;
@@ -32,31 +35,40 @@ public sealed class MqttConnectionManager : IAsyncDisposable
     public bool IsConnected => Snapshot.State == BrokerConnectionState.Connected;
 
     /// <returns>False for a connection failure or cancellation; details are in Snapshot.</returns>
+    /// 
+
+    ///  핵심 제어 비동기 코드 
     public async Task<bool> ConnectAsync(CancellationToken cancellationToken = default)
     {
-        try { await _operation.WaitAsync(cancellationToken).ConfigureAwait(false); }
+        try { await _operation.WaitAsync(cancellationToken).ConfigureAwait(false); } // 대기 도중 연결 취소면 반환
         catch (OperationCanceledException) { return false; }
+
+
         try
         {
-            ObjectDisposedException.ThrowIf(_disposed, this);
+            ObjectDisposedException.ThrowIf(_disposed, this); // 프로그램이 종료 되어 접근 제한 
             lock (_stateLock)
             {
-                if (_client?.IsConnected == true && _snapshot.State == BrokerConnectionState.Connected) return true;
-                RetireClient();
+                if (_client?.IsConnected == true && _snapshot.State == BrokerConnectionState.Connected) return true; // 연결 되어 있거나 현재 state가 같으면 반환
+                RetireClient(); 
                 SetState(BrokerConnectionState.Connecting, "ConnectRequested");
             }
 
             try
             {
-                var client = _createClient();
-                client.Disconnected += args => OnDisconnected(client, args);
-                lock (_stateLock) _client = client;
-                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-                timeout.CancelAfter(_options.Timeout);
-                await client.ConnectAsync(_options, timeout.Token).ConfigureAwait(false);
+                var client = _createClient(); // 새로운 client 생성 
+                client.Disconnected += args => OnDisconnected(client, args);  // 클라이언트 연결이 끊기면 함수로 반환
+                lock (_stateLock) _client = client; // 현재 실행 중인 스레드가 
+
+
+                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken); // (사용자 취소버튼, 네트워크 에러) => 취소 2개 토큰 묶어서 하나로 만듬
+                timeout.CancelAfter(_options.Timeout); // 연결/비연결 작업 대기 시간
+
+
+                await client.ConnectAsync(_options, timeout.Token).ConfigureAwait(false);  // 실제 브로커 서버 연결 ( 요 부분 다시 공부 ) => 정상 연결 성공 
                 lock (_stateLock)
                 {
-                    // A disconnect can arrive before ConnectAsync returns.
+                    // A disconnect can arrive before ConnectAsync returns. 중요
                     if (!client.IsConnected || _snapshot.State == BrokerConnectionState.Faulted)
                     {
                         RetireClient();
@@ -94,6 +106,7 @@ public sealed class MqttConnectionManager : IAsyncDisposable
         finally { _operation.Release(); }
     }
 
+    // 이벤트로 DTO 변환 
     private async Task DisconnectCoreAsync(CancellationToken cancellationToken)
     {
         IBrokerClient? client;
@@ -126,6 +139,7 @@ public sealed class MqttConnectionManager : IAsyncDisposable
         }
     }
 
+    // 연결 관리 끊김 확인( Broker와의 연결() 
     private void OnDisconnected(IBrokerClient source, BrokerDisconnected args)
     {
         lock (_stateLock)
