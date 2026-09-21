@@ -1,0 +1,5 @@
+C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll(.NETCoreApp,Version=v10.0)에 대한 테스트 실행
+지정된 패턴과 일치한 총 테스트 파일 수는 1개입니다.
+결과 파일: C:\practice\evidence\COM-03\20260921T214030-ca09e4ed4c1f4cffb2dd689a09dfed70\unit.trx
+
+통과!  - 실패:     0, 통과:    20, 건너뜀:     0, 전체:    20, 기간: 146 ms - Amr.Communication.Tests.dll (net10.0)
