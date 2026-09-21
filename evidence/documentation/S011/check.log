@@ -1,0 +1,8 @@
+Executed: 2026-09-21T23:50:38.7876738+09:00
+Scope: documentation only; product code/tests/contracts/status unchanged.
+PASS: 56 unique local Markdown link targets exist.
+PASS: 46 named source/test symbols occur in current C# source.
+PASS: 22 Markdown fence markers paired.
+PASS: S010 archived TRX counts match document: COM-04 244, product 264, tool 37, total 301.
+Product build/tests/MQTT were not rerun because only learning documentation is changed.
+PASS: 5 features, 35 verification items; structure and artifact links only

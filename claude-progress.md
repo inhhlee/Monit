@@ -131,3 +131,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: `eb296f376c04d441e5d067a1cb8e060ccb199eac` — Implement COM-04 inbound message validation with recorded evidence. 사용자 global.json 변경·기존 실행 로그는 제외했다. 실제 해시를 기록한 이 인수인계 갱신은 별도 문서 커밋으로 보존한다. 원격 push 미실행.
 - Known risks: PDF 원본 부재로 DN-02는 외부 호환성을 주장하지 않는 내부 실험 계약이다. 기존 TelemetryPayload 및 WPF 경로는 검증기를 사용하지 않는다. MqttTopics의 cmd/cmd/ack/state는 COM-01에서 수정·검증해야 한다. 기본 병렬 restore 실패의 근본 원인은 미확정이나 직렬 경로는 검증했다. 최종 helper의 Git Bash·클린 소스 복제본 재검증과 다른 실물 노트북 검증은 미실행. 사용자가 남긴 global.json 빈 줄은 diff --check 경고가 있으나 수정·커밋에 포함하지 않는다.
 - Next best action: **COM-01**. feature_list.json의 COM-01/DN-02/DN-04, src/Amr.Communication/Validation/CONTRACT.md, IncomingMessageProcessor.cs, Mqtt/MqttSubscriber.cs·MqttPublisher.cs·MqttTopics.cs를 읽고 ./init.cmd verify. 적용 QoS와 큐·송수신 계약을 기록하여 COM-01 하나를 in_progress로 바꾼 뒤 실제 Mosquitto로 구독/발행/검증기 연결/AMR별 순차·독립 처리를 검증한다.
+
+### S011 - 2026-09-21 - 프로젝트 학습 안내 문서
+
+- Goal: 사용자가 반드시 공부할 핵심 개념, 파일 구성, 테스트의 기준과 읽는 순서를 별도 Studyreadme.md로 정리한다.
+- Completed: 실제 COM-03/04 소스, 테스트, 내부 계약, 실행 도구와 실험 앱 구성을 읽고 학습 문서를 작성했다. 입력 검증·Core 경계·테스트 대역을 우선순위로 설명하고 async/await·취소·동시성·시간 단위를 연결했다. Heartbeat 정상/누락 입력 추적, 요구사항-테스트 연결표, 파일 역할표, 실행·디버깅 순서, 미수행 연습 과제와 자기 점검 질문을 포함했다. 구현된 경로와 미구현 골격, 단위 검증과 실제 Broker 검증을 구분했다. 제품 코드와 기능 상태·계약·revision은 변경하지 않았다.
+- Verification run: 문서의 로컬 링크 56개 존재, 소스·테스트 기호 46개 존재, 코드 fence 22개 짝 일치 확인. S010 보관 TRX의 COM-04 244건/제품 264건/도구 37건 수치를 대조했다. .NET tracker의 기능 5개·검증 항목 35개 구조/증거 연결 검사 통과. 문서 작업만 수행하므로 제품 빌드·테스트·실제 MQTT는 재실행하지 않았으며 신규 제품 통과를 주장하지 않는다.
+- Evidence recorded: Studyreadme.md, evidence/documentation/S011/check.log. 문서의 301건 통과 설명은 S010 실행 결과이며 이번 세션의 재실행 결과가 아니다.
+- Commits: 없음. 검증된 문서와 검사 기록을 선택해 로컬 커밋한 뒤 실제 해시를 기록한다. 사용자 global.json 변경과 기존 실행 로그는 포함하지 않는다.
+- Known risks: 문서는 S010 구현 상태에 맞춘 학습 안내이며 후속 코드·계약 변경 시 업데이트가 필요하다. 원본 PDF 및 실제 Core/AMR 계약 미확정 범위는 기존과 같다. 안내한 연습 과제는 수행하지 않았다.
+- Next best action: 학습은 Studyreadme.md의 1~2절 → IncomingMessageProcessor.ProcessAsync → MessageValidationTests.Reject부터 진행한다. 제품 개발의 다음 기능은 계속 COM-01이며 S010의 Next best action과 ./init.cmd verify를 따른다.
