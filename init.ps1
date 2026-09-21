@@ -76,8 +76,9 @@ try {
         }
         'start' { Start-Console }
         default {
-            Run-Step 'restore' 'dotnet' @('restore', 'AmrControlSystem.slnx')
-            Run-Step 'build' 'dotnet' @('build', 'AmrControlSystem.slnx', '--no-restore')
+            # Bound worker creation and avoid leaving reusable MSBuild nodes after verification.
+            Run-Step 'restore' 'dotnet' @('restore', 'AmrControlSystem.slnx', '--disable-parallel', '-m:1', '-nr:false')
+            Run-Step 'build' 'dotnet' @('build', 'AmrControlSystem.slnx', '--no-restore', '-m:1', '-nr:false')
             Run-Step 'harness' 'dotnet' @($verifier, 'tracker', (Join-Path $root 'feature_list.json'))
             $testProjects = @(Get-ChildItem (Join-Path $root 'tests') -Recurse -Filter '*.csproj' | Where-Object { $_.FullName -notmatch '[/\\](bin|obj)[/\\]' } | Sort-Object FullName)
             if ($testProjects.Count -eq 0) { throw 'No automated .NET test project found.' }

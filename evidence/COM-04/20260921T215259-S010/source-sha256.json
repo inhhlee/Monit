@@ -1,0 +1,17 @@
+{
+  "src/Amr.Communication/Validation/CONTRACT.md": "420f00d2fa0cc7798fca79ec1148b2fab353fdf6e12f2aded3767c7e6e310b9f",
+  "src/Amr.Communication/Validation/IncomingMessageProcessor.cs": "207da79b07475515cb93fdbd128a76958f76ee33afba212a35b86bc8b452ea55",
+  "src/Amr.Communication/Validation/MessageValidator.cs": "bcc0812e5f70faaa698988cf2c74b6fb1f7494ace081ffeb6920a069ddb905c1",
+  "src/Amr.Communication/Validation/PayloadValidator.cs": "e36aee5920bd48e0f3cf3da30456ad84e13fe61956eddc0205489e1be8acdbec",
+  "src/Amr.Communication/Validation/ValidationResult.cs": "789cd4abcac508adc1024ab555bbfd2ff96bbce11aae3df90981b07584f220b7",
+  "src/Amr.Communication/Models/AckMessage.cs": "f6783f458c5b36fb9b3dbe18baff86dbe10a8ce33cb420938391eabd0b05c7da",
+  "src/Amr.Communication/Models/AlarmMessage.cs": "83c8430656d25d7ddb0fe2fc81a4ef56ef939f2d2c199357e1c03c2bbfaabb98",
+  "src/Amr.Communication/Models/CommandMessage.cs": "5c818c17857ff970ff21c4734832c6cc0429e8e1ee2057d1753d3e630826422e",
+  "src/Amr.Communication/Models/HeartbeatMessage.cs": "1601a257e8dcd19e445a0139541372a5d922fe025ff260e7390159e62671ee2d",
+  "src/Amr.Communication/Models/IncomingMessage.cs": "333ad6729e5738d93fbf799b63f28cefd639274948508ffa6025b1039130c3cd",
+  "src/Amr.Communication/Models/MqttAliveMessage.cs": "d491cc6dedb8ccda36348cecb5a14570d1bf4fed90bb3cc11e1418b4aa47dc8a",
+  "src/Amr.Communication/Models/TelemetryMessage.cs": "cecf4356e5adcad453837af44a5f50b693847aca5b5a6caaacb1f23287c2ded6",
+  "src/Amr.Communication/Models/TelemetryPayLoad.cs": "970eb4ac86aea4e42938f3e310358a4df772fe746a19834d424aea4c7ccac780",
+  "tests/Amr.Communication.Tests/MessageValidationTests.cs": "1411e5311e64cfbeb7030f20be2669a7d9feff3b29c45187be91f19e15be5d50",
+  "init.ps1": "bd1fdfdeb9f5f432869a51260d14da78e2b0ba2620743d61eb271d02ac7471d5"
+}

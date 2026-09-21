@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Amr.Communication.Models;
 
-namespace Amr.Communication.Models
+public enum AmrState { Idle, Moving, Charging, Error }
+
+public sealed record TelemetryPosition(double X, double Y, double Speed, AmrState State);
+
+public sealed record TelemetryMessage(string AmrId, long TimestampUnixMilliseconds, TelemetryPosition Position)
+    : IncomingMessage(AmrId, TimestampUnixMilliseconds)
 {
-    public  class TelemetryMEssage
-    {
-
-    }
+    public override IncomingMessageKind Kind => IncomingMessageKind.Telemetry;
 }

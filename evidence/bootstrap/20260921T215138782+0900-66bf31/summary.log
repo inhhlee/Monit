@@ -1,0 +1,11 @@
+Started: 2026-09-21T21:51:38.8287022+09:00
+Root: C:\practice; PowerShell: 7.6.5; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: f28c407936a0fa802a8d8b3f5b152b7bcdb21511
+BEGIN restore : dotnet restore AmrControlSystem.slnx
+FAILED stage=restore : restore failed with exit code 1

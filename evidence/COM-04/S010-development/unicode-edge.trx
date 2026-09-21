@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="98776819-945f-4bd6-83fe-3ad9f2ca16d2" name="user@DESKTOP-BLNVKRS 2026-09-21 21:50:46" runUser="DESKTOP-BLNVKRS\user" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-21T21:50:46.9787289+09:00" queuing="2026-09-21T21:50:46.9787294+09:00" start="2026-09-21T21:50:45.9484507+09:00" finish="2026-09-21T21:50:46.9865345+09:00" />
+  <TestSettings name="default" id="64f7e779-35b1-4898-aded-e0118ba5889b">
+    <Deployment runDeploymentRoot="user_DESKTOP-BLNVKRS_2026-09-21_21_50_46" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e2259df6-465c-4b76-a137-0a6ea2ddc8ff" testId="fcc12818-0860-1953-435d-abefc5cce9f6" testName="Amr.Communication.Tests.MessageValidationTests.ValidUnicodeSurrogatePairIsPreserved" computerName="DESKTOP-BLNVKRS" duration="00:00:00.0503112" startTime="2026-09-21T21:50:46.8208341+09:00" endTime="2026-09-21T21:50:46.8523820+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2259df6-465c-4b76-a137-0a6ea2ddc8ff">
+      <Output>
+        <StdOut>{"topic":"amr/AMR_001/ack","payload":"{\u0022cmdId\u0022:\u0022\\uD83D\\uDE80\u0022,\u0022result\u0022:\u0022SUCCESS\u0022,\u0022ts\u0022:1}","IsValid":true,"Error":null,"coreCalls":1,"failures":[],"delivered":["{\u0022CommandId\u0022:\u0022\\uD83D\\uDE80\u0022,\u0022Result\u0022:0,\u0022Kind\u0022:3,\u0022AmrId\u0022:\u0022AMR_001\u0022,\u0022TimestampUnixMilliseconds\u0022:1}"]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a7710a91-cbad-4807-83d2-17d97c38685a" testId="5dfa556e-aab5-8767-f326-c1e1475ab32e" testName="Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: &quot;{\&quot;cmdId\&quot;:\&quot;\\uD800\&quot;,\&quot;result\&quot;:\&quot;SUCCESS\&quot;,\&quot;ts&quot;···)" computerName="DESKTOP-BLNVKRS" duration="00:00:00.0115333" startTime="2026-09-21T21:50:46.7619420+09:00" endTime="2026-09-21T21:50:46.8000999+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a7710a91-cbad-4807-83d2-17d97c38685a">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Cannot read incomplete UTF-16 JSON text as string with missing low surrogate.</Message>
+          <StackTrace>   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ReadIncompleteUTF16()&#xD;
+   at System.Text.Json.JsonReaderHelper.TryUnescape(ReadOnlySpan`1 source, Span`1 destination, Int32 idx, Int32&amp; written)&#xD;
+   at System.Text.Json.JsonReaderHelper.GetUnescapedString(ReadOnlySpan`1 utf8Source)&#xD;
+   at System.Text.Json.JsonDocument.GetString(Int32 index, JsonTokenType expectedType)&#xD;
+   at Amr.Communication.Validation.PayloadValidator.Text(JsonElement value, String name, String parent) in C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs:line 90&#xD;
+   at Amr.Communication.Validation.PayloadValidator.Validate(String amrId, IncomingMessageKind kind, ReadOnlyMemory`1 payload) in C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs:line 48&#xD;
+   at Amr.Communication.Validation.MessageValidator.Validate(String topic, ReadOnlyMemory`1 payload) in C:\practice\src\Amr.Communication\Validation\MessageValidator.cs:line 22&#xD;
+   at Amr.Communication.Validation.IncomingMessageProcessor.ProcessAsync(String topic, ReadOnlyMemory`1 payload, CancellationToken cancellationToken) in C:\practice\src\Amr.Communication\Validation\IncomingMessageProcessor.cs:line 32&#xD;
+   at Amr.Communication.Tests.MessageValidationTests.Reject(String topic, String json, String code, String field) in C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs:line 320&#xD;
+   at Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(String json) in C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs:line 260&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8272b7f7-998d-47a4-91ac-f2331ca54f4e" testId="f3b1a4b3-976a-87ac-a8e3-90ae785671fd" testName="Amr.Communication.Tests.MessageValidationTests.UnicodeIdentifierAndMessageContentArePreserved" computerName="DESKTOP-BLNVKRS" duration="00:00:00.0071825" startTime="2026-09-21T21:50:46.8533355+09:00" endTime="2026-09-21T21:50:46.8595761+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8272b7f7-998d-47a4-91ac-f2331ca54f4e">
+      <Output>
+        <StdOut>{"topic":"amr/\uB85C\uBD07-\uAC00/alarm","payload":"{\u0022id\u0022:\u0022\uB85C\uBD07-\uAC00\u0022,\u0022ts\u0022:2208988800123,\u0022code\u0022:\u0022A001\u0022,\u0022level\u0022:\u0022WARNING\u0022,\u0022message\u0022:\u0022\uC7A5\uC560\uBB3C \uAC10\uC9C0\u0022}","IsValid":true,"Error":null,"coreCalls":1,"failures":[],"delivered":["{\u0022Code\u0022:\u0022A001\u0022,\u0022Level\u0022:1,\u0022Message\u0022:\u0022\\uC7A5\\uC560\\uBB3C \\uAC10\\uC9C0\u0022,\u0022Kind\u0022:1,\u0022AmrId\u0022:\u0022\\uB85C\\uBD07-\\uAC00\u0022,\u0022TimestampUnixMilliseconds\u0022:2208988800123}"]}</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cecfeecf-aa9c-4af4-9779-cd60d09725e5" testId="7f888696-133d-673c-4de1-8fe7757ac125" testName="Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: &quot;{\&quot;cmdId\&quot;:\&quot;\\uDC00\&quot;,\&quot;result\&quot;:\&quot;SUCCESS\&quot;,\&quot;ts&quot;···)" computerName="DESKTOP-BLNVKRS" duration="00:00:00.0006715" startTime="2026-09-21T21:50:46.8167038+09:00" endTime="2026-09-21T21:50:46.8167905+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cecfeecf-aa9c-4af4-9779-cd60d09725e5">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Cannot read invalid UTF-16 JSON text as string. Invalid surrogate value: '0xDC00'.</Message>
+          <StackTrace>   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ReadInvalidUTF16(Int32 charAsInt)&#xD;
+   at System.Text.Json.JsonReaderHelper.TryUnescape(ReadOnlySpan`1 source, Span`1 destination, Int32 idx, Int32&amp; written)&#xD;
+   at System.Text.Json.JsonReaderHelper.GetUnescapedString(ReadOnlySpan`1 utf8Source)&#xD;
+   at System.Text.Json.JsonDocument.GetString(Int32 index, JsonTokenType expectedType)&#xD;
+   at Amr.Communication.Validation.PayloadValidator.Text(JsonElement value, String name, String parent) in C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs:line 90&#xD;
+   at Amr.Communication.Validation.PayloadValidator.Validate(String amrId, IncomingMessageKind kind, ReadOnlyMemory`1 payload) in C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs:line 48&#xD;
+   at Amr.Communication.Validation.MessageValidator.Validate(String topic, ReadOnlyMemory`1 payload) in C:\practice\src\Amr.Communication\Validation\MessageValidator.cs:line 22&#xD;
+   at Amr.Communication.Validation.IncomingMessageProcessor.ProcessAsync(String topic, ReadOnlyMemory`1 payload, CancellationToken cancellationToken) in C:\practice\src\Amr.Communication\Validation\IncomingMessageProcessor.cs:line 32&#xD;
+   at Amr.Communication.Tests.MessageValidationTests.Reject(String topic, String json, String code, String field) in C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs:line 320&#xD;
+   at Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(String json) in C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs:line 260&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5cb747e1-1755-4a1c-a385-0aab180d5040" testId="b1297b05-76d3-c982-1d91-075a2227b9b9" testName="Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: &quot;{\&quot;cmdId\&quot;:\&quot;a\&quot;,\&quot;result\&quot;:\&quot;SUCCESS\&quot;,\&quot;ts\&quot;:1,\&quot;···)" computerName="DESKTOP-BLNVKRS" duration="00:00:00.0000630" startTime="2026-09-21T21:50:46.8181222+09:00" endTime="2026-09-21T21:50:46.8181749+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5cb747e1-1755-4a1c-a385-0aab180d5040">
+      <Output>
+        <ErrorInfo>
+          <Message>System.InvalidOperationException : Cannot read incomplete UTF-16 JSON text as string with missing low surrogate.</Message>
+          <StackTrace>   at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ReadIncompleteUTF16()&#xD;
+   at System.Text.Json.JsonReaderHelper.TryUnescape(ReadOnlySpan`1 source, Span`1 destination, Int32 idx, Int32&amp; written)&#xD;
+   at System.Text.Json.JsonReaderHelper.GetUnescapedString(ReadOnlySpan`1 utf8Source)&#xD;
+   at System.Text.Json.JsonDocument.GetString(Int32 index, JsonTokenType expectedType)&#xD;
+   at Amr.Communication.Validation.PayloadValidator.Object(JsonElement value, String path, String[] allowed) in C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs:line 75&#xD;
+   at Amr.Communication.Validation.PayloadValidator.Validate(String amrId, IncomingMessageKind kind, ReadOnlyMemory`1 payload) in C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs:line 24&#xD;
+   at Amr.Communication.Validation.MessageValidator.Validate(String topic, ReadOnlyMemory`1 payload) in C:\practice\src\Amr.Communication\Validation\MessageValidator.cs:line 22&#xD;
+   at Amr.Communication.Validation.IncomingMessageProcessor.ProcessAsync(String topic, ReadOnlyMemory`1 payload, CancellationToken cancellationToken) in C:\practice\src\Amr.Communication\Validation\IncomingMessageProcessor.cs:line 32&#xD;
+   at Amr.Communication.Tests.MessageValidationTests.Reject(String topic, String json, String code, String field) in C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs:line 320&#xD;
+   at Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(String json) in C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs:line 260&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: &quot;{\&quot;cmdId\&quot;:\&quot;a\&quot;,\&quot;result\&quot;:\&quot;SUCCESS\&quot;,\&quot;ts\&quot;:1,\&quot;···)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="b1297b05-76d3-c982-1d91-075a2227b9b9">
+      <Execution id="5cb747e1-1755-4a1c-a385-0aab180d5040" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.MessageValidationTests" name="UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: &quot;{\&quot;cmdId\&quot;:\&quot;\\uD800\&quot;,\&quot;result\&quot;:\&quot;SUCCESS\&quot;,\&quot;ts&quot;···)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="5dfa556e-aab5-8767-f326-c1e1475ab32e">
+      <Execution id="a7710a91-cbad-4807-83d2-17d97c38685a" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.MessageValidationTests" name="UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.MessageValidationTests.UnicodeIdentifierAndMessageContentArePreserved" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="f3b1a4b3-976a-87ac-a8e3-90ae785671fd">
+      <Execution id="8272b7f7-998d-47a4-91ac-f2331ca54f4e" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.MessageValidationTests" name="UnicodeIdentifierAndMessageContentArePreserved" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.MessageValidationTests.ValidUnicodeSurrogatePairIsPreserved" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="fcc12818-0860-1953-435d-abefc5cce9f6">
+      <Execution id="e2259df6-465c-4b76-a137-0a6ea2ddc8ff" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.MessageValidationTests" name="ValidUnicodeSurrogatePairIsPreserved" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: &quot;{\&quot;cmdId\&quot;:\&quot;\\uDC00\&quot;,\&quot;result\&quot;:\&quot;SUCCESS\&quot;,\&quot;ts&quot;···)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="7f888696-133d-673c-4de1-8fe7757ac125">
+      <Execution id="cecfeecf-aa9c-4af4-9779-cd60d09725e5" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.MessageValidationTests" name="UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="fcc12818-0860-1953-435d-abefc5cce9f6" executionId="e2259df6-465c-4b76-a137-0a6ea2ddc8ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5dfa556e-aab5-8767-f326-c1e1475ab32e" executionId="a7710a91-cbad-4807-83d2-17d97c38685a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f3b1a4b3-976a-87ac-a8e3-90ae785671fd" executionId="8272b7f7-998d-47a4-91ac-f2331ca54f4e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7f888696-133d-673c-4de1-8fe7757ac125" executionId="cecfeecf-aa9c-4af4-9779-cd60d09725e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b1297b05-76d3-c982-1d91-075a2227b9b9" executionId="5cb747e1-1755-4a1c-a385-0aab180d5040" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="목록에 없는 결과" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="로드된 모든 결과" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="2" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:00.09]   Discovering: Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:00.20]   Discovered:  Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:00.23]   Starting:    Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:00.29]       System.InvalidOperationException : Cannot read incomplete UTF-16 JSON text as string with missing low surrogate.&#xD;
+[xUnit.net 00:00:00.29]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.29]            at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ReadIncompleteUTF16()&#xD;
+[xUnit.net 00:00:00.29]            at System.Text.Json.JsonReaderHelper.TryUnescape(ReadOnlySpan`1 source, Span`1 destination, Int32 idx, Int32&amp; written)&#xD;
+[xUnit.net 00:00:00.29]            at System.Text.Json.JsonReaderHelper.GetUnescapedString(ReadOnlySpan`1 utf8Source)&#xD;
+[xUnit.net 00:00:00.29]            at System.Text.Json.JsonDocument.GetString(Int32 index, JsonTokenType expectedType)&#xD;
+[xUnit.net 00:00:00.29]         C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs(90,0): at Amr.Communication.Validation.PayloadValidator.Text(JsonElement value, String name, String parent)&#xD;
+[xUnit.net 00:00:00.29]         C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs(48,0): at Amr.Communication.Validation.PayloadValidator.Validate(String amrId, IncomingMessageKind kind, ReadOnlyMemory`1 payload)&#xD;
+[xUnit.net 00:00:00.29]         C:\practice\src\Amr.Communication\Validation\MessageValidator.cs(22,0): at Amr.Communication.Validation.MessageValidator.Validate(String topic, ReadOnlyMemory`1 payload)&#xD;
+[xUnit.net 00:00:00.29]         C:\practice\src\Amr.Communication\Validation\IncomingMessageProcessor.cs(32,0): at Amr.Communication.Validation.IncomingMessageProcessor.ProcessAsync(String topic, ReadOnlyMemory`1 payload, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.29]         C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs(320,0): at Amr.Communication.Tests.MessageValidationTests.Reject(String topic, String json, String code, String field)&#xD;
+[xUnit.net 00:00:00.29]         C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs(260,0): at Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(String json)&#xD;
+[xUnit.net 00:00:00.29]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.31]       System.InvalidOperationException : Cannot read invalid UTF-16 JSON text as string. Invalid surrogate value: '0xDC00'.&#xD;
+[xUnit.net 00:00:00.31]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ReadInvalidUTF16(Int32 charAsInt)&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.JsonReaderHelper.TryUnescape(ReadOnlySpan`1 source, Span`1 destination, Int32 idx, Int32&amp; written)&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.JsonReaderHelper.GetUnescapedString(ReadOnlySpan`1 utf8Source)&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.JsonDocument.GetString(Int32 index, JsonTokenType expectedType)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs(90,0): at Amr.Communication.Validation.PayloadValidator.Text(JsonElement value, String name, String parent)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs(48,0): at Amr.Communication.Validation.PayloadValidator.Validate(String amrId, IncomingMessageKind kind, ReadOnlyMemory`1 payload)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\MessageValidator.cs(22,0): at Amr.Communication.Validation.MessageValidator.Validate(String topic, ReadOnlyMemory`1 payload)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\IncomingMessageProcessor.cs(32,0): at Amr.Communication.Validation.IncomingMessageProcessor.ProcessAsync(String topic, ReadOnlyMemory`1 payload, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs(320,0): at Amr.Communication.Tests.MessageValidationTests.Reject(String topic, String json, String code, String field)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs(260,0): at Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(String json)&#xD;
+[xUnit.net 00:00:00.31]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.31]       System.InvalidOperationException : Cannot read incomplete UTF-16 JSON text as string with missing low surrogate.&#xD;
+[xUnit.net 00:00:00.31]       Stack Trace:&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ReadIncompleteUTF16()&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.JsonReaderHelper.TryUnescape(ReadOnlySpan`1 source, Span`1 destination, Int32 idx, Int32&amp; written)&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.JsonReaderHelper.GetUnescapedString(ReadOnlySpan`1 utf8Source)&#xD;
+[xUnit.net 00:00:00.31]            at System.Text.Json.JsonDocument.GetString(Int32 index, JsonTokenType expectedType)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs(75,0): at Amr.Communication.Validation.PayloadValidator.Object(JsonElement value, String path, String[] allowed)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\PayloadValidator.cs(24,0): at Amr.Communication.Validation.PayloadValidator.Validate(String amrId, IncomingMessageKind kind, ReadOnlyMemory`1 payload)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\MessageValidator.cs(22,0): at Amr.Communication.Validation.MessageValidator.Validate(String topic, ReadOnlyMemory`1 payload)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\src\Amr.Communication\Validation\IncomingMessageProcessor.cs(32,0): at Amr.Communication.Validation.IncomingMessageProcessor.ProcessAsync(String topic, ReadOnlyMemory`1 payload, CancellationToken cancellationToken)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs(320,0): at Amr.Communication.Tests.MessageValidationTests.Reject(String topic, String json, String code, String field)&#xD;
+[xUnit.net 00:00:00.31]         C:\practice\tests\Amr.Communication.Tests\MessageValidationTests.cs(260,0): at Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(String json)&#xD;
+[xUnit.net 00:00:00.31]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:00.35]   Finished:    Amr.Communication.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DESKTOP-BLNVKRS" outcome="Error" timestamp="2026-09-21T21:50:46.8032286+09:00">
+        <Text>[xUnit.net 00:00:00.29]     Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: "{\"cmdId\":\"\\uD800\",\"result\":\"SUCCESS\",\"ts"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-BLNVKRS" outcome="Error" timestamp="2026-09-21T21:50:46.8171933+09:00">
+        <Text>[xUnit.net 00:00:00.31]     Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: "{\"cmdId\":\"\\uDC00\",\"result\":\"SUCCESS\",\"ts"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-BLNVKRS" outcome="Error" timestamp="2026-09-21T21:50:46.8184501+09:00">
+        <Text>[xUnit.net 00:00:00.31]     Amr.Communication.Tests.MessageValidationTests.UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(json: "{\"cmdId\":\"a\",\"result\":\"SUCCESS\",\"ts\":1,\"···) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

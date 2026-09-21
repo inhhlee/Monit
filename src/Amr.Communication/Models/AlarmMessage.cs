@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Amr.Communication.Models;
 
-namespace Amr.Communication.Models
+public enum AlarmLevel { Info, Warning, Error }
+
+public sealed record AlarmMessage(string AmrId, long TimestampUnixMilliseconds, string Code,
+    AlarmLevel Level, string Message) : IncomingMessage(AmrId, TimestampUnixMilliseconds)
 {
-    internal class AlarmMessage
-    {
-    }
+    public override IncomingMessageKind Kind => IncomingMessageKind.Alarm;
 }

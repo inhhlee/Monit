@@ -1,0 +1,4 @@
+Started: 2026-09-21T21:04:25.4171051+09:00
+Root: C:\practice; PowerShell: 7.6.5; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+FAILED stage=dotnet-sdk : dotnet-sdk failed with exit code -2147450735

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Amr.Communication.Models;
 
-namespace Amr.Communication.Models
+public sealed record HeartbeatMessage(string AmrId, long TimestampUnixMilliseconds)
+    : IncomingMessage(AmrId, TimestampUnixMilliseconds)
 {
-    internal class HeartbeatMessage
-    {
-    }
+    public override IncomingMessageKind Kind => IncomingMessageKind.Heartbeat;
 }
