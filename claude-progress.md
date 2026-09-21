@@ -148,6 +148,6 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Completed: 연결 관리·실제 MQTT 호출·옵션·Snapshot·Console·기존 수명주기 테스트와 실제 Broker 검증 도구를 대조했다. 연결 await 전후 상태, 취소·Timeout, 이전 세션 이벤트, 세마포어/lock, Dispose를 기존 테스트에 연결했다. COM-01의 Topic 차이, 수신/발행 분리, AMR별 순차·독립 처리, 큐 과부하, QoS/업무 ACK, 8항목별 예정 검증을 설명했다. COM-01 예시는 학습용 설계 제안으로 표시했고 구현·정책 채택은 하지 않았다. MQTT 5 OASIS 및 Microsoft async/Channels 공식 자료를 확인해 관련 설명에 링크했다.
 - Verification run: 로컬 문서 링크 19개, 현재 소스·테스트 기호 25개, 코드 fence 28개 짝 일치 확인. COM-03 passing/COM-01 not_started와 8개 verification을 대조했다. 제품 소스·테스트·도구·추적기·실행 helper가 HEAD에서 변경되지 않았음을 확인했다. .NET tracker의 기능 5개·검증 35개 구조/증거 연결 검사 통과. 문서 작업이므로 제품 빌드·테스트·실제 Broker 검증은 재실행하지 않았다.
 - Evidence recorded: study2.md, evidence/documentation/S012/check.log. COM-01 큐 및 테스트 절차는 미수행 제안이며 제품 증거로 등록하지 않았다.
-- Commits: 없음. 문서·세션 기록·검사 결과만 선택해 커밋 후 실제 해시를 기록한다. 사용자 global.json 변경과 기존 실행 로그는 보존한다.
+- Commits: `483a1dd8dff32f2080f8ee608c98023fc91d0c45` — Add COM-03 and COM-01 focused study guide. 문서·세션 기록·검사 결과만 포함했다. 실제 해시를 기록한 인수인계 갱신은 별도 문서 커밋으로 남긴다. 사용자 global.json 변경과 기존 실행 로그는 제외했으며 원격 push는 수행하지 않았다.
 - Known risks: COM-01 Command 스키마·QoS·중복·Retain·큐 용량/과부하/종료 정책은 아직 미확정이다. Channel은 학습 후보이며 채택된 아키텍처가 아니다. 실제 Core/GUI/AMR 통합 및 후속 MQTT 송수신 범위는 기존과 동일하게 미검증이다.
 - Next best action: 학습은 study2.md의 ConnectAsync 흐름 → ConcurrentConnectsDoNotDuplicateSessions → COM-01 A1/A2/B1 큐·테스트 예제 순서로 진행한다. 제품 개발은 계속 COM-01이며 S010의 인수인계와 ./init.cmd verify를 따른다.
