@@ -1,0 +1,12 @@
+Started: 2026-09-22T09:48:14.4996100+09:00
+Root: C:\practice; PowerShell: 7.6.6; Mode: check
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: ca57d55efb4025ffada08c96450de59e5a0a97b8
+PREREQUISITES PASSED. Build/tests and Broker have not been checked.
+Finished: 2026-09-22T09:48:14.7895186+09:00
+Evidence: C:\practice\evidence\bootstrap\20260922T094814480+0900-75402c

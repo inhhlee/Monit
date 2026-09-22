@@ -12,6 +12,9 @@ public class MessageValidationTests(ITestOutputHelper output)
     private const long FutureTimestamp = 2_208_988_800_123L;
     private static readonly string[] Kinds = ["telemetry", "alarm", "heartbeat", "ack"];
 
+    /// <summary>
+    /// 정상객체 정의
+    /// </summary>    
     private static string Sample(string kind) => kind switch
     {
         "telemetry" => """{"id":"AMR_001","ts":2208988800123,"Pos":{"x":1.25,"y":-2.5,"sp":0.75,"stat":"IDLE"}}""",
@@ -21,6 +24,9 @@ public class MessageValidationTests(ITestOutputHelper output)
         _ => throw new ArgumentException(kind)
     };
 
+    /// <summary>
+    /// 각 topic에 payload에 대한 필수 필드.
+    /// </summary>    
     private static string[] Fields(string kind) => kind switch
     {
         "telemetry" => ["id", "ts", "Pos", "Pos.x", "Pos.y", "Pos.sp", "Pos.stat"],
@@ -30,6 +36,9 @@ public class MessageValidationTests(ITestOutputHelper output)
         _ => throw new ArgumentException(kind)
     };
 
+/// <summary>
+/// 정상적인 json payload를 변경하여, 필드가 없거나 잘못된 타입으로 변경한 payload를 생성한다.
+/// </summary>
     private static string Change(string kind, string path, string? rawValue)
     {
         var node = JsonNode.Parse(Sample(kind))!.AsObject();
@@ -40,6 +49,9 @@ public class MessageValidationTests(ITestOutputHelper output)
         return node.ToJsonString();
     }
 
+/// <summary>
+/// 정상객체 정의 
+/// </summary>
     private static IncomingMessage Expected(string kind) => kind switch
     {
         "telemetry" => new TelemetryMessage("AMR_001", FutureTimestamp, new(1.25, -2.5, 0.75, AmrState.Idle)),
@@ -128,14 +140,17 @@ public class MessageValidationTests(ITestOutputHelper output)
 
     [Theory]
     [MemberData(nameof(MismatchedKinds))]
+    // 데이터 일관성 확인 heartbeat면 heartbeat payload만 허용, telemetry면 telemetry payload만 허용
     public async Task PayloadForDifferentTopicKindIsRejected(string topicKind, string payloadKind)
         => await Reject($"amr/AMR_001/{topicKind}", Sample(payloadKind));
+
 
     [Theory]
     [InlineData("telemetry")]
     [InlineData("alarm")]
     [InlineData("heartbeat")]
     [InlineData("ack")]
+    // 토픽과 페이로드의 id가 일치해야 한다. 토픽의 id와 페이로드의 id가 다르면 reject
     public async Task PayloadIdWhenPresentMustMatchTopic(string kind)
         => await Reject($"amr/AMR_001/{kind}", Change(kind, "id", "\"AMR_002\""), "IdMismatch", "$.id");
 
@@ -168,6 +183,7 @@ public class MessageValidationTests(ITestOutputHelper output)
     [InlineData("telemetry", "Pos.x", "1e400")]
     [InlineData("telemetry", "Pos.y", "-1e400")]
     [InlineData("telemetry", "Pos.sp", "1e400")]
+    /// 필드에 대한 enum과 숫자 범위 검증
     public async Task InvalidEnumsAndNumericRangesAreRejected(string kind, string field, string value)
         => await Reject($"amr/AMR_001/{kind}", Change(kind, field, value), "OutOfRange", "$." + field);
 
@@ -223,6 +239,7 @@ public class MessageValidationTests(ITestOutputHelper output)
 
     [Theory]
     [MemberData(nameof(BlankStrings))]
+    /// 필수 문자열 필드가 비어있거나 공백이면 reject
     public async Task BlankRequiredStringsAreRejected(string kind, string field, string value)
         => await Reject($"amr/AMR_001/{kind}", Change(kind, field, value), "InvalidValue", "$." + field);
 
@@ -233,6 +250,7 @@ public class MessageValidationTests(ITestOutputHelper output)
     [InlineData("heartbeat", "{\"ID\":\"AMR_001\",\"ts\":1}", "UnexpectedField", "$")]
     [InlineData("telemetry", "{\"id\":\"AMR_001\",\"ts\":1,\"Pos\":{\"x\":1,\"x\":2,\"y\":0,\"sp\":0,\"stat\":\"IDLE\"}}", "DuplicateField", "$.Pos")]
     [InlineData("telemetry", "{\"id\":\"AMR_001\",\"ts\":1,\"Pos\":{\"x\":1,\"y\":0,\"sp\":0,\"stat\":\"IDLE\",\"extra\":1}}", "UnexpectedField", "$.Pos")]
+    /// <summary>dsf
     public async Task AmbiguousAndUnknownFieldsAreRejected(string kind, string json, string code, string path)
         => await Reject($"amr/AMR_001/{kind}", json, code, path);
 
@@ -252,6 +270,7 @@ public class MessageValidationTests(ITestOutputHelper output)
         Assert.Single(probe.Messages);
     }
 
+    // 고정 데이터 테스트 
     [Theory]
     [InlineData("{\"cmdId\":\"\\uD800\",\"result\":\"SUCCESS\",\"ts\":1}")]
     [InlineData("{\"cmdId\":\"\\uDC00\",\"result\":\"SUCCESS\",\"ts\":1}")]
@@ -259,7 +278,9 @@ public class MessageValidationTests(ITestOutputHelper output)
     public async Task UnpairedUnicodeEscapesAreRejectedWithoutEscapingExceptions(string json)
         => await Reject("amr/AMR_001/ack", json, "InvalidJson");
 
+    // 단일 테스트
     [Fact]
+    // 유효한 유니코드 대리 쌍이 유지되는지 확인
     public async Task ValidUnicodeSurrogatePairIsPreserved()
     {
         var probe = new Probe();
@@ -303,6 +324,7 @@ public class MessageValidationTests(ITestOutputHelper output)
     }
 
     [Fact]
+    // CancellationToken이 취소되면 메시지가 전달되지 않고 검증 실패로 잘못 분류되지 않는다.
     public async Task CancellationDoesNotDeliverOrMisclassifyAsValidationFailure()
     {
         var probe = new Probe();
@@ -336,6 +358,9 @@ public class MessageValidationTests(ITestOutputHelper output)
         output.WriteLine("Recovery: same processor, next valid heartbeat delivered once; no additional error log.");
     }
 
+/// <summary>
+/// 
+/// </summary>
     private async Task<ValidationResult> Run(Probe probe, string topic, string json)
     {
         var result = await new IncomingMessageProcessor(probe, probe).ProcessAsync(topic, Encoding.UTF8.GetBytes(json));
@@ -348,18 +373,30 @@ public class MessageValidationTests(ITestOutputHelper output)
             result.IsValid, result.Error, coreCalls = probe.Messages.Count, failures = probe.Failures,
             delivered = probe.Messages.Select(m => JsonSerializer.Serialize(m, m.GetType())) }));
 
+/// <summary>
+/// 정상처리된 메시지와 검증 실패를 기록하기 위한 Probe 구현체이다.
+/// </summary>
     private sealed class Probe : IIncomingMessageSink, IValidationLog
     {
+        // list형태로 메시지와 실패를 기록한다.
         public List<IncomingMessage> Messages { get; } = [];
         public List<ValidationFailureLog> Failures { get; } = [];
+
+        // 메시지 생성시 core로 전달.         
         public ValueTask ReceiveAsync(IncomingMessage message, CancellationToken cancellationToken)
         {
             Messages.Add(message);
             return ValueTask.CompletedTask;
         }
+
+        // 검증 실패시 log로 전달.
         public void Rejected(ValidationFailureLog failure) => Failures.Add(failure);
     }
 
+
+/// <summary>
+/// 무조건 exception을 발생시키는 Probe 구현체이다. Core와 Log의 장애를 시뮬레이션한다.
+/// </summary>
     private sealed class ThrowingReceiver : IIncomingMessageSink, IValidationLog
     {
         public int CoreCalls { get; private set; }
