@@ -158,6 +158,6 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Completed: COM-03/04 passing, COM-01/02/05 not_started와 실제 SubscribeAsync 미구현 상태를 확인했다. 현재 내부 계약상 Heartbeat는 id/ts만 허용하며 status는 거부한다. Telemetry는 Pos 내부 x/y/sp/stat 구조이고 BUSY는 허용 값이 아니다. ACK는 amr/{amrId}/ack이며 state는 현재 수신 계약에 없다. Explorer 발행 관찰과 C# 수신 성공을 구분하고, Heartbeat 한 건 발행 → 통신 콘솔 Connected 확인 → 후속 Heartbeat 구독 구현 순서로 안내한다. 자동 재접속은 없고 현재 콘솔은 연결 상실 시 종료되므로 Broker 복구 후 콘솔을 다시 실행해야 한다.
 - Verification run: CONTRACT.md, MqttSubscriber.cs, MqttTopics.cs, MqttConnectionManager.cs, Console/Program.cs, README 및 추적기를 대조했다. dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker feature_list.json 통과(5개 기능/35개 검증 항목, 구조·증거 링크 검사). 안내 검토만 수행하여 제품 빌드·테스트·실제 MQTT는 재실행하지 않았다.
 - Evidence recorded: 이 레코드의 소스 대조 결과 및 세션의 tracker 출력. 기능별 evidence/status/revision과 제품 코드는 변경하지 않았다.
-- Commits: 없음(검토 기록 작성 시점; 커밋 후 실제 해시 기록).
+- Commits: `0c93858` — Record beginner MQTT practice review. 검토 기록만 커밋했다. 실제 해시를 적는 이 후속 갱신은 작업 폴더에 보존하며 원격 push는 수행하지 않았다.
 - Known risks: 이번 입력에는 실제 MQTT Explorer 화면이 없어 현재 연결 성공 여부를 판정하지 않았다. 붙여준 JSON은 Broker 발행 연습에는 사용할 수 있어도 현재 COM-04 검증 계약과는 다르다. 내부 임시 계약과 실제 장비 호환성의 기존 한계는 유지한다.
 - Next best action: 학습은 amr/AMR_001/heartbeat에 id/ts만 넣어 한 번 발행하고 Explorer에서 확인한 뒤 ./init.cmd start의 Connected를 확인한다. COM-01 구현 재개 시 MqttSubscriber.cs와 CONTRACT.md부터 읽고 ./init.cmd verify 실행; Heartbeat 한 유형부터 작은 구현 단계로 진행하되 전체 COM-01 완료 기준은 유지한다.
