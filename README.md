@@ -24,7 +24,7 @@
    .\init.cmd start
    ```
 
-`verify`에서 **BASELINE PASSED**, `start`에서 **Connected**가 나오면 기본 개발 준비와 Broker 연결에 성공한 것이다. 이후 출력 없이 대기하는 것은 정상이다. 종료는 Ctrl+C다. 관제 GUI나 로봇 이동을 실행하는 명령은 아니다.
+`verify`에서 **BASELINE PASSED**, `start`에서 **Connected**와 **Subscribed: amr/+/heartbeat**가 나오면 기본 개발 준비와 Broker 연결·Heartbeat 구독에 성공한 것이다. Heartbeat가 없으면 대기하고, 수신하면 검사 결과를 출력한다. 종료는 Ctrl+C다. 관제 GUI나 로봇 이동을 실행하는 명령은 아니다.
 
 최초 NuGet 패키지 복원과 Docker 이미지 다운로드에는 네트워크가 필요하다. 시스템 설정 변경이나 프로그램 설치를 헬퍼가 자동으로 수행하지 않는다.
 
@@ -49,6 +49,23 @@ PowerShell 7에서는 `./init.ps1 verify`, Git for Windows Bash에서는 `bash .
 & 'D:\작업 폴더\practice\init.cmd' verify
 ```
 
+## 가상 AMR Heartbeat 보내기 (기초 실습)
+
+Docker Desktop과 개발 Broker를 켠 뒤 프로젝트 루트에서 실행한다.
+
+```powershell
+.\init.cmd broker
+dotnet run --project src/Amr.TestClient
+```
+
+`Connected` 다음에 `Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":...}`가 약 1초마다 출력된다. `ts`는 실행 시점의 Unix 밀리초 시각이며 매번 새로 만든다. 종료는 Ctrl+C다. Broker가 이미 실행 중이면 두 번째 명령만 실행한다.
+
+다른 터미널에서 ` .\init.cmd start `로 관제 콘솔을 실행한다. `Subscribed: amr/+/heartbeat` 다음에 `Received Heartbeat: AMR_001 ts=...`가 약 1초마다 출력되면 **가상 AMR → Mosquitto → 관제 검사기 → 콘솔 출력**이 연결된 것이다. 관제와 가상 AMR은 각각 Ctrl+C로 종료한다. 실제 Core 대신 콘솔 출력 대역을 사용한다.
+
+MQTT Explorer를 같은 `127.0.0.1:1883`에 연결해 `amr → AMR_001 → heartbeat`를 확인해도 된다. 해당 Topic에 `{}` 또는 깨진 JSON을 발행하면 관제에는 `Rejected`와 실패 이유가 나오고 정상 수신 출력에는 포함되지 않는다. 이후 정상 Heartbeat는 계속 처리된다. 프로그램의 Published 출력 자체는 발행 호출 완료이며 실제 수신은 관제나 Explorer에서 확인한다.
+
+코드는 [Amr.TestClient/Program.cs](src/Amr.TestClient/Program.cs)의 **연결 → JSON 생성 → 발행 → 1초 대기** 순서로 읽으면 된다. AMR ID는 `AMR_001`, 주소는 `127.0.0.1:1883`으로 고정한 첫 실습이다. QoS 0, Retain false를 사용하며 자동 재접속·Heartbeat 중단 감지는 후속 단계다. Broker 연결이 끊기면 오류를 출력하고 종료하며, Broker 복구 후 프로그램을 다시 실행한다. COM-01 전체 완료를 의미하지 않는다.
+
 ## 실행 환경과 문제 해결
 
 - **PowerShell을 찾지 못함:** `pwsh --version`을 확인하고 설치 후 터미널을 다시 연다. 표준 PATH를 사용할 수 없으면 `POWERSHELL_EXE`에 이 PC의 `pwsh.exe` 전체 경로를 지정한다. `init.cmd`와 `init.sh`가 사용한다.
@@ -69,7 +86,7 @@ $env:AMR_MQTT_PORT = '1883'
 .\init.cmd start -DurationSeconds 15
 ```
 
-추가 설정: `AMR_MQTT_KEEPALIVE_SECONDS`, `AMR_MQTT_TIMEOUT_SECONDS`, `AMR_MQTT_USERNAME`, `AMR_MQTT_PASSWORD`. 직접 콘솔을 실행하려면 `dotnet run --project src/Amr.Communication.Console`을 쓴다.
+추가 설정: `AMR_MQTT_KEEPALIVE_SECONDS`, `AMR_MQTT_TIMEOUT_SECONDS`, `AMR_MQTT_USERNAME`, `AMR_MQTT_PASSWORD`. 직접 Heartbeat 수신 콘솔을 실행하려면 `dotnet run --project src/Amr.Communication.Console -- --heartbeat`를 쓴다. `--heartbeat` 없이 직접 실행하면 기존 연결 전용 모드이며 COM-03의 무업무 메시지 KeepAlive 검증에 사용한다. `init.cmd start`는 수신 옵션을 자동으로 넣는다.
 
 ## 검증과 증거
 

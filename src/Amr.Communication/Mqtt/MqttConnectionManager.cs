@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using Amr.Communication.Validation;
 
 namespace Amr.Communication.Mqtt;
 
@@ -21,6 +22,11 @@ public sealed class MqttConnectionManager : IAsyncDisposable // mqtt관리 매�
     private BrokerConnectionSnapshot _snapshot = NewSnapshot(BrokerConnectionState.Disconnected, "Initial");
 
     public MqttConnectionManager(BrokerConnectionOptions options) : this(options, () => new MqttClientService()) { }
+
+    // 기존 접속 관리에 수신 검사기를 연결하는 관제용 생성자입니다.
+    public MqttConnectionManager(BrokerConnectionOptions options, IncomingMessageProcessor processor)
+        : this(options, () => new MqttClientService(processor))
+        => ArgumentNullException.ThrowIfNull(processor);
 
     internal MqttConnectionManager(BrokerConnectionOptions options, Func<IBrokerClient> createClient)
     {

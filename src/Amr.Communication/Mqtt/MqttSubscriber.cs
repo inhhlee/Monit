@@ -1,27 +1,42 @@
 ﻿using Amr.Communication.Mqtt;
 using System;
+using System.Buffers;
+using Amr.Communication.Validation;
+using MQTTnet;
+using MQTTnet.Protocol;
 
-public class MqttSubscriber
+namespace Amr.Communication.Mqtt;
+
+// 첫 수신 단계: Heartbeat를 구독하고 받은 바이트를 기존 검사기로 전달합니다.
+internal sealed class MqttSubscriber : IDisposable
 {
+    private readonly IMqttClient _client;
+    private readonly IncomingMessageProcessor _processor;
 
-    // Mqtt ClientService 읽기 전용 캡슐화 
-    private readonly MqttClientService _mqttClient;
-
-    // 기본 생성자를 통해 캡슐화 관리
-    public MqttSubscriber(MqttClientService mqttClient)
+    public MqttSubscriber(IMqttClient client, IncomingMessageProcessor processor)
     {
-        _mqttClient = mqttClient;
+        _client = client;
+        _processor = processor;
+        _client.ApplicationMessageReceivedAsync += OnMessageReceivedAsync;
     }
 
-
-    //  네트워크 통신 시간이 걸리는 비동기 작업을 핸들러 내부에서 정리 
-    // 수신한 메시지를 어떻게 위로 넘길 것인지에 대해서 생각하기 
-    public async Task SubscribeAsync()
+    public async Task SubscribeAsync(CancellationToken cancellationToken)
     {
-        // Telemetry
-        // State
-        // Alarm
-        // Heartbeat
-        // ACK
+        var options = new MqttClientSubscribeOptionsBuilder()
+            .WithTopicFilter(filter => filter.WithTopic(MqttTopics.Subscribe.AllHeartbeat)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+            .Build();
+        var result = await _client.SubscribeAsync(options, cancellationToken).ConfigureAwait(false);
+        if (result.Items.Count != 1 || result.Items.First().ResultCode != MqttClientSubscribeResultCode.GrantedQoS0)
+            throw new InvalidOperationException("Broker rejected the Heartbeat subscription.");
     }
+
+    private async Task OnMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)
+    {
+        // 검사를 통과해야 Core 경계의 수신자(현재는 콘솔 출력 대역)가 호출됩니다.
+        await _processor.ProcessAsync(args.ApplicationMessage.Topic,
+            args.ApplicationMessage.Payload.ToArray()).ConfigureAwait(false);
+    }
+
+    public void Dispose() => _client.ApplicationMessageReceivedAsync -= OnMessageReceivedAsync;
 }

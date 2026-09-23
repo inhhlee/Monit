@@ -1,0 +1,12 @@
+Client null sending CONNECT
+Client (null) received CONNACK (0)
+Client null sending SUBSCRIBE (Mid: 1, Topic: amr/AMR_001/heartbeat, QoS: 0, Options: 0x00)
+Client null received SUBACK
+Subscribed (mid: 1): 0
+Client null received PUBLISH (d0, q0, r0, m0, 'amr/AMR_001/heartbeat', ... (35 bytes))
+amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790123794473}
+Client null received PUBLISH (d0, q0, r0, m0, 'amr/AMR_001/heartbeat', ... (35 bytes))
+amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790123795495}
+Client null received PUBLISH (d0, q0, r0, m0, 'amr/AMR_001/heartbeat', ... (35 bytes))
+amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790123796508}
+Client null sending DISCONNECT

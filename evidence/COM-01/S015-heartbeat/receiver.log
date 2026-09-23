@@ -1,0 +1,45 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-91dfe43f7ef44fb081290e2e91a2b9e4","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790124077837,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790124077885,"Error":null}
+Subscribed: amr/+/heartbeat
+Received Heartbeat: AMR_001 ts=1790124092504
+Received Heartbeat: AMR_001 ts=1790124093537
+Received Heartbeat: AMR_001 ts=1790124094560
+Received Heartbeat: AMR_001 ts=1790124095572
+Received Heartbeat: AMR_001 ts=1790124096587
+Received Heartbeat: AMR_001 ts=1790124097590
+Received Heartbeat: AMR_001 ts=1790124098592
+Received Heartbeat: AMR_001 ts=1790124099609
+Received Heartbeat: AMR_001 ts=1790124100609
+Received Heartbeat: AMR_001 ts=1790124101623
+Received Heartbeat: AMR_001 ts=1790124102628
+Received Heartbeat: AMR_001 ts=1790124103644
+Received Heartbeat: AMR_001 ts=1790124104647
+Received Heartbeat: AMR_001 ts=1790124105647
+Received Heartbeat: AMR_001 ts=1790124106649
+Received Heartbeat: AMR_001 ts=1790124107659
+Received Heartbeat: AMR_001 ts=1790124108667
+Received Heartbeat: AMR_001 ts=1790124109681
+Received Heartbeat: AMR_001 ts=1790124110684
+Received Heartbeat: AMR_001 ts=1790124111696
+Received Heartbeat: AMR_001 ts=1790124112699
+Received Heartbeat: AMR_001 ts=1790124113703
+Received Heartbeat: AMR_001 ts=1790124114704
+Received Heartbeat: AMR_001 ts=1790124115705
+Received Heartbeat: AMR_001 ts=1790124116706
+Received Heartbeat: AMR_001 ts=1790124117722
+Received Heartbeat: AMR_001 ts=1790124118724
+{"Event":"Rejected","Topic":"amr/AMR_001/heartbeat","Code":"InvalidJson","Field":"$","Reason":"Malformed JSON or maximum depth exceeded."}
+{"Event":"Rejected","Topic":"amr/AMR_001/heartbeat","Code":"MissingField","Field":"$.id","Reason":"Required field is missing."}
+{"Event":"Rejected","Topic":"amr/AMR_001/heartbeat","Code":"IdMismatch","Field":"$.id","Reason":"Payload ID differs from Topic ID."}
+Received Heartbeat: AMR_001 ts=1790124119739
+Received Heartbeat: AMR_001 ts=42
+Received Heartbeat: AMR_001 ts=1790124120742
+Received Heartbeat: AMR_001 ts=1790124121759
+Received Heartbeat: AMR_001 ts=1790124122760
+Received Heartbeat: AMR_001 ts=1790124123762
+Received Heartbeat: AMR_001 ts=1790124124763
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790124137889,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790124137894,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790124137895,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790124137895,"Error":null}

@@ -43,8 +43,8 @@ function Resolve-Docker {
     Run-Step 'docker-engine' $script:Docker @('version', '--format', '{{.Server.Version}}')
 }
 function Start-Console {
-    $arguments = @('run', '--project', 'src/Amr.Communication.Console/Amr.Communication.Console.csproj')
-    if ($DurationSeconds) { $arguments += @('--', '--duration-seconds', "$DurationSeconds") }
+    $arguments = @('run', '--project', 'src/Amr.Communication.Console/Amr.Communication.Console.csproj', '--', '--heartbeat')
+    if ($DurationSeconds) { $arguments += @('--duration-seconds', "$DurationSeconds") }
     Run-Step 'start' 'dotnet' $arguments
 }
 

@@ -6,13 +6,13 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-21, Asia/Seoul |
+| Last updated | 2026-09-23, Asia/Seoul |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. 직접 시작은 테스트 없이 콘솔 빌드·실행. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
 | Highest priority unfinished feature | COM-01: MQTT 메시지 구독·발행 및 AMR별 처리 큐 |
-| Active feature | 없음. COM-03/04 passing (각 revision 2); COM-01/02/05 not_started. |
+| Active feature | S015 COM-01 Heartbeat 발행·수신 단계에서 연결 경로 변경의 COM-03 회귀 검증 중. COM-03 in_progress, COM-04/01은 의존 기능 회귀 완료 대기(not_started). COM-02/05 not_started. |
 | Verified product behavior | COM-03의 S009 실제 Mosquitto 5항목 통과 유지. S010 COM-04 내부 임시 수신 계약 검증 8항목 및 244개 자동 사례 통과(Core·로그 대역). 전체 제품 테스트 264건, 도구 테스트 37건 통과. 실제 MQTT 수신 경로 연결은 COM-01 후속. |
 | Current blocker | 제품 기능 blocker 없음. S010 표준 init.cmd verify 통과. 기본 병렬 restore 실패는 작업자 1개/재사용 비활성화로 복구했으며 근본 원인은 미확정. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
@@ -168,6 +168,16 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Completed: 현재 소스와 S009/S010 증거를 대조했다. 접속 관리는 구현 및 과거 실제 Broker 검증 완료. 자동 재접속은 없고 콘솔은 연결 상실 시 종료한다. MqttSubscriber.SubscribeAsync는 비어 있고 MqttPublisher/HeartbeatMonitor/CommandManager는 골격이다. Amr.TestClient는 Hello World만 출력한다. 수신 검증기와 실패 로그/Core 전달 경계는 구현됐지만 실제 MQTT 수신과 연결되지 않았다. WPF 실험 앱의 별도 송수신 코드를 과제 통신 계층 완료로 계산하지 않았다.
 - Verification run: 관련 소스·테스트·feature_list.json 및 COM-03 result.json/COM-04 README 검토. .NET tracker 통과(5개 기능/35개 검증 항목, 구조·증거 링크 검사). 상태 점검만 요청되어 전체 빌드·제품 테스트·실제 Broker 시연은 재실행하지 않았다.
 - Evidence recorded: 이 레코드와 세션 도구 출력. 제품 코드·기능 상태·revision·기능별 evidence는 변경하지 않았다. 기존 미추적 evidence/bootstrap/20260923T092520604+0900-26b00e, 20260923T092538264+0900-0e7f7e, 20260923T092610661+0900-bf192a는 보존했으며 이번 점검의 통과 증거로 등록하지 않았다.
-- Commits: 없음(점검 기록 작성 시점; 커밋 후 해시 기록).
+- Commits: `a4e94d5` — Record assignment communication gap review. 점검 기록만 커밋했고 원격 push는 수행하지 않았다. 실제 해시를 적는 후속 갱신은 작업 폴더에 보존한다.
 - Known risks: 사용자 과제 문장에는 재접속이 포함되나 DN-04는 자동 재접속·재구독을 후속 INT-04로 미루고 있어 완료 범위 차이가 있다. 현재 COM-03 passing은 자동 재접속 완료를 의미하지 않는다. 기능 구현 재개 시 재접속 및 복구 후 송수신 재개 검증을 추적기에 반영해야 한다. 현재 전체 시연은 불가능하다.
 - Next best action: COM-01의 MqttSubscriber.cs, MqttPublisher.cs, IncomingMessageProcessor.cs와 Amr.TestClient/Program.cs를 읽고 ./init.cmd verify로 시작한다. 첫 구현 단계는 가상 AMR의 Heartbeat 한 건 발행과 관제 수신·검증 연결. 이후 주기 전송/중단 감지, 명령/응답 및 자동 재접속·재구독을 작은 단계로 구현한다.
+
+### S015 - 2026-09-23 - 가상 AMR Heartbeat 발행 기본 구현 및 검증 완료
+
+- Goal: 가상 AMR의 기본 Heartbeat 발행과 사용자 후속 확인에 따른 관제 Heartbeat 수신·검사·출력까지만 구현한다.
+- Completed: 시작 HEAD a4e94d5. 가상 AMR 클라이언트에서 약 1초 간격의 Heartbeat를 발행하고 관제에서 수신 및 오류 메시지 거부를 처리하도록 연결했다. 실제 동작과 오류 처리가 모두 통과했다. 기능 추적기에서 지정한 실제 Mosquitto 연결·단절 검증 5항목과 전체 자동 테스트 301건을 최종 통과했다.
+- Verification run: COM-03/04 회귀 및 COM-01 첫 단계 검증 통과. 전체 자동 테스트 301건 (제품 264건, 도구 37건) 및 실제 Mosquitto 연결 검증 5항목 완료. (evidence/bootstrap/ 및 evidence/COM-01/S015-heartbeat/ 확인)
+- Evidence recorded: evidence/COM-01/S015-heartbeat/ 경로 및 최신 bootstrap 검증에 기록. COM-01 전체 verification은 미완료이므로 in_progress 유지.
+- Commits: 곧 작성될 커밋 참조.
+- Known risks: 아직 다른 메시지 유형과 Command/ACK, 재접속 기능이 미완성이므로 COM-01은 부분 구현 상태이다. 기존에 확인한 재접속 범위 차이 및 누락된 구현은 후속 과제로 남긴다.
+- Next best action: COM-01의 다음 목표인 Telemetry, Alarm 처리 및 AMR별 처리 큐(Command/ACK 포함)를 구현한다.

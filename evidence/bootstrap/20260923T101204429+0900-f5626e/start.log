@@ -1,0 +1,8 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-121f363949494ca98039db13be91e887","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790125927066,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790125927116,"Error":null}
+Subscribed: amr/+/heartbeat
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790125930128,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790125930135,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790125930135,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790125930135,"Error":null}

@@ -1,0 +1,1 @@
+S015 development: first receive-path build failed CS0021 because SUBACK Items is IReadOnlyCollection; replaced Items[0] with Items.First(). Original tool output retained in session.

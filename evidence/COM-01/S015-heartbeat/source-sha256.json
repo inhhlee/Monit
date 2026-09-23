@@ -1,0 +1,26 @@
+[
+  {
+    "path": "src/Amr.TestClient/Program.cs",
+    "sha256": "0FDFF0C995E303FD416F70EFC6A8101215E96D75EC217B50953CB991572A4584"
+  },
+  {
+    "path": "src/Amr.Communication.Console/Program.cs",
+    "sha256": "A89DF002D3398E8DBFFF470D2E369A890F2A606A3343467E3FE2A82D29F0209D"
+  },
+  {
+    "path": "src/Amr.Communication/Mqtt/MqttSubscriber.cs",
+    "sha256": "46193F7D516229C6F7986F718418EFD5492381ADB54F7BB93EB51EFA3B063936"
+  },
+  {
+    "path": "src/Amr.Communication/Mqtt/MqttClientService.cs",
+    "sha256": "D0738F79A7A749DD862665C7420FE5C8E766E8757850B20E40CDD14A5E5A7619"
+  },
+  {
+    "path": "src/Amr.Communication/Mqtt/MqttConnectionManager.cs",
+    "sha256": "4857E02219922FEF2D5E9FC7151CA2BC998EB8A131237ADC13D7BBF421D7F3ED"
+  },
+  {
+    "path": "init.ps1",
+    "sha256": "73BE0A90F1F379C7866A19267D5A39E795AA122E213BA6D4C4928B4A3D686159"
+  }
+]

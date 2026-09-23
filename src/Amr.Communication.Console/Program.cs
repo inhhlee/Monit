@@ -2,17 +2,24 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Amr.Communication.Mqtt;
+using Amr.Communication.Models;
+using Amr.Communication.Validation;
 
 var json = new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } };
 try
 {
     if (args.Contains("--help"))
     {
-        Console.WriteLine("AMR MQTT connection host: --host HOST --port PORT --keepalive-seconds N --timeout-seconds N --duration-seconds N");
+        Console.WriteLine("AMR MQTT connection host: --host HOST --port PORT --keepalive-seconds N --timeout-seconds N --duration-seconds N --heartbeat");
         Console.WriteLine("Defaults: localhost:1883, keepalive 5s, timeout 3s; run until Ctrl+C unless duration is provided.");
         Console.WriteLine("Environment: AMR_MQTT_HOST, AMR_MQTT_PORT, AMR_MQTT_KEEPALIVE_SECONDS, AMR_MQTT_TIMEOUT_SECONDS, AMR_MQTT_USERNAME, AMR_MQTT_PASSWORD.");
         return 0;
     }
+    // 직접 실행은 기존 연결 전용 모드, --heartbeat를 주면 수신 실습을 켭니다.
+    if (args.Count(arg => arg == "--heartbeat") > 1)
+        throw new ArgumentException("Duplicate --heartbeat argument.");
+    var receiveHeartbeats = args.Contains("--heartbeat");
+    args = args.Where(arg => arg != "--heartbeat").ToArray();
     var arguments = new Dictionary<string, string>();
     var allowed = new HashSet<string> { "--host", "--port", "--keepalive-seconds", "--timeout-seconds", "--duration-seconds" };
     for (var i = 0; i < args.Length; i += 2)
@@ -37,7 +44,10 @@ try
         throw new ArgumentException("Duration must be positive and at most one day.");
     using var stop = new CancellationTokenSource();
     Console.CancelKeyPress += (_, e) => { e.Cancel = true; stop.Cancel(); };
-    await using var manager = new MqttConnectionManager(options);
+    var processor = new IncomingMessageProcessor(new ConsoleMessageSink(), new ConsoleValidationLog());
+    await using var manager = receiveHeartbeats
+        ? new MqttConnectionManager(options, processor)
+        : new MqttConnectionManager(options);
     var connectionLost = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
     manager.StateChanged += snapshot =>
     {
@@ -48,6 +58,7 @@ try
         options.ClientId, KeepAliveSeconds = options.KeepAlive.TotalSeconds, TimeoutSeconds = options.Timeout.TotalSeconds,
         Authentication = options.Username is null ? "anonymous" : "configured" }));
     if (!await manager.ConnectAsync(stop.Token)) return stop.IsCancellationRequested ? 0 : 2;
+    if (receiveHeartbeats) Console.WriteLine("Subscribed: amr/+/heartbeat");
     var wait = Task.Delay(duration ?? System.Threading.Timeout.InfiniteTimeSpan, stop.Token);
     await Task.WhenAny(wait, connectionLost.Task);
     var lost = connectionLost.Task.IsCompleted;
@@ -58,4 +69,23 @@ catch (Exception error)
 {
     Console.Error.WriteLine(JsonSerializer.Serialize(new { Event = "HostError", Error = error.GetType().Name }));
     return 1;
+}
+
+// 실제 Core 대신, 검사를 통과한 메시지를 콘솔에서 확인하는 실습용 수신자입니다.
+sealed class ConsoleMessageSink : IIncomingMessageSink
+{
+    public ValueTask ReceiveAsync(IncomingMessage message, CancellationToken cancellationToken)
+    {
+        Console.WriteLine($"Received {message.Kind}: {message.AmrId} ts={message.TimestampUnixMilliseconds}");
+        return ValueTask.CompletedTask;
+    }
+}
+
+sealed class ConsoleValidationLog : IValidationLog
+{
+    public void Rejected(ValidationFailureLog failure)
+        => Console.WriteLine(JsonSerializer.Serialize(new
+        {
+            Event = "Rejected", failure.Topic, failure.Error.Code, failure.Error.Field, failure.Error.Reason
+        }));
 }

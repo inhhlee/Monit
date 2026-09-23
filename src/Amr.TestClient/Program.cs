@@ -1,1 +1,85 @@
-﻿Console.WriteLine("Hello, World!");
+using System.Text.Json;
+using MQTTnet;
+using MQTTnet.Formatter;
+using MQTTnet.Protocol;
+
+// 첫 실습: 가상 AMR 한 대가 로컬 Broker에 Heartbeat를 보냅니다.
+const string amrId = "AMR_001";
+const string host = "127.0.0.1";
+const int port = 1883;
+var topic = $"amr/{amrId}/heartbeat";
+
+using var stop = new CancellationTokenSource();
+Console.CancelKeyPress += (_, e) =>
+{
+    e.Cancel = true;
+    stop.Cancel();
+};
+
+using var client = new MqttClientFactory().CreateMqttClient();
+var options = new MqttClientOptionsBuilder()
+    .WithTcpServer(host, port)
+    .WithClientId($"virtual-{amrId}-{Guid.NewGuid():N}")
+    .WithProtocolVersion(MqttProtocolVersion.V500)
+    .WithCleanStart()
+    .WithKeepAlivePeriod(TimeSpan.FromSeconds(5))
+    .WithTimeout(TimeSpan.FromSeconds(3))
+    .Build();
+
+var exitCode = 0;
+try
+{
+    // 1. Broker에 연결합니다.
+    var result = await client.ConnectAsync(options, stop.Token);
+    if (result.ResultCode != MqttClientConnectResultCode.Success)
+        throw new InvalidOperationException($"연결 거부: {result.ResultCode}");
+    Console.WriteLine($"Connected: {host}:{port} / {amrId} (종료: Ctrl+C)");
+
+    while (!stop.IsCancellationRequested)
+    {
+        // 2. AMR ID와 현재 시각(Unix 밀리초)을 JSON으로 만듭니다.
+        var payload = JsonSerializer.Serialize(new
+        {
+            id = amrId,
+            ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        });
+        var message = new MqttApplicationMessageBuilder()
+            .WithTopic(topic)
+            .WithPayload(payload)
+            .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
+            .WithRetainFlag(false)
+            .Build();
+
+        // 3. 발행하고 1초 기다립니다. 수신 여부는 구독 측에서 확인합니다.
+        await client.PublishAsync(message, stop.Token);
+        Console.WriteLine($"Published: {topic} {payload}");
+        await Task.Delay(TimeSpan.FromSeconds(1), stop.Token);
+    }
+}
+catch (OperationCanceledException) when (stop.IsCancellationRequested)
+{
+    // Ctrl+C로 요청한 정상 종료입니다.
+}
+catch (Exception error)
+{
+    Console.Error.WriteLine($"통신 실패: {error.Message}");
+    Console.Error.WriteLine("Broker 실행 상태를 확인한 후 다시 실행하세요.");
+    exitCode = 1;
+}
+
+// 4. 종료할 때 연결을 정리합니다.
+if (client.IsConnected)
+{
+    try
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+        await client.DisconnectAsync(new MqttClientDisconnectOptions(), timeout.Token);
+    }
+    catch (Exception error)
+    {
+        Console.Error.WriteLine($"연결 종료 실패: {error.Message}");
+        exitCode = 1;
+    }
+}
+Console.WriteLine("가상 AMR 종료");
+return exitCode;

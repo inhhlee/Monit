@@ -1,0 +1,20 @@
+ M README.md
+ M claude-progress.md
+ M feature_list.json
+ M init.ps1
+ M src/Amr.Communication.Console/Program.cs
+ M src/Amr.Communication/Mqtt/MqttClientService.cs
+ M src/Amr.Communication/Mqtt/MqttConnectionManager.cs
+ M src/Amr.Communication/Mqtt/MqttSubscriber.cs
+ M src/Amr.TestClient/Program.cs
+?? evidence/COM-01/
+?? evidence/COM-03/20260923T094114-7fc98b9108ff40bea7e0e7d97d7e3135/
+?? evidence/COM-03/20260923T094259-51e340e8fdea4e16b16128469256a14a/
+?? evidence/bootstrap/20260923T092520604+0900-26b00e/
+?? evidence/bootstrap/20260923T092538264+0900-0e7f7e/
+?? evidence/bootstrap/20260923T092610661+0900-bf192a/
+?? evidence/bootstrap/20260923T093201968+0900-db4b65/
+?? evidence/bootstrap/20260923T093528397+0900-82f074/
+?? evidence/bootstrap/20260923T093557465+0900-307e55/
+?? evidence/bootstrap/20260923T094100755+0900-423571/
+?? evidence/bootstrap/20260923T094252184+0900-78765c/

@@ -1,5 +1,6 @@
 using MQTTnet;
 using MQTTnet.Formatter;
+using Amr.Communication.Validation;
 
 namespace Amr.Communication.Mqtt;
 
@@ -7,8 +8,12 @@ namespace Amr.Communication.Mqtt;
 public sealed class MqttClientService : IBrokerClient // 상속 금지
 {
     private readonly IMqttClient _client = new MqttClientFactory().CreateMqttClient(); // 캡슐화 
+    private readonly MqttSubscriber? _subscriber;
 
     public MqttClientService() => _client.DisconnectedAsync += OnDisconnectedAsync; // 생성자 끊김 이벤트 발생시 OnDis 함수 호출 
+
+    internal MqttClientService(IncomingMessageProcessor processor) : this()
+        => _subscriber = new MqttSubscriber(_client, processor);
     public bool IsConnected => _client.IsConnected;
     private event Action<BrokerDisconnected>? Disconnected;
     event Action<BrokerDisconnected>? IBrokerClient.Disconnected
@@ -34,6 +39,10 @@ public sealed class MqttClientService : IBrokerClient // 상속 금지
 
         if (result.ResultCode != MqttClientConnectResultCode.Success)
             throw new InvalidOperationException($"Broker rejected connection: {result.ResultCode}");
+
+        // 관제 수신 경로가 있으면 연결한 클라이언트로 Heartbeat를 구독합니다.
+        if (_subscriber is not null)
+            await _subscriber.SubscribeAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public Task DisconnectAsync(CancellationToken cancellationToken = default) => // 능동적 연결 종료
@@ -47,6 +56,7 @@ public sealed class MqttClientService : IBrokerClient // 상속 금지
 
     public void Dispose()
     {
+        _subscriber?.Dispose();
         _client.DisconnectedAsync -= OnDisconnectedAsync;
         _client.Dispose();
     }

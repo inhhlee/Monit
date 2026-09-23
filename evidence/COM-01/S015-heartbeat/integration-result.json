@@ -1,0 +1,27 @@
+{
+  "executed_at": "2026-09-23T09:43:39.5975645+09:00",
+  "result": "passed",
+  "publisher_messages": 12,
+  "intervals_ms": [
+    1021,
+    1004,
+    1012,
+    1018,
+    1018,
+    1016,
+    1018,
+    1001,
+    1013,
+    1005,
+    1002
+  ],
+  "rejected": [
+    "InvalidJson",
+    "MissingField",
+    "IdMismatch"
+  ],
+  "recovery_timestamp": 42,
+  "receiver_exit_code": 0,
+  "publisher_shutdown": "test process stopped by harness; interactive Ctrl+C tested separately with exit 0",
+  "scope": "Heartbeat only; console Core/log doubles; actual local Mosquitto"
+}

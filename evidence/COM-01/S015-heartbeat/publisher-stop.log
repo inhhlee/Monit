@@ -1,0 +1,29 @@
+Interactive publisher run: dotnet run --no-build --no-restore --project src/Amr.TestClient
+Sent Ctrl+C; process exit code: 0
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124099609}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124100609}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124101623}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124102628}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124103644}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124104647}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124105647}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124106649}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124107659}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124108667}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124109681}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124110684}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124111696}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124112699}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124113703}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124114704}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124115705}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124116706}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124117722}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124118724}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124119739}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124120742}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124121759}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124122760}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124123762}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790124124763}
+가상 AMR 종료
