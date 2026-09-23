@@ -161,3 +161,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: `0c93858` — Record beginner MQTT practice review. 검토 기록만 커밋했다. 실제 해시를 적는 이 후속 갱신은 작업 폴더에 보존하며 원격 push는 수행하지 않았다.
 - Known risks: 이번 입력에는 실제 MQTT Explorer 화면이 없어 현재 연결 성공 여부를 판정하지 않았다. 붙여준 JSON은 Broker 발행 연습에는 사용할 수 있어도 현재 COM-04 검증 계약과는 다르다. 내부 임시 계약과 실제 장비 호환성의 기존 한계는 유지한다.
 - Next best action: 학습은 amr/AMR_001/heartbeat에 id/ts만 넣어 한 번 발행하고 Explorer에서 확인한 뒤 ./init.cmd start의 Connected를 확인한다. COM-01 구현 재개 시 MqttSubscriber.cs와 CONTRACT.md부터 읽고 ./init.cmd verify 실행; Heartbeat 한 유형부터 작은 구현 단계로 진행하되 전체 COM-01 완료 기준은 유지한다.
+
+### S014 - 2026-09-23 - 과제 1 다섯 항목 미구현 범위 점검
+
+- Goal: 사용자가 제시한 접속 관리·재접속·Heartbeat·명령/응답·메시지 유효성 검사와 최종 시연 흐름에서 현재 부족한 부분을 확인한다.
+- Completed: 현재 소스와 S009/S010 증거를 대조했다. 접속 관리는 구현 및 과거 실제 Broker 검증 완료. 자동 재접속은 없고 콘솔은 연결 상실 시 종료한다. MqttSubscriber.SubscribeAsync는 비어 있고 MqttPublisher/HeartbeatMonitor/CommandManager는 골격이다. Amr.TestClient는 Hello World만 출력한다. 수신 검증기와 실패 로그/Core 전달 경계는 구현됐지만 실제 MQTT 수신과 연결되지 않았다. WPF 실험 앱의 별도 송수신 코드를 과제 통신 계층 완료로 계산하지 않았다.
+- Verification run: 관련 소스·테스트·feature_list.json 및 COM-03 result.json/COM-04 README 검토. .NET tracker 통과(5개 기능/35개 검증 항목, 구조·증거 링크 검사). 상태 점검만 요청되어 전체 빌드·제품 테스트·실제 Broker 시연은 재실행하지 않았다.
+- Evidence recorded: 이 레코드와 세션 도구 출력. 제품 코드·기능 상태·revision·기능별 evidence는 변경하지 않았다. 기존 미추적 evidence/bootstrap/20260923T092520604+0900-26b00e, 20260923T092538264+0900-0e7f7e, 20260923T092610661+0900-bf192a는 보존했으며 이번 점검의 통과 증거로 등록하지 않았다.
+- Commits: 없음(점검 기록 작성 시점; 커밋 후 해시 기록).
+- Known risks: 사용자 과제 문장에는 재접속이 포함되나 DN-04는 자동 재접속·재구독을 후속 INT-04로 미루고 있어 완료 범위 차이가 있다. 현재 COM-03 passing은 자동 재접속 완료를 의미하지 않는다. 기능 구현 재개 시 재접속 및 복구 후 송수신 재개 검증을 추적기에 반영해야 한다. 현재 전체 시연은 불가능하다.
+- Next best action: COM-01의 MqttSubscriber.cs, MqttPublisher.cs, IncomingMessageProcessor.cs와 Amr.TestClient/Program.cs를 읽고 ./init.cmd verify로 시작한다. 첫 구현 단계는 가상 AMR의 Heartbeat 한 건 발행과 관제 수신·검증 연결. 이후 주기 전송/중단 감지, 명령/응답 및 자동 재접속·재구독을 작은 단계로 구현한다.
