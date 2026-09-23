@@ -1,0 +1,7 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":51195,"ClientId":"amr-control-1978f62952fb4efb88e7a45bcbd64637","KeepAliveSeconds":2,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790142870142,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790142870181,"Error":null}
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790142871198,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790142871207,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790142871207,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790142871207,"Error":null}

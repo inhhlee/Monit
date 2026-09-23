@@ -1,5 +1,9 @@
 using Amr.Verification;
 
+/// <summary>
+/// Amr.Verification 도구의 진입점(Entry Point)입니다.
+/// 명령줄 인수에 따라 tracker(추적기 검증), trx(테스트 결과 검증), broker(실제 Broker 연동 검증) 작업을 분기하여 수행합니다.
+/// </summary>
 try
 {
     if (args.Length == 2 && args[0] == "tracker")

@@ -1,0 +1,8 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":51208,"ClientId":"amr-control-6ddec7ae71fc4e308b265522074793f8","KeepAliveSeconds":2,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790142872894,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790142872932,"Error":null}
+{"State":"Faulted","Reason":"ConnectionLost","TimestampUnixMilliseconds":1790142876025,"Error":"NormalDisconnection: MqttCommunicationTimedOutException"}
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790142876025,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790142876027,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790142876027,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790142876027,"Error":null}

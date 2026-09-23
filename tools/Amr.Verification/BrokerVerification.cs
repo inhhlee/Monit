@@ -9,6 +9,11 @@ using System.Text.Json.Nodes;
 
 namespace Amr.Verification;
 
+/// <summary>
+/// 실제 Mosquitto Broker를 Docker 컨테이너로 띄워 
+/// MQTT 연결, KeepAlive 유지, 강제 종료 및 응답 차단 상황 등
+/// 전체 수명주기(Lifecycle) 시나리오를 통합 검증하고 결과를 기록하는 클래스입니다.
+/// </summary>
 public sealed class BrokerVerification
 {
     const string Image = "eclipse-mosquitto:2.1.2-alpine";
@@ -29,6 +34,9 @@ public sealed class BrokerVerification
         Directory.CreateDirectory(output);
     }
 
+    /// <summary>
+    /// Docker를 이용해 Broker 통합 검증을 실행하고 결과를 JSON 매니페스트와 로그 파일로 저장합니다.
+    /// </summary>
     public static async Task RunAsync(string root, string docker)
     {
         var run = new BrokerVerification(root, docker);
@@ -68,6 +76,9 @@ public sealed class BrokerVerification
         return info;
     }
 
+    /// <summary>
+    /// 외부 프로세스(Docker, Git, Dotnet 등)를 실행하고 표준 입출력을 수집합니다.
+    /// </summary>
     async Task<string> Command(string executable, string log, params string[] args)
     {
         using var process = Process.Start(CommandInfo(executable, args)) ?? throw new IOException($"Cannot start {executable}");
@@ -100,6 +111,10 @@ public sealed class BrokerVerification
         Console.WriteLine($"PASS verification {index}: {actual}");
     }
 
+    /// <summary>
+    /// 전체 시나리오(연결 성공, KeepAlive 관찰, Broker 정상 종료, Broker 응답 차단, 존재하지 않는 Broker 연결 등)를
+    /// 순차적으로 테스트하고 검증 증거를 수집합니다.
+    /// </summary>
     async Task VerifyAsync()
     {
         var env = new JsonObject
@@ -210,6 +225,9 @@ public sealed class BrokerVerification
         Check(5, $"{count} tests passed; actual Mosquitto checks 1-4 and process restart passed", "build.log", "unit.log", "unit.trx", "restart-client.log", "result.json");
     }
 
+    /// <summary>
+    /// 테스트용 Mosquitto Broker 컨테이너 인스턴스를 시작하고 종료를 관리합니다.
+    /// </summary>
     sealed class Broker : IAsyncDisposable
     {
         readonly BrokerVerification run;
@@ -263,6 +281,10 @@ public sealed class BrokerVerification
     }
 
     sealed record HostEvent(long At, JsonNode Data);
+    /// <summary>
+    /// .NET 콘솔 애플리케이션(Amr.Communication.Console)을 하위 프로세스로 실행하고
+    /// 표준 출력에서 JSON 형식의 상태 이벤트를 파싱하여 추적합니다.
+    /// </summary>
     sealed class Host : IAsyncDisposable
     {
         readonly BrokerVerification run;

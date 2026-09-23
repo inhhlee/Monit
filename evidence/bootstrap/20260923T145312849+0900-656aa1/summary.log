@@ -1,0 +1,18 @@
+Started: 2026-09-23T14:53:12.8698651+09:00
+Root: C:\practice; PowerShell: 7.6.6; Mode: broker
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: e90356569d926efa0f74816a2de4e7b43a390faf
+BEGIN docker-engine : C:\Users\Admin\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe version --format {{.Server.Version}}
+PASS docker-engine
+BEGIN docker-compose : C:\Users\Admin\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe compose version
+PASS docker-compose
+BEGIN broker-start : C:\Users\Admin\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe compose -f docker/docker-compose.yml up -d mosquitto
+PASS broker-start
+Broker container started. Use init.cmd start to check the MQTT connection.
+Finished: 2026-09-23T14:53:13.5337726+09:00
+Evidence: C:\practice\evidence\bootstrap\20260923T145312849+0900-656aa1

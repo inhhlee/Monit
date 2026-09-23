@@ -3,7 +3,11 @@ using System.Net.Sockets;
 
 namespace Amr.Verification;
 
-/// <summary>Test-only relay: keep TCP connected while discarding broker responses.</summary>
+/// <summary>
+/// 테스트 전용 TCP 릴레이 프록시 클래스입니다.
+/// Broker와 Client 간의 TCP 연결은 유지한 채, 설정(Drop)에 따라 
+/// Broker에서 Client로 전달되는 응답 데이터만 고의로 누락시켜 네트워크 응답 차단 상황을 모사합니다.
+/// </summary>
 public sealed class ResponseDropProxy : IAsyncDisposable
 {
     readonly TcpListener listener = new(IPAddress.Loopback, 0);
@@ -40,6 +44,10 @@ public sealed class ResponseDropProxy : IAsyncDisposable
         catch (Exception error) { if (!stop.IsCancellationRequested) Error = error; }
     }
 
+    /// <summary>
+    /// 소켓 간에 데이터를 복사하며 중계합니다.
+    /// response 플래그가 true이고 Drop 플래그가 설정되어 있으면, 수신된 바이트를 목적지에 쓰지 않고 버립니다(누락).
+    /// </summary>
     async Task Copy(NetworkStream source, NetworkStream destination, bool response, CancellationToken token)
     {
         var buffer = new byte[65536];

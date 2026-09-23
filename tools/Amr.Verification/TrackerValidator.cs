@@ -4,6 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Amr.Verification;
 
+/// <summary>
+/// feature_list.json(요구사항 및 진행 상태 명세서)의 무결성과
+/// 기록된 증거(Evidence) 파일 링크의 유효성을 검증하는 클래스입니다.
+/// </summary>
 public static class TrackerValidator
 {
     static void Require(bool condition, string message)
@@ -16,12 +20,21 @@ public static class TrackerValidator
     static int Integer(JsonNode? node) => node is JsonValue value && value.TryGetValue<int>(out var number) ? number : 0;
     static JsonArray Array(JsonNode? node, string message) => node as JsonArray ?? throw new InvalidDataException(message);
 
+    /// <summary>
+    /// 지정된 JSON 파일을 읽고 추적기 검증을 수행합니다.
+    /// </summary>
+    /// <param name="path">feature_list.json 파일 경로</param>
+    /// <returns>검증된 기능(Feature) 수와 세부 검증 항목(Check) 수</returns>
     public static (int Features, int Checks) ValidateFile(string path)
     {
         var fullPath = Path.GetFullPath(path);
         return Validate(JsonNode.Parse(File.ReadAllText(fullPath))!, Path.GetDirectoryName(fullPath)!);
     }
 
+    /// <summary>
+    /// 파싱된 JSON 데이터의 논리적 무결성(의존성 순환, 필수 필드 존재, 유효한 상태값 등)과 
+    /// 각 증거 파일 경로의 유효성을 검사합니다.
+    /// </summary>
     public static (int Features, int Checks) Validate(JsonNode data, string root)
     {
         root = Path.GetFullPath(root);
@@ -109,6 +122,10 @@ public static class TrackerValidator
         return (features.Count, checkCount);
     }
 
+    /// <summary>
+    /// 증거물(Artifact) 파일이 프로젝트 경로(root) 내에 존재하는 유효한 파일인지 검사합니다.
+    /// 디렉터리 이탈(Directory Traversal)이나 심볼릭 링크(Junction 등)를 통한 우회도 차단합니다.
+    /// </summary>
     static void ValidateArtifact(string root, string name, string id)
     {
         Require(!string.IsNullOrWhiteSpace(name) && !Path.IsPathRooted(name) && !name.Contains(':') && !name.StartsWith('\\'), $"{id}: artifact must be relative");

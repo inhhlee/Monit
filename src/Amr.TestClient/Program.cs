@@ -4,7 +4,7 @@ using MQTTnet.Formatter;
 using MQTTnet.Protocol;
 
 // 첫 실습: 가상 AMR 한 대가 로컬 Broker에 Heartbeat를 보냅니다.
-const string amrId = "AMR_001";
+string amrId = args.Length > 0 ? args[0] : "AMR_001";
 const string host = "127.0.0.1";
 const int port = 1883;
 var topic = $"amr/{amrId}/heartbeat";
