@@ -2,7 +2,7 @@
 
 이 문서는 **지금 있는 코드가 왜 이렇게 나뉘었는지, 무엇부터 공부해야 하는지, 테스트가 무엇을 근거로 검사하는지** 설명한다. C#과 테스트 코드에 익숙하지 않은 상태를 기준으로 작성했다.
 
-작성 기준: 2026-09-21, S010 완료 코드. COM-03·COM-04는 passing, COM-01·02·05는 not_started다. 이 문서는 학습 안내이며 요구사항의 기준은 [feature_list.json](feature_list.json), 실제 검증 이력은 [claude-progress.md](claude-progress.md)다.
+작성 기준: S010 학습 안내에 S016(2026-09-29) PDF 반영 계약 v2를 보완했다. 최신 기능 상태는 추적기를 따른다. S015부터 실제 Heartbeat 구독 경로가 연결되어 있으며 다른 유형과 큐는 미완료다. 이 문서는 학습 안내이며 요구사항의 기준은 [feature_list.json](feature_list.json), 실제 검증 이력은 [claude-progress.md](claude-progress.md)다.
 
 ## 1. 지금 가장 중요한 한 가지
 
@@ -63,13 +63,13 @@ flowchart TD
     L --> D
 ```
 
-Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. 실제 Broker에서 받은 바이트를 이 검증 경로에 연결하는 것은 **다음 COM-01 작업**이다. 현재 `init.cmd start`는 Broker 연결 콘솔을 실행하며, 위 메시지 검증 경로 전체를 실행하는 명령은 아니다.
+Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S015부터 `init.cmd start`는 실제 Heartbeat를 구독해 이 검증 경로와 콘솔 Core 대역으로 전달한다. Telemetry·Alarm·ACK 및 AMR별 큐는 COM-01 후속이며 네 유형의 검증기는 테스트에서 직접 호출한다.
 
 | 기능 | 현재 상태 | 확인한 범위 |
 | --- | --- | --- |
 | COM-03 | 구현·검증 완료 | 실제 Broker 연결, 연결 유지, 단절·최초 실패 감지 |
 | COM-04 | 내부 임시 계약으로 구현·검증 완료 | 메시지 검증, Core 대역 전달, 실패 로그 대역 기록 |
-| COM-01 | 미구현 | 실제 메시지 구독·발행, AMR별 처리 큐, 검증기 연결 |
+| COM-01 | 부분 구현 | Heartbeat 구독·검증 연결 완료. 다른 유형·명령·AMR별 큐는 후속 |
 | COM-02 | 미구현 | AMR별 마지막 정상 Heartbeat 수신 시각과 Timeout 관리 |
 | COM-05 | 미구현 | 실제 Command/ACK 송수신 과정에서 CommandId 보존 |
 
@@ -210,14 +210,14 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. 실
 
 | 파일 | 현재 상태 |
 | --- | --- |
-| [MqttSubscriber.cs](src/Amr.Communication/Mqtt/MqttSubscriber.cs) | 객체를 받는 생성자는 있지만 `SubscribeAsync` 안에 실제 구독 구현이 없음 |
+| [MqttSubscriber.cs](src/Amr.Communication/Mqtt/MqttSubscriber.cs) | Heartbeat 구독 및 검증기 전달 구현. 다른 유형·AMR별 큐는 후속 |
 | [MqttPublisher.cs](src/Amr.Communication/Mqtt/MqttPublisher.cs) | 발행 기능 골격 |
 | [MqttTopics.cs](src/Amr.Communication/Mqtt/MqttTopics.cs) | 기존 문자열 정의. `cmd/ack`, `cmd`, `state`가 현재 추적기와 다름 |
 | [HeartbeatMonitor.cs](src/Amr.Communication/Monitoring/HeartbeatMonitor.cs) | 개별 AMR 감시 미구현 |
 | [AmrConnectionState.cs](src/Amr.Communication/Monitoring/AmrConnectionState.cs) | 개별 AMR 상태 골격. BrokerConnectionSnapshot과 별개 |
 | [CommandManager.cs](src/Amr.Communication/Command/CommandManager.cs) | 명령 관련 골격 |
 | [CommandMessage.cs](src/Amr.Communication/Models/CommandMessage.cs), [MqttAliveMessage.cs](src/Amr.Communication/Models/MqttAliveMessage.cs) | 아직 데이터 계약·동작이 구현되지 않은 골격 |
-| [Amr.TestClient/Program.cs](src/Amr.TestClient/Program.cs) | 현재 Hello World. 완성된 가상 AMR이 아님 |
+| [Amr.TestClient/Program.cs](src/Amr.TestClient/Program.cs) | Heartbeat 발행 실습. S016부터 status=OK 포함; 이동·명령 처리는 후속 |
 | [AmrControlSystem/MainWindow.xaml.cs](src/AmrControlSystem/MainWindow.xaml.cs) | 차트·MQTT·SQLite 등 실험 코드. GUI가 직접 MQTT/DB에 접근하는 기존 구조 |
 | [AmrControlTest/MainWindow.xaml.cs](src/AmrControlTest/MainWindow.xaml.cs), [MqttTestService.cs](src/AmrControlTest/Tests/MqttTestService.cs), [LoggingTestService.cs](src/AmrControlTest/Tests/LoggingTestService.cs) | 별도의 WPF 실험 앱·보조 코드. tests/ 아래 xUnit 자동 테스트와 구분 |
 
@@ -242,21 +242,21 @@ WPF의 `MainWindow.xaml`은 화면 배치, `MainWindow.xaml.cs`는 화면 이벤
 Topic: `amr/AMR_001/heartbeat`
 
 ```json
-{"id":"AMR_001","ts":2208988800123}
+{"id":"AMR_001","ts":2208988800123,"status":"OK"}
 ```
 
 1. 테스트가 `Encoding.UTF8.GetBytes(...)`로 JSON 문자열을 바이트로 만든다.
 2. `IncomingMessageProcessor.ProcessAsync`가 `MessageValidator.Validate`를 호출한다.
 3. `MessageValidator`가 Topic의 3개 구간, ID 형식, `heartbeat` 유형을 검사한다.
-4. `PayloadValidator`가 크기·UTF-8·JSON object 여부, 허용 필드, ID 일치, Int64 시간을 검사한다.
-5. 성공하면 `HeartbeatMessage("AMR_001", 2208988800123)`를 담은 `ValidationResult`를 반환한다.
+4. `PayloadValidator`가 크기·UTF-8·JSON object 여부, 허용 필드, ID 일치, Int64 시간, status=OK를 검사한다.
+5. 성공하면 `HeartbeatMessage("AMR_001", 2208988800123, HeartbeatStatus.Ok)`를 담은 `ValidationResult`를 반환한다.
 6. Processor가 `IIncomingMessageSink.ReceiveAsync`를 호출한다.
 7. 테스트의 `Probe.Messages`에 메시지 하나가 들어오고 `Probe.Failures`는 비어 있다.
 
 이번에는 `ts`만 뺀다.
 
 ```json
-{"id":"AMR_001"}
+{"id":"AMR_001","status":"OK"}
 ```
 
 `Required(root, "ts")`에서 누락을 찾는다. 내부 검사 예외는 검증 결과로 변환되어 돌아오며, 오류 코드는 `MissingField`, 필드 경로는 `$.ts`다. `$`는 최상위 object를 나타낸다. Processor는 Core를 호출하지 않고 실패 정보를 기록한다.
@@ -277,7 +277,7 @@ feature_list.json의 목표 동작과 verification
 
 **코드가 현재 하는 일을 그대로 정답으로 적는 것이 아니다.** 예를 들어 코드가 누락된 `ts`를 0으로 처리하더라도, 계약에서 필수라고 정했다면 테스트는 실패해야 한다. 구현을 고치거나, 요구사항을 정당하게 변경하고 revision과 근거를 함께 갱신해야 한다.
 
-PDF v0.3 원본은 현재 전달되지 않았다. 그러므로 COM-04의 상태 enum, ACK 결과 문자열, 시간 단위 등의 세부 규칙은 기록된 **내부 임시 계약**이다. 실제 로봇 제조사 규격을 검증한 것으로 읽지 않는다.
+S016에서 제공된 PDF v0.3 p4·6을 반영해 Telemetry 구조와 State·Alarm Level을 보완했다. 시간 단위, AlarmState·Heartbeat Status·ACK Result의 세부 목록은 여전히 기록된 **개발용 임시 결정**이다. 실제 로봇 제조사 규격을 검증한 것으로 읽지 않는다.
 
 ### 가장 먼저 읽을 테스트 파일 3개
 
@@ -323,7 +323,7 @@ PDF v0.3 원본은 현재 전달되지 않았다. 그러므로 COM-04의 상태 
 
 `Sample`은 정상 JSON, `Expected`는 기대 모델, `Fields`는 필수 필드 목록이다. `Change`는 정상 JSON에서 한 필드만 바꾸거나 제거한다. `MissingFields`·`WrongTypes`는 그 재료로 여러 입력을 만든다.
 
-S010의 **244개**는 COM-04 테스트 메서드가 244개라는 뜻이 아니다. Theory의 여러 입력 사례까지 펼친 실행 건수다. 당시 집계는 `COM-04 244 + 기존 연결/골격 20 + 도구 테스트 37 = 전체 301`이었다. 이번 학습 문서 작성에서는 제품 테스트를 다시 실행하지 않았다.
+S010의 **244개**는 COM-04 테스트 메서드가 244개라는 뜻이 아니다. Theory의 여러 입력 사례까지 펼친 실행 건수다. 당시 집계는 `COM-04 244 + 기존 연결/골격 20 + 도구 테스트 37 = 전체 301`이었다. S011 문서 작성 때는 재실행하지 않았다. S016 보완 후 집계는 COM-04 286 + 기존20 + 도구37 = 343건 통과다.
 
 ### 정상 테스트 한 개를 읽는 방법
 
@@ -492,6 +492,6 @@ IDE의 테스트 탐색기에서 해당 테스트를 디버그 실행하면 실�
 - 비정상 메시지 다음에도 계속 처리된다는 것을 어느 Assert가 증명하는가?
 - Broker KeepAlive가 정상이어도 개별 AMR은 멈춰 있을 수 있는가?
 - 실제 Broker 없이 수행한 테스트와 실제 Broker 검증은 각각 무엇을 증명하는가?
-- COM-04 passing인데 실제 수신 기능이 완성되지 않은 이유는 무엇인가?
+- COM-04 passing 및 Heartbeat 실제 수신만으로 COM-01 전체 완료라고 할 수 없는 이유는 무엇인가?
 
 막히는 질문에 해당하는 파일만 다시 읽으면 된다. 우선 **Processor의 성공/실패 분기와 Reject 테스트를 직접 설명할 수 있는 수준**을 목표로 잡는다.

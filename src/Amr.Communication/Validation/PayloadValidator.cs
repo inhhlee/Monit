@@ -23,9 +23,9 @@ internal static class PayloadValidator
             var root = document.RootElement;
             Object(root, "$", kind switch
             {
-                IncomingMessageKind.Telemetry => ["id", "ts", "Pos"],
-                IncomingMessageKind.Alarm => ["id", "ts", "code", "level", "message"],
-                IncomingMessageKind.Heartbeat => ["id", "ts"],
+                IncomingMessageKind.Telemetry => ["id", "ts", "pos", "sp", "state"],
+                IncomingMessageKind.Alarm => ["id", "ts", "code", "level", "alarmState", "message"],
+                IncomingMessageKind.Heartbeat => ["id", "ts", "status"],
                 IncomingMessageKind.Ack => ["id", "ts", "cmdId", "result"],
                 _ => throw new ArgumentOutOfRangeException(nameof(kind))
             });
@@ -42,9 +42,11 @@ internal static class PayloadValidator
 
             IncomingMessage message = kind switch
             {
-                IncomingMessageKind.Telemetry => new TelemetryMessage(amrId, ts, Position(Required(root, "Pos"))),
-                IncomingMessageKind.Alarm => new AlarmMessage(amrId, ts, Text(root, "code"), Level(Text(root, "level")), Text(root, "message")),
-                IncomingMessageKind.Heartbeat => new HeartbeatMessage(amrId, ts),
+                IncomingMessageKind.Telemetry => new TelemetryMessage(amrId, ts, Position(Required(root, "pos")),
+                    Number(root, "sp", "$", nonnegative: true), State(Text(root, "state"))),
+                IncomingMessageKind.Alarm => new AlarmMessage(amrId, ts, Text(root, "code"), Level(Text(root, "level")),
+                    AlarmLifecycle(Text(root, "alarmState")), root.TryGetProperty("message", out _) ? Text(root, "message") : null),
+                IncomingMessageKind.Heartbeat => new HeartbeatMessage(amrId, ts, Status(Text(root, "status"))),
                 IncomingMessageKind.Ack => new AckMessage(amrId, ts, Text(root, "cmdId"), Result(Text(root, "result"))),
                 _ => throw new ArgumentOutOfRangeException(nameof(kind))
             };
@@ -105,33 +107,46 @@ internal static class PayloadValidator
         }
     }
 
-    private static double Number(JsonElement value, string name)
+    private static double Number(JsonElement value, string name, string parent, bool nonnegative = false)
     {
-        var field = Required(value, name, "$.Pos");
+        var field = Required(value, name, parent);
         if (field.ValueKind != JsonValueKind.Number || !field.TryGetDouble(out var result))
-            throw Invalid("InvalidType", $"$.Pos.{name}", "Expected a JSON number.");
-        if (!double.IsFinite(result) || (name == "sp" && result < 0))
-            throw Invalid("OutOfRange", $"$.Pos.{name}", "Expected a finite value; speed must be nonnegative.");
+            throw Invalid("InvalidType", $"{parent}.{name}", "Expected a JSON number.");
+        if (!double.IsFinite(result) || (nonnegative && result < 0))
+            throw Invalid("OutOfRange", $"{parent}.{name}", "Expected a finite value; speed must be nonnegative.");
         return result;
     }
 
     private static TelemetryPosition Position(JsonElement pos)
     {
-        Object(pos, "$.Pos", ["x", "y", "sp", "stat"]);
-        return new(Number(pos, "x"), Number(pos, "y"), Number(pos, "sp"), State(Text(pos, "stat", "$.Pos")));
+        Object(pos, "$.pos", ["x", "y"]);
+        return new(Number(pos, "x", "$.pos"), Number(pos, "y", "$.pos"));
     }
 
     private static AmrState State(string state) => state switch
     {
-        "IDLE" => AmrState.Idle, "MOVING" => AmrState.Moving,
-        "CHARGING" => AmrState.Charging, "ERROR" => AmrState.Error,
-        _ => throw Invalid("OutOfRange", "$.Pos.stat", "Unsupported AMR state.")
+        "IDLE" => AmrState.Idle, "BUSY" => AmrState.Busy,
+        "STOPPED" => AmrState.Stopped, "FAULT" => AmrState.Fault,
+        _ => throw Invalid("OutOfRange", "$.state", "Unsupported AMR state.")
     };
 
     private static AlarmLevel Level(string level) => level switch
     {
-        "INFO" => AlarmLevel.Info, "WARNING" => AlarmLevel.Warning, "ERROR" => AlarmLevel.Error,
+        "INFO" => AlarmLevel.Info, "WARN" => AlarmLevel.Warning, "ERR" => AlarmLevel.Error, "FATAL" => AlarmLevel.Fatal,
         _ => throw Invalid("OutOfRange", "$.level", "Unsupported alarm level.")
+    };
+
+    // PDF에 전체 허용값 목록은 없다. DN-02에 기록한 개발용 계약만 수용한다.
+    private static AlarmState AlarmLifecycle(string state) => state switch
+    {
+        "ACTIVE" => AlarmState.Active, "CLEARED" => AlarmState.Cleared,
+        _ => throw Invalid("OutOfRange", "$.alarmState", "Unsupported alarm state.")
+    };
+
+    private static HeartbeatStatus Status(string status) => status switch
+    {
+        "OK" => HeartbeatStatus.Ok,
+        _ => throw Invalid("OutOfRange", "$.status", "Unsupported heartbeat status.")
     };
 
     private static AckResult Result(string result) => result switch

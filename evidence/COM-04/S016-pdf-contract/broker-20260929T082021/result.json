@@ -1,0 +1,11 @@
+{
+  "result": "failed",
+  "executed_at": "2026-09-29T08:20:21.8935511+09:00",
+  "amr_id": "S016_8c7c3a6e5cde4b928c5727851c3ffe66",
+  "broker": "localhost:1883",
+  "test_doubles": "Console Core/log sink; Amr.TestClient virtual publisher",
+  "limitations": "Heartbeat only. Publisher stopped by test process; no actual Core/GUI or AMR movement.",
+  "docker": "24.0.6",
+  "image": "eclipse-mosquitto:2.1.2-alpine",
+  "error": "Exception calling \"ReadAllText\" with \"1\" argument(s): \"The process cannot access the file 'C:\\practice\\evidence\\COM-04\\S016-pdf-contract\\broker-20260929T082021\\consumer.log' because it is being used by another process.\""
+}

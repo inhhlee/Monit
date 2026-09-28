@@ -6,19 +6,19 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-23, Asia/Seoul |
+| Last updated | 2026-09-29, Asia/Seoul |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. 직접 시작은 테스트 없이 콘솔 빌드·실행. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
-| Highest priority unfinished feature | COM-01: MQTT 메시지 구독·발행 및 AMR별 처리 큐 |
-| Active feature | S015 COM-01 Heartbeat 발행·수신 단계에서 연결 경로 변경의 COM-03 회귀 검증 중. COM-03 in_progress, COM-04/01은 의존 기능 회귀 완료 대기(not_started). COM-02/05 not_started. |
-| Verified product behavior | COM-03의 S009 실제 Mosquitto 5항목 통과 유지. S010 COM-04 내부 임시 수신 계약 검증 8항목 및 244개 자동 사례 통과(Core·로그 대역). 전체 제품 테스트 264건, 도구 테스트 37건 통과. 실제 MQTT 수신 경로 연결은 COM-01 후속. |
-| Current blocker | 제품 기능 blocker 없음. S010 표준 init.cmd verify 통과. 기본 병렬 restore 실패는 작업자 1개/재사용 비활성화로 복구했으며 근본 원인은 미확정. |
+| Highest priority unfinished feature | COM-01: 기존 Heartbeat 단계에 이어 다른 유형 구독·AMR별 큐·Command 발행 구현 |
+| Active feature | 없음. S016 COM-04 revision 3 passing. COM-03 passing, COM-01 revision 2 not_started(부분 구현 재개 대기), COM-02/05 not_started. |
+| Verified product behavior | S016 COM-04 PDF 반영 계약 v2 검증 8항목·286개 자동 사례 통과(Core/로그 대역). 전체 제품306/도구37=343건 통과. 실제 가상 AMR Heartbeat status=OK 수신, 네 오류 거부 후 정상 수신, 관제 콘솔 재시작 통과. 다른 수신 유형의 MQTT 연결은 COM-01 후속. COM-03 연결 코드 변경 없음; S015 실제 Broker 증거 유지. |
+| Current blocker | 제품 기능 blocker 없음. S016 init.cmd verify 및 기존 Heartbeat 경로 회귀 통과. S015 서술상 Heartbeat README 경로는 현재 누락되어 S016에서 새 증거를 남겼다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
-| Harness verification | S010 init.cmd verify: 전체 restore/build, 추적기, 자동 테스트 301건 및 TRX 검사 통과. S009의 Git Bash/공백·한글 경로/클린 소스 검증은 과거 증거이며 S010 변경 후 동일 범위를 재실행한 것은 아니다. |
-| Working rules | 루트 AGENTS.md 적용. DN-01/02 내부 수신 계약 v1 임시 채택; COM-04 revision 2 실패·재시도 및 최종 8항목 증거 기록. DN-03/04의 COM-03 결정 유지. |
-| Environment | S010: Windows 10.0.26200, .NET SDK 10.0.401/runtime 10.0.12, PowerShell 7.6.5, Git 2.41.0.windows.1. MQTTnet 5.2.0.1603. COM-04 검증은 Broker 미사용. Docker/Mosquitto의 S009 환경 기록은 해당 세션 참조. Python 불필요. |
+| Harness verification | S016 표준 verify의 restore/build/tracker/343 자동 테스트/TRX 통과. 상태·증거 갱신 후 tracker 재검사. 기존 Git Bash/클린 복제본/다른 PC 검증을 이번에 재실행하지 않았다. |
+| Working rules | AGENTS.md 적용. DN-01 오류 로그 유지; DN-02 PDF 반영 계약 v2, COM-04 revision 3. DN-07 Heartbeat status=OK 필수. 시간 단위·세부 enum 미정값은 provisional. |
+| Environment | S016 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.41.0, MQTTnet 5.2.0.1603. 실제 Heartbeat는 Docker 24.0.6/Mosquitto 2.1.2-alpine, localhost:1883, QoS0/Retain false. WPF NU1701 6건 유지. |
 | Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
 | Current Windows baseline commit | eb296f376c04d441e5d067a1cb8e060ccb199eac. S010 COM-04 및 전체 301건 검증 완료. S009 클린 소스 기준선은 cc356d980a94b9e3a76b546250e34e3533ce827f. 이번 커밋의 원격 push 미실행. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
@@ -181,3 +181,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 곧 작성될 커밋 참조.
 - Known risks: 아직 다른 메시지 유형과 Command/ACK, 재접속 기능이 미완성이므로 COM-01은 부분 구현 상태이다. 기존에 확인한 재접속 범위 차이 및 누락된 구현은 후속 과제로 남긴다.
 - Next best action: COM-01의 다음 목표인 Telemetry, Alarm 처리 및 AMR별 처리 큐(Command/ACK 포함)를 구현한다.
+
+### S016 - 2026-09-29 - PDF 기준 COM-04 수신 검증 보완
+
+- Goal: 사용자 선택에 따라 COM-04를 제공된 PDF v0.3 형식에 맞춰 보완하고 전체 8항목 및 기존 Heartbeat 경로를 검증한다.
+- Completed: 시작 HEAD b05e394004f92ccef583778839c6ae9d2237f8e4. Telemetry pos{x,y}/sp/state 분리 및 IDLE/BUSY/STOPPED/FAULT, Alarm INFO/WARN/ERR/FATAL·alarmState와 선택 message, Heartbeat status=OK를 모델·검증기·테스트에 반영. DN-01 유지/DN-02 v2/DN-07 변경 및 원문 차이·임시값 기록. 가상 AMR 발행도 status 추가. COM-04 revision 3의 8항목 통과 후 passing. COM-01은 부분 구현을 보존하고 revision 2/not_started(재개 대기); 전체 완료 판정 없음. README·두 학습 문서 갱신. 사용자 AmrControlSystem.slnx 변경·루트 Program.cs·9월 26일 실행 로그는 보존하며 커밋에서 제외한다.
+- Verification run: 시작 ./init.cmd verify 제품264/도구37 통과. 개발 305통과/1실패는 Unicode 테스트 입력 생성기의 재직렬화 예외였고 raw JSON 전달로 수정 후306 통과. 최종 ./init.cmd verify restore/build/tracker/제품306(검증기286)/도구37/TRX 모두 통과, 건너뜀0. 기존 NU1701 경고6건. 실제 Broker 스크립트 최초 로그 공유 모드 오류 후 수정하여 status 포함 발행·수신, JSON/누락/범위/ID 오류4건 거부 및 후속 정상 수신, 새 소비자 프로세스 재시작·수신·정상종료 검증. 실행 도구는 tools/verify-com04-heartbeat.ps1에 보관. COM-03 구현 불변이므로 KeepAlive 전체 시나리오는 반복하지 않았다.
+- Evidence recorded: evidence/COM-04/S016-pdf-contract/README.md, result.json, source-sha256.json, development/ 실패·수정 TRX, broker-20260929T082021 실패 및 broker-20260929T082053 성공 로그. 시작 evidence/bootstrap/20260929T080854587+0900-f8a0d4/, 최종 evidence/bootstrap/20260929T081848889+0900-6b8c60/. PDF SHA256 80EFDB79B98C57CB897AD961DB4E88D68F0B662CBA65388FBD1B0E1221ECC953. S015 서술상 evidence/COM-01/S015-heartbeat/README.md는 현재 없음; 그 서술만으로 새 통과를 주장하지 않는다.
+- Commits: 없음. 검증된 관련 파일의 커밋 준비 중; 사용자 변경 제외.
+- Known risks: PDF에서 시간 단위·AlarmState/Heartbeat Status/ACK Result 전체 허용값은 미확정이다. 밀리초·ACTIVE/CLEARED·OK·SUCCESS/FAILURE를 provisional로 명시했다. v1 Pos 및 status 없는 Heartbeat는 거부한다. 실제 Core/GUI/장비 운행, Telemetry/Alarm/ACK 구독·큐·Command 발행, 운영 TLS/인증은 미검증. 생산자 테스트 프로세스는 중단하므로 Ctrl+C 정상 종료 증거로 쓰지 않는다.
+- Next best action: COM-01. feature_list.json의 DN-02/04/06/07, Validation/CONTRACT.md, MqttSubscriber.cs/MqttPublisher.cs를 읽고 ./init.cmd verify 후 재개. 현재 Heartbeat 경로를 유지하며 다른 유형 구독·AMR별 순차/독립 큐·Command 스키마 및 발행을 구현·검증한다.

@@ -17,9 +17,9 @@ public class MessageValidationTests(ITestOutputHelper output)
     /// </summary>    
     private static string Sample(string kind) => kind switch
     {
-        "telemetry" => """{"id":"AMR_001","ts":2208988800123,"Pos":{"x":1.25,"y":-2.5,"sp":0.75,"stat":"IDLE"}}""",
-        "alarm" => """{"id":"AMR_001","ts":2208988800123,"code":"A001","level":"WARNING","message":"장애물 감지"}""",
-        "heartbeat" => """{"id":"AMR_001","ts":2208988800123}""",
+        "telemetry" => """{"id":"AMR_001","ts":2208988800123,"pos":{"x":1.25,"y":-2.5},"sp":0.75,"state":"IDLE"}""",
+        "alarm" => """{"id":"AMR_001","ts":2208988800123,"code":"A001","level":"WARN","alarmState":"ACTIVE","message":"장애물 감지"}""",
+        "heartbeat" => """{"id":"AMR_001","ts":2208988800123,"status":"OK"}""",
         "ack" => """{"cmdId":"cmd-001","result":"SUCCESS","ts":2208988800123}""",
         _ => throw new ArgumentException(kind)
     };
@@ -29,9 +29,9 @@ public class MessageValidationTests(ITestOutputHelper output)
     /// </summary>    
     private static string[] Fields(string kind) => kind switch
     {
-        "telemetry" => ["id", "ts", "Pos", "Pos.x", "Pos.y", "Pos.sp", "Pos.stat"],
-        "alarm" => ["id", "ts", "code", "level", "message"],
-        "heartbeat" => ["id", "ts"],
+        "telemetry" => ["id", "ts", "pos", "pos.x", "pos.y", "sp", "state"],
+        "alarm" => ["id", "ts", "code", "level", "alarmState"],
+        "heartbeat" => ["id", "ts", "status"],
         "ack" => ["cmdId", "result", "ts"],
         _ => throw new ArgumentException(kind)
     };
@@ -54,9 +54,9 @@ public class MessageValidationTests(ITestOutputHelper output)
 /// </summary>
     private static IncomingMessage Expected(string kind) => kind switch
     {
-        "telemetry" => new TelemetryMessage("AMR_001", FutureTimestamp, new(1.25, -2.5, 0.75, AmrState.Idle)),
-        "alarm" => new AlarmMessage("AMR_001", FutureTimestamp, "A001", AlarmLevel.Warning, "장애물 감지"),
-        "heartbeat" => new HeartbeatMessage("AMR_001", FutureTimestamp),
+        "telemetry" => new TelemetryMessage("AMR_001", FutureTimestamp, new(1.25, -2.5), 0.75, AmrState.Idle),
+        "alarm" => new AlarmMessage("AMR_001", FutureTimestamp, "A001", AlarmLevel.Warning, AlarmState.Active, "장애물 감지"),
+        "heartbeat" => new HeartbeatMessage("AMR_001", FutureTimestamp, HeartbeatStatus.Ok),
         "ack" => new AckMessage("AMR_001", FutureTimestamp, "cmd-001", AckResult.Success),
         _ => throw new ArgumentException(kind)
     };
@@ -90,7 +90,7 @@ public class MessageValidationTests(ITestOutputHelper output)
         foreach (var kind in Kinds)
         foreach (var field in Fields(kind))
         {
-            var type = field == "Pos" ? "object" : field == "ts" || field is "Pos.x" or "Pos.y" or "Pos.sp" ? "number" : "string";
+            var type = field == "pos" ? "object" : field is "ts" or "pos.x" or "pos.y" or "sp" ? "number" : "string";
             foreach (var (value, valueType) in new[] { ("null", "null"), ("true", "boolean"), ("[]", "array"), ("{}", "object"), ("123", "number"), ("\"text\"", "string") })
                 if (type != valueType) yield return [kind, field, value];
         }
@@ -173,28 +173,42 @@ public class MessageValidationTests(ITestOutputHelper output)
     }
 
     [Theory]
-    [InlineData("telemetry", "Pos.stat", "\"FLYING\"")]
-    [InlineData("telemetry", "Pos.stat", "\"idle\"")]
-    [InlineData("alarm", "level", "\"FATAL\"")]
+    [InlineData("telemetry", "state", "\"FLYING\"")]
+    [InlineData("telemetry", "state", "\"idle\"")]
+    [InlineData("telemetry", "state", "\"MOVING\"")]
+    [InlineData("telemetry", "state", "\"CHARGING\"")]
+    [InlineData("telemetry", "state", "\"ERROR\"")]
+    [InlineData("telemetry", "state", "\"ON\"")]
+    [InlineData("telemetry", "state", "\"OFF\"")]
+    [InlineData("alarm", "level", "\"WARNING\"")]
+    [InlineData("alarm", "level", "\"ERROR\"")]
     [InlineData("alarm", "level", "\"warning\"")]
+    [InlineData("alarm", "alarmState", "\"UNKNOWN\"")]
+    [InlineData("alarm", "alarmState", "\"active\"")]
+    [InlineData("heartbeat", "status", "\"UNKNOWN\"")]
+    [InlineData("heartbeat", "status", "\"ok\"")]
     [InlineData("ack", "result", "\"UNKNOWN\"")]
     [InlineData("ack", "result", "\"success\"")]
-    [InlineData("telemetry", "Pos.sp", "-0.01")]
-    [InlineData("telemetry", "Pos.x", "1e400")]
-    [InlineData("telemetry", "Pos.y", "-1e400")]
-    [InlineData("telemetry", "Pos.sp", "1e400")]
+    [InlineData("telemetry", "sp", "-0.01")]
+    [InlineData("telemetry", "pos.x", "1e400")]
+    [InlineData("telemetry", "pos.y", "-1e400")]
+    [InlineData("telemetry", "sp", "1e400")]
     /// 필드에 대한 enum과 숫자 범위 검증
     public async Task InvalidEnumsAndNumericRangesAreRejected(string kind, string field, string value)
         => await Reject($"amr/AMR_001/{kind}", Change(kind, field, value), "OutOfRange", "$." + field);
 
     [Theory]
-    [InlineData("telemetry", "Pos.stat", "IDLE", "Idle")]
-    [InlineData("telemetry", "Pos.stat", "MOVING", "Moving")]
-    [InlineData("telemetry", "Pos.stat", "CHARGING", "Charging")]
-    [InlineData("telemetry", "Pos.stat", "ERROR", "Error")]
+    [InlineData("telemetry", "state", "IDLE", "Idle")]
+    [InlineData("telemetry", "state", "BUSY", "Busy")]
+    [InlineData("telemetry", "state", "STOPPED", "Stopped")]
+    [InlineData("telemetry", "state", "FAULT", "Fault")]
     [InlineData("alarm", "level", "INFO", "Info")]
-    [InlineData("alarm", "level", "WARNING", "Warning")]
-    [InlineData("alarm", "level", "ERROR", "Error")]
+    [InlineData("alarm", "level", "WARN", "Warning")]
+    [InlineData("alarm", "level", "ERR", "Error")]
+    [InlineData("alarm", "level", "FATAL", "Fatal")]
+    [InlineData("alarm", "alarmState", "ACTIVE", "Active")]
+    [InlineData("alarm", "alarmState", "CLEARED", "Cleared")]
+    [InlineData("heartbeat", "status", "OK", "Ok")]
     [InlineData("ack", "result", "SUCCESS", "Success")]
     [InlineData("ack", "result", "FAILURE", "Failure")]
     public async Task EveryAllowedEnumValueReachesCore(string kind, string field, string value, string expected)
@@ -203,8 +217,10 @@ public class MessageValidationTests(ITestOutputHelper output)
         await Run(probe, $"amr/AMR_001/{kind}", Change(kind, field, JsonSerializer.Serialize(value)));
         var actual = Assert.Single(probe.Messages) switch
         {
-            TelemetryMessage t => t.Position.State.ToString(),
+            TelemetryMessage t => t.State.ToString(),
+            AlarmMessage a when field == "alarmState" => a.AlarmState.ToString(),
             AlarmMessage a => a.Level.ToString(),
+            HeartbeatMessage h => h.Status.ToString(),
             AckMessage a => a.Result.ToString(),
             _ => throw new InvalidOperationException()
         };
@@ -234,7 +250,7 @@ public class MessageValidationTests(ITestOutputHelper output)
         => await Reject($"amr/AMR_001/{kind}", Sample(kind).Replace(FutureTimestamp.ToString(), timestamp), "InvalidType", "$.ts");
 
     public static IEnumerable<object[]> BlankStrings() => Kinds.SelectMany(kind =>
-        Fields(kind).Where(f => f is "id" or "cmdId" or "code" or "message" or "Pos.stat" or "level" or "result")
+        Fields(kind).Where(f => f is "id" or "cmdId" or "code" or "state" or "level" or "result" or "alarmState" or "status")
             .SelectMany(field => new[] { "\"\"", "\"   \"" }.Select(v => new object[] { kind, field, v })));
 
     [Theory]
@@ -248,8 +264,8 @@ public class MessageValidationTests(ITestOutputHelper output)
     [InlineData("heartbeat", "{\"id\":\"AMR_001\",\"ts\":1,\"t\\u0073\":2}", "DuplicateField", "$")]
     [InlineData("heartbeat", "{\"id\":\"AMR_001\",\"ts\":1,\"type\":\"heartbeat\"}", "UnexpectedField", "$")]
     [InlineData("heartbeat", "{\"ID\":\"AMR_001\",\"ts\":1}", "UnexpectedField", "$")]
-    [InlineData("telemetry", "{\"id\":\"AMR_001\",\"ts\":1,\"Pos\":{\"x\":1,\"x\":2,\"y\":0,\"sp\":0,\"stat\":\"IDLE\"}}", "DuplicateField", "$.Pos")]
-    [InlineData("telemetry", "{\"id\":\"AMR_001\",\"ts\":1,\"Pos\":{\"x\":1,\"y\":0,\"sp\":0,\"stat\":\"IDLE\",\"extra\":1}}", "UnexpectedField", "$.Pos")]
+    [InlineData("telemetry", "{\"id\":\"AMR_001\",\"ts\":1,\"pos\":{\"x\":1,\"x\":2,\"y\":0},\"sp\":0,\"state\":\"IDLE\"}", "DuplicateField", "$.pos")]
+    [InlineData("telemetry", "{\"id\":\"AMR_001\",\"ts\":1,\"pos\":{\"x\":1,\"y\":0,\"extra\":1},\"sp\":0,\"state\":\"IDLE\"}", "UnexpectedField", "$.pos")]
     /// <summary>dsf
     public async Task AmbiguousAndUnknownFieldsAreRejected(string kind, string json, string code, string path)
         => await Reject($"amr/AMR_001/{kind}", json, code, path);
@@ -332,6 +348,66 @@ public class MessageValidationTests(ITestOutputHelper output)
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => processor.ProcessAsync("amr/AMR_001/heartbeat",
             Encoding.UTF8.GetBytes(Sample("heartbeat")), new CancellationToken(true)).AsTask());
         Assert.Empty(probe.Messages);
+        Assert.Empty(probe.Failures);
+    }
+
+    // PDF p6의 네 수신 예시를 그대로 사용한다. ts의 단위를 추측하여 변환하지 않는다.
+    public static IEnumerable<object[]> PdfExamples() =>
+    [
+        ["telemetry", """{"id":"AMR_001","ts":1789154700,"pos":{"x":15.2,"y":20.5},"sp":0.8,"state":"BUSY"}""",
+            new TelemetryMessage("AMR_001", 1789154700, new(15.2, 20.5), 0.8, AmrState.Busy)],
+        ["alarm", """{"id":"AMR_001","ts":1789154700,"code":"ALM-OBS-001","level":"WARN","alarmState":"ACTIVE"}""",
+            new AlarmMessage("AMR_001", 1789154700, "ALM-OBS-001", AlarmLevel.Warning, AlarmState.Active, null)],
+        ["heartbeat", """{"id":"AMR_001","ts":1789154700,"status":"OK"}""",
+            new HeartbeatMessage("AMR_001", 1789154700, HeartbeatStatus.Ok)],
+        ["ack", """{"cmdId":"CMD-0001","ts":1789154706,"result":"SUCCESS"}""",
+            new AckMessage("AMR_001", 1789154706, "CMD-0001", AckResult.Success)]
+    ];
+
+    [Theory]
+    [MemberData(nameof(PdfExamples))]
+    public async Task PdfPageSixExamplesPreserveData(string kind, string json, IncomingMessage expected)
+    {
+        var probe = new Probe();
+        Assert.True((await Run(probe, $"amr/AMR_001/{kind}", json)).IsValid);
+        Assert.Equal(expected, Assert.Single(probe.Messages));
+        Assert.Empty(probe.Failures);
+    }
+
+    [Theory]
+    [InlineData("null", "InvalidType")]
+    [InlineData("true", "InvalidType")]
+    [InlineData("1", "InvalidType")]
+    [InlineData("[]", "InvalidType")]
+    [InlineData("{}", "InvalidType")]
+    [InlineData("\"\"", "InvalidValue")]
+    [InlineData("\"   \"", "InvalidValue")]
+    [InlineData("\"\\uD800\"", "InvalidJson")]
+    public async Task OptionalAlarmMessageIsValidatedWhenPresent(string value, string code)
+        // 잘못된 Unicode도 제품 검증기에 도달하도록 JSON 재직렬화를 거치지 않는다.
+        => await Reject("amr/AMR_001/alarm", Sample("alarm").Replace("\"장애물 감지\"", value), code, "$.message");
+
+    [Theory]
+    [InlineData("telemetry", """{"id":"AMR_001","ts":1,"Pos":{"x":0,"y":0,"sp":0,"stat":"IDLE"}}""", "UnexpectedField", "$")]
+    [InlineData("telemetry", """{"id":"AMR_001","ts":1,"pos":{"x":0,"y":0,"sp":0,"stat":"IDLE"}}""", "UnexpectedField", "$.pos")]
+    [InlineData("heartbeat", """{"id":"AMR_001","ts":1}""", "MissingField", "$.status")]
+    [InlineData("heartbeat", """{"id":"AMR_001","ts":1,"status":"OK","status":"OK"}""", "DuplicateField", "$")]
+    [InlineData("alarm", """{"id":"AMR_001","ts":1,"code":"A","level":"WARN","message":"alarm"}""", "MissingField", "$.alarmState")]
+    public async Task OldOrAmbiguousContractsAreNotSilentlyAccepted(string kind, string json, string code, string field)
+        => await Reject($"amr/AMR_001/{kind}", json, code, field);
+
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(0.001)]
+    [InlineData(double.MaxValue)]
+    public async Task NonnegativeFiniteSpeedAndCoordinatesArePreserved(double speed)
+    {
+        var probe = new Probe();
+        var json = JsonSerializer.Serialize(new { id = "AMR_001", ts = FutureTimestamp,
+            pos = new { x = -double.MaxValue, y = double.MaxValue }, sp = speed, state = "STOPPED" });
+        Assert.True((await Run(probe, "amr/AMR_001/telemetry", json)).IsValid);
+        Assert.Equal(new TelemetryMessage("AMR_001", FutureTimestamp, new(-double.MaxValue, double.MaxValue),
+            speed, AmrState.Stopped), Assert.Single(probe.Messages));
         Assert.Empty(probe.Failures);
     }
 

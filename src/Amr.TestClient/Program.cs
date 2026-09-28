@@ -37,11 +37,12 @@ try
 
     while (!stop.IsCancellationRequested)
     {
-        // 2. AMR ID와 현재 시각(Unix 밀리초)을 JSON으로 만듭니다.
+        // 2. 계약 v2: AMR ID, 현재 시각(Unix 밀리초), 생존 상태를 JSON으로 만듭니다.
         var payload = JsonSerializer.Serialize(new
         {
             id = amrId,
-            ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            status = "OK"
         });
         var message = new MqttApplicationMessageBuilder()
             .WithTopic(topic)

@@ -1,0 +1,21 @@
+ M AmrControlSystem.slnx
+ M README.md
+ M Studyreadme.md
+ M claude-progress.md
+ M feature_list.json
+ M src/Amr.Communication/Models/AlarmMessage.cs
+ M src/Amr.Communication/Models/HeartbeatMessage.cs
+ M src/Amr.Communication/Models/TelemetryMessage.cs
+ M src/Amr.Communication/Validation/CONTRACT.md
+ M src/Amr.Communication/Validation/PayloadValidator.cs
+ M src/Amr.TestClient/Program.cs
+ M study2.md
+ M tests/Amr.Communication.Tests/MessageValidationTests.cs
+?? Program.cs
+?? evidence/COM-04/S016-pdf-contract/
+?? evidence/bootstrap/20260926T154651186+0900-8fd58a/
+?? evidence/bootstrap/20260926T154702104+0900-dd01d2/
+?? evidence/bootstrap/20260926T154750988+0900-a5228c/
+?? evidence/bootstrap/20260926T154803035+0900-cbc478/
+?? evidence/bootstrap/20260929T080854587+0900-f8a0d4/
+?? evidence/bootstrap/20260929T081848889+0900-6b8c60/

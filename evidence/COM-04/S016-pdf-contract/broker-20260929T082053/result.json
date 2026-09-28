@@ -1,0 +1,19 @@
+{
+  "result": "passed",
+  "executed_at": "2026-09-29T08:20:53.1735684+09:00",
+  "amr_id": "S016_d372df4c37164838a9d3cb8b17c3728f",
+  "broker": "localhost:1883",
+  "test_doubles": "Console Core/log sink; Amr.TestClient virtual publisher",
+  "limitations": "Heartbeat only. Publisher stopped by test process; no actual Core/GUI or AMR movement.",
+  "docker": "24.0.6",
+  "image": "eclipse-mosquitto:2.1.2-alpine",
+  "rejection_codes": [
+    "InvalidJson",
+    "MissingField",
+    "OutOfRange",
+    "IdMismatch"
+  ],
+  "producer_with_status_received": true,
+  "valid_after_rejection_received": true,
+  "restart_received": true
+}

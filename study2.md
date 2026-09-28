@@ -1,14 +1,14 @@
 # AMR 공부 2 — COM-03 연결 관리와 COM-01 송수신 준비
 
-작성 기준: 2026-09-22, S010 제품 코드와 현재 기능 추적기. 기초 용어·전체 파일 지도·COM-04 검증 흐름은 [Studyreadme.md](Studyreadme.md)를 먼저 참고한다.
+작성 기준: 2026-09-22 S010 학습 안내. S016(2026-09-29)에서 계약 v2 안내를 보완했다. 아래 COM-01 설계 제안은 유지하며 최신 구현·상태는 추적기를 따른다. 기초 용어·전체 파일 지도·COM-04 검증 흐름은 [Studyreadme.md](Studyreadme.md)를 먼저 참고한다.
 
 **이 문서의 목표는 “연결된 상태”와 “메시지를 올바르게 처리할 수 있는 상태”를 구분하고, 두 기능의 코드와 테스트를 설명할 수 있게 되는 것이다.**
 
 | 기능 | 현재 상태 | 이 문서에서 공부할 것 |
 | --- | --- | --- |
 | COM-03 | passing, revision 2 | 실제로 구현한 연결·상태·취소·자원 해제 코드 |
-| COM-04 | passing, revision 2 | COM-01이 반드시 거쳐야 하는 기존 수신 검증 경계 |
-| COM-01 | not_started, revision 1 | 앞으로 만들 구독·발행·AMR별 큐의 개념과 검증 설계 |
+| COM-04 | PDF 반영 계약 v2, revision 3 | COM-01이 반드시 거쳐야 하는 기존 수신 검증 경계 |
+| COM-01 | 전체 미완료, revision 2 | 앞으로 만들 구독·발행·AMR별 큐의 개념과 검증 설계 |
 
 COM-01의 흐름도·큐 구성·추가 테스트는 **학습용 설계 제안**이다. 이번 문서 작성으로 구현·정책을 확정하거나 기능 상태를 변경하지 않았다. 최종 기준은 [feature_list.json](feature_list.json)의 verification과 design_notes다.
 
@@ -231,7 +231,7 @@ COM-03에서 연결 통로를 만들었다면 COM-01은 그 통로로 **올바�
 
 | 파일 | 현재 상태와 읽는 목적 |
 | --- | --- |
-| [MqttSubscriber.cs](src/Amr.Communication/Mqtt/MqttSubscriber.cs) | SubscribeAsync는 주석만 있는 골격. 아직 실제 수신 진입점이 아님 |
+| [MqttSubscriber.cs](src/Amr.Communication/Mqtt/MqttSubscriber.cs) | S015부터 Heartbeat 구독·수신 바이트 검증 연결 구현. 다른 유형 및 큐는 후속 |
 | [MqttPublisher.cs](src/Amr.Communication/Mqtt/MqttPublisher.cs) | 발행 기능 골격 |
 | [MqttTopics.cs](src/Amr.Communication/Mqtt/MqttTopics.cs) | 기존 Topic 문자열과 현재 요구사항 차이 확인 |
 | [IBrokerClient.cs](src/Amr.Communication/Mqtt/IBrokerClient.cs) | 현재는 연결 API만 있음. 송수신에 필요한 경계를 설계해야 함 |
@@ -497,3 +497,7 @@ MQTT 규격은 프로토콜 사실을 설명하고, 우리 프로젝트의 큐·
 - Core가 예외를 던졌는데 소비자 작업이 종료됐다면 무엇을 기록하고 결정해야 하나?
 
 우선 **COM-03의 동시 연결 테스트를 설명하고, COM-01의 A1·A2·B1 순서 테스트를 설계할 수 있는 수준**을 목표로 한다.
+
+## S016 계약 변경 안내
+
+현재 [COM-04 계약 v2](src/Amr.Communication/Validation/CONTRACT.md)는 PDF의 `pos{x,y}`, `sp`, `state` 구조와 `IDLE/BUSY/STOPPED/FAULT`를 적용한다. Heartbeat에는 `status:"OK"`가 필수다. `ts`는 밀리초 Int64를 유지한다. S015에서 Heartbeat 발행·구독·검증 연결이 추가되었으며 S016에서는 그 입력 계약을 보완한다. 다른 유형 구독·AMR별 큐·Command 발행은 여전히 COM-01 후속이다. 이전 예시나 실습을 실행할 때 현재 계약을 먼저 확인한다.

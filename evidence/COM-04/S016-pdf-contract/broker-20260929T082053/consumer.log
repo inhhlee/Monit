@@ -1,0 +1,14 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-1cbdcf8264ba404eaf77337d0764df28","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790637654337,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790637654578,"Error":null}
+Subscribed: amr/+/heartbeat
+Received Heartbeat: S016_d372df4c37164838a9d3cb8b17c3728f ts=1790637655065
+{"Event":"Rejected","Topic":"amr/S016_d372df4c37164838a9d3cb8b17c3728f/heartbeat","Code":"InvalidJson","Field":"$","Reason":"Malformed JSON or maximum depth exceeded."}
+{"Event":"Rejected","Topic":"amr/S016_d372df4c37164838a9d3cb8b17c3728f/heartbeat","Code":"MissingField","Field":"$.status","Reason":"Required field is missing."}
+{"Event":"Rejected","Topic":"amr/S016_d372df4c37164838a9d3cb8b17c3728f/heartbeat","Code":"OutOfRange","Field":"$.status","Reason":"Unsupported heartbeat status."}
+{"Event":"Rejected","Topic":"amr/S016_d372df4c37164838a9d3cb8b17c3728f/heartbeat","Code":"IdMismatch","Field":"$.id","Reason":"Payload ID differs from Topic ID."}
+Received Heartbeat: S016_d372df4c37164838a9d3cb8b17c3728f ts=2208988800999
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790637676588,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790637676597,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790637676597,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790637676598,"Error":null}

@@ -1,0 +1,9 @@
+2026-09-29T08:25:52.7047050+09:00
+README.md: 10 local links checked
+Studyreadme.md: 76 local links checked
+study2.md: 26 local links checked
+src/Amr.Communication/Validation/CONTRACT.md: 0 local links checked
+Final TRX: 306 product (286 validator), zero failed/skipped; tool TRX verified by standard helper: 37
+PowerShell procedure parsed without errors after relocation; only root/output path resolution changed
+COM-03 transport, subscriber, manager, Console and lifecycle tests unchanged from HEAD
+User solution entry, root Program.cs and September 26 evidence preserved/excluded

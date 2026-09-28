@@ -1,0 +1,256 @@
+{
+  "feature": "COM-04",
+  "spec_revision": 3,
+  "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+  "result": "passed",
+  "evidence": [
+    {
+      "spec_revision": 3,
+      "verification_index": 1,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "DN-01 로그 정책과 DN-02 스키마의 현재 적용 버전·범위를 기록한다. 임시 채택한 계약도 그 범위를 명시한다. Telemetry, Alarm, Heartbeat, ACK 각각의 정상 Payload와 필수 필드별 누락 사례를 준비한다.",
+      "actual": "Recorded PDF pages/hash, DN-01 logging policy, DN-02 v2 schema, source differences/provisional values. Fixtures cover four normal types and 18 required fields.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 2,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "각 정상 메시지를 검증기 또는 수신 처리기에 입력한다. 메시지 유형이 올바르게 식별되고 AMR ID, Timestamp 및 유형별 데이터가 보존되어 Core 테스트 대역에 전달되는지 확인한다.",
+      "actual": "All four typed messages preserve fields; PDF p6 examples accepted unchanged; optional Alarm message absent/present and ACK id, valid FAILURE preserved.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 3,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "깨진 JSON, 빈 Payload, 스키마에서 허용하지 않는 최상위 JSON 구조를 각각 입력한다. 처리되지 않은 예외 없이 실패 원인이 기록되고 Core 호출 횟수가 0인지 확인한다.",
+      "actual": "Malformed/root/empty inputs, UTF-8/Unicode, duplicate/unknown fields, size/depth limits rejected; Core count zero and reason log; next valid message succeeds.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 4,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "각 메시지 유형의 필수 필드를 하나씩 누락하거나 자료형을 틀리게 입력한다. 실패 원인 로그와 Core 미전달을 확인한다.",
+      "actual": "18 required omissions, 90 wrong types, optional Alarm message 8 invalid cases and optional ACK ID checks passed; blank strings rejected.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 5,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "지원하지 않는 Topic, Topic과 맞지 않는 Payload, Payload에 id가 존재하는 유형에서 Topic AMR ID와 다른 id를 입력한다. 유효하지 않은 메시지로 거부되는지 확인한다.",
+      "actual": "14 unsupported Topics, 12 cross-kind payloads, 4 ID mismatches and old/ambiguous contract cases rejected.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 6,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "정의되지 않은 State·Alarm Level 등 확정 스키마의 허용 범위를 벗어나는 값을 입력한다. 해당 메시지가 거부되는지 확인하고, Int64 범위의 2038년 이후 Timestamp는 정상 수용되는지 확인한다.",
+      "actual": "13 allowed enum cases accepted; 20 invalid enum/numeric cases rejected; 20 Int64 boundaries and 20 invalid timestamps; 3 finite/nonnegative boundaries passed.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 7,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "비정상 메시지 직후 정상 메시지를 입력한다. 정상 메시지는 계속 처리되고 오류 로그에는 실패 이유와 식별 가능한 Topic 정보가 남는지 확인한다.",
+      "actual": "Reject verifies exactly one error log and no Core delivery then one normal Heartbeat on the same processor. Actual Broker also rejects four errors then delivers valid Heartbeat.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    },
+    {
+      "spec_revision": 3,
+      "verification_index": 8,
+      "executed_at": "2026-09-29T08:23:42.5044073+09:00",
+      "command_or_procedure": "./init.cmd verify; inspect tests/CONTRACT/DN and tools/verify-com04-heartbeat.ps1 actual Broker regression",
+      "environment": {
+        "code": "b05e394004f92ccef583778839c6ae9d2237f8e4 + S016 changes; source-sha256.json",
+        "os": "Windows 10.0.26200",
+        "sdk": "10.0.401",
+        "powershell": "7.6.5",
+        "mqttnet": "5.2.0.1603",
+        "broker": "parser tests: none; Heartbeat regression: Mosquitto 2.1.2-alpine / Docker 24.0.6 localhost:1883",
+        "configuration": "DN-01/02 PDF contract v2; Unix milliseconds; MQTT 5 QoS 0 retain false for Heartbeat",
+        "test_doubles": "Recording Core/log for all types; Console Core/log and virtual publisher for actual Heartbeat"
+      },
+      "expected": "전체 검증 테스트를 실행하여 입력 사례, Core 호출 결과 및 로그를 기록한다. 실제 MQTT 수신 경로에서 동일 검증기를 거치는지는 COM-01에서 추가 확인한다.",
+      "actual": "init.cmd verify passed restore/build/tracker, 306 product and 37 tool tests, zero skipped; actual virtual Heartbeat/status OK, four invalid inputs, valid recovery and fresh console restart all passed.",
+      "result": "passed",
+      "artifact_paths": [
+        "src/Amr.Communication/Validation/CONTRACT.md",
+        "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Communication.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/Amr.Verification.Tests.trx",
+        "evidence/bootstrap/20260929T081848889+0900-6b8c60/summary.log",
+        "evidence/COM-04/S016-pdf-contract/source-sha256.json",
+        "evidence/COM-04/S016-pdf-contract/README.md",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/result.json",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
+        "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
+      ]
+    }
+  ]
+}
