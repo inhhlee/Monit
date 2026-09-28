@@ -1,0 +1,4 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-0eeb96460beb4c2ca2f06394d979e6dd","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790405286467,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790405286642,"Error":null}
+Subscribed: amr/+/heartbeat
