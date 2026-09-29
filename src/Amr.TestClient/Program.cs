@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Buffers;
 using System.Text.Json;
 using MQTTnet;
 using MQTTnet.Formatter;
@@ -35,6 +37,48 @@ try
         throw new InvalidOperationException($"연결 거부: {result.ResultCode}");
     Console.WriteLine($"Connected: {host}:{port} / {amrId} (종료: Ctrl+C)");
 
+    client.ApplicationMessageReceivedAsync += async e =>
+    {
+        var receivedTopic = e.ApplicationMessage.Topic;
+        var payloadString = e.ApplicationMessage.ConvertPayloadToString();
+        Console.WriteLine($"Received Command: {receivedTopic} {payloadString}");
+
+        string? cmdId = null;
+        try
+        {
+            using var doc = JsonDocument.Parse(payloadString);
+            if (doc.RootElement.TryGetProperty("cmdId", out var cmdIdElement))
+            {
+                cmdId = cmdIdElement.GetString();
+            }
+        }
+        catch { }
+        cmdId ??= Guid.NewGuid().ToString();
+
+        var ackPayload = JsonSerializer.Serialize(new
+        {
+            id = amrId,
+            cmdId = cmdId,
+            result = "SUCCESS",
+            ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        });
+
+        var ackTopic = $"amr/{amrId}/ack";
+        var ackMessage = new MqttApplicationMessageBuilder()
+            .WithTopic(ackTopic)
+            .WithPayload(ackPayload)
+            .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
+            .Build();
+
+        await client.PublishAsync(ackMessage, stop.Token);
+        Console.WriteLine($"Published ACK: {ackTopic} {ackPayload}");
+    };
+
+    var subOptions = new MqttClientSubscribeOptionsBuilder()
+        .WithTopicFilter(f => f.WithTopic($"amr/{amrId}/cmd").WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+        .Build();
+    await client.SubscribeAsync(subOptions, stop.Token);
+    Console.WriteLine($"Subscribed to commands: amr/{amrId}/cmd");
     while (!stop.IsCancellationRequested)
     {
         // 2. 계약 v2: AMR ID, 현재 시각(Unix 밀리초), 생존 상태를 JSON으로 만듭니다.

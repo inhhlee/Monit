@@ -58,7 +58,39 @@ try
         options.ClientId, KeepAliveSeconds = options.KeepAlive.TotalSeconds, TimeoutSeconds = options.Timeout.TotalSeconds,
         Authentication = options.Username is null ? "anonymous" : "configured" }));
     if (!await manager.ConnectAsync(stop.Token)) return stop.IsCancellationRequested ? 0 : 2;
-    if (receiveHeartbeats) Console.WriteLine("Subscribed: amr/+/heartbeat");
+    Task commandLoop = Task.CompletedTask;
+    if (receiveHeartbeats)
+    {
+        Console.WriteLine("Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack");
+        commandLoop = Task.Run(async () =>
+        {
+            var commandId = 1;
+            while (!stop.IsCancellationRequested)
+            {
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(5), stop.Token);
+                    if (manager.IsConnected)
+                    {
+                        var cmdPayload = JsonSerializer.Serialize(new
+                        {
+                            cmdId = "test-cmd-",
+                            type = "MOVE",
+                            target = "STATION-1"
+                        });
+                        await manager.PublishCommandAsync("AMR_001", cmdPayload, stop.Token);
+                        Console.WriteLine($"Published Command to AMR_001: {cmdPayload}");
+                        commandId++;
+                    }
+                }
+                catch (OperationCanceledException) { break; }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Command Publish failed: {ex.Message}");
+                }
+            }
+        }, stop.Token);
+    }
     var wait = Task.Delay(duration ?? System.Threading.Timeout.InfiniteTimeSpan, stop.Token);
     await Task.WhenAny(wait, connectionLost.Task);
     var lost = connectionLost.Task.IsCompleted;

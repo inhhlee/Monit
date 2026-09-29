@@ -7,7 +7,8 @@ param(
     [switch]$Start,
     [string]$Docker = $env:AMR_DOCKER,
     [ValidateRange(1, 86400)][int]$DurationSeconds
-)
+    [ValidateRange(1, 86400)][int]$DurationSeconds,
+    [switch]$Heartbeat
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $utf8 = [System.Text.UTF8Encoding]::new($false)
@@ -43,11 +44,12 @@ function Resolve-Docker {
     Run-Step 'docker-engine' $script:Docker @('version', '--format', '{{.Server.Version}}')
 }
 function Start-Console {
-    $arguments = @('run', '--project', 'src/Amr.Communication.Console/Amr.Communication.Console.csproj', '--', '--heartbeat')
+function Start-Console {
+    $arguments = @('run', '--project', 'src/Amr.Communication.Console/Amr.Communication.Console.csproj', '--')
+    if ($Heartbeat) { $arguments += '--heartbeat' }
     if ($DurationSeconds) { $arguments += @('--duration-seconds', "$DurationSeconds") }
     Run-Step 'start' 'dotnet' $arguments
 }
-
 Push-Location $root
 try {
     Record "Started: $(Get-Date -Format o)"

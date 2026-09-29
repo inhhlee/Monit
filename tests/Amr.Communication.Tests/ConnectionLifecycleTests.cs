@@ -187,6 +187,7 @@ public class ConnectionLifecycleTests
             IsConnected = false;
             Emit(new(true, "NormalDisconnection"));
         }
+        public Task PublishCommandAsync(string amrId, string payload, CancellationToken cancellationToken = default) => Task.CompletedTask;
         public void Drop() { IsConnected = false; Emit(new(true, "KeepAliveTimeout")); }
         public void Emit(BrokerDisconnected args) => Disconnected?.Invoke(args);
         public void Dispose() { Disposed = true; IsConnected = false; }

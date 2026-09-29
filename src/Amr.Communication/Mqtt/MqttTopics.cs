@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Amr.Communication.Mqtt
 {
@@ -10,10 +10,9 @@ namespace Amr.Communication.Mqtt
         public static class Subscribe
         {
             public static string AllTelemetry => $"{BasePrefix}/+/telemetry";
-            public static string AllState => $"{BasePrefix}/+/state";
             public static string AllAlarm => $"{BasePrefix}/+/alarm";
             public static string AllHeartbeat => $"{BasePrefix}/+/heartbeat";
-            public static string AllAck => $"{BasePrefix}/+/cmd/ack";
+            public static string AllAck => $"{BasePrefix}/+/ack";
         }
 
         // 특정 로봇 발행(송신)용 토픽들

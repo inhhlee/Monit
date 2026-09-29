@@ -1,0 +1,9 @@
+ M src/Amr.Communication/Mqtt/IBrokerClient.cs
+ M src/Amr.Communication/Mqtt/MqttClientService.cs
+ M src/Amr.Communication/Mqtt/MqttPublisher.cs
+ M src/Amr.Communication/Mqtt/MqttSubscriber.cs
+ M src/Amr.Communication/Mqtt/MqttTopics.cs
+?? evidence/bootstrap/20260929T095440183+0900-35a40c/
+?? evidence/bootstrap/20260929T095449615+0900-ccc6a2/
+?? evidence/bootstrap/20260929T095817797+0900-9ca697/
+?? evidence/bootstrap/20260929T103102042+0900-07e02b/

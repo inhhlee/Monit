@@ -112,6 +112,17 @@ public sealed class MqttConnectionManager : IAsyncDisposable // mqtt관리 매�
         finally { _operation.Release(); }
     }
 
+    public async Task PublishCommandAsync(string amrId, string payload, CancellationToken cancellationToken = default)
+    {
+        IBrokerClient? client;
+        lock (_stateLock)
+        {
+            if (_disposed || _client == null || _snapshot.State != BrokerConnectionState.Connected)
+                throw new InvalidOperationException("Broker is not connected.");
+            client = _client;
+        }
+        await client.PublishCommandAsync(amrId, payload, cancellationToken).ConfigureAwait(false);
+    }
     // 이벤트로 DTO 변환 
     private async Task DisconnectCoreAsync(CancellationToken cancellationToken)
     {

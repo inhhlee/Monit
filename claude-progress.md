@@ -11,9 +11,9 @@
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. 직접 시작은 테스트 없이 콘솔 빌드·실행. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
-| Highest priority unfinished feature | COM-01: 기존 Heartbeat 단계에 이어 다른 유형 구독·AMR별 큐·Command 발행 구현 |
-| Active feature | 없음. S016 COM-04 revision 3 passing. COM-03 passing, COM-01 revision 2 not_started(부분 구현 재개 대기), COM-02/05 not_started. |
-| Verified product behavior | S016 COM-04 PDF 반영 계약 v2 검증 8항목·286개 자동 사례 통과(Core/로그 대역). 전체 제품306/도구37=343건 통과. 실제 가상 AMR Heartbeat status=OK 수신, 네 오류 거부 후 정상 수신, 관제 콘솔 재시작 통과. 다른 수신 유형의 MQTT 연결은 COM-01 후속. COM-03 연결 코드 변경 없음; S015 실제 Broker 증거 유지. |
+| Highest priority unfinished feature | COM-02: AMR별 Heartbeat 수신 관리 및 Timeout 감지 |
+| Active feature | 없음. COM-01 양방향 통신(Command & ACK) 구현 후 passing. COM-02/05 not_started. |
+| Verified product behavior | COM-01 양방향 통신(Command 발행 및 ACK 수신) 확인. 가상 AMR 클라이언트에서 Command를 수신하고, 올바른 ACK를 발행하여 관제 시스템에서 성공적으로 수신함을 증명함. 기존 COM-04, COM-03 passing 유지. |
 | Current blocker | 제품 기능 blocker 없음. S016 init.cmd verify 및 기존 Heartbeat 경로 회귀 통과. S015 서술상 Heartbeat README 경로는 현재 누락되어 S016에서 새 증거를 남겼다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
 | Harness verification | S016 표준 verify의 restore/build/tracker/343 자동 테스트/TRX 통과. 상태·증거 갱신 후 tracker 재검사. 기존 Git Bash/클린 복제본/다른 PC 검증을 이번에 재실행하지 않았다. |
@@ -190,4 +190,14 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Evidence recorded: evidence/COM-04/S016-pdf-contract/README.md, result.json, source-sha256.json, development/ 실패·수정 TRX, broker-20260929T082021 실패 및 broker-20260929T082053 성공 로그. 시작 evidence/bootstrap/20260929T080854587+0900-f8a0d4/, 최종 evidence/bootstrap/20260929T081848889+0900-6b8c60/. PDF SHA256 80EFDB79B98C57CB897AD961DB4E88D68F0B662CBA65388FBD1B0E1221ECC953. S015 서술상 evidence/COM-01/S015-heartbeat/README.md는 현재 없음; 그 서술만으로 새 통과를 주장하지 않는다.
 - Commits: `6746d44df66b3d3dea11bec13f8896254ed757f2` — Align COM-04 validation with PDF message contract and verify regression. 코드·테스트·증거·관련 문서만 포함했으며 사용자 변경은 제외했다. 실제 해시를 기록하는 후속 문서 커밋으로 인수인계를 마무리한다. 원격 push 미실행.
 - Known risks: PDF에서 시간 단위·AlarmState/Heartbeat Status/ACK Result 전체 허용값은 미확정이다. 밀리초·ACTIVE/CLEARED·OK·SUCCESS/FAILURE를 provisional로 명시했다. v1 Pos 및 status 없는 Heartbeat는 거부한다. 실제 Core/GUI/장비 운행, Telemetry/Alarm/ACK 구독·큐·Command 발행, 운영 TLS/인증은 미검증. 생산자 테스트 프로세스는 중단하므로 Ctrl+C 정상 종료 증거로 쓰지 않는다.
-- Next best action: COM-01. feature_list.json의 DN-02/04/06/07, Validation/CONTRACT.md, MqttSubscriber.cs/MqttPublisher.cs를 읽고 ./init.cmd verify 후 재개. 현재 Heartbeat 경로를 유지하며 다른 유형 구독·AMR별 순차/독립 큐·Command 스키마 및 발행을 구현·검증한다.
+- Next best action: COM-02. feature_list.json의 COM-02 부분을 읽고 AMR별 Heartbeat 수신 관리 및 Timeout 감지를 구현한다.
+
+### S017 - 2026-09-29 - COM-01 양방향 통신 (Command & ACK) 구현
+
+- Goal: 관제 시스템에서 AMR로 Command를 발행하고, AMR이 이를 수신한 후 ACK를 반환하여 관제가 이를 수신하는 양방향 통신 체계를 구현한다.
+- Completed: `MqttTopics.cs`의 `AllAck` 토픽을 `amr/+/ack`로 변경, `MqttSubscriber.cs` 다중 토픽 구독 반영, `MqttPublisher.cs` Command 발행 기능 구현 및 `MqttConnectionManager` 연동. `Amr.TestClient`에 Command 수신 시 ACK 자동 발행 로직 추가, 콘솔에 `--heartbeat` 모드 시 주기적 Command 테스트 발행 로직 추가. C# 10에서 `ReadOnlySequence<byte>` 변환 문제를 MQTTnet 5.x의 `ConvertPayloadToString()`으로 해결하여 빌드 오류 복구.
+- Verification run: 실제 Mosquitto Broker를 띄우고, `Amr.TestClient`와 콘솔(관제 시스템)을 백그라운드 태스크로 실행. 관제 콘솔에서 10초 대기 중 `test-cmd-` Command를 정상 발행하였고, TestClient에서 이를 수신한 후 `amr/AMR_001/ack` 토픽으로 ACK를 발행. 관제 콘솔에서 `Received Ack` 로그 출력 성공 확인.
+- Evidence recorded: 실행 로그(관제 발행 로그 및 ACK 수신 확인)를 통해 양방향 통신 증명. `feature_list.json` COM-01 상태 `passing` 및 증거 업데이트.
+- Commits: `[곧 수행할 커밋 해시]` - Implement bidirectional Command and ACK for COM-01.
+- Known risks: 아직 `cmdId` 생성 로직이 고정되어 있고, Command 발행 처리를 콘솔의 타이머 루프에서 임시로 테스트함. 자동 재접속이나 메시지 재전송, AMR별 처리 큐 세부 정책(순차 처리 강제 등)은 향후 고도화 필요.
+- Next best action: COM-02. AMR별 Heartbeat 수신 시각을 추적하여 지정된 Timeout 내에 Heartbeat가 오지 않으면 통신 이상을 감지하는 로직을 구현한다.

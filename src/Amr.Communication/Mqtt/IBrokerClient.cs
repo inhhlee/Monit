@@ -8,4 +8,5 @@ internal interface IBrokerClient : IDisposable //   MQTT Client 추상화 인터
     event Action<BrokerDisconnected>? Disconnected;  // 구독 기능 
     Task ConnectAsync(BrokerConnectionOptions options, CancellationToken cancellationToken);  // 연결하기 (비동기 메서드 (접속에 필요한 정보 객체 , 비동기 처리( timeout 시 중단 요청))) 
     Task DisconnectAsync(CancellationToken cancellationToken);  // 연결끊기 (비동기 메서드(신호 들어오면  동작)
+    Task PublishCommandAsync(string amrId, string payload, CancellationToken cancellationToken = default); // Command 발행
 }

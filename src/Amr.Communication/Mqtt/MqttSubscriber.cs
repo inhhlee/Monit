@@ -1,4 +1,4 @@
-﻿using Amr.Communication.Mqtt;
+using Amr.Communication.Mqtt;
 using System;
 using System.Buffers;
 using Amr.Communication.Validation;
@@ -22,13 +22,16 @@ internal sealed class MqttSubscriber : IDisposable
 
     public async Task SubscribeAsync(CancellationToken cancellationToken)
     {
-        var options = new MqttClientSubscribeOptionsBuilder()
-            .WithTopicFilter(filter => filter.WithTopic(MqttTopics.Subscribe.AllHeartbeat)
-                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+        var factory = new MqttClientFactory();
+        var options = factory.CreateSubscribeOptionsBuilder()
+            .WithTopicFilter(f => f.WithTopic(MqttTopics.Subscribe.AllHeartbeat).WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+            .WithTopicFilter(f => f.WithTopic(MqttTopics.Subscribe.AllTelemetry).WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+            .WithTopicFilter(f => f.WithTopic(MqttTopics.Subscribe.AllAlarm).WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+            .WithTopicFilter(f => f.WithTopic(MqttTopics.Subscribe.AllAck).WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
             .Build();
         var result = await _client.SubscribeAsync(options, cancellationToken).ConfigureAwait(false);
-        if (result.Items.Count != 1 || result.Items.First().ResultCode != MqttClientSubscribeResultCode.GrantedQoS0)
-            throw new InvalidOperationException("Broker rejected the Heartbeat subscription.");
+        if (result.Items.Any(item => item.ResultCode != MqttClientSubscribeResultCode.GrantedQoS0))
+            throw new InvalidOperationException("Broker rejected one or more subscriptions.");
     }
 
     private async Task OnMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)

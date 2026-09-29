@@ -10,7 +10,13 @@ public sealed class MqttClientService : IBrokerClient // 상속 금지
     private readonly IMqttClient _client = new MqttClientFactory().CreateMqttClient(); // 캡슐화 
     private readonly MqttSubscriber? _subscriber;
 
-    public MqttClientService() => _client.DisconnectedAsync += OnDisconnectedAsync; // 생성자 끊김 이벤트 발생시 OnDis 함수 호출 
+    private readonly MqttPublisher _publisher;
+
+    public MqttClientService()
+    {
+        _client.DisconnectedAsync += OnDisconnectedAsync; // 생성자 끊김 이벤트 발생시 OnDis 함수 호출 
+        _publisher = new MqttPublisher(_client);
+    }
 
     internal MqttClientService(IncomingMessageProcessor processor) : this()
         => _subscriber = new MqttSubscriber(_client, processor);
@@ -47,6 +53,9 @@ public sealed class MqttClientService : IBrokerClient // 상속 금지
 
     public Task DisconnectAsync(CancellationToken cancellationToken = default) => // 능동적 연결 종료
         _client.DisconnectAsync(new MqttClientDisconnectOptions(), cancellationToken);
+    public Task PublishCommandAsync(string amrId, string payload, CancellationToken cancellationToken = default) =>
+        _publisher.PublishCommandAsync(amrId, payload, cancellationToken);
+
 
     private Task OnDisconnectedAsync(MqttClientDisconnectedEventArgs args)  // 끊김 알림 수신 및 통역 
     {
