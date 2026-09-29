@@ -10,8 +10,10 @@ using MQTTnet.Formatter;
 
 // Explicit diagnostic runner, outside the solution's normal test pipeline.
 // Exit 0 means evidence collection completed; individual checks retain passed/failed.
-// Usage: dotnet run --project tools/Amr.Communication.Audit -- HOST PORT OUTPUT_DIR
-if (args.Length != 3) throw new ArgumentException("Expected HOST PORT OUTPUT_DIR");
+// Usage: dotnet run --project tools/Amr.Communication.Audit -- HOST PORT OUTPUT_DIR [BLOCK_MILLISECONDS]
+if (args.Length is < 3 or > 4) throw new ArgumentException("Expected HOST PORT OUTPUT_DIR [BLOCK_MILLISECONDS]");
+var observationMilliseconds = args.Length == 4 ? int.Parse(args[3]) : 1000;
+if (observationMilliseconds is < 100 or > 30_000) throw new ArgumentException("Block duration must be 100-30000 milliseconds.");
 var output = Path.GetFullPath(args[2]);
 Directory.CreateDirectory(output);
 var json = new JsonSerializerOptions { WriteIndented = true };
@@ -107,25 +109,38 @@ try
     await Publish(a, "heartbeat", Heartbeat(a, 401));
     await sink.Entered.Task.WaitAsync(TimeSpan.FromSeconds(3));
     await Publish(a, "heartbeat", Heartbeat(a, 402));
+    await Publish(a, "heartbeat", Heartbeat(a, 404));
     await Publish(b, "heartbeat", Heartbeat(b, 403));
-    bool bPassed = await Wait(() => sink.Messages.Any(x => x.TimestampUnixMilliseconds == 403), 1000);
-    bool aOvertook = sink.Messages.Any(x => x.TimestampUnixMilliseconds == 402);
+    await Task.Delay(observationMilliseconds);
+    bool bPassed = sink.Messages.Any(x => x.TimestampUnixMilliseconds == 403);
+    bool aOvertook = sink.Timeline.Any(x => x.Timestamp is 402 or 404 && x.Phase == "started");
+    sink.MarkRelease(a);
     sink.Release.TrySetResult();
-    await Wait(() => sink.Messages.Any(x => x.TimestampUnixMilliseconds == 402) && sink.Messages.Any(x => x.TimestampUnixMilliseconds == 403));
-    Check("same_amr_order", !aOvertook && sink.Messages.Where(x => x.TimestampUnixMilliseconds is 401 or 402).Select(x => x.TimestampUnixMilliseconds).SequenceEqual(new long[] { 401, 402 }),
-        "Second message from A waits for A's blocked first message", new { aOvertook });
-    Check("other_amr_independent", bPassed, "B is delivered while A is blocked (COM-01 verification 5)", new { bDeliveredBeforeReleasingA = bPassed, observationMilliseconds = 1000 });
+    bool drained = await Wait(() => sink.Messages.Any(x => x.TimestampUnixMilliseconds == 404) && sink.Messages.Any(x => x.TimestampUnixMilliseconds == 403));
+    var order = sink.Messages.Where(x => x.TimestampUnixMilliseconds is 401 or 402 or 404).Select(x => x.TimestampUnixMilliseconds).ToArray();
+    var timeline = sink.Timeline.Where(x => x.Timestamp is >= 401 and <= 404).ToArray();
+    Check("same_amr_order", !aOvertook && order.SequenceEqual(new long[] { 401, 402, 404 }),
+        "A's second and third messages start only after the blocked first message completes, in arrival order", new { aOvertook, order, timeline });
+    Check("other_amr_independent", bPassed, "B is delivered while A is blocked (COM-01 verification 5)", new { bDeliveredBeforeReleasingA = bPassed, observationMilliseconds, timeline });
+    var cleanup = Stopwatch.StartNew();
+    await manager.DisconnectAsync().WaitAsync(TimeSpan.FromSeconds(5));
+    await manager.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+    Check("normal_cleanup_after_release", drained && manager.Snapshot.State == BrokerConnectionState.Disposed,
+        "After releasing A and draining messages, disconnect/dispose completes normally; not a queued-worker cancellation test",
+        new { drained, state = manager.Snapshot.State.ToString(), elapsedMilliseconds = cleanup.Elapsed.TotalMilliseconds });
     collection = "completed";
 }
 catch (Exception ex) { error = ex.ToString(); Console.Error.WriteLine(error); }
 finally
 {
     sink.Release.TrySetResult();
+    await File.WriteAllTextAsync(Path.Combine(output, "processing-timeline.json"), JsonSerializer.Serialize(sink.Timeline, json));
     await File.WriteAllTextAsync(Path.Combine(output, "typed-messages.json"), JsonSerializer.Serialize(sink.Messages.Select(x => JsonSerializer.SerializeToElement(x, x.GetType())), json));
     await File.WriteAllTextAsync(Path.Combine(output, "result.json"), JsonSerializer.Serialize(new
     {
         executed_at = DateTimeOffset.Now, collection, failed_checks = failed, error,
-        environment = new { options.Host, options.Port, mqttnet = "5.2.0.1603", test_doubles = "Recording/gated Core sink and validation logger; real Mosquitto transport; synthetic AMR peer" }, checks
+        environment = new { options.Host, options.Port, mqttnet = "5.2.0.1603", amr_a = a, amr_b = b, observationMilliseconds,
+            test_doubles = "Recording/gated Core sink and validation logger; real Mosquitto transport; synthetic AMR peer" }, checks
     }, json));
     if (peer.IsConnected) await peer.DisconnectAsync();
 }
@@ -134,16 +149,24 @@ return collection == "completed" ? 0 : 1;
 sealed class RecordingSink(string prefix) : IIncomingMessageSink
 {
     public ConcurrentQueue<IncomingMessage> Messages { get; } = new();
+    public ConcurrentQueue<ProcessingEvent> Timeline { get; } = new();
+    private readonly Stopwatch _clock = Stopwatch.StartNew();
+    private void Record(string id, long timestamp, string phase)
+        => Timeline.Enqueue(new(id, timestamp, phase, _clock.Elapsed.TotalMilliseconds));
+    public void MarkRelease(string id) => Record(id, BlockTimestamp, "released");
     public long BlockTimestamp { get; set; } = long.MinValue;
     public TaskCompletionSource Entered { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
     public TaskCompletionSource Release { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
     public async ValueTask ReceiveAsync(IncomingMessage message, CancellationToken cancellationToken)
     {
         if (!message.AmrId.StartsWith(prefix, StringComparison.Ordinal)) return;
+        Record(message.AmrId, message.TimestampUnixMilliseconds, "started");
         if (message.TimestampUnixMilliseconds == BlockTimestamp) { Entered.TrySetResult(); await Release.Task; }
+        Record(message.AmrId, message.TimestampUnixMilliseconds, "completed");
         Messages.Enqueue(message);
     }
 }
+sealed record ProcessingEvent(string AmrId, long Timestamp, string Phase, double ElapsedMilliseconds);
 sealed class RecordingLog(string prefix) : IValidationLog
 {
     public ConcurrentQueue<ValidationFailureLog> Errors { get; } = new();

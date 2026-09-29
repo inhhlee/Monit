@@ -12,11 +12,11 @@
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
 | Highest priority unfinished feature | COM-01: AMR별 독립 처리 큐. S020에서 명령 기본 네 항목은 구현·검증했다. |
-| Active feature | COM-01 revision 3/in_progress. verification 5(AMR별 독립 처리) 실패 유지. COM-03 revision 2 및 COM-04 revision 4 passing, COM-02/05 not_started. |
+| Active feature | COM-01 revision 3/in_progress. S021 실제 5초 지연 실험에서도 verification 5(AMR별 독립 처리) 실패 재확인. COM-03 revision 2 및 COM-04 revision 4 passing, COM-02/05 not_started. |
 | Verified product behavior | S020: /command 통일, Command 형식 검사, 요청별 고유 ID·ACK ID 보존, 거짓 SUCCESS 제거 및 실패 이유 전달. 두 AMR × 네 유형 수신·검사 및 불량 입력 후 정상 처리 통과. 가상 이동은 미구현이므로 정상 명령에도 FAILURE/SIMULATION_NOT_IMPLEMENTED. 실제 Broker 연결·KeepAlive·끊김 감시 회귀 통과. COM-01 전체 완료 아님. |
 | Current blocker | 최종 검증을 막는 외부 blocker 없음. 초기 Windows 정책 0x800711C7은 사용자 직접 실행에서도 재현됐으나 최종 표준 테스트·실제 Broker 실행에서 재현되지 않았다. 보안 설정은 변경하지 않았고 재발 여부는 미확정. AMR 독립 큐·자동 재접속·개별 AMR Heartbeat Timeout은 미완료. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
-| Harness verification | S020 ./init.cmd verify: restore/build/tracker/제품375 + 도구37 = 412건/skip0/TRX 통과. 실제 Console/TestClient 명령 검사9/9 및 COM-03 Mosquitto 5/5 통과. COM-01 진단은8개 중7통과/독립 처리1실패. 사용자 init.ps1 등 로컬 수정이 있는 환경이며 클린 복제본/다른 PC/Git Bash는 이번에 미실행. |
+| Harness verification | S021 ./init.cmd verify: restore/build/tracker/제품375 + 도구37 = 412건/skip0/TRX 통과. 실제 5초 지연 진단은9개 중8통과/독립 처리1실패. A를 해제하기 전 B는 처리되지 않았고 같은 AMR 세 메시지 순서·불량 입력 후 회복·해제 후 정상 종료는 통과. S020 실제 명령9/9 및 COM-03 Mosquitto5/5는 제품 코드가 같아 회귀 근거 유지. 사용자 init.ps1 등 로컬 수정이 있는 환경이며 클린 복제본/다른 PC/Git Bash는 미실행. |
 | Working rules | AGENTS.md 적용. DN-01 오류 로그 유지; DN-02 수신 계약 v3/COM-04 revision 4(선택 ACK reason), DN-08 Command v1. DN-07 Heartbeat status=OK 필수. ts Int64 밀리초·미정 enum·STOP/RESET 빈 param 등 개발용 결정은 provisional. |
 | Environment | S020 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.55.0.windows.5, MQTTnet 5.2.0.1603, Docker 29.7.2/Mosquitto 2.1.2-alpine. 기본 송수신 localhost:1883, QoS0/Retain false. COM-03은 격리된 임시 포트. 기존 WPF NU1701 경고6건 유지. |
 | Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
@@ -231,3 +231,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 4038a3afef82d824b0424440fc639b5e324e62a2 — Implement validated command requests and truthful AMR acknowledgements. 검증한 코드·증거·문서만 포함했다. 사용자 init.ps1(기존 staged 포함), AmrControlSystem.slnx, 루트 Program.cs 삭제, BrokerConnectionOptions.cs/MqttSubscriber.cs 주석, S018 보고서 및 다른 bootstrap 로그는 제외·보존했다. 실제 해시와 종료 점검을 기록하는 후속 문서 커밋으로 마무리하며 원격 push는 수행하지 않았다.
 - Known risks: COM-01 AMR 독립 큐, COM-02 Timeout, COM-05 전체 매핑, 자동 재접속·재구독은 미완료. 실제 Core/GUI/DB/이동 구현은 이번 범위가 아니며 합성 SUCCESS ACK는 이동 성공 증거가 아니다. Windows 차단 재발 여부 미확정. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 체크아웃/다른 PC 실행은 미검증. 테스트 생산자는 도구가 정리하므로 Ctrl+C 종료 검증으로 확대하지 않는다.
 - Next best action: COM-01 AMR별 독립 큐. feature_list.json의 COM-01 verification4/5 및 evidence/COM-01/S020-command-basics/probe/result.json을 먼저 읽고 MqttSubscriber.cs와 IncomingMessageProcessor.cs의 전달 경로를 보완한다. 같은 AMR 순서 유지·다른 AMR 독립 처리·종료 처리를 검증한 뒤 ./init.cmd verify와 실제 Broker 진단으로 재검증한다. 다음은 COM-02 Heartbeat Timeout이다.
+
+### S021 - 2026-09-29 - AMR별 독립 처리 실제 검증
+
+- Goal: 사용자 요청에 따라 한 AMR의 처리를 지연시킨 상태에서 다른 AMR의 독립 처리, 같은 AMR 순서, 불량 입력 후 회복 및 정상 종료를 현재 코드에서 확인한다.
+- Completed: 시작 HEAD dac677c42a9c866aa6d6dee653981a05909a9166. 제품 코드 변경 없이 기존 진단 도구에 지정 지연 시간, 세 메시지 순서, 처리 시작/완료 시각 및 지연 해제 후 정상 종료 관측을 추가했다. 실제 MQTT에서 A를 약5.010초 보류한 동안 B는 처리되지 않고 해제 후 약5.011초에 시작했다. COM-01 revision3/verification5 실패 및 in_progress 유지. 기존 사용자 변경·실행 로그를 보존했다.
+- Verification run: 최초 Docker 조회는 샌드박스 접근 제한으로 실패 후 승인 조회 성공. 표준 verify도 NuGet.Config 접근 제한으로 실패 후 승인된 동일 명령에서 restore/build/제품375 + 도구37 = 412건/skip0/TRX 통과. 진단 도구 빌드 경고0/오류0. 실제 Mosquitto2.1.2-alpine/localhost:1883에서 진단9개 중8통과/독립 처리1실패. 같은 AMR 세 메시지 순서, 오류4건 거부 후 회복, 지연 해제·처리 완료 후 정상 종료(약5.98ms)는 통과했다. 제품 해시는 S020과 같아 전체 연결 감시5항목은 반복하지 않았다. 추적기·이번 변경 diff 검사를 종료 전 수행한다.
+- Evidence recorded: evidence/COM-01/S021-independence/README.md, run-1/result.json·processing-timeline.json·typed-messages.json, run-1.log, build.log, source-sha256.json. 표준 evidence/bootstrap/20260929T141253309+0900-d3dbb0/ 실패, 20260929T141301525+0900-376671/ 통과. COM-01 revision3의 검증3/4 통과 및5 실패 증거를 추가했다. 기존 증거·다른 기능 상태는 보존했다.
+- Commits: 검증 도구·증거·추적기·진행 기록만 커밋 예정. 사용자 init.ps1(staged 포함), solution 변경, 루트 Program.cs 삭제, 두 제품 주석 변경, S018 보고서 및 기존 bootstrap 로그는 제외한다. 원격 push 미실행.
+- Known risks: AMR별 큐 구현은 이번 검증 요청 범위 밖이므로 미완료다. 시험은 고유 AMR ID 두 개의 발행자·지연 가능한 Core 대역을 사용하며 실제 장비/GUI 검증이 아니다. 정상 종료 검사는 A 지연 해제·메시지 처리 후에 수행했으며, 아직 없는 독립 작업자의 취소·잔여 큐 정리는 미검증이다. 큐 용량 초과 정책도 후속이다. 진단 도구 종료0은 수집 완료이며 전체 제품 통과를 뜻하지 않는다.
+- Next best action: COM-01. S021 README와 processing-timeline.json, MqttSubscriber.cs/IncomingMessageProcessor.cs를 먼저 읽고 AMR별 대기열·순차 처리 작업을 분리한다. ./init.cmd verify 및 동일 진단(새 evidence 경로, 마지막 인수5000)으로 B가 A 해제 전에 처리되는지 검증하고, 큐 취소·종료·용량 정책을 추가 검증한다.
