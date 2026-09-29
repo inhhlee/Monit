@@ -1823,5 +1823,24 @@
     "optional": "Docker Desktop Linux engine for local Broker and verify-broker",
     "solution": "AmrControlSystem.slnx",
     "verification_scope": "S018 standard verify: restore/build/tracker/306 product + 37 tool tests/TRX passed after correcting unsupported COM-01 completion record. COM-03 actual Mosquitto 5/5 passed. COM-01 audit found failures in verification 5/6/7 and remains in_progress. User init.ps1 staged/unstaged fixes were present; no clean-checkout or another-PC validation. Basic messaging uses ./init.cmd start -Heartbeat; ./init.cmd start is connection-only."
+  },
+  "task_1_2_plan": {
+    "session": "S019",
+    "kind": "proposed_work_order",
+    "reviewed_at": "2026-09-29T12:36:33.9916582+09:00",
+    "source_pdf_sha256": "99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72",
+    "report": "evidence/bootstrap/S019-priority-review/README.md",
+    "first_work": "COM-01 Command Topic/schema/validation and truthful ACK; coordinate failure-reason field with COM-04 before code changes",
+    "sequence": [
+      "COM-01 command contract repair",
+      "COM-01 per-AMR independence",
+      "COM-02 heartbeat timeout",
+      "COM-05 request/ACK correlation",
+      "Basic reconnect and resubscribe on both peers (INT-04 recovery subset)",
+      "AMR-01 two configurable simulated AMRs",
+      "AMR-02 movement/STOP + AMR-05 telemetry + AMR-04 actual result",
+      "AMR-03 faults/RESET + AMR-04 failure reasons + AMR-05 alarm"
+    ],
+    "scope_note": "Planning review of tasks 1 and 2. Active implementation remains COM-01. No product feature status/spec_revision, acceptance criteria or adopted design decision changed. AMR features and reconnect are follow-up work, not passing."
   }
 }

@@ -15,7 +15,7 @@
 | Active feature | COM-01 in_progress. S018 실제 실행에서 verification 5/6/7 실패하여 S017의 근거 부족 passing 정정. COM-03/04 passing, COM-02/05 not_started. |
 | Verified product behavior | S018: 2 AMR × Heartbeat/Telemetry/Alarm/ACK 수신·검사, 비정상 입력 거부 후 정상 처리, 기본 Command/ACK 왕복 동작. 실제 Broker 연결·KeepAlive·끊김 감지 통과. 명령 발행 전 검증·AMR별 독립 처리 실패, /cmd와 /command 불일치. 고정 cmdId와 잘못된 명령의 SUCCESS 응답 확인. 전체 COM-01 통과 아님. |
 | Current blocker | 외부 blocker 없음. COM-01 수정 가능한 결함은 in_progress로 관리한다. 자동 재접속과 개별 AMR Heartbeat Timeout은 미구현이며 정상 송수신만으로 완료 처리하지 않는다. |
-| Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
+| Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 작업 순서 제안은 task_1_2_plan 및 evidence/bootstrap/S019-priority-review/README.md 참조; 구현 상태는 변경하지 않았다. |
 | Harness verification | S018 표준 verify-broker: restore/build/tracker/343 자동 테스트/TRX 통과, COM-03 실제 Mosquitto 5항목 통과. 시작 시 NuGet 접근 제한과 missing artifacts 실패도 보존했다. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 복제본/다른 PC/Git Bash는 이번에 미실행. |
 | Working rules | AGENTS.md 적용. DN-01 오류 로그 유지; DN-02 PDF 반영 계약 v2, COM-04 revision 3. DN-07 Heartbeat status=OK 필수. 시간 단위·세부 enum 미정값은 provisional. |
 | Environment | S018 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.41.0, MQTTnet 5.2.0.1603, Docker 29.7.2/Mosquitto 2.1.2-alpine. 기본 송수신 localhost:1883, QoS0/Retain false. COM-03은 격리된 임시 포트. WPF NU1701 경고 유지. |
@@ -211,3 +211,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 573ac55b503b147a7f77ccd132fe211e9cdc61d9 — Audit current MQTT behavior and correct COM-01 verification status. 점검 도구·증거·상태/설명 문서만 포함했으며 사용자 init.ps1/MqttSubscriber.cs 주석과 다른 bootstrap 로그는 제외했다. 실제 해시를 기록하는 후속 문서 커밋으로 인수인계를 마무리한다. 원격 push 미실행.
 - Known risks: 기본 송수신이 과제1 완료를 의미하지 않는다. COM-01 남은 실패와 명령 ID/가상 AMR 응답 오류를 수정해야 한다. 자동 재접속은 DN-04에서 후속으로 미뤄졌지만 사용자 과제1 문장에는 포함되어 있어 과제 최종 완료 전 범위를 정리해야 한다. COM-02/05, 실제 Core/GUI/DB/장비 이동은 미완료. 사용자 init.ps1 로컬 수정이 실행에 필요하며 이번 커밋만으로 클린 체크아웃 실행을 보장하지 않는다. 진단용 생산자는 스크립트가 중단하므로 Ctrl+C 정상 종료 증거가 아니다. 표준 테스트343건은 발견한 COM-01 결함을 모두 검사하지 않는다.
 - Next best action: COM-01 계속. 먼저 evidence/COM-01/S018-audit/README.md와 feature_list.json의 COM-01을 읽고 src/Amr.Communication/Mqtt/MqttPublisher.cs, MqttTopics.cs, MqttSubscriber.cs 및 콘솔/TestClient Program.cs를 보완한다. 우선 잘못된 명령 거부와 올바른 cmdId 보존/응답, /command 계약 정합, AMR별 독립 처리부터 해결한다. ./init.cmd verify-broker 및 README에 기록된 실제 Broker 진단으로 재검증한다. 이후 COM-02 Timeout, COM-05 매핑/자동 재접속 범위를 이어간다.
+
+### S019 - 2026-09-29 - PDF 과제 1·2 우선순위 검토
+
+- Goal: 사용자가 제공한 PDF의 과제1·2를 현재 구현과 비교하여 급한 작업부터 실행할 순서를 정한다.
+- Completed: PDF 17페이지를 추출하고 공통 p3~7, 과제1 p8~9, 과제2 p10~11, 복구 p17을 확인했다. p4~11 표/그림도 렌더링해 대조했다. 현재 파일 SHA256은 99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72로 S016 출처 해시와 다름을 구분했다. COM-01 명령 계약/거짓 SUCCESS 제거 → AMR 독립 처리 → COM-02 → COM-05 → 재접속/재구독 → AMR 설정/이동/장애 순서를 제안했다. p11의 실패 이유 ACK 요구와 현재 추가 필드 거부 계약의 차이, STOPPED 재출발 및 ERR 전이의 모호함을 후속 설계 항목으로 기록했다. 제품 코드·현재 기능 상태·명세 revision은 바꾸지 않았다. 기존 사용자 init.ps1, BrokerConnectionOptions.cs, MqttSubscriber.cs, S018 보고서 수정 및 다른 실행 로그를 보존했다. 검토 중 발생한 사용자 AmrControlSystem.slnx 수정과 루트 Program.cs 삭제도 보존·커밋 제외했다.
+- Verification run: 문서/계획 검토만 수행하므로 제품 빌드·실제 Broker 테스트는 재실행하지 않았다. 동작 근거는 S018 기존 증거이며 새 합격을 주장하지 않는다. PDF 파일 해시와 관련 소스·추적기·문서를 대조했고, tracker(5기능·35항목) 및 이번 변경의 diff 검사도 통과했다.
+- Evidence recorded: evidence/bootstrap/S019-priority-review/README.md에 출처 페이지, 우선순위, 단계별 완료 기준, 미정 계약 및 첫 작업 범위를 기록했다. feature_list.json의 task_1_2_plan은 후속 작업 제안이며 제품 검증 evidence가 아니다.
+- Commits: 없음(문서 검토 완료 후 이번 계획·진행 로그만 커밋 예정).
+- Known risks: 현재 ACK 계약에는 실패 이유 필드가 없어 발행자만 변경하면 수신에서 거부된다. 구현 때 계약 revision/회귀가 필요하다. PDF의 STOPPED 탈출 경로·ERR 전이·ACK 완료 시점은 해당 단계에서 명시해야 한다. 과제2 설정/이동/장애는 현재 TestClient의 Heartbeat/자동 응답으로 대체할 수 없다. 구현 소요 시간이나 과제 통과를 이번 검토로 확정하지 않는다.
+- Next best action: COM-01 계속. S019-priority-review/README.md의 첫 작업 범위부터 Command Topic·Payload·ID·실패 응답 계약을 정하고 MqttPublisher/MqttTopics, 콘솔/TestClient를 수정한다. 실패 이유 계약 변경이 들어가면 COM-04를 정식 재검증한다. 구현 전 ./init.cmd verify로 기준선을 확인하고 이후 실제 Mosquitto 시나리오를 검증한다.
