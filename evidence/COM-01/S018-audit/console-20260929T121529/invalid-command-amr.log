@@ -1,0 +1,23 @@
+Connected: 127.0.0.1:1883 / AUDIT_BAD_42c3e987 (Á¾·á: Ctrl+C)
+Subscribed to commands: amr/AUDIT_BAD_42c3e987/cmd
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651729770,"status":"OK"}
+Received Command: amr/AUDIT_BAD_42c3e987/cmd {
+
+Published ACK: amr/AUDIT_BAD_42c3e987/ack {"id":"AUDIT_BAD_42c3e987","cmdId":"22ed7329-adbc-4b9e-bd8b-91a04dca2c28","result":"SUCCESS","ts":1790651729964}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651730798,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651731801,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651732812,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651733814,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651734823,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651735824,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651736836,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651737851,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651738861,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651739876,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651740889,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651741902,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651742917,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651743934,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651744949,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651745961,"status":"OK"}
+Published: amr/AUDIT_BAD_42c3e987/heartbeat {"id":"AUDIT_BAD_42c3e987","ts":1790651746974,"status":"OK"}

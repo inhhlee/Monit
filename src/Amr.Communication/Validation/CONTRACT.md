@@ -56,7 +56,7 @@ MessageValidator는 실패 이유를 반환하고 PayloadValidator는 JSON 구�
 
 입력 오류는 다음 메시지 처리를 막지 않는다. 로깅/Core 수신자 자체의 예외는 입력 유효성 실패로 숨기지 않고 호출자에게 전파한다. MQTT 구독·큐·재시도·Heartbeat 시계·Core 업무 상태는 별도 책임이다.
 
-현재 실제 MQTT 연결은 Heartbeat만 구독하여 이 검증기를 거친다(S015). COM-04의 네 유형은 테스트에서 Core/로그 대역으로 검사한다. Telemetry/Alarm/ACK의 실제 구독·큐·발행은 COM-01 후속이며 WPF의 별도 MQTT 경로는 이 검증기를 사용하지 않는다.
+현재 실제 MQTT 연결은 Telemetry/Alarm/Heartbeat/ACK를 구독하여 이 검증기를 거친다(S017 구현, S018 실제 Broker 점검). Core/로그 대역을 사용하며 AMR별 독립 처리와 Command 발행 전 검증은 COM-01 미완료 항목이다. WPF의 별도 MQTT 경로는 이 검증기를 사용하지 않는다. 이 문단은 구현 상태 설명의 정정이며 v2 검증 계약·허용 필드는 변경하지 않는다.
 
 ## 호환성 및 재검토
 

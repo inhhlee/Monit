@@ -1,0 +1,4 @@
+2.1.2-alpine: Pulling from library/eclipse-mosquitto
+Digest: sha256:38c0da4f2ef84284d47b3b3eeea1cb3bdeabe81ee10caf0cd5c5ff61ee3ea408
+Status: Image is up to date for eclipse-mosquitto:2.1.2-alpine
+docker.io/library/eclipse-mosquitto:2.1.2-alpine

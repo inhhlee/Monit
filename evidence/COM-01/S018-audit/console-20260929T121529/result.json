@@ -1,0 +1,68 @@
+{
+  "executed_at": "2026-09-29T12:15:29.0980961+09:00",
+  "collection": "completed",
+  "checks": [
+    {
+      "name": "real_console_virtual_amr_roundtrip",
+      "result": "passed",
+      "expected": "Command -> virtual AMR -> ACK -> Console; normal console exit",
+      "actual": {
+        "command_ids": [
+          "test-cmd-",
+          "test-cmd-",
+          "test-cmd-"
+        ],
+        "command_count": 3,
+        "console_exit": 0,
+        "ack_ids": [
+          "test-cmd-",
+          "test-cmd-",
+          "test-cmd-"
+        ],
+        "ack_count": 3
+      }
+    },
+    {
+      "name": "periodic_heartbeat_two_amrs",
+      "result": "passed",
+      "expected": "Two virtual AMRs produce heartbeats",
+      "actual": "See console.log, amr1.log and amr2.log"
+    },
+    {
+      "name": "unique_command_ids",
+      "result": "failed",
+      "expected": "Each request should have a different cmdId",
+      "actual": [
+        "test-cmd-",
+        "test-cmd-",
+        "test-cmd-"
+      ]
+    },
+    {
+      "name": "malformed_command_does_not_succeed",
+      "result": "failed",
+      "expected": "Malformed JSON must not produce fabricated SUCCESS ACK",
+      "actual": [
+        {
+          "id": "AUDIT_BAD_42c3e987",
+          "cmdId": "22ed7329-adbc-4b9e-bd8b-91a04dca2c28",
+          "result": "SUCCESS",
+          "ts": 1790651729964
+        }
+      ]
+    },
+    {
+      "name": "timeout_notification_observation",
+      "result": "failed",
+      "expected": "Per-AMR heartbeat interruption notification (COM-02 unimplemented; no policy adopted)",
+      "actual": {
+        "note": "Observation only; source HeartbeatMonitor is empty; no timeout threshold is implemented",
+        "notification_found": false
+      }
+    }
+  ],
+  "environment": "Current built Console and TestClient; real local Mosquitto; console Core/log doubles",
+  "docker": "29.7.2",
+  "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+  "amr2_stopped_at": "2026-09-29T12:15:34.6875810+09:00"
+}

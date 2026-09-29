@@ -1,0 +1,6 @@
+PASS verification 1: Connected to actual Mosquitto at 127.0.0.1:54803
+PASS verification 2: Idle maintained 6.009s with PINGREQ/PINGRESP and no business messages
+PASS verification 3: Shutdown detected in 0.071s; blocked responses in 3.071s; broker remained alive
+PASS verification 4: Unavailable broker produced ConnectFailed with reason, no Connected state and controlled exit 2
+PASS verification 5: 306 tests passed; actual Mosquitto checks 1-4 and process restart passed
+Evidence: C:\practice\evidence\COM-03\20260929T121120-56119d760f6a4df7b383c9b2baf174ed

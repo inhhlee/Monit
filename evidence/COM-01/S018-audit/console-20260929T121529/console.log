@@ -1,0 +1,56 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-427aa66fee6346fdbc8ae06fbde12601","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790651729505,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790651729555,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+Received Heartbeat: AMR_001 ts=1790651729759
+Received Heartbeat: AMR_002 ts=1790651729766
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651729770
+Received Ack: AUDIT_BAD_42c3e987 ts=1790651729964
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651730798
+Received Heartbeat: AMR_001 ts=1790651730798
+Received Heartbeat: AMR_002 ts=1790651730798
+Received Heartbeat: AMR_001 ts=1790651731801
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651731801
+Received Heartbeat: AMR_002 ts=1790651731801
+Received Heartbeat: AMR_002 ts=1790651732812
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651732812
+Received Heartbeat: AMR_001 ts=1790651732812
+Received Heartbeat: AMR_001 ts=1790651733815
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651733814
+Received Heartbeat: AMR_002 ts=1790651733814
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651734571
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651734823
+Received Heartbeat: AMR_001 ts=1790651734823
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651735824
+Received Heartbeat: AMR_001 ts=1790651735824
+Received Heartbeat: AMR_001 ts=1790651736836
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651736836
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651737851
+Received Heartbeat: AMR_001 ts=1790651737851
+Received Heartbeat: AMR_001 ts=1790651738861
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651738861
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651739569
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651739876
+Received Heartbeat: AMR_001 ts=1790651739876
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651740889
+Received Heartbeat: AMR_001 ts=1790651740889
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651741902
+Received Heartbeat: AMR_001 ts=1790651741902
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651742917
+Received Heartbeat: AMR_001 ts=1790651742917
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651743934
+Received Heartbeat: AMR_001 ts=1790651743934
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651744576
+Received Heartbeat: AMR_001 ts=1790651744949
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651744949
+Received Heartbeat: AMR_001 ts=1790651745961
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651745961
+Received Heartbeat: AMR_001 ts=1790651746974
+Received Heartbeat: AUDIT_BAD_42c3e987 ts=1790651746974
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790651747567,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790651747575,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790651747575,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790651747576,"Error":null}

@@ -8,19 +8,19 @@
 | --- | --- |
 | Last updated | 2026-09-29, Asia/Seoul |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
-| Standard startup path | ./init.cmd broker 후 ./init.cmd start. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. 직접 시작은 테스트 없이 콘솔 빌드·실행. Ctrl+C 종료. |
+| Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. 기본 송수신 실습은 ./init.cmd start -Heartbeat와 별도 Amr.TestClient 실행. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
-| Highest priority unfinished feature | COM-02: AMR별 Heartbeat 수신 관리 및 Timeout 감지 |
-| Active feature | 없음. COM-01 양방향 통신(Command & ACK) 구현 후 passing. COM-02/05 not_started. |
-| Verified product behavior | COM-01 양방향 통신(Command 발행 및 ACK 수신) 확인. 가상 AMR 클라이언트에서 Command를 수신하고, 올바른 ACK를 발행하여 관제 시스템에서 성공적으로 수신함을 증명함. 기존 COM-04, COM-03 passing 유지. |
-| Current blocker | 제품 기능 blocker 없음. S016 init.cmd verify 및 기존 Heartbeat 경로 회귀 통과. S015 서술상 Heartbeat README 경로는 현재 누락되어 S016에서 새 증거를 남겼다. |
+| Highest priority unfinished feature | COM-01: 명령 검증, /command Topic 정합, AMR별 독립 처리 보완. |
+| Active feature | COM-01 in_progress. S018 실제 실행에서 verification 5/6/7 실패하여 S017의 근거 부족 passing 정정. COM-03/04 passing, COM-02/05 not_started. |
+| Verified product behavior | S018: 2 AMR × Heartbeat/Telemetry/Alarm/ACK 수신·검사, 비정상 입력 거부 후 정상 처리, 기본 Command/ACK 왕복 동작. 실제 Broker 연결·KeepAlive·끊김 감지 통과. 명령 발행 전 검증·AMR별 독립 처리 실패, /cmd와 /command 불일치. 고정 cmdId와 잘못된 명령의 SUCCESS 응답 확인. 전체 COM-01 통과 아님. |
+| Current blocker | 외부 blocker 없음. COM-01 수정 가능한 결함은 in_progress로 관리한다. 자동 재접속과 개별 AMR Heartbeat Timeout은 미구현이며 정상 송수신만으로 완료 처리하지 않는다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. |
-| Harness verification | S016 표준 verify의 restore/build/tracker/343 자동 테스트/TRX 통과. 상태·증거 갱신 후 tracker 재검사. 기존 Git Bash/클린 복제본/다른 PC 검증을 이번에 재실행하지 않았다. |
+| Harness verification | S018 표준 verify-broker: restore/build/tracker/343 자동 테스트/TRX 통과, COM-03 실제 Mosquitto 5항목 통과. 시작 시 NuGet 접근 제한과 missing artifacts 실패도 보존했다. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 복제본/다른 PC/Git Bash는 이번에 미실행. |
 | Working rules | AGENTS.md 적용. DN-01 오류 로그 유지; DN-02 PDF 반영 계약 v2, COM-04 revision 3. DN-07 Heartbeat status=OK 필수. 시간 단위·세부 enum 미정값은 provisional. |
-| Environment | S016 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.41.0, MQTTnet 5.2.0.1603. 실제 Heartbeat는 Docker 24.0.6/Mosquitto 2.1.2-alpine, localhost:1883, QoS0/Retain false. WPF NU1701 6건 유지. |
+| Environment | S018 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.41.0, MQTTnet 5.2.0.1603, Docker 29.7.2/Mosquitto 2.1.2-alpine. 기본 송수신 localhost:1883, QoS0/Retain false. COM-03은 격리된 임시 포트. WPF NU1701 경고 유지. |
 | Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
-| Current Windows baseline commit | 6746d44df66b3d3dea11bec13f8896254ed757f2 (S016 COM-04 revision 3, 자동343건 및 실제 Heartbeat 회귀). 실행 당시 사용자 솔루션 File 항목 변경은 보존·커밋 제외; 원격 push 미실행. 이전 S010 eb296f376c04d441e5d067a1cb8e060ccb199eac, S009 클린 기준선 cc356d980a94b9e3a76b546250e34e3533ce827f. |
+| Current Windows baseline commit | 6746d44df66b3d3dea11bec13f8896254ed757f2 (S016 COM-04 revision 3, 자동343건 및 실제 Heartbeat 회귀). S018 점검 코드는 HEAD 9160f144fe6d351d2bd1753b516c8bf8dd7f6a8f + 사용자 init.ps1 로컬 수정이며 COM-01 결함이 있어 전체 완료 기준선으로 삼지 않는다. 사용자 수정은 점검 커밋에서 제외. 이전 S010 eb296f376c04d441e5d067a1cb8e060ccb199eac, S009 cc356d980a94b9e3a76b546250e34e3533ce827f. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 | Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
 
@@ -201,3 +201,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: `06efbaba37297bf4fe2ed4947668baad2f75d2cd` - Implement bidirectional Command and ACK for COM-01.
 - Known risks: 아직 `cmdId` 생성 로직이 고정되어 있고, Command 발행 처리를 콘솔의 타이머 루프에서 임시로 테스트함. 자동 재접속이나 메시지 재전송, AMR별 처리 큐 세부 정책(순차 처리 강제 등)은 향후 고도화 필요.
 - Next best action: COM-02. AMR별 Heartbeat 수신 시각을 추적하여 지정된 Timeout 내에 Heartbeat가 오지 않으면 통신 이상을 감지하는 로직을 구현한다.
+
+### S018 - 2026-09-29 - 현재 기능 실행 점검 및 완료 기록 정정
+
+- Goal: 현재 기능을 실제 실행으로 검증하고 기본 동작·한계·남은 작업을 쉽게 설명한다. 제품 기능 추가는 이번 범위가 아니다.
+- Completed: HEAD 9160f14와 사용자 init.ps1 staged/unstaged 수정이 있는 작업 상태를 점검했다. 사용자 변경과 다른 실행 로그를 보존했다. 점검 후 추가된 MqttSubscriber.cs의 설명 주석 한 줄도 보존하고 커밋에서 제외했다(동작 변경 없음). COM-01의 S017 passing은 검증8 주장 한 건뿐이며 artifact_paths가 비어 tracker가 실패했다. 원본을 tracker-before.json과 unverified_historical_evidence에 보존하고 COM-01을 in_progress로 정정했다. 실제 2 AMR × 4유형 수신/필드 보존/불량 입력 거부/이후 정상 처리/기본 Command-ACK 왕복을 확인했다. verification 5(AMR 독립 처리), 6(Topic /command), 7(발행 전 검증)은 실패했다. 고정 cmdId와 깨진 명령에도 임의 ID로 SUCCESS 응답하는 문제도 재현했다. 진단 도구·재현 절차·증거를 추가하고 README/CONTRACT의 실제 구독 상태 설명을 바로잡았다. 제품 동작 코드는 변경하지 않았고 명세 revision도 유지했다.
+- Verification run: 최초 verify는 샌드박스 NuGet.Config 접근 제한, 승인 재실행은 restore/build 후 tracker missing artifacts로 종료했다. 상태 정정 후 ./init.cmd verify-broker -Docker <local Docker CLI>는 restore/build/tracker/제품306 + 도구37 = 343건/skip 0/TRX와 실제 COM-03 5항목 통과. Broker 정상 종료 감지 0.071초, 응답 차단 감지 3.071초, idle KeepAlive 6.009초 및 새 프로세스 시작 성공. 별도 COM-01 진단은 8개 관찰 중 3개 실패; 현재 콘솔/TestClient 실습은 명령3건·ACK3건 왕복, 2 AMR Heartbeat 확인, 명령 ID 중복과 깨진 명령의 SUCCESS 응답 실패를 기록했다. COM-02 Timeout 관찰은 정책 미구현 상태의 관찰이며 시간 경계 검증으로 쓰지 않는다. 기존 표준 테스트 기대값은 완화하지 않았다. 문서·증거 갱신 후 tracker(5기능·35항목, 증거 경로 검사)와 git diff --check도 통과했다.
+- Evidence recorded: evidence/COM-01/S018-audit/README.md가 통합 색인이다. probe/result.json·typed-messages.json·probe.log, console-20260929T121529/의 실행 로그·result.json, source-sha256.json, tracker-before.json. 표준 실행 evidence/bootstrap/20260929T120743034+0900-4c6de7(접근 실패), 20260929T120944246+0900-8d851d(추적기 실패), 20260929T121108361+0900-374798(통과). 실제 Broker evidence/COM-03/20260929T121120-56119d760f6a4df7b383c9b2baf174ed/. COM-01 revision 2의 8항목과 COM-03 revision 2의 새 5항목을 추적기에 기록했다.
+- Commits: 없음(점검 변경 검토 후 관련 파일만 커밋 예정; 사용자 init.ps1/MqttSubscriber.cs 주석과 다른 bootstrap 로그 제외).
+- Known risks: 기본 송수신이 과제1 완료를 의미하지 않는다. COM-01 남은 실패와 명령 ID/가상 AMR 응답 오류를 수정해야 한다. 자동 재접속은 DN-04에서 후속으로 미뤄졌지만 사용자 과제1 문장에는 포함되어 있어 과제 최종 완료 전 범위를 정리해야 한다. COM-02/05, 실제 Core/GUI/DB/장비 이동은 미완료. 사용자 init.ps1 로컬 수정이 실행에 필요하며 이번 커밋만으로 클린 체크아웃 실행을 보장하지 않는다. 진단용 생산자는 스크립트가 중단하므로 Ctrl+C 정상 종료 증거가 아니다. 표준 테스트343건은 발견한 COM-01 결함을 모두 검사하지 않는다.
+- Next best action: COM-01 계속. 먼저 evidence/COM-01/S018-audit/README.md와 feature_list.json의 COM-01을 읽고 src/Amr.Communication/Mqtt/MqttPublisher.cs, MqttTopics.cs, MqttSubscriber.cs 및 콘솔/TestClient Program.cs를 보완한다. 우선 잘못된 명령 거부와 올바른 cmdId 보존/응답, /command 계약 정합, AMR별 독립 처리부터 해결한다. ./init.cmd verify-broker 및 README에 기록된 실제 Broker 진단으로 재검증한다. 이후 COM-02 Timeout, COM-05 매핑/자동 재접속 범위를 이어간다.

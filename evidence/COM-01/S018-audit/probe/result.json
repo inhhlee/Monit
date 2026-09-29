@@ -1,0 +1,173 @@
+{
+  "executed_at": "2026-09-29T12:13:59.6872779+09:00",
+  "collection": "completed",
+  "failed_checks": 3,
+  "error": null,
+  "environment": {
+    "Host": "127.0.0.1",
+    "Port": 1883,
+    "mqttnet": "5.2.0.1603",
+    "test_doubles": "Recording/gated Core sink and validation logger; real Mosquitto transport; synthetic AMR peer"
+  },
+  "checks": [
+    {
+      "name": "two_amrs_four_message_types",
+      "executed_at": "2026-09-29T12:13:58.4622451+09:00",
+      "result": "passed",
+      "expected": "All four types for each of two AMRs reach the Core test sink",
+      "actual": [
+        {
+          "AmrId": "AUDIT_cdfe823ca1_A",
+          "Kind": 2,
+          "TimestampUnixMilliseconds": 101
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_A",
+          "Kind": 0,
+          "TimestampUnixMilliseconds": 102
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_A",
+          "Kind": 1,
+          "TimestampUnixMilliseconds": 103
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_A",
+          "Kind": 3,
+          "TimestampUnixMilliseconds": 104
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_B",
+          "Kind": 2,
+          "TimestampUnixMilliseconds": 101
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_B",
+          "Kind": 0,
+          "TimestampUnixMilliseconds": 102
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_B",
+          "Kind": 1,
+          "TimestampUnixMilliseconds": 103
+        },
+        {
+          "AmrId": "AUDIT_cdfe823ca1_B",
+          "Kind": 3,
+          "TimestampUnixMilliseconds": 104
+        }
+      ]
+    },
+    {
+      "name": "typed_values_preserved",
+      "executed_at": "2026-09-29T12:13:58.4748688+09:00",
+      "result": "passed",
+      "expected": "Telemetry/Alarm fields and FAILURE ACK identifiers survive transport and validation",
+      "actual": "See typed-messages.json"
+    },
+    {
+      "name": "invalid_messages_rejected_and_recovery",
+      "executed_at": "2026-09-29T12:13:58.5079465+09:00",
+      "result": "passed",
+      "expected": "Four invalid messages rejected, none reaches sink; next valid message received",
+      "actual": {
+        "errors": [
+          {
+            "Topic": "amr/AUDIT_cdfe823ca1_A/heartbeat",
+            "Error": {
+              "Code": "InvalidJson",
+              "Field": "$",
+              "Reason": "Malformed JSON or maximum depth exceeded."
+            }
+          },
+          {
+            "Topic": "amr/AUDIT_cdfe823ca1_A/heartbeat",
+            "Error": {
+              "Code": "MissingField",
+              "Field": "$.status",
+              "Reason": "Required field is missing."
+            }
+          },
+          {
+            "Topic": "amr/AUDIT_cdfe823ca1_A/heartbeat",
+            "Error": {
+              "Code": "IdMismatch",
+              "Field": "$.id",
+              "Reason": "Payload ID differs from Topic ID."
+            }
+          },
+          {
+            "Topic": "amr/AUDIT_cdfe823ca1_A/heartbeat",
+            "Error": {
+              "Code": "InvalidUtf8",
+              "Field": "$",
+              "Reason": "Payload is not valid UTF-8."
+            }
+          }
+        ],
+        "delivered": 9
+      }
+    },
+    {
+      "name": "command_payload_transport",
+      "executed_at": "2026-09-29T12:13:58.5737869+09:00",
+      "result": "passed",
+      "expected": "MOVE, STOP, RESET payloads reach only the chosen AMR subscription",
+      "actual": [
+        {
+          "topic": "amr/AUDIT_cdfe823ca1_A/cmd",
+          "payload": "{\u0022cmdId\u0022:\u0022audit-MOVE\u0022,\u0022type\u0022:\u0022MOVE\u0022,\u0022target\u0022:\u0022STATION-1\u0022}"
+        },
+        {
+          "topic": "amr/AUDIT_cdfe823ca1_A/cmd",
+          "payload": "{\u0022cmdId\u0022:\u0022audit-STOP\u0022,\u0022type\u0022:\u0022STOP\u0022,\u0022target\u0022:\u0022STATION-1\u0022}"
+        },
+        {
+          "topic": "amr/AUDIT_cdfe823ca1_A/cmd",
+          "payload": "{\u0022cmdId\u0022:\u0022audit-RESET\u0022,\u0022type\u0022:\u0022RESET\u0022,\u0022target\u0022:\u0022STATION-1\u0022}"
+        }
+      ]
+    },
+    {
+      "name": "command_topic_contract",
+      "executed_at": "2026-09-29T12:13:58.5747014+09:00",
+      "result": "failed",
+      "expected": "COM-01 verification 6 requires amr/{id}/command",
+      "actual": [
+        "amr/AUDIT_cdfe823ca1_A/cmd",
+        "amr/AUDIT_cdfe823ca1_A/cmd",
+        "amr/AUDIT_cdfe823ca1_A/cmd"
+      ]
+    },
+    {
+      "name": "invalid_commands_rejected_before_publish",
+      "executed_at": "2026-09-29T12:13:58.6015761+09:00",
+      "result": "failed",
+      "expected": "Undefined Command type and malformed JSON are rejected before MQTT publish",
+      "actual": {
+        "invalidTypeThrew": false,
+        "invalidJsonThrew": false,
+        "forwarded": 2
+      }
+    },
+    {
+      "name": "same_amr_order",
+      "executed_at": "2026-09-29T12:13:59.6657486+09:00",
+      "result": "passed",
+      "expected": "Second message from A waits for A\u0027s blocked first message",
+      "actual": {
+        "aOvertook": false
+      }
+    },
+    {
+      "name": "other_amr_independent",
+      "executed_at": "2026-09-29T12:13:59.6674435+09:00",
+      "result": "failed",
+      "expected": "B is delivered while A is blocked (COM-01 verification 5)",
+      "actual": {
+        "bDeliveredBeforeReleasingA": false,
+        "observationMilliseconds": 1000
+      }
+    }
+  ]
+}

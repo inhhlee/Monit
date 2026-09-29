@@ -1,0 +1,15 @@
+Started: 2026-09-29T12:09:44.2710190+09:00
+Root: C:\practice; PowerShell: 7.6.5; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: 9160f144fe6d351d2bd1753b516c8bf8dd7f6a8f
+BEGIN restore : dotnet restore AmrControlSystem.slnx --disable-parallel -m:1 -nr:false
+PASS restore
+BEGIN build : dotnet build AmrControlSystem.slnx --no-restore -m:1 -nr:false
+PASS build
+BEGIN harness : dotnet C:\practice\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll tracker C:\practice\feature_list.json
+FAILED stage=harness : harness failed with exit code 1

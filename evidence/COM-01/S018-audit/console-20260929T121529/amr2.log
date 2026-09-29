@@ -1,0 +1,7 @@
+Connected: 127.0.0.1:1883 / AMR_002 (Á¾·á: Ctrl+C)
+Subscribed to commands: amr/AMR_002/cmd
+Published: amr/AMR_002/heartbeat {"id":"AMR_002","ts":1790651729766,"status":"OK"}
+Published: amr/AMR_002/heartbeat {"id":"AMR_002","ts":1790651730798,"status":"OK"}
+Published: amr/AMR_002/heartbeat {"id":"AMR_002","ts":1790651731801,"status":"OK"}
+Published: amr/AMR_002/heartbeat {"id":"AMR_002","ts":1790651732812,"status":"OK"}
+Published: amr/AMR_002/heartbeat {"id":"AMR_002","ts":1790651733814,"status":"OK"}

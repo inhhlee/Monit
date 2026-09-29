@@ -1,0 +1,26 @@
+Connected: 127.0.0.1:1883 / AMR_001 (Á¾·á: Ctrl+C)
+Subscribed to commands: amr/AMR_001/cmd
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651729759,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651730798,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651731801,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651732812,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651733815,"status":"OK"}
+Received Command: amr/AMR_001/cmd {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Published ACK: amr/AMR_001/ack {"id":"AMR_001","cmdId":"test-cmd-","result":"SUCCESS","ts":1790651734571}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651734823,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651735824,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651736836,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651737851,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651738861,"status":"OK"}
+Received Command: amr/AMR_001/cmd {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Published ACK: amr/AMR_001/ack {"id":"AMR_001","cmdId":"test-cmd-","result":"SUCCESS","ts":1790651739569}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651739876,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651740889,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651741902,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651742917,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651743934,"status":"OK"}
+Received Command: amr/AMR_001/cmd {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Published ACK: amr/AMR_001/ack {"id":"AMR_001","cmdId":"test-cmd-","result":"SUCCESS","ts":1790651744576}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651744949,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651745961,"status":"OK"}
+Published: amr/AMR_001/heartbeat {"id":"AMR_001","ts":1790651746974,"status":"OK"}
