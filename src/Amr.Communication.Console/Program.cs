@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Amr.Communication.Mqtt;
 using Amr.Communication.Models;
 using Amr.Communication.Validation;
+using Amr.Communication.Monitoring;
 
 var json = new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } };
 try
@@ -13,6 +14,7 @@ try
         Console.WriteLine("AMR MQTT connection host: --host HOST --port PORT --keepalive-seconds N --timeout-seconds N --duration-seconds N --heartbeat");
         Console.WriteLine("One command: --command MOVE --amr-id AMR_001 --x 30 --y 15 (STOP/RESET need no coordinates). ACK reception is enabled automatically.");
         Console.WriteLine("Defaults: localhost:1883, keepalive 5s, timeout 3s; run until Ctrl+C unless duration is provided.");
+        Console.WriteLine("Heartbeat monitoring in receive modes: --heartbeat-timeout-seconds N (default 5), --heartbeat-check-seconds N (default 0.5).");
         Console.WriteLine("Environment: AMR_MQTT_HOST, AMR_MQTT_PORT, AMR_MQTT_KEEPALIVE_SECONDS, AMR_MQTT_TIMEOUT_SECONDS, AMR_MQTT_USERNAME, AMR_MQTT_PASSWORD.");
         return 0;
     }
@@ -22,7 +24,7 @@ try
     var receiveHeartbeats = args.Contains("--heartbeat");
     args = args.Where(arg => arg != "--heartbeat").ToArray();
     var arguments = new Dictionary<string, string>();
-    var allowed = new HashSet<string> { "--host", "--port", "--keepalive-seconds", "--timeout-seconds", "--duration-seconds", "--command", "--amr-id", "--x", "--y" };
+    var allowed = new HashSet<string> { "--host", "--port", "--keepalive-seconds", "--timeout-seconds", "--duration-seconds", "--command", "--amr-id", "--x", "--y", "--heartbeat-timeout-seconds", "--heartbeat-check-seconds" };
     for (var i = 0; i < args.Length; i += 2)
     {
         if (!allowed.Contains(args[i]) || i + 1 >= args.Length || !arguments.TryAdd(args[i], args[i + 1]))
@@ -77,8 +79,15 @@ try
     var log = new ConsoleValidationLog();
     var processor = new IncomingMessageProcessor(new ConsoleMessageSink(), log, log);
     var receiveMessages = receiveHeartbeats || commandPayload is not null;
+    var heartbeatOptions = new HeartbeatMonitorOptions
+    {
+        Timeout = TimeSpan.FromSeconds(Number(arguments.GetValueOrDefault("--heartbeat-timeout-seconds", "5"))),
+        CheckInterval = TimeSpan.FromSeconds(Number(arguments.GetValueOrDefault("--heartbeat-check-seconds", "0.5")))
+    };
+    if (!receiveMessages && arguments.Keys.Any(key => key.StartsWith("--heartbeat-", StringComparison.Ordinal)))
+        throw new ArgumentException("Heartbeat settings require --heartbeat or --command.");
     await using var manager = receiveMessages
-        ? new MqttConnectionManager(options, processor)
+        ? new MqttConnectionManager(options, processor, heartbeatOptions, log)
         : new MqttConnectionManager(options);
     var connectionLost = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
     manager.StateChanged += snapshot =>
@@ -91,7 +100,12 @@ try
         Authentication = options.Username is null ? "anonymous" : "configured" }));
     if (!await manager.ConnectAsync(stop.Token)) return stop.IsCancellationRequested ? 0 : 2;
     if (receiveMessages)
+    {
         Console.WriteLine("Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack");
+        Console.WriteLine(JsonSerializer.Serialize(new { Event = "HeartbeatConfiguration",
+            TimeoutSeconds = heartbeatOptions.Timeout.TotalSeconds, CheckIntervalSeconds = heartbeatOptions.CheckInterval.TotalSeconds,
+            StartPolicy = "FirstValidHeartbeat" }));
+    }
     if (commandPayload is not null)
     {
         await manager.PublishCommandAsync(targetAmr, commandPayload, stop.Token);
@@ -127,8 +141,21 @@ sealed class ConsoleMessageSink : IIncomingMessageSink
     }
 }
 
-sealed class ConsoleValidationLog : IValidationLog, IMessageProcessingLog
+sealed class ConsoleValidationLog : IValidationLog, IMessageProcessingLog, IHeartbeatEventSink
 {
+    public void OnHeartbeatChanged(HeartbeatNotification notification)
+        => Console.WriteLine(JsonSerializer.Serialize(new
+        {
+            Event = notification.Kind switch
+            {
+                HeartbeatNotificationKind.TimedOut => "HeartbeatTimeout",
+                HeartbeatNotificationKind.Recovered => "HeartbeatRecovered",
+                _ => "HeartbeatMonitoringStarted"
+            },
+            notification.AmrId, notification.LastReceivedUnixMilliseconds, notification.ObservedUnixMilliseconds,
+            notification.ElapsedMilliseconds, notification.TimeoutMilliseconds
+        }));
+
     public void Failed(MessageProcessingFailure failure)
         => Console.WriteLine(JsonSerializer.Serialize(new { Event = "ProcessingFailure", failure.Topic, failure.Code, failure.Reason }));
 

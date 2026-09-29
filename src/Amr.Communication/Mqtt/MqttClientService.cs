@@ -1,6 +1,7 @@
 using MQTTnet;
 using MQTTnet.Formatter;
 using Amr.Communication.Validation;
+using Amr.Communication.Monitoring;
 
 namespace Amr.Communication.Mqtt;
 
@@ -18,8 +19,9 @@ public sealed class MqttClientService : IBrokerClient // 상속 금지
         _publisher = new MqttPublisher(_client);
     }
 
-    internal MqttClientService(IncomingMessageProcessor processor) : this()
-        => _subscriber = new MqttSubscriber(_client, processor);
+    internal MqttClientService(IncomingMessageProcessor processor,
+        HeartbeatMonitorOptions? heartbeatOptions = null, IHeartbeatEventSink? heartbeatSink = null) : this()
+        => _subscriber = new MqttSubscriber(_client, processor, heartbeatOptions, heartbeatSink);
     public bool IsConnected => _client.IsConnected;
     private event Action<BrokerDisconnected>? Disconnected;
     event Action<BrokerDisconnected>? IBrokerClient.Disconnected

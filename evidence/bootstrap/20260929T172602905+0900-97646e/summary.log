@@ -1,0 +1,11 @@
+Started: 2026-09-29T17:26:02.9280268+09:00
+Root: C:\practice; PowerShell: 7.6.5; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: b3523c0ddd19b528b713f67aed5a9636135e1d06
+BEGIN restore : dotnet restore AmrControlSystem.slnx --disable-parallel -m:1 -nr:false
+FAILED stage=restore : restore failed with exit code 1

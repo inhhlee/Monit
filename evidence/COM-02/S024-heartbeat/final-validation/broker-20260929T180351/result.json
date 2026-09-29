@@ -1,0 +1,194 @@
+{
+  "executed_at": "2026-09-29T18:03:51.6304794+09:00",
+  "result": "passed",
+  "amr_id": "S020_1751f7c52365",
+  "checks": [
+    {
+      "name": "roundtrip_MOVE",
+      "executed_at": "2026-09-29T18:03:55.7705524+09:00",
+      "result": "passed",
+      "expected": "Exactly one request and same-ID FAILURE with truthful reason; normal console exit",
+      "actual": {
+        "request": [
+          {
+            "cmdId": "CMD-c9c9d468882d4ddbaf82f187d8f7ef4e",
+            "type": "MOVE",
+            "ts": 1790672633627,
+            "param": {
+              "x": 30,
+              "y": 15
+            }
+          }
+        ],
+        "exit": 0,
+        "ack": [
+          {
+            "cmdId": "CMD-c9c9d468882d4ddbaf82f187d8f7ef4e",
+            "result": "FAILURE",
+            "reason": "SIMULATION_NOT_IMPLEMENTED",
+            "ts": 1790672633719
+          }
+        ]
+      }
+    },
+    {
+      "name": "roundtrip_STOP",
+      "executed_at": "2026-09-29T18:03:57.9514945+09:00",
+      "result": "passed",
+      "expected": "Exactly one request and same-ID FAILURE with truthful reason; normal console exit",
+      "actual": {
+        "request": [
+          {
+            "cmdId": "CMD-bd4f698ccfe14c30b5d73aab40a2f52d",
+            "type": "STOP",
+            "ts": 1790672635836,
+            "param": {}
+          }
+        ],
+        "exit": 0,
+        "ack": [
+          {
+            "cmdId": "CMD-bd4f698ccfe14c30b5d73aab40a2f52d",
+            "result": "FAILURE",
+            "reason": "SIMULATION_NOT_IMPLEMENTED",
+            "ts": 1790672635921
+          }
+        ]
+      }
+    },
+    {
+      "name": "roundtrip_RESET",
+      "executed_at": "2026-09-29T18:04:00.1264120+09:00",
+      "result": "passed",
+      "expected": "Exactly one request and same-ID FAILURE with truthful reason; normal console exit",
+      "actual": {
+        "request": [
+          {
+            "cmdId": "CMD-aa5b68bd6e06493b90913704f667a895",
+            "type": "RESET",
+            "ts": 1790672638017,
+            "param": {}
+          }
+        ],
+        "exit": 0,
+        "ack": [
+          {
+            "cmdId": "CMD-aa5b68bd6e06493b90913704f667a895",
+            "result": "FAILURE",
+            "reason": "SIMULATION_NOT_IMPLEMENTED",
+            "ts": 1790672638104
+          }
+        ]
+      }
+    },
+    {
+      "name": "unique_request_ids",
+      "executed_at": "2026-09-29T18:04:00.1300804+09:00",
+      "result": "passed",
+      "expected": "Each console request has a different cmdId",
+      "actual": [
+        "CMD-c9c9d468882d4ddbaf82f187d8f7ef4e",
+        "CMD-bd4f698ccfe14c30b5d73aab40a2f52d",
+        "CMD-aa5b68bd6e06493b90913704f667a895"
+      ]
+    },
+    {
+      "name": "invalid_commands_no_fabricated_success",
+      "executed_at": "2026-09-29T18:04:00.9678998+09:00",
+      "result": "passed",
+      "expected": "Malformed/missing/duplicate IDs produce no ACK; known IDs rejected with FAILURE and reason",
+      "actual": [
+        {
+          "id": "S020_1751f7c52365",
+          "cmdId": "CMD-c9c9d468882d4ddbaf82f187d8f7ef4e",
+          "ts": 1790672633719,
+          "result": "FAILURE",
+          "reason": "SIMULATION_NOT_IMPLEMENTED"
+        },
+        {
+          "id": "S020_1751f7c52365",
+          "cmdId": "CMD-bd4f698ccfe14c30b5d73aab40a2f52d",
+          "ts": 1790672635921,
+          "result": "FAILURE",
+          "reason": "SIMULATION_NOT_IMPLEMENTED"
+        },
+        {
+          "id": "S020_1751f7c52365",
+          "cmdId": "CMD-aa5b68bd6e06493b90913704f667a895",
+          "ts": 1790672638104,
+          "result": "FAILURE",
+          "reason": "SIMULATION_NOT_IMPLEMENTED"
+        },
+        {
+          "id": "S020_1751f7c52365",
+          "cmdId": "BAD-TYPE",
+          "ts": 1790672640689,
+          "result": "FAILURE",
+          "reason": "OutOfRange $.type: Unsupported Command type."
+        },
+        {
+          "id": "S020_1751f7c52365",
+          "cmdId": "BAD-PARAM",
+          "ts": 1790672640857,
+          "result": "FAILURE",
+          "reason": "MissingField $.param.y: Required field is missing."
+        }
+      ]
+    },
+    {
+      "name": "heartbeat_mode_does_not_send_commands",
+      "executed_at": "2026-09-29T18:04:00.9691096+09:00",
+      "result": "passed",
+      "expected": "Heartbeat receiver does not issue automatic MOVE requests (observed beyond 5 seconds)",
+      "actual": "See observer.log"
+    },
+    {
+      "name": "pdf_topic_and_payload",
+      "executed_at": "2026-09-29T18:04:00.9719123+09:00",
+      "result": "passed",
+      "expected": "Commands arrive on /command with ts/param present",
+      "actual": [
+        {
+          "cmdId": "CMD-c9c9d468882d4ddbaf82f187d8f7ef4e",
+          "type": "MOVE",
+          "ts": 1790672633627,
+          "param": {
+            "x": 30,
+            "y": 15
+          }
+        },
+        {
+          "cmdId": "CMD-bd4f698ccfe14c30b5d73aab40a2f52d",
+          "type": "STOP",
+          "ts": 1790672635836,
+          "param": {}
+        },
+        {
+          "cmdId": "CMD-aa5b68bd6e06493b90913704f667a895",
+          "type": "RESET",
+          "ts": 1790672638017,
+          "param": {}
+        }
+      ]
+    },
+    {
+      "name": "success_ack_preserved",
+      "executed_at": "2026-09-29T18:04:01.1387749+09:00",
+      "result": "passed",
+      "expected": "A synthetic SUCCESS ACK remains SUCCESS (not a claim of simulated movement)",
+      "actual": "See observer.log"
+    },
+    {
+      "name": "normal_observer_exit",
+      "executed_at": "2026-09-29T18:04:23.3406594+09:00",
+      "result": "passed",
+      "expected": "Timed receiver exits normally",
+      "actual": 0
+    }
+  ],
+  "environment": "Current built Console/TestClient, real localhost:1883 Mosquitto, Console Core/log doubles. Movement deliberately unimplemented.",
+  "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+  "docker": "29.7.2",
+  "code_commit": "b3523c0ddd19b528b713f67aed5a9636135e1d06",
+  "finished_at": "2026-09-29T18:04:23.3472118+09:00"
+}

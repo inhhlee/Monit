@@ -1,0 +1,50 @@
+{
+  "recorded_at": "2026-09-29T17:39:39.6314121+09:00",
+  "code": "b3523c0 + S024 working changes; no S024 commit",
+  "files": [
+    {
+      "path": "src/Amr.Communication/Monitoring/HeartbeatMonitorOptions.cs",
+      "sha256": "402D888BBCFD43A762EDFEC6628F02539D2639155213D2D932CE0FD415043440"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/HeartbeatMonitor.cs",
+      "sha256": "E7B7FE65E09650D36903BD73030A563FA6837A1D8BD705BEABBAF535058CA888"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/AmrConnectionState.cs",
+      "sha256": "A2E6016C61A3A7F5F92863F3F28E1F155E72C28885C8D2F26C7CBF5655551A07"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/HeartbeatNotification.cs",
+      "sha256": "B8677D6C23C7BE7C746545C95EFC68546137CB0356C41A24BA06B2B3932FD44E"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/AmrMessageDispatcher.cs",
+      "sha256": "39DF77769AA606BCC057550BA55636F63EBEB579E60D0CE87CB1983150C979DB"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttSubscriber.cs",
+      "sha256": "9326B0AD9FD47861D5672D736C65570C25522563BED7352AAF544FB16DFB1F40"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttClientService.cs",
+      "sha256": "E8DC9B4BEF47F26B567B788A90C8D152CFAD6F3626258C3DC8202DE22F3AC85C"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttConnectionManager.cs",
+      "sha256": "CE132E8AC937A6B298456C4266538A765D6ECB19CD03153562F552F2D3AFBBB2"
+    },
+    {
+      "path": "src/Amr.Communication.Console/Program.cs",
+      "sha256": "AD5165819717F5E5D1BFF65CE2EF02418C001CCAF2E6E1BD979501495BA92A0F"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/HeartbeatMonitorTests.cs",
+      "sha256": "06F2B341D344B10F0BEBE8C0161EC7B55B36CD49E0ADB5EBF658AF1F1771CD3E"
+    },
+    {
+      "path": "tools/Amr.Heartbeat.Audit/Program.cs",
+      "sha256": "AD9A5B24F44EA6DB5EABD6C7276B7001D1F5C2C1B9902224BBA044FF59E0A545"
+    }
+  ]
+}

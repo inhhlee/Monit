@@ -1,0 +1,40 @@
+ M AmrControlSystem.slnx
+ D Program.cs
+ M README.md
+ M claude-progress.md
+ M evidence/COM-01/S018-audit/README.md
+ M feature_list.json
+MM init.ps1
+ M src/Amr.Communication.Console/Program.cs
+ M src/Amr.Communication/Monitoring/AmrConnectionState.cs
+ M src/Amr.Communication/Monitoring/HeartbeatMonitor.cs
+ M src/Amr.Communication/Mqtt/AmrMessageDispatcher.cs
+ M src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs
+ M src/Amr.Communication/Mqtt/MqttClientService.cs
+ M src/Amr.Communication/Mqtt/MqttConnectionManager.cs
+ M src/Amr.Communication/Mqtt/MqttSubscriber.cs
+?? evidence/COM-01/queue-check-20260929T172108064/
+?? evidence/COM-02/
+?? evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/
+?? evidence/bootstrap/20260929T114434080+0900-8c17f0/
+?? evidence/bootstrap/20260929T121125396+0900-95f007/
+?? evidence/bootstrap/20260929T121335673+0900-28f7ad/
+?? evidence/bootstrap/20260929T124151732+0900-95e1e9/
+?? evidence/bootstrap/20260929T124239847+0900-34b87c/
+?? evidence/bootstrap/20260929T124333218+0900-e4f085/
+?? evidence/bootstrap/20260929T133138572+0900-77fd57/
+?? evidence/bootstrap/20260929T133156370+0900-2c3c22/
+?? evidence/bootstrap/20260929T133217445+0900-5e6a62/
+?? evidence/bootstrap/20260929T133839103+0900-885636/
+?? evidence/bootstrap/20260929T163141008+0900-eb3679/
+?? evidence/bootstrap/20260929T172107373+0900-6109d3/
+?? evidence/bootstrap/20260929T172602905+0900-97646e/
+?? evidence/bootstrap/20260929T172617944+0900-e9add5/
+?? evidence/bootstrap/20260929T175804347+0900-d20c14/
+?? evidence/bootstrap/20260929T180752536+0900-3272e0/
+?? src/Amr.Communication/Monitoring/CONTRACT.md
+?? src/Amr.Communication/Monitoring/HeartbeatMonitorOptions.cs
+?? src/Amr.Communication/Monitoring/HeartbeatNotification.cs
+?? tests/Amr.Communication.Tests/HeartbeatMonitorTests.cs
+?? tools/Amr.Heartbeat.Audit/
+?? tools/verify-heartbeat-basics.ps1

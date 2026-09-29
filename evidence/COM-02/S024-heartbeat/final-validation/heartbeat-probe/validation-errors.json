@@ -1,0 +1,90 @@
+[
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  },
+  {
+    "Topic": "amr/HB_aec8127f2f_A/heartbeat",
+    "Error": {
+      "Code": "MissingField",
+      "Field": "$.status",
+      "Reason": "Required field is missing."
+    }
+  }
+]

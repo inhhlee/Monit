@@ -1,0 +1,22 @@
+[
+  {
+    "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+    "Code": "ProcessingCancelled",
+    "Reason": "Core processing cancelled during session shutdown."
+  },
+  {
+    "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+    "Code": "ShutdownDiscarded",
+    "Reason": "Discarded 1 queued messages during session shutdown."
+  },
+  {
+    "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+    "Code": "ProcessingCancelled",
+    "Reason": "Core processing cancelled during session shutdown."
+  },
+  {
+    "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+    "Code": "ShutdownDiscarded",
+    "Reason": "Discarded 1 queued messages during session shutdown."
+  }
+]

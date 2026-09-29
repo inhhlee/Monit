@@ -1,0 +1,50 @@
+[
+  {
+    "AmrId": "HB_aec8127f2f_A",
+    "Kind": 0,
+    "LastReceivedUnixMilliseconds": 1790672768276,
+    "ObservedUnixMilliseconds": 1790672768276,
+    "ElapsedMilliseconds": 0,
+    "TimeoutMilliseconds": 1500
+  },
+  {
+    "AmrId": "HB_aec8127f2f_B",
+    "Kind": 0,
+    "LastReceivedUnixMilliseconds": 1790672768281,
+    "ObservedUnixMilliseconds": 1790672768281,
+    "ElapsedMilliseconds": 0,
+    "TimeoutMilliseconds": 1500
+  },
+  {
+    "AmrId": "HB_aec8127f2f_A",
+    "Kind": 1,
+    "LastReceivedUnixMilliseconds": 1790672771522,
+    "ObservedUnixMilliseconds": 1790672773037,
+    "ElapsedMilliseconds": 1514.8281,
+    "TimeoutMilliseconds": 1500
+  },
+  {
+    "AmrId": "HB_aec8127f2f_A",
+    "Kind": 2,
+    "LastReceivedUnixMilliseconds": 1790672773958,
+    "ObservedUnixMilliseconds": 1790672773958,
+    "ElapsedMilliseconds": 0,
+    "TimeoutMilliseconds": 1500
+  },
+  {
+    "AmrId": "HB_aec8127f2f_A",
+    "Kind": 0,
+    "LastReceivedUnixMilliseconds": 1790672776591,
+    "ObservedUnixMilliseconds": 1790672776591,
+    "ElapsedMilliseconds": 0,
+    "TimeoutMilliseconds": 1500
+  },
+  {
+    "AmrId": "HB_aec8127f2f_B",
+    "Kind": 0,
+    "LastReceivedUnixMilliseconds": 1790672776591,
+    "ObservedUnixMilliseconds": 1790672776591,
+    "ElapsedMilliseconds": 0,
+    "TimeoutMilliseconds": 1500
+  }
+]

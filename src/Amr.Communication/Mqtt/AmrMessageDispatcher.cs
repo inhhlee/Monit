@@ -1,6 +1,7 @@
 // Channel은 넣는 쪽과 꺼내는 쪽이 안전하게 함께 사용하는 대기열(택배 보관함)입니다.
 using System.Threading.Channels;
 using Amr.Communication.Models;
+using Amr.Communication.Monitoring;
 using Amr.Communication.Validation;
 
 namespace Amr.Communication.Mqtt;
@@ -13,6 +14,7 @@ internal sealed class AmrMessageDispatcher : IDisposable, IAsyncDisposable
 {
     // 봉투 검사와 실제 수신자 호출을 맡습니다. 현재 콘솔 실행의 수신자는 ConsoleMessageSink입니다.
     private readonly IncomingMessageProcessor _processor;
+    private readonly HeartbeatMonitor? _heartbeats;
     // AMR 하나의 보관함에서 기다릴 수 있는 메시지 수입니다. 지금 처리 중인 한 건은 별도입니다.
     private readonly int _capacity;
     // 한 연결에서 만들 수 있는 AMR 보관함의 최대 개수입니다.
@@ -29,7 +31,8 @@ internal sealed class AmrMessageDispatcher : IDisposable, IAsyncDisposable
     private Task? _shutdown;
 
     // 생성자: 기본으로 AMR당 256건 대기, 한 연결당 최대 64개 AMR을 허용합니다(개발용 설정).
-    public AmrMessageDispatcher(IncomingMessageProcessor processor, int capacity = 256, int maxAmrs = 64)
+    public AmrMessageDispatcher(IncomingMessageProcessor processor, int capacity = 256, int maxAmrs = 64,
+        HeartbeatMonitor? heartbeats = null)
     {
         // 검사/전달 담당자가 없으면 바로 잘못된 설정이라고 알립니다.
         ArgumentNullException.ThrowIfNull(processor);
@@ -39,12 +42,15 @@ internal sealed class AmrMessageDispatcher : IDisposable, IAsyncDisposable
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxAmrs);
         // 받은 세 값을 각각 대응하는 필드에 저장합니다(튜플 대입).
         (_processor, _capacity, _maxAmrs) = (processor, capacity, maxAmrs);
+        _heartbeats = heartbeats;
     }
 
     // [2] 분류: 이 메서드 자체는 동기적으로 검사·접수합니다. 실제 전달은 [3]의 별도 작업이 수행합니다.
     // topic은 배송 주소, payload는 읽기 전용 바이트 묶음입니다. true는 "큐에 넣음"을 뜻합니다.
     public bool TryEnqueue(string topic, ReadOnlyMemory<byte> payload)
     {
+        // 큐에서 기다린 시간이 아닌, 수신 검사 직전의 관제 시각을 잡습니다.
+        var received = _heartbeats?.CaptureReceipt();
         // 주소·JSON·필수 항목 등을 검사합니다. 실패 로그는 Validate 내부에서 남깁니다.
         var result = _processor.Validate(topic, payload);
         // 검사 실패 메시지는 보관함에 넣지 않고 접수를 끝냅니다.
@@ -82,11 +88,15 @@ internal sealed class AmrMessageDispatcher : IDisposable, IAsyncDisposable
                     // 기존 AMR의 큐는 계속 사용할 수 있고, 이 새 AMR의 메시지만 거절합니다.
                     (code, reason) = ("AmrLimitReached", "AMR queue limit reached for this connection session.");
                 // 주소와 메시지를 한 묶음으로 넣습니다. 성공하면 true로 끝내고, 꽉 찼으면 기다리지 않습니다.
-                else if (worker.Queue.Writer.TryWrite(new(topic, message))) return true;
-                // 담당자는 있지만 보관함에 넣지 못한 경우입니다.
                 else
+                {
+                    // 큐가 꽉 차도 유효한 Heartbeat가 도착했다는 사실은 먼저 기록합니다.
+                    if (message is HeartbeatMessage && received is { } receipt)
+                        _heartbeats!.Observe(message.AmrId, receipt);
+                    if (worker.Queue.Writer.TryWrite(new(topic, message))) return true;
                     // 새 메시지를 거절합니다. 먼저 들어간 메시지를 밀어내는 정책은 아닙니다.
                     (code, reason) = ("QueueFull", "AMR queue is full; new message rejected without blocking other AMRs.");
+                }
             }
         }
         // 명부 잠금을 푼 다음 거절 이유를 남깁니다. JSON 검사 실패와는 별도의 처리 오류 로그입니다.
@@ -163,6 +173,8 @@ internal sealed class AmrMessageDispatcher : IDisposable, IAsyncDisposable
             if (_shutdown is not null) return _shutdown;
             // 소비자가 다음 메시지를 전달하기 전에 종료 상태를 볼 수 있도록 표시합니다.
             _stopping = true;
+            // Broker 연결이 끝난 뒤 개별 AMR Timeout이 뒤늦게 나오지 않도록 먼저 감시를 닫습니다.
+            _heartbeats?.Dispose();
             // 지금까지 등록된 담당자 목록을 배열로 복사합니다.
             var workers = _workers.Values.ToArray();
             // 각 보관함의 투입구를 닫습니다. 이미 들어 있는 메시지는 소비자의 finally에서 정리합니다.

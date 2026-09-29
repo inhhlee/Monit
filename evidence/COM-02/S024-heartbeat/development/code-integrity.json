@@ -1,0 +1,17 @@
+[
+  {
+    "TimeCreated": "2026-09-29T17:32:13.4888107+09:00",
+    "Id": 3077,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.dll that did not meet the Enterprise signing level requirements or violated code integrity policy (Policy ID:{0283ac0f-fff1-49ae-ada1-8a933130cad6})."
+  },
+  {
+    "TimeCreated": "2026-09-29T17:32:13.4205727+09:00",
+    "Id": 3077,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.dll that did not meet the Enterprise signing level requirements or violated code integrity policy (Policy ID:{0283ac0f-fff1-49ae-ada1-8a933130cad6})."
+  },
+  {
+    "TimeCreated": "2026-09-29T17:32:13.3575863+09:00",
+    "Id": 3077,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.dll that did not meet the Enterprise signing level requirements or violated code integrity policy (Policy ID:{0283ac0f-fff1-49ae-ada1-8a933130cad6})."
+  }
+]

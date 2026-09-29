@@ -1,0 +1,434 @@
+{
+  "executed_at": "2026-09-29T18:03:36.4204423+09:00",
+  "collection": "completed",
+  "failed_checks": 0,
+  "error": null,
+  "environment": {
+    "Host": "127.0.0.1",
+    "Port": 1883,
+    "mqttnet": "5.2.0.1603",
+    "amr_a": "AUDIT_211b44618f_A",
+    "amr_b": "AUDIT_211b44618f_B",
+    "observationMilliseconds": 5000,
+    "test_doubles": "Recording/gated Core sink and validation logger; real Mosquitto transport; synthetic AMR peer"
+  },
+  "checks": [
+    {
+      "name": "two_amrs_four_message_types",
+      "executed_at": "2026-09-29T18:03:30.3819355+09:00",
+      "result": "passed",
+      "expected": "All four types for each of two AMRs reach the Core test sink",
+      "actual": [
+        {
+          "AmrId": "AUDIT_211b44618f_B",
+          "Kind": 2,
+          "TimestampUnixMilliseconds": 101
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Kind": 2,
+          "TimestampUnixMilliseconds": 101
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Kind": 0,
+          "TimestampUnixMilliseconds": 102
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Kind": 1,
+          "TimestampUnixMilliseconds": 103
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Kind": 3,
+          "TimestampUnixMilliseconds": 104
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_B",
+          "Kind": 0,
+          "TimestampUnixMilliseconds": 102
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_B",
+          "Kind": 1,
+          "TimestampUnixMilliseconds": 103
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_B",
+          "Kind": 3,
+          "TimestampUnixMilliseconds": 104
+        }
+      ]
+    },
+    {
+      "name": "typed_values_preserved",
+      "executed_at": "2026-09-29T18:03:30.3938346+09:00",
+      "result": "passed",
+      "expected": "Telemetry/Alarm fields and FAILURE ACK identifiers survive transport and validation",
+      "actual": "See typed-messages.json"
+    },
+    {
+      "name": "invalid_messages_rejected_and_recovery",
+      "executed_at": "2026-09-29T18:03:30.4276466+09:00",
+      "result": "passed",
+      "expected": "Four invalid messages rejected, none reaches sink; next valid message received",
+      "actual": {
+        "errors": [
+          {
+            "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+            "Error": {
+              "Code": "InvalidJson",
+              "Field": "$",
+              "Reason": "Malformed JSON or maximum depth exceeded."
+            }
+          },
+          {
+            "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+            "Error": {
+              "Code": "MissingField",
+              "Field": "$.status",
+              "Reason": "Required field is missing."
+            }
+          },
+          {
+            "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+            "Error": {
+              "Code": "IdMismatch",
+              "Field": "$.id",
+              "Reason": "Payload ID differs from Topic ID."
+            }
+          },
+          {
+            "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+            "Error": {
+              "Code": "InvalidUtf8",
+              "Field": "$",
+              "Reason": "Payload is not valid UTF-8."
+            }
+          }
+        ],
+        "delivered": 9
+      }
+    },
+    {
+      "name": "command_payload_transport",
+      "executed_at": "2026-09-29T18:03:30.4925307+09:00",
+      "result": "passed",
+      "expected": "MOVE, STOP, RESET payloads reach only the chosen AMR subscription",
+      "actual": [
+        {
+          "topic": "amr/AUDIT_211b44618f_A/command",
+          "payload": "{\u0022cmdId\u0022:\u0022audit-MOVE\u0022,\u0022type\u0022:\u0022MOVE\u0022,\u0022ts\u0022:2208988800123,\u0022param\u0022:{\u0022x\u0022:30,\u0022y\u0022:15}}"
+        },
+        {
+          "topic": "amr/AUDIT_211b44618f_A/command",
+          "payload": "{\u0022cmdId\u0022:\u0022audit-STOP\u0022,\u0022type\u0022:\u0022STOP\u0022,\u0022ts\u0022:2208988800123,\u0022param\u0022:{}}"
+        },
+        {
+          "topic": "amr/AUDIT_211b44618f_A/command",
+          "payload": "{\u0022cmdId\u0022:\u0022audit-RESET\u0022,\u0022type\u0022:\u0022RESET\u0022,\u0022ts\u0022:2208988800123,\u0022param\u0022:{}}"
+        }
+      ]
+    },
+    {
+      "name": "command_topic_contract",
+      "executed_at": "2026-09-29T18:03:30.4934091+09:00",
+      "result": "passed",
+      "expected": "COM-01 verification 6 requires amr/{id}/command",
+      "actual": [
+        "amr/AUDIT_211b44618f_A/command",
+        "amr/AUDIT_211b44618f_A/command",
+        "amr/AUDIT_211b44618f_A/command"
+      ]
+    },
+    {
+      "name": "invalid_commands_rejected_before_publish",
+      "executed_at": "2026-09-29T18:03:31.1119854+09:00",
+      "result": "passed",
+      "expected": "Undefined Command type and malformed JSON are rejected before MQTT publish",
+      "actual": {
+        "invalidTypeThrew": true,
+        "invalidJsonThrew": true,
+        "forwarded": 0
+      }
+    },
+    {
+      "name": "same_amr_order",
+      "executed_at": "2026-09-29T18:03:36.1310547+09:00",
+      "result": "passed",
+      "expected": "A\u0027s second and third messages start only after the blocked first message completes, in arrival order",
+      "actual": {
+        "aOvertook": false,
+        "order": [
+          401,
+          402,
+          404
+        ],
+        "timeline": [
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 401,
+            "Phase": "started",
+            "ElapsedMilliseconds": 846.1219
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 403,
+            "Phase": "started",
+            "ElapsedMilliseconds": 890.2374
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 403,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 890.238
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 401,
+            "Phase": "released",
+            "ElapsedMilliseconds": 5858.0708
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 401,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 5858.2141
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 402,
+            "Phase": "started",
+            "ElapsedMilliseconds": 5858.2372
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 402,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 5858.2374
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 404,
+            "Phase": "started",
+            "ElapsedMilliseconds": 5858.2386
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 404,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 5858.2387
+          }
+        ]
+      }
+    },
+    {
+      "name": "other_amr_independent",
+      "executed_at": "2026-09-29T18:03:36.133996+09:00",
+      "result": "passed",
+      "expected": "B is delivered while A is blocked (COM-01 verification 5)",
+      "actual": {
+        "bDeliveredBeforeReleasingA": true,
+        "observationMilliseconds": 5000,
+        "timeline": [
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 401,
+            "Phase": "started",
+            "ElapsedMilliseconds": 846.1219
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 403,
+            "Phase": "started",
+            "ElapsedMilliseconds": 890.2374
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 403,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 890.238
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 401,
+            "Phase": "released",
+            "ElapsedMilliseconds": 5858.0708
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 401,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 5858.2141
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 402,
+            "Phase": "started",
+            "ElapsedMilliseconds": 5858.2372
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 402,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 5858.2374
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 404,
+            "Phase": "started",
+            "ElapsedMilliseconds": 5858.2386
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 404,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 5858.2387
+          }
+        ]
+      }
+    },
+    {
+      "name": "normal_cleanup_after_release",
+      "executed_at": "2026-09-29T18:03:36.1417958+09:00",
+      "result": "passed",
+      "expected": "After releasing A and draining messages, disconnect/dispose completes normally; not a queued-worker cancellation test",
+      "actual": {
+        "drained": true,
+        "state": "Disposed",
+        "elapsedMilliseconds": 7.0175
+      }
+    },
+    {
+      "name": "shutdown_cancels_active_and_discards_pending",
+      "executed_at": "2026-09-29T18:03:36.2240129+09:00",
+      "result": "passed",
+      "expected": "Disconnect cancels blocked A and never invokes queued A2",
+      "actual": {
+        "timeline": [
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 501,
+            "Phase": "started",
+            "ElapsedMilliseconds": 45.5564
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 503,
+            "Phase": "started",
+            "ElapsedMilliseconds": 46.3579
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 503,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 46.3587
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 501,
+            "Phase": "cancelled",
+            "ElapsedMilliseconds": 77.8361
+          }
+        ],
+        "processing": [
+          {
+            "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+            "Code": "ProcessingCancelled",
+            "Reason": "Core processing cancelled during session shutdown."
+          },
+          {
+            "Topic": "amr/AUDIT_211b44618f_A/heartbeat",
+            "Code": "ShutdownDiscarded",
+            "Reason": "Discarded 1 queued messages during session shutdown."
+          }
+        ]
+      }
+    },
+    {
+      "name": "fresh_queue_after_explicit_restart",
+      "executed_at": "2026-09-29T18:03:36.2817619+09:00",
+      "result": "passed",
+      "expected": "Explicit reconnect creates fresh queues; pending old-session input is not replayed",
+      "actual": [
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Timestamp": 501,
+          "Phase": "started",
+          "ElapsedMilliseconds": 45.5564
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_B",
+          "Timestamp": 503,
+          "Phase": "started",
+          "ElapsedMilliseconds": 46.3579
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_B",
+          "Timestamp": 503,
+          "Phase": "completed",
+          "ElapsedMilliseconds": 46.3587
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Timestamp": 501,
+          "Phase": "cancelled",
+          "ElapsedMilliseconds": 77.8361
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Timestamp": 504,
+          "Phase": "started",
+          "ElapsedMilliseconds": 126.5004
+        },
+        {
+          "AmrId": "AUDIT_211b44618f_A",
+          "Timestamp": 504,
+          "Phase": "completed",
+          "ElapsedMilliseconds": 126.5094
+        }
+      ]
+    },
+    {
+      "name": "connection_loss_stops_queues",
+      "executed_at": "2026-09-29T18:03:36.3908461+09:00",
+      "result": "passed",
+      "expected": "Broker-initiated disconnection cancels current session workers; old queued messages are not invoked",
+      "actual": {
+        "state": {
+          "State": 4,
+          "Reason": "ConnectionLost",
+          "TimestampUnixMilliseconds": 1790672616361,
+          "Error": "SessionTakenOver"
+        },
+        "timeline": [
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 601,
+            "Phase": "started",
+            "ElapsedMilliseconds": 45.5035
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 603,
+            "Phase": "started",
+            "ElapsedMilliseconds": 47.2789
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_B",
+            "Timestamp": 603,
+            "Phase": "completed",
+            "ElapsedMilliseconds": 47.2836
+          },
+          {
+            "AmrId": "AUDIT_211b44618f_A",
+            "Timestamp": 601,
+            "Phase": "cancelled",
+            "ElapsedMilliseconds": 79.1618
+          }
+        ]
+      }
+    }
+  ]
+}

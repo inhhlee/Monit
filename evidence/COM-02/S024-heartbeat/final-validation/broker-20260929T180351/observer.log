@@ -1,0 +1,47 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-fd075edb1c2e438d8a9736416c7cf28e","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790672633262,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790672633312,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+{"Event":"HeartbeatConfiguration","TimeoutSeconds":5,"CheckIntervalSeconds":0.5,"StartPolicy":"FirstValidHeartbeat"}
+{"Event":"HeartbeatMonitoringStarted","AmrId":"S020_1751f7c52365","LastReceivedUnixMilliseconds":1790672633543,"ObservedUnixMilliseconds":1790672633543,"ElapsedMilliseconds":0,"TimeoutMilliseconds":5000}
+Received Heartbeat: S020_1751f7c52365 ts=1790672633519
+Received Ack: S020_1751f7c52365 {"cmdId":"CMD-c9c9d468882d4ddbaf82f187d8f7ef4e","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790672633719}
+Received Heartbeat: S020_1751f7c52365 ts=1790672634553
+Received Heartbeat: S020_1751f7c52365 ts=1790672635565
+Received Ack: S020_1751f7c52365 {"cmdId":"CMD-bd4f698ccfe14c30b5d73aab40a2f52d","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790672635921}
+Received Heartbeat: S020_1751f7c52365 ts=1790672636579
+Received Heartbeat: S020_1751f7c52365 ts=1790672637592
+Received Ack: S020_1751f7c52365 {"cmdId":"CMD-aa5b68bd6e06493b90913704f667a895","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790672638104}
+Received Heartbeat: S020_1751f7c52365 ts=1790672638596
+Received Heartbeat: S020_1751f7c52365 ts=1790672639607
+Received Heartbeat: S020_1751f7c52365 ts=1790672640620
+Received Ack: S020_1751f7c52365 {"cmdId":"BAD-TYPE","result":"FAILURE","reason":"OutOfRange $.type: Unsupported Command type.","ts":1790672640689}
+Received Ack: S020_1751f7c52365 {"cmdId":"BAD-PARAM","result":"FAILURE","reason":"MissingField $.param.y: Required field is missing.","ts":1790672640857}
+Received Ack: S020_1751f7c52365 {"cmdId":"ACK-SUCCESS-FIXTURE","result":"SUCCESS","reason":null,"ts":1}
+{"Event":"Rejected","Topic":"amr/S020_1751f7c52365/heartbeat","Code":"MissingField","Field":"$.status","Reason":"Required field is missing."}
+Received Heartbeat: S020_1751f7c52365 ts=1790672641631
+Received Heartbeat: S020_1751f7c52365 ts=1790672642645
+Received Heartbeat: S020_1751f7c52365 ts=1790672643659
+Received Heartbeat: S020_1751f7c52365 ts=1790672644675
+Received Heartbeat: S020_1751f7c52365 ts=1790672645684
+Received Heartbeat: S020_1751f7c52365 ts=1790672646695
+Received Heartbeat: S020_1751f7c52365 ts=1790672647712
+Received Heartbeat: S020_1751f7c52365 ts=1790672648726
+Received Heartbeat: S020_1751f7c52365 ts=1790672649736
+Received Heartbeat: S020_1751f7c52365 ts=1790672650751
+Received Heartbeat: S020_1751f7c52365 ts=1790672651764
+Received Heartbeat: S020_1751f7c52365 ts=1790672652778
+Received Heartbeat: S020_1751f7c52365 ts=1790672653792
+Received Heartbeat: S020_1751f7c52365 ts=1790672654795
+Received Heartbeat: S020_1751f7c52365 ts=1790672655809
+Received Heartbeat: S020_1751f7c52365 ts=1790672656825
+Received Heartbeat: S020_1751f7c52365 ts=1790672657837
+Received Heartbeat: S020_1751f7c52365 ts=1790672658851
+Received Heartbeat: S020_1751f7c52365 ts=1790672659864
+Received Heartbeat: S020_1751f7c52365 ts=1790672660875
+Received Heartbeat: S020_1751f7c52365 ts=1790672661889
+Received Heartbeat: S020_1751f7c52365 ts=1790672662901
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790672663322,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790672663332,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790672663333,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790672663333,"Error":null}

@@ -1,6 +1,6 @@
 # AmrControlSystem (practice)
 
-가상 AMR 통신·관제 시스템의 개발 저장소다. 현재 구현된 제품 기능은 **COM-03: MQTT Broker 연결 및 연결 상태 감시**, **COM-04: PDF 반영 계약 v3에 따른 수신 메시지 유효성 검증**이다. **COM-01: 실제 MQTT 메시지 송수신 및 AMR별 처리 큐**에서는 네 유형 수신, 명령 검사, ID·실패 이유를 보존하는 ACK 왕복과 AMR별 비동기 처리까지 검증했다. COM-01 전체 상태는 기존 사용자 요청대로 진행 중을 유지한다. 기존 WPF 화면은 실험용이고, Core·SQLite·GUI·실제 AMR 이동 통합은 후속 범위다.
+가상 AMR 통신·관제 시스템의 개발 저장소다. **COM-03: MQTT Broker 연결 및 연결 상태 감시**, **COM-04: 수신 메시지 유효성 검증**, **COM-01: 실제 MQTT 송수신 및 AMR별 비동기 큐**, **COM-02: AMR별 Heartbeat Timeout·복구 감지**를 구현·검증했다. 현재 기준 COM-01~04는 passing이며, 다음은 COM-05 Command/ACK 식별자 연계 검증이다. 기존 WPF 화면은 실험용이고, Core·SQLite·GUI·실제 AMR 이동 통합은 후속 범위다.
 
 이 기준선은 **다른 Windows 노트북과 다른 체크아웃 경로에서 같은 명령으로 시작하는 것**을 목표로 한다. WPF 때문에 macOS/Linux 전체 솔루션 실행은 지원하지 않는다. 새 노트북 실물 검증 여부와 최근 증거는 [진행 기록](claude-progress.md)을 따른다.
 
@@ -64,7 +64,7 @@ dotnet run --project src/Amr.TestClient
 
 MQTT Explorer를 같은 `127.0.0.1:1883`에 연결해 `amr → AMR_001 → heartbeat`를 확인해도 된다. 해당 Topic에 `{}` 또는 깨진 JSON을 발행하면 관제에는 `Rejected`와 실패 이유가 나오고 정상 수신 출력에는 포함되지 않는다. 이후 정상 Heartbeat는 계속 처리된다. 프로그램의 Published 출력 자체는 발행 호출 완료이며 실제 수신은 관제나 Explorer에서 확인한다.
 
-코드는 [Amr.TestClient/Program.cs](src/Amr.TestClient/Program.cs)의 **연결 → JSON 생성 → 발행 → 1초 대기** 순서로 읽으면 된다. AMR ID 기본값은 `AMR_001`이며 `dotnet run --project src/Amr.TestClient -- AMR_002`로 다른 ID를 줄 수 있다. Broker 주소는 `127.0.0.1:1883`으로 고정되어 있다. Heartbeat 수신 모드는 자동 명령을 보내지 않는다. 명령은 아래처럼 별도로 요청한다. 가상 AMR은 실제 이동이 미구현이므로 정상 MOVE/STOP/RESET에도 FAILURE와 SIMULATION_NOT_IMPLEMENTED를 응답한다. QoS 0, Retain false를 사용하며 자동 재접속·Heartbeat 중단 감지는 후속 단계다. Broker 연결이 끊기면 오류를 출력하고 종료하며, Broker 복구 후 프로그램을 다시 실행한다. COM-01 전체 완료를 의미하지 않는다.
+코드는 [Amr.TestClient/Program.cs](src/Amr.TestClient/Program.cs)의 **연결 → JSON 생성 → 발행 → 1초 대기** 순서로 읽으면 된다. AMR ID 기본값은 `AMR_001`이며 `dotnet run --project src/Amr.TestClient -- AMR_002`로 다른 ID를 줄 수 있다. Broker 주소는 `127.0.0.1:1883`으로 고정되어 있다. Heartbeat 수신 모드는 자동 명령을 보내지 않는다. 명령은 아래처럼 별도로 요청한다. 가상 AMR은 실제 이동이 미구현이므로 정상 MOVE/STOP/RESET에도 FAILURE와 SIMULATION_NOT_IMPLEMENTED를 응답한다. QoS 0, Retain false를 사용하며 자동 재접속은 후속이다. Heartbeat 중단 감지는 S024에서 실제 Mosquitto 및 콘솔/가상 AMR 두 대로 검증했다. Broker 연결이 끊기면 오류를 출력하고 종료하며, Broker 복구 후 프로그램을 다시 실행한다.
 
 ## 기본 명령 한 건 보내기
 
@@ -77,6 +77,43 @@ dotnet run --no-build --project src/Amr.Communication.Console -- --command MOVE 
 요청마다 새로운 `cmdId`를 만들며 `Published Command`와 `Received Ack`의 ID가 같아야 한다. 현재 기대 응답은 `FAILURE`, 이유는 `SIMULATION_NOT_IMPLEMENTED`다. 통신은 완료됐지만 가상 이동은 아직 구현하지 않았다는 뜻이다. `STOP`과 `RESET`은 `--x 30 --y 15`를 빼고 요청한다. 실행 중인 프로그램을 다시 빌드할 때 파일 잠금 오류가 나면 기존 프로그램을 Ctrl+C로 종료한 뒤 빌드한다. 이미 빌드한 코드만 실행할 때는 `--no-build`를 사용한다.
 
 명령 형식은 [Command 계약](src/Amr.Communication/Command/CONTRACT.md), 실제 검증 결과는 [S020 결과](evidence/COM-01/S020-command-basics/README.md)에 있다.
+
+## AMR별 Heartbeat 중단 감지 (COM-02)
+
+수신 모드에서는 처음 정상 Heartbeat를 받은 AMR부터 감시한다. 기본값은 **5초 동안 정상 수신 없음**, 확인 주기는 **0.5초**다. 가상 AMR의 Payload 시각이나 Core 처리 대기시간이 아니라 관제에서 실제로 받은 시각을 사용한다. 구현의 현재 검증 상태는 `claude-progress.md`를 확인한다.
+
+직접 관찰하려면 Broker를 켜고 한 번 빌드한 뒤, 관제와 가상 AMR2대를 서로 다른 터미널에서 실행한다. 실행 중인 파일의 재빌드를 피하도록 아래는 `--no-build`를 사용한다.
+
+```powershell
+# 창1: 관제
+dotnet run --no-build --project src/Amr.Communication.Console -- --heartbeat
+
+# 창2: 가상 AMR 001
+dotnet run --no-build --project src/Amr.TestClient -- AMR_001
+
+# 창3: 가상 AMR 002
+dotnet run --no-build --project src/Amr.TestClient -- AMR_002
+```
+
+1. 관제에 두 AMR의 `HeartbeatMonitoringStarted`와 주기적 Heartbeat가 표시된다.
+2. **AMR_001 창에서만 Ctrl+C**를 누른다. Broker와 AMR_002는 유지한다.
+3. 마지막 정상 수신 약5~5.5초 뒤(스케줄링 지연 별도) `HeartbeatTimeout`과 `AmrId: AMR_001`이 한 번 표시되어야 한다. AMR_002에는 Timeout이 없어야 한다.
+4. 같은 AMR_001 명령을 다시 실행하면 `HeartbeatRecovered`가 한 번 표시되어야 한다.
+
+설정 변경은 관제 실행 인수에 `--heartbeat-timeout-seconds 10 --heartbeat-check-seconds 1`처럼 추가한다. 최초 수신 전 장비를 추정하거나 최종 Offline 상태로 바꾸지 않는다. 잘못된 Heartbeat는 시각을 갱신하지 않는다. Broker 연결이 끊겼다고 감지되면 AMR 감시도 중단하며, 재접속은 여전히 명시적으로 요청해야 한다.
+
+실제 Broker 자동 검증 도구(약15초, Core/AMR은 대역)는 다음과 같이 실행한다. 기존 결과를 덮어쓰지 않도록 새 폴더를 사용한다. `result.json`에 완료 여부와 각 검증 결과가 남고 미완료·실패는 종료 코드1이다.
+
+```powershell
+$runPath = 'evidence/COM-02/heartbeat-check-' + (Get-Date -Format yyyyMMddTHHmmssfff)
+dotnet run --project tools/Amr.Heartbeat.Audit -- 127.0.0.1 1883 $runPath
+```
+
+세부 정책은 [Heartbeat 감시 계약](src/Amr.Communication/Monitoring/CONTRACT.md)을 따른다.
+
+관제 콘솔과 실제 TestClient 프로세스 두 개로 기본5초 감지·복구를 자동 재현하려면 `pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1`을 실행한다. 기존 Broker를 사용하며 이 도구가 시작한 AMR 한 대만 중단·재실행한다. 키보드 Ctrl+C 입력 자체를 검증하는 절차는 아니다. 결과는 새 `evidence/COM-02/console-<시각>/`에 저장된다.
+
+`Amr.Heartbeat.Audit`는 솔루션의 `tools`에 등록되어 표준 빌드에 포함된다. 표준 `verify`에서는 빌드만 하며 실제 Broker 검사는 위 명령으로 따로 실행한다. S024 검증 결과는 [Heartbeat 결과 보고서](evidence/COM-02/S024-heartbeat/README.md)에 기록했다.
 
 ## AMR별 비동기 수신 처리
 
@@ -132,7 +169,7 @@ dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker fea
 | 어떻게 시작하는가? | `init.cmd broker` → `init.cmd start` |
 | 어떻게 검증하는가? | `init.cmd verify`; 실제 Broker 검증은 `init.cmd verify-broker` |
 | 무엇이 미완성인가? | feature_list.json의 status·blocker와 진행 로그 |
-| 다음 행동은 무엇인가? | 진행 로그의 Next best action; 현재 COM-01 |
+| 다음 행동은 무엇인가? | 진행 로그의 Next best action; 현재 COM-02 실행 허용 확인 및 COM-01 회귀 |
 | 돌아갈 안전 기준선은? | 진행 로그의 기준선 커밋과 Git 이력 |
 
 `AGENTS.md`는 작업 규칙, `feature_list.json`은 기능·설계·상태·증거, `claude-progress.md`는 현재 상태와 인수인계, `init.cmd/init.ps1/init.sh`는 시작·검증 경로를 담당한다. 기록된 이전 작업을 초기화하거나 진행 기능을 임의로 완료 처리하지 않는다.
@@ -151,7 +188,7 @@ dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker fea
 | `docker/` | 로컬 Mosquitto·Seq 설정 |
 | `evidence/` | 성공·실패 실행 증거 |
 
-S020에서 COM-04 수신 계약 v3(revision 4)의 선택 ACK reason을 검증했고 S022에서 회귀 검증했다. COM-01 revision4는 AMR별 비동기 처리·과부하·종료 정책까지 검증했으며 기존 사용자 요청대로 전체 상태는 in_progress로 유지한다. 현재 상태와 실행 증거는 feature_list.json, claude-progress.md 및 [S022 결과](evidence/COM-01/S022-async-queues/README.md)를 따른다. 기존 WPF NU1701 경고와 GUI 직접 MQTT/SQLite 접근은 별개 실험 경로다. 실제 이동, 자동 재접속, Heartbeat Timeout, GUI/Core 통합과 다른 PC 검증은 후속이다.
+S024 최종 표준 검증440건(제품403/도구37, Heartbeat19 포함), 실제 Heartbeat8시나리오, 콘솔5항목, 송수신/큐12항목, 명령9항목 및 COM-03 연결5항목을 통과했다. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4는 passing이고 COM-05는 not_started다. 초기 Windows DLL 차단과 재시도 실패는 증거에 보존했고 최종 실행에서는 재현되지 않았다. 현재 상태와 증거는 feature_list.json, claude-progress.md 및 [S024 결과](evidence/COM-02/S024-heartbeat/README.md)를 따른다. 기존 WPF NU1701 경고와 GUI 직접 MQTT/SQLite 접근은 별개 실험 경로다. 실제 이동·자동 재접속·GUI/Core 통합·다른 PC 검증은 후속이다.
 
 ## COM-04 수신 검증 계약
 

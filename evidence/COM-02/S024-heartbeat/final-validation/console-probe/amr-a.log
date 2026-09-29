@@ -1,0 +1,5 @@
+Connected: 127.0.0.1:1883 / HB_CONSOLE_a6ac876100_A (Á¾·á: Ctrl+C)
+Subscribed to commands: amr/HB_CONSOLE_a6ac876100_A/command
+Published: amr/HB_CONSOLE_a6ac876100_A/heartbeat {"id":"HB_CONSOLE_a6ac876100_A","ts":1790672826147,"status":"OK"}
+Published: amr/HB_CONSOLE_a6ac876100_A/heartbeat {"id":"HB_CONSOLE_a6ac876100_A","ts":1790672827177,"status":"OK"}
+Published: amr/HB_CONSOLE_a6ac876100_A/heartbeat {"id":"HB_CONSOLE_a6ac876100_A","ts":1790672828191,"status":"OK"}

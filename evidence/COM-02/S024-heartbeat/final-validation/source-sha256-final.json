@@ -1,0 +1,302 @@
+{
+  "recorded_at": "2026-09-29T18:11:19.1600808+09:00",
+  "code": "b3523c0 + verified S024 changes and preserved user edits",
+  "files": [
+    {
+      "path": "AmrControlSystem.slnx",
+      "sha256": "80E4D2C8EB75F2F5FB0182D24E817C9A7E8A0AB7CA058C8B998A75CD24568C38"
+    },
+    {
+      "path": "global.json",
+      "sha256": "A82C2756045AB69457C7AF7DCB5D6C43ECB6093D32B551B5AF6F64A3000CC1FC"
+    },
+    {
+      "path": "init.cmd",
+      "sha256": "3150E4802DDFB0C778C21834CE039DF66265D9EB2B543F1741A4DE2771F8796B"
+    },
+    {
+      "path": "init.ps1",
+      "sha256": "BAC19EF2291588C730CBFE080745956D5B0A76826F606B1129A9842DC7A8B80E"
+    },
+    {
+      "path": "init.sh",
+      "sha256": "981191E6A8E74E29CFFBA63F8FFEAFFEB916AEBACB16C2DC4D9E62F0ED2EC43A"
+    },
+    {
+      "path": "src/Amr.Communication.Console/Amr.Communication.Console.csproj",
+      "sha256": "E64B707B3AEB5F3008C76BF5BB1EE51A69DFD862CFCEF72DD27320F04EB224FF"
+    },
+    {
+      "path": "src/Amr.Communication.Console/Program.cs",
+      "sha256": "AD5165819717F5E5D1BFF65CE2EF02418C001CCAF2E6E1BD979501495BA92A0F"
+    },
+    {
+      "path": "src/Amr.Communication/Amr.Communication.csproj",
+      "sha256": "DA33B992DF82815EB810FF366AF456779B11E55051754D4C5FCA44414451148E"
+    },
+    {
+      "path": "src/Amr.Communication/Command/CommandManager.cs",
+      "sha256": "70249C88853966C0D605F8FBCD9471A7C59DA0F691E6F783EF1FCB3E4227E7C2"
+    },
+    {
+      "path": "src/Amr.Communication/Models/AckMessage.cs",
+      "sha256": "BA93015BF3CC099088D4FE12AB56A570D1AEE41D42BBFA2507ACBC1A23FD21F8"
+    },
+    {
+      "path": "src/Amr.Communication/Models/AlarmMessage.cs",
+      "sha256": "AF58291EADE05FD7CD8483F9CB03F2764B27C954B4E5BC1A5BED82BE81B4CF9A"
+    },
+    {
+      "path": "src/Amr.Communication/Models/CommandMessage.cs",
+      "sha256": "3CBE4FA97BCE5E6D3A519AA9CDFE412B5BE23F75A9AD1AF715EEEA8B27765B6E"
+    },
+    {
+      "path": "src/Amr.Communication/Models/HeartbeatMessage.cs",
+      "sha256": "91675D03E833D894C8EB33CB8AE86123ED874509AC842607375CD720DBE24506"
+    },
+    {
+      "path": "src/Amr.Communication/Models/IncomingMessage.cs",
+      "sha256": "8CED1D1D8121F6DA2F8A6DB849BE8762882D295EDCCAE8A83494FF86664357A8"
+    },
+    {
+      "path": "src/Amr.Communication/Models/MqttAliveMessage.cs",
+      "sha256": "D491CC6DEDB8CCDA36348CECB5A14570D1BF4FED90BB3CC11E1418B4AA47DC8A"
+    },
+    {
+      "path": "src/Amr.Communication/Models/TelemetryMessage.cs",
+      "sha256": "F35D1BC7A97E0E8C1B7D7D794FDFCC38B22BE289E77EA90F5B3D2BC14473932F"
+    },
+    {
+      "path": "src/Amr.Communication/Models/TelemetryPayLoad.cs",
+      "sha256": "970EB4AC86AEA4E42938F3E310358A4DF772FE746A19834D424AEA4C7CCAC780"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/AmrConnectionState.cs",
+      "sha256": "A2E6016C61A3A7F5F92863F3F28E1F155E72C28885C8D2F26C7CBF5655551A07"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/HeartbeatMonitor.cs",
+      "sha256": "E7B7FE65E09650D36903BD73030A563FA6837A1D8BD705BEABBAF535058CA888"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/HeartbeatMonitorOptions.cs",
+      "sha256": "402D888BBCFD43A762EDFEC6628F02539D2639155213D2D932CE0FD415043440"
+    },
+    {
+      "path": "src/Amr.Communication/Monitoring/HeartbeatNotification.cs",
+      "sha256": "B8677D6C23C7BE7C746545C95EFC68546137CB0356C41A24BA06B2B3932FD44E"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/AmrMessageDispatcher.cs",
+      "sha256": "39DF77769AA606BCC057550BA55636F63EBEB579E60D0CE87CB1983150C979DB"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs",
+      "sha256": "2C396D6013EF363C95579BEF6322802998F5C46ED2D0FC0CD6FCD3D17D69E3B5"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs",
+      "sha256": "66607527E3EEE04DF04F40959F1EC0784C562EC5338DCFD65F1DDA8EEF02CB1C"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/IBrokerClient.cs",
+      "sha256": "724F49DE6E3FEA8B05396E653042F644FB3BFF1544A8D86A519687B9F34BCA1A"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttClientService.cs",
+      "sha256": "E8DC9B4BEF47F26B567B788A90C8D152CFAD6F3626258C3DC8202DE22F3AC85C"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttConnectionManager.cs",
+      "sha256": "CE132E8AC937A6B298456C4266538A765D6ECB19CD03153562F552F2D3AFBBB2"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttPublisher.cs",
+      "sha256": "7557E97AE0A6097ED1D9D5E09F3A14FE1A28441915ED733BA8B95926B94155A3"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttSubscriber.cs",
+      "sha256": "9326B0AD9FD47861D5672D736C65570C25522563BED7352AAF544FB16DFB1F40"
+    },
+    {
+      "path": "src/Amr.Communication/Mqtt/MqttTopics.cs",
+      "sha256": "E2BEDAB2BBD7A1687863A7BF998B19A6129C9B7C355CCA5EB2333A7D4F7DDF0C"
+    },
+    {
+      "path": "src/Amr.Communication/Validation/CommandValidator.cs",
+      "sha256": "EEB8A5487C172D6C3B7DD18DD2E589DBA6B9A70895EEF1619E48CC2C89FECEA2"
+    },
+    {
+      "path": "src/Amr.Communication/Validation/IncomingMessageProcessor.cs",
+      "sha256": "91C8B2B14C2163FC606F4748B316E82F653142E9F8699831F947B90232152F75"
+    },
+    {
+      "path": "src/Amr.Communication/Validation/MessageProcessingLog.cs",
+      "sha256": "9564CA04B0BF908FC1BD1C6C69539D6BC1ACE379994749D4C33CF4D807DEE672"
+    },
+    {
+      "path": "src/Amr.Communication/Validation/MessageValidator.cs",
+      "sha256": "1D44C9E30D2F6D840F9F482BDF981BFEB1971FC9E8F348D55B4D5F7B6314C92B"
+    },
+    {
+      "path": "src/Amr.Communication/Validation/PayloadValidator.cs",
+      "sha256": "50A90B95BCBBB8E5327A4BC6757031F5EEAF71A316DAD7845126F9A2E9B44CD3"
+    },
+    {
+      "path": "src/Amr.Communication/Validation/ValidationResult.cs",
+      "sha256": "4480F50546E97616C33DDF8BFB7F657DF0F58F83AD9CB3941FF191E6757C7AEA"
+    },
+    {
+      "path": "src/Amr.TestClient/Amr.TestClient.csproj",
+      "sha256": "E64B707B3AEB5F3008C76BF5BB1EE51A69DFD862CFCEF72DD27320F04EB224FF"
+    },
+    {
+      "path": "src/Amr.TestClient/BasicCommandHandler.cs",
+      "sha256": "287844A5ADCAAC74733AE9A5381BCEDDC6024584691E071E2A2FB2F6E33F1A52"
+    },
+    {
+      "path": "src/Amr.TestClient/Program.cs",
+      "sha256": "DE0A454ABA1F553DC58455AAD5E72678AB740885157FB897C2B199E77DF20AC8"
+    },
+    {
+      "path": "src/AmrControlSystem/AmrControlSystem.csproj",
+      "sha256": "4919F4C2A639527DDF66977D0FF14EC021151046F945702C11E1C838CC4B6B4B"
+    },
+    {
+      "path": "src/AmrControlSystem/App.xaml.cs",
+      "sha256": "0DCAA03F781DD1584C6901A144F9DE92F2D6F6C78785C46159EA00306680A826"
+    },
+    {
+      "path": "src/AmrControlSystem/AssemblyInfo.cs",
+      "sha256": "1D31ED3C7E4AAF76FABB82E330208385CB70685E9B7C577764493A4D169BCA61"
+    },
+    {
+      "path": "src/AmrControlSystem/MainWindow.xaml.cs",
+      "sha256": "9BD0CE6B280C1C64FAC1D319C84D84BA94EDB2BB59AA4988F876C2FB39D337DA"
+    },
+    {
+      "path": "src/AmrControlTest/AmrControlTest.csproj",
+      "sha256": "5A33086FE2D789DAE610A9DCB03C32CEE07BDA7D5660C6EE31566180027FC810"
+    },
+    {
+      "path": "src/AmrControlTest/App.xaml.cs",
+      "sha256": "D45870CDD08C780101FA240A5DCE82AA999221D421609DFF759A0A714ABAD9D1"
+    },
+    {
+      "path": "src/AmrControlTest/AssemblyInfo.cs",
+      "sha256": "1D31ED3C7E4AAF76FABB82E330208385CB70685E9B7C577764493A4D169BCA61"
+    },
+    {
+      "path": "src/AmrControlTest/MainWindow.xaml.cs",
+      "sha256": "011B94682C9E8244929F031CF38986C68CC56E533D96FDFDC889C02B6E8155CC"
+    },
+    {
+      "path": "src/AmrControlTest/Tests/LoggingTestService.cs",
+      "sha256": "0E9D7F09B0B95873BA1BF963F6385B35FAABB802675965B407B6B7DEA0CB1D8A"
+    },
+    {
+      "path": "src/AmrControlTest/Tests/MqttTestService.cs",
+      "sha256": "0168F2DA728CEFA18AF1F76CCC85A3DE7E7CB76229685358AA8FFA77EDE1A2D3"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj",
+      "sha256": "01840D9D6E7911A9AC18E2DF60601D8041261D96B4E39E0E8609E88EA2E6E48E"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/AmrMessageDispatcherTests.cs",
+      "sha256": "104646E7531BFAA13B988A0E4E8071D2380215537EED43E48B187910FE6CBAE1"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/CommandValidationTests.cs",
+      "sha256": "E9F36778A0BC84AC463C24F86DAFAC484DE59FC68E3DBD2785E6669F27102B6B"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs",
+      "sha256": "2F6C4BB76B66B2DC23B385656A424E6CD2A8EB143DDB85B23D084E8679EEC856"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/HeartbeatMonitorTests.cs",
+      "sha256": "06F2B341D344B10F0BEBE8C0161EC7B55B36CD49E0ADB5EBF658AF1F1771CD3E"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/MessageValidationTests.cs",
+      "sha256": "F0FA28E75A9FA8293EC04079FC90F8724A377C45E7F0898942B782AC9D018020"
+    },
+    {
+      "path": "tests/Amr.Communication.Tests/ScaffoldTests.cs",
+      "sha256": "F02A183C7AD036B1A7659DE6FE6D734559466496923E898D492DA6215B4631D4"
+    },
+    {
+      "path": "tests/Amr.Verification.Tests/Amr.Verification.Tests.csproj",
+      "sha256": "6F21A67465A15765BD9603832CF2CE4DB4E8972B4A8B462BC57CDFE9FAE225C0"
+    },
+    {
+      "path": "tests/Amr.Verification.Tests/ProxyTests.cs",
+      "sha256": "6F3C026CC31C4F45B9DCB5FBEC703D7DC67EF93D4993AFAB67731BDAEEBB7EB6"
+    },
+    {
+      "path": "tests/Amr.Verification.Tests/TrackerTests.cs",
+      "sha256": "0D09E7F9EEEACACA4E13977183E6378E4A3D389ADB11F70651EAF3289FABF209"
+    },
+    {
+      "path": "tests/Amr.Verification.Tests/TrxTests.cs",
+      "sha256": "5CE59F5410E9AAE77FC112FB74DB9A3352E10647AE5F3116C2E15E7F6A38681F"
+    },
+    {
+      "path": "tools/Amr.Communication.Audit/Amr.Communication.Audit.csproj",
+      "sha256": "535C36D1C6FD5861B14334B59CA99659A3170E18B6D66C88AD4A052F3FC5A35C"
+    },
+    {
+      "path": "tools/Amr.Communication.Audit/Program.cs",
+      "sha256": "5F6E81845F01E9BCCD2FB0E758AD083E0C90D3D1DC25BFFC3C246AFFE634519F"
+    },
+    {
+      "path": "tools/Amr.Heartbeat.Audit/Amr.Heartbeat.Audit.csproj",
+      "sha256": "0B4C5241EAD656A551BF1ACDAEA81253BE2CEBBE572411787E7C0A2194FB6B56"
+    },
+    {
+      "path": "tools/Amr.Heartbeat.Audit/Program.cs",
+      "sha256": "65EB77303E0B0C1D722A96FBF4D13A9C42FE3FB87CC1C648BE3D73C1A33F1A77"
+    },
+    {
+      "path": "tools/Amr.Verification/Amr.Verification.csproj",
+      "sha256": "091184F58AF0BEB2F404C01705712E4789955B5154F759AC633CC822BA024F3C"
+    },
+    {
+      "path": "tools/Amr.Verification/BrokerVerification.cs",
+      "sha256": "B05D3948A2E364799A66C762F9A86D7B4D5A023DD3FC00D6C0C7149150F5CBF3"
+    },
+    {
+      "path": "tools/Amr.Verification/Program.cs",
+      "sha256": "39E3A3518AD84AAAED353A215B6AD8771B912C3CFEDEB7ADD9BD4E27D6755077"
+    },
+    {
+      "path": "tools/Amr.Verification/ResponseDropProxy.cs",
+      "sha256": "3CB2E7BA3F32E6A6FC61618B05644376E68B8EE33F31ACEAEE626A8E8513E11C"
+    },
+    {
+      "path": "tools/Amr.Verification/TrackerValidator.cs",
+      "sha256": "F1D8AC8372E16907AC1A556838ADEABB4397340254D7B5DDF415701496E589CA"
+    },
+    {
+      "path": "tools/Amr.Verification/TrxValidator.cs",
+      "sha256": "F8A0BE25A3F0CC0FC1E10BF7196FC447DA4AF932559B4EA9FA5D1FB6A14BD88F"
+    },
+    {
+      "path": "tools/verify-com04-heartbeat.ps1",
+      "sha256": "DCEF9D4215306EDB8FEC635C23DCF74EED176F09CA1B28B5972A5E65370742D2"
+    },
+    {
+      "path": "tools/verify-command-basics.ps1",
+      "sha256": "E74A6FB5E3E591D97AFC268F5185AA8B50ECFDCFC48A8BA9083E586039A7B03D"
+    },
+    {
+      "path": "tools/verify-console-audit.ps1",
+      "sha256": "A127D29137621ACE7BE61EC97C489931FC80A5173ACCEC155A92904D9C2EFE8D"
+    },
+    {
+      "path": "tools/verify-heartbeat-basics.ps1",
+      "sha256": "5ED5050112CE182FCA0281DBA4A9223F4D94BC5FA4A94B67FB850F8599DD2D03"
+    }
+  ]
+}

@@ -1,0 +1,543 @@
+{
+  "feature": "COM-03",
+  "spec_revision": 2,
+  "started_at": "2026-09-29T18:04:43.0009692\u002B09:00",
+  "result": "passed",
+  "checks": {
+    "1": {
+      "result": "passed",
+      "executed_at": "2026-09-29T18:04:45.2395545\u002B09:00",
+      "actual": "Connected to actual Mosquitto at 127.0.0.1:59886",
+      "artifacts": [
+        "idle-client.log",
+        "healthy-broker.log",
+        "mosquitto.conf"
+      ]
+    },
+    "2": {
+      "result": "passed",
+      "executed_at": "2026-09-29T18:04:51.4155703\u002B09:00",
+      "actual": "Idle maintained 6.015s with PINGREQ/PINGRESP and no business messages",
+      "artifacts": [
+        "idle-client.log",
+        "healthy-broker.log"
+      ]
+    },
+    "3": {
+      "result": "passed",
+      "executed_at": "2026-09-29T18:04:59.8482176\u002B09:00",
+      "actual": "Shutdown detected in 0.072s; blocked responses in 3.089s; broker remained alive",
+      "artifacts": [
+        "shutdown-client.log",
+        "shutdown-broker.log",
+        "blackhole-client.log",
+        "blackhole-broker.log",
+        "broker-still-alive-client.log",
+        "fault-timing.json"
+      ]
+    },
+    "4": {
+      "result": "passed",
+      "executed_at": "2026-09-29T18:05:02.6131858\u002B09:00",
+      "actual": "Unavailable broker produced ConnectFailed with reason, no Connected state and controlled exit 2",
+      "artifacts": [
+        "unavailable-client.log"
+      ]
+    },
+    "5": {
+      "result": "passed",
+      "executed_at": "2026-09-29T18:05:03.8376096\u002B09:00",
+      "actual": "403 tests passed; actual Mosquitto checks 1-4 and process restart passed",
+      "artifacts": [
+        "build.log",
+        "unit.log",
+        "unit.trx",
+        "restart-client.log",
+        "result.json"
+      ]
+    }
+  },
+  "commands": [
+    {
+      "at": "2026-09-29T18:04:43.0529381\u002B09:00",
+      "executable": "git",
+      "args": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "log": "code-version.log"
+    },
+    {
+      "at": "2026-09-29T18:04:43.0953262\u002B09:00",
+      "executable": "git",
+      "args": [
+        "status",
+        "--short"
+      ],
+      "exit_code": 0,
+      "log": "code-changes.log"
+    },
+    {
+      "at": "2026-09-29T18:04:43.2625203\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "version",
+        "--format",
+        "{{.Server.Version}}"
+      ],
+      "exit_code": 0,
+      "log": "docker-version.log"
+    },
+    {
+      "at": "2026-09-29T18:04:43.4256477\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "image",
+        "inspect",
+        "eclipse-mosquitto:2.1.2-alpine",
+        "--format",
+        "{{.Id}}"
+      ],
+      "exit_code": 0,
+      "log": "image-id.log"
+    },
+    {
+      "at": "2026-09-29T18:04:44.4376873\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "build",
+        "AmrControlSystem.slnx",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "log": "build.log"
+    },
+    {
+      "at": "2026-09-29T18:04:44.6647550\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "create",
+        "--name",
+        "amr-com03-healthy-c47952cbc524493aa5da4be990406cfa",
+        "--label",
+        "amr.verification=COM-03",
+        "-p",
+        "127.0.0.1::1883",
+        "--mount",
+        "type=bind,source=C:\\practice\\evidence\\COM-03\\20260929T180443-24ec1835438f409aad9e31df228ccdcd\\mosquitto.conf,target=/mosquitto/config/mosquitto.conf,readonly",
+        "eclipse-mosquitto:2.1.2-alpine"
+      ],
+      "exit_code": 0,
+      "log": "healthy-create.log"
+    },
+    {
+      "at": "2026-09-29T18:04:44.9509688\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "start",
+        "amr-com03-healthy-c47952cbc524493aa5da4be990406cfa"
+      ],
+      "exit_code": 0,
+      "log": "healthy-start.log"
+    },
+    {
+      "at": "2026-09-29T18:04:45.1052539\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "port",
+        "amr-com03-healthy-c47952cbc524493aa5da4be990406cfa",
+        "1883/tcp"
+      ],
+      "exit_code": 0,
+      "log": "healthy-port.log"
+    },
+    {
+      "at": "2026-09-29T18:04:51.4153837\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "logs",
+        "amr-com03-healthy-c47952cbc524493aa5da4be990406cfa"
+      ],
+      "exit_code": 0,
+      "log": "healthy-broker.log"
+    },
+    {
+      "at": "2026-09-29T18:04:51.4164214\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "C:\\practice\\src/Amr.Communication.Console/bin/Debug/net10.0/Amr.Communication.Console.dll",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "59886",
+        "--keepalive-seconds",
+        "2",
+        "--timeout-seconds",
+        "3",
+        "--duration-seconds",
+        "6"
+      ],
+      "exit_code": 0,
+      "log": "idle-client.log"
+    },
+    {
+      "at": "2026-09-29T18:04:52.5519549\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "C:\\practice\\src/Amr.Communication.Console/bin/Debug/net10.0/Amr.Communication.Console.dll",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "59886",
+        "--keepalive-seconds",
+        "2",
+        "--timeout-seconds",
+        "3",
+        "--duration-seconds",
+        "1"
+      ],
+      "exit_code": 0,
+      "log": "restart-client.log"
+    },
+    {
+      "at": "2026-09-29T18:04:52.7034263\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "logs",
+        "amr-com03-healthy-c47952cbc524493aa5da4be990406cfa"
+      ],
+      "exit_code": 0,
+      "log": "healthy-broker.log"
+    },
+    {
+      "at": "2026-09-29T18:04:53.0983093\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "rm",
+        "-f",
+        "amr-com03-healthy-c47952cbc524493aa5da4be990406cfa"
+      ],
+      "exit_code": 0,
+      "log": "healthy-cleanup.log"
+    },
+    {
+      "at": "2026-09-29T18:04:53.3162264\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "create",
+        "--name",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297",
+        "--label",
+        "amr.verification=COM-03",
+        "-p",
+        "127.0.0.1::1883",
+        "--mount",
+        "type=bind,source=C:\\practice\\evidence\\COM-03\\20260929T180443-24ec1835438f409aad9e31df228ccdcd\\mosquitto.conf,target=/mosquitto/config/mosquitto.conf,readonly",
+        "eclipse-mosquitto:2.1.2-alpine"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-create.log"
+    },
+    {
+      "at": "2026-09-29T18:04:53.5967958\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "start",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-start.log"
+    },
+    {
+      "at": "2026-09-29T18:04:53.7549929\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "port",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297",
+        "1883/tcp"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-port.log"
+    },
+    {
+      "at": "2026-09-29T18:04:54.3013377\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "stop",
+        "--time",
+        "5",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-stop.log"
+    },
+    {
+      "at": "2026-09-29T18:04:54.4573363\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "logs",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-broker.log"
+    },
+    {
+      "at": "2026-09-29T18:04:54.4575649\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "C:\\practice\\src/Amr.Communication.Console/bin/Debug/net10.0/Amr.Communication.Console.dll",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "50563",
+        "--keepalive-seconds",
+        "2",
+        "--timeout-seconds",
+        "3",
+        "--duration-seconds",
+        "30"
+      ],
+      "exit_code": 3,
+      "log": "shutdown-client.log"
+    },
+    {
+      "at": "2026-09-29T18:04:54.6205509\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "logs",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-broker.log"
+    },
+    {
+      "at": "2026-09-29T18:04:54.7900400\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "rm",
+        "-f",
+        "amr-com03-shutdown-1154c5041c4c4b81a4ac06650b14b297"
+      ],
+      "exit_code": 0,
+      "log": "shutdown-cleanup.log"
+    },
+    {
+      "at": "2026-09-29T18:04:54.9982491\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "create",
+        "--name",
+        "amr-com03-blackhole-c3113e5a7b9845cfb37be865b1080069",
+        "--label",
+        "amr.verification=COM-03",
+        "-p",
+        "127.0.0.1::1883",
+        "--mount",
+        "type=bind,source=C:\\practice\\evidence\\COM-03\\20260929T180443-24ec1835438f409aad9e31df228ccdcd\\mosquitto.conf,target=/mosquitto/config/mosquitto.conf,readonly",
+        "eclipse-mosquitto:2.1.2-alpine"
+      ],
+      "exit_code": 0,
+      "log": "blackhole-create.log"
+    },
+    {
+      "at": "2026-09-29T18:04:55.2889346\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "start",
+        "amr-com03-blackhole-c3113e5a7b9845cfb37be865b1080069"
+      ],
+      "exit_code": 0,
+      "log": "blackhole-start.log"
+    },
+    {
+      "at": "2026-09-29T18:04:55.4404688\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "port",
+        "amr-com03-blackhole-c3113e5a7b9845cfb37be865b1080069",
+        "1883/tcp"
+      ],
+      "exit_code": 0,
+      "log": "blackhole-port.log"
+    },
+    {
+      "at": "2026-09-29T18:04:58.6753373\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "C:\\practice\\src/Amr.Communication.Console/bin/Debug/net10.0/Amr.Communication.Console.dll",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "50569",
+        "--keepalive-seconds",
+        "2",
+        "--timeout-seconds",
+        "3",
+        "--duration-seconds",
+        "30"
+      ],
+      "exit_code": 3,
+      "log": "blackhole-client.log"
+    },
+    {
+      "at": "2026-09-29T18:04:59.8264231\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "C:\\practice\\src/Amr.Communication.Console/bin/Debug/net10.0/Amr.Communication.Console.dll",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "50567",
+        "--keepalive-seconds",
+        "2",
+        "--timeout-seconds",
+        "3",
+        "--duration-seconds",
+        "1"
+      ],
+      "exit_code": 0,
+      "log": "broker-still-alive-client.log"
+    },
+    {
+      "at": "2026-09-29T18:05:00.0047941\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "logs",
+        "amr-com03-blackhole-c3113e5a7b9845cfb37be865b1080069"
+      ],
+      "exit_code": 0,
+      "log": "blackhole-broker.log"
+    },
+    {
+      "at": "2026-09-29T18:05:00.4335465\u002B09:00",
+      "executable": "C:\\Users\\Admin\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "args": [
+        "rm",
+        "-f",
+        "amr-com03-blackhole-c3113e5a7b9845cfb37be865b1080069"
+      ],
+      "exit_code": 0,
+      "log": "blackhole-cleanup.log"
+    },
+    {
+      "at": "2026-09-29T18:05:02.6134176\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "C:\\practice\\src/Amr.Communication.Console/bin/Debug/net10.0/Amr.Communication.Console.dll",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "50575",
+        "--keepalive-seconds",
+        "2",
+        "--timeout-seconds",
+        "3",
+        "--duration-seconds",
+        "1"
+      ],
+      "exit_code": 2,
+      "log": "unavailable-client.log"
+    },
+    {
+      "at": "2026-09-29T18:05:03.8211600\u002B09:00",
+      "executable": "dotnet",
+      "args": [
+        "test",
+        "tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj",
+        "--no-build",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=unit.trx",
+        "--results-directory",
+        "C:\\practice\\evidence\\COM-03\\20260929T180443-24ec1835438f409aad9e31df228ccdcd"
+      ],
+      "exit_code": 0,
+      "log": "unit.log"
+    }
+  ],
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "dotnet": "10.0.12",
+    "broker_image": "eclipse-mosquitto:2.1.2-alpine",
+    "mqttnet": "5.2.0.1603",
+    "protocol": "MQTT 5 / TCP",
+    "authentication": "anonymous, isolated localhost only",
+    "keepalive_seconds": 2,
+    "timeout_seconds": 3,
+    "core_amr_test_doubles": "none; lifecycle fake only in unit tests",
+    "response_block": "test TCP proxy drops broker-to-client bytes; no firewall changes",
+    "code_commit": "b3523c0ddd19b528b713f67aed5a9636135e1d06",
+    "changes": " M AmrControlSystem.slnx\n D Program.cs\n M README.md\n M claude-progress.md\n M evidence/COM-01/S018-audit/README.md\n M feature_list.json\nMM init.ps1\n M src/Amr.Communication.Console/Program.cs\n M src/Amr.Communication/Monitoring/AmrConnectionState.cs\n M src/Amr.Communication/Monitoring/HeartbeatMonitor.cs\n M src/Amr.Communication/Mqtt/AmrMessageDispatcher.cs\n M src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs\n M src/Amr.Communication/Mqtt/MqttClientService.cs\n M src/Amr.Communication/Mqtt/MqttConnectionManager.cs\n M src/Amr.Communication/Mqtt/MqttSubscriber.cs\n?? evidence/COM-01/queue-check-20260929T172108064/\n?? evidence/COM-02/\n?? evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/\n?? evidence/bootstrap/20260929T114434080\u002B0900-8c17f0/\n?? evidence/bootstrap/20260929T121125396\u002B0900-95f007/\n?? evidence/bootstrap/20260929T121335673\u002B0900-28f7ad/\n?? evidence/bootstrap/20260929T124151732\u002B0900-95e1e9/\n?? evidence/bootstrap/20260929T124239847\u002B0900-34b87c/\n?? evidence/bootstrap/20260929T124333218\u002B0900-e4f085/\n?? evidence/bootstrap/20260929T133138572\u002B0900-77fd57/\n?? evidence/bootstrap/20260929T133156370\u002B0900-2c3c22/\n?? evidence/bootstrap/20260929T133217445\u002B0900-5e6a62/\n?? evidence/bootstrap/20260929T133839103\u002B0900-885636/\n?? evidence/bootstrap/20260929T163141008\u002B0900-eb3679/\n?? evidence/bootstrap/20260929T172107373\u002B0900-6109d3/\n?? evidence/bootstrap/20260929T172602905\u002B0900-97646e/\n?? evidence/bootstrap/20260929T172617944\u002B0900-e9add5/\n?? evidence/bootstrap/20260929T175804347\u002B0900-d20c14/\n?? src/Amr.Communication/Monitoring/CONTRACT.md\n?? src/Amr.Communication/Monitoring/HeartbeatMonitorOptions.cs\n?? src/Amr.Communication/Monitoring/HeartbeatNotification.cs\n?? tests/Amr.Communication.Tests/HeartbeatMonitorTests.cs\n?? tools/Amr.Heartbeat.Audit/\n",
+    "docker": "29.7.2",
+    "image_id": "sha256:38c0da4f2ef84284d47b3b3eeea1cb3bdeabe81ee10caf0cd5c5ff61ee3ea408",
+    "source_sha256": {
+      "src/Amr.Communication.Console/Amr.Communication.Console.csproj": "e64b707b3aeb5f3008c76bf5bb1ee51a69dfd862cfcef72dd27320f04eb224ff",
+      "src/Amr.Communication.Console/Program.cs": "ad5165819717f5e5d1bff65ce2ef02418c001ccaf2e6e1bd979501495ba92a0f",
+      "src/Amr.Communication/Amr.Communication.csproj": "da33b992df82815eb810ff366af456779b11e55051754d4c5fca44414451148e",
+      "src/Amr.Communication/Command/CommandManager.cs": "70249c88853966c0d605f8fbcd9471a7c59da0f691e6f783ef1fcb3e4227e7c2",
+      "src/Amr.Communication/Models/AckMessage.cs": "ba93015bf3cc099088d4fe12ab56a570d1aee41d42bbfa2507acbc1a23fd21f8",
+      "src/Amr.Communication/Models/AlarmMessage.cs": "af58291eade05fd7cd8483f9cb03f2764b27c954b4e5bc1a5bed82be81b4cf9a",
+      "src/Amr.Communication/Models/CommandMessage.cs": "3cbe4fa97bce5e6d3a519aa9cdfe412b5be23f75a9ad1af715eeea8b27765b6e",
+      "src/Amr.Communication/Models/HeartbeatMessage.cs": "91675d03e833d894c8eb33cb8ae86123ed874509ac842607375cd720dbe24506",
+      "src/Amr.Communication/Models/IncomingMessage.cs": "8ced1d1d8121f6da2f8a6db849be8762882d295edccae8a83494ff86664357a8",
+      "src/Amr.Communication/Models/MqttAliveMessage.cs": "d491cc6dedb8ccda36348cecb5a14570d1bf4fed90bb3cc11e1418b4aa47dc8a",
+      "src/Amr.Communication/Models/TelemetryMessage.cs": "f35d1bc7a97e0e8c1b7d7d794fdfcc38b22be289e77ea90f5b3d2bc14473932f",
+      "src/Amr.Communication/Models/TelemetryPayLoad.cs": "970eb4ac86aea4e42938f3e310358a4df772fe746a19834d424aea4c7ccac780",
+      "src/Amr.Communication/Monitoring/AmrConnectionState.cs": "a2e6016c61a3a7f5f92863f3f28e1f155e72c28885c8d2f26c7cbf5655551a07",
+      "src/Amr.Communication/Monitoring/HeartbeatMonitor.cs": "e7b7fe65e09650d36903bd73030a563fa6837a1d8bd705beabbaf535058ca888",
+      "src/Amr.Communication/Monitoring/HeartbeatMonitorOptions.cs": "402d888bbcfd43a762edfec6628f02539d2639155213d2d932ce0fd415043440",
+      "src/Amr.Communication/Monitoring/HeartbeatNotification.cs": "b8677d6c23c7be7c746545c95efc68546137cb0356c41a24ba06b2b3932fd44e",
+      "src/Amr.Communication/Mqtt/AmrMessageDispatcher.cs": "39df77769aa606bcc057550ba55636f63ebeb579e60d0ce87cb1983150c979db",
+      "src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs": "2c396d6013ef363c95579bef6322802998f5c46ed2d0fc0cd6fcd3d17d69e3b5",
+      "src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs": "66607527e3eee04df04f40959f1ec0784c562ec5338dcfd65f1dda8eef02cb1c",
+      "src/Amr.Communication/Mqtt/IBrokerClient.cs": "724f49de6e3fea8b05396e653042f644fb3bff1544a8d86a519687b9f34bca1a",
+      "src/Amr.Communication/Mqtt/MqttClientService.cs": "e8dc9b4bef47f26b567b788a90c8d152cfad6f3626258c3dc8202de22f3ac85c",
+      "src/Amr.Communication/Mqtt/MqttConnectionManager.cs": "ce132e8ac937a6b298456c4266538a765d6ecb19cd03153562f552f2d3afbbb2",
+      "src/Amr.Communication/Mqtt/MqttPublisher.cs": "7557e97ae0a6097ed1d9d5e09f3a14fe1a28441915ed733ba8b95926b94155a3",
+      "src/Amr.Communication/Mqtt/MqttSubscriber.cs": "9326b0ad9fd47861d5672d736c65570c25522563bed7352aaf544fb16dfb1f40",
+      "src/Amr.Communication/Mqtt/MqttTopics.cs": "e2bedab2bbd7a1687863a7bf998b19a6129c9b7c355cca5eb2333a7d4f7ddf0c",
+      "src/Amr.Communication/Validation/CommandValidator.cs": "eeb8a5487c172d6c3b7dd18dd2e589dba6b9a70895eef1619e48cc2c89fecea2",
+      "src/Amr.Communication/Validation/IncomingMessageProcessor.cs": "91c8b2b14c2163fc606f4748b316e82f653142e9f8699831f947b90232152f75",
+      "src/Amr.Communication/Validation/MessageProcessingLog.cs": "9564ca04b0bf908fc1bd1c6c69539d6bc1ace379994749d4c33cf4d807dee672",
+      "src/Amr.Communication/Validation/MessageValidator.cs": "1d44c9e30d2f6d840f9f482bdf981bfeb1971fc9e8f348d55b4d5f7b6314c92b",
+      "src/Amr.Communication/Validation/PayloadValidator.cs": "50a90b95bcbbb8e5327a4bc6757031f5eeaf71a316dad7845126f9a2e9b44cd3",
+      "src/Amr.Communication/Validation/ValidationResult.cs": "4480f50546e97616c33ddf8bfb7f657df0f58f83ad9cb3941ff191e6757c7aea",
+      "src/Amr.TestClient/Amr.TestClient.csproj": "e64b707b3aeb5f3008c76bf5bb1ee51a69dfd862cfcef72dd27320f04eb224ff",
+      "src/Amr.TestClient/BasicCommandHandler.cs": "287844a5adcaac74733ae9a5381bceddc6024584691e071e2a2fb2f6e33f1a52",
+      "src/Amr.TestClient/Program.cs": "de0a454aba1f553dc58455aad5e72678ab740885157fb897c2b199e77df20ac8",
+      "src/AmrControlSystem/AmrControlSystem.csproj": "4919f4c2a639527ddf66977d0ff14ec021151046f945702c11e1c838cc4b6b4b",
+      "src/AmrControlSystem/App.xaml.cs": "0dcaa03f781dd1584c6901a144f9de92f2d6f6c78785c46159ea00306680a826",
+      "src/AmrControlSystem/AssemblyInfo.cs": "1d31ed3c7e4aaf76fabb82e330208385cb70685e9b7c577764493a4d169bca61",
+      "src/AmrControlSystem/MainWindow.xaml.cs": "9bd0ce6b280c1c64fac1d319c84d84ba94edb2bb59aa4988f876c2fb39d337da",
+      "src/AmrControlTest/AmrControlTest.csproj": "5a33086fe2d789dae610a9dcb03c32cee07bda7d5660c6ee31566180027fc810",
+      "src/AmrControlTest/App.xaml.cs": "d45870cdd08c780101fa240a5dce82aa999221d421609dff759a0a714abad9d1",
+      "src/AmrControlTest/AssemblyInfo.cs": "1d31ed3c7e4aaf76fabb82e330208385cb70685e9b7c577764493a4d169bca61",
+      "src/AmrControlTest/MainWindow.xaml.cs": "011b94682c9e8244929f031cf38986c68cc56e533d96fdfdc889c02b6e8155cc",
+      "src/AmrControlTest/Tests/LoggingTestService.cs": "0e9d7f09b0b95873ba1bf963f6385b35faabb802675965b407b6b7dea0cb1d8a",
+      "src/AmrControlTest/Tests/MqttTestService.cs": "0168f2da728cefa18af1f76ccc85a3de7e7cb76229685358aa8ffa77ede1a2d3",
+      "tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj": "01840d9d6e7911a9ac18e2df60601d8041261d96b4e39e0e8609e88ea2e6e48e",
+      "tests/Amr.Communication.Tests/AmrMessageDispatcherTests.cs": "104646e7531bfaa13b988a0e4e8071d2380215537eed43e48b187910fe6cbae1",
+      "tests/Amr.Communication.Tests/CommandValidationTests.cs": "e9f36778a0bc84ac463c24f86dafac484de59fc68e3dbd2785e6669f27102b6b",
+      "tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs": "2f6c4bb76b66b2dc23b385656a424e6cd2a8eb143ddb85b23d084e8679eec856",
+      "tests/Amr.Communication.Tests/HeartbeatMonitorTests.cs": "06f2b341d344b10f0bebe8c0161ec7b55b36cd49e0adb5ebf658af1f1771cd3e",
+      "tests/Amr.Communication.Tests/MessageValidationTests.cs": "f0fa28e75a9fa8293ec04079fc90f8724a377c45e7f0898942b782ac9d018020",
+      "tests/Amr.Communication.Tests/ScaffoldTests.cs": "f02a183c7ad036b1a7659de6fe6d734559466496923e898d492da6215b4631d4",
+      "tests/Amr.Verification.Tests/Amr.Verification.Tests.csproj": "6f21a67465a15765bd9603832cf2ce4db4e8972b4a8b462bc57cdfe9fae225c0",
+      "tests/Amr.Verification.Tests/ProxyTests.cs": "6f3c026cc31c4f45b9dcb5fbec703d7dc67ef93d4993afab67731bdaeebb7eb6",
+      "tests/Amr.Verification.Tests/TrackerTests.cs": "0d09e7f9eeeacaca4e13977183e6378e4a3d389adb11f70651eaf3289fabf209",
+      "tests/Amr.Verification.Tests/TrxTests.cs": "5ce59f5410e9aae77fc112fb74db9a3352e10647ae5f3116c2e15e7f6a38681f",
+      "tools/Amr.Communication.Audit/Amr.Communication.Audit.csproj": "535c36d1c6fd5861b14334b59ca99659a3170e18b6d66c88ad4a052f3fc5a35c",
+      "tools/Amr.Communication.Audit/Program.cs": "5f6e81845f01e9bccd2fb0e758ad083e0c90d3d1dc25bffc3c246affe634519f",
+      "tools/Amr.Heartbeat.Audit/Amr.Heartbeat.Audit.csproj": "0b4c5241ead656a551bf1acdaea81253be2cebbe572411787e7c0a2194fb6b56",
+      "tools/Amr.Heartbeat.Audit/Program.cs": "ad9a5b24f44ea6db5eabd6c7276b7001d1f5c2c1b9902224bba044ff59e0a545",
+      "tools/Amr.Verification/Amr.Verification.csproj": "091184f58af0beb2f404c01705712e4789955b5154f759ac633cc822ba024f3c",
+      "tools/Amr.Verification/BrokerVerification.cs": "b05d3948a2e364799a66c762f9a86d7b4d5a023dd3fc00d6c0c7149150f5cbf3",
+      "tools/Amr.Verification/Program.cs": "39e3a3518ad84aaaed353a215b6ad8771b912c3cfedeb7add9bd4e27d6755077",
+      "tools/Amr.Verification/ResponseDropProxy.cs": "3cb2e7ba3f32e6a6fc61618b05644376e68b8ee33f31aceaee626a8e8513e11c",
+      "tools/Amr.Verification/TrackerValidator.cs": "f1d8ac8372e16907ac1a556838adeabb4397340254d7b5ddf415701496e589ca",
+      "tools/Amr.Verification/TrxValidator.cs": "f8a0be25a3f0cc0fc1e10bf7196fc447da4af932559b4ea9fa5d1fb6a14bd88f"
+    }
+  },
+  "finished_at": "2026-09-29T18:05:03.8376919\u002B09:00"
+}

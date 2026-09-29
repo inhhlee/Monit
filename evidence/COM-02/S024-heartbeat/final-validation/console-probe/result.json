@@ -1,0 +1,113 @@
+{
+  "executed_at": "2026-09-29T18:07:05.7991567+09:00",
+  "result": "passed",
+  "checks": [
+    {
+      "name": "default_configuration_and_two_amrs",
+      "executed_at": "2026-09-29T18:07:08.3127117+09:00",
+      "result": "passed",
+      "expected": "Two AMRs start monitoring with default5s/0.5s",
+      "actual": {
+        "configuration": [
+          {
+            "Event": "HeartbeatConfiguration",
+            "TimeoutSeconds": 5,
+            "CheckIntervalSeconds": 0.5,
+            "StartPolicy": "FirstValidHeartbeat"
+          }
+        ],
+        "started": [
+          {
+            "Event": "HeartbeatMonitoringStarted",
+            "AmrId": "HB_CONSOLE_a6ac876100_A",
+            "LastReceivedUnixMilliseconds": 1790672826172,
+            "ObservedUnixMilliseconds": 1790672826172,
+            "ElapsedMilliseconds": 0,
+            "TimeoutMilliseconds": 5000
+          },
+          {
+            "Event": "HeartbeatMonitoringStarted",
+            "AmrId": "HB_CONSOLE_a6ac876100_B",
+            "LastReceivedUnixMilliseconds": 1790672826180,
+            "ObservedUnixMilliseconds": 1790672826180,
+            "ElapsedMilliseconds": 0,
+            "TimeoutMilliseconds": 5000
+          }
+        ]
+      }
+    },
+    {
+      "name": "only_stopped_a_times_out_once",
+      "executed_at": "2026-09-29T18:07:14.3448676+09:00",
+      "result": "passed",
+      "expected": "One timeout for A; B continues receiving",
+      "actual": {
+        "bBefore": 3,
+        "bAfter": 9,
+        "timeouts": [
+          {
+            "Event": "HeartbeatTimeout",
+            "AmrId": "HB_CONSOLE_a6ac876100_A",
+            "LastReceivedUnixMilliseconds": 1790672828193,
+            "ObservedUnixMilliseconds": 1790672833415,
+            "ElapsedMilliseconds": 5222.7603,
+            "TimeoutMilliseconds": 5000
+          }
+        ]
+      }
+    },
+    {
+      "name": "default_timeout_timing",
+      "executed_at": "2026-09-29T18:07:14.3497863+09:00",
+      "result": "passed",
+      "expected": "5s timeout +0.5s poll +0.5s OS scheduling tolerance, measured from last receipt",
+      "actual": {
+        "Event": "HeartbeatTimeout",
+        "AmrId": "HB_CONSOLE_a6ac876100_A",
+        "LastReceivedUnixMilliseconds": 1790672828193,
+        "ObservedUnixMilliseconds": 1790672833415,
+        "ElapsedMilliseconds": 5222.7603,
+        "TimeoutMilliseconds": 5000
+      }
+    },
+    {
+      "name": "same_id_restart_recovers_once",
+      "executed_at": "2026-09-29T18:07:16.5691911+09:00",
+      "result": "passed",
+      "expected": "Restarting A with same ID yields exactly one recovery",
+      "actual": [
+        {
+          "Event": "HeartbeatRecovered",
+          "AmrId": "HB_CONSOLE_a6ac876100_A",
+          "LastReceivedUnixMilliseconds": 1790672834476,
+          "ObservedUnixMilliseconds": 1790672834476,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 5000
+        }
+      ]
+    },
+    {
+      "name": "normal_exit_without_additional_timeout",
+      "executed_at": "2026-09-29T18:07:28.0306800+09:00",
+      "result": "passed",
+      "expected": "Receiver exits normally after resumed healthy traffic, no additional timeout",
+      "actual": {
+        "exit": 0,
+        "timeouts": [
+          {
+            "Event": "HeartbeatTimeout",
+            "AmrId": "HB_CONSOLE_a6ac876100_A",
+            "LastReceivedUnixMilliseconds": 1790672828193,
+            "ObservedUnixMilliseconds": 1790672833415,
+            "ElapsedMilliseconds": 5222.7603,
+            "TimeoutMilliseconds": 5000
+          }
+        ]
+      }
+    }
+  ],
+  "environment": "Actual Console/TestClient processes and localhost:1883 Mosquitto; Console Core/log doubles; default 5s timeout/0.5s check, 1s publish. A is stopped by this script, not keyboard Ctrl+C.",
+  "amr_a": "HB_CONSOLE_a6ac876100_A",
+  "amr_b": "HB_CONSOLE_a6ac876100_B",
+  "finished_at": "2026-09-29T18:07:28.0365048+09:00"
+}

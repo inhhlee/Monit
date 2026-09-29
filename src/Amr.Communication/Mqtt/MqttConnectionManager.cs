@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using Amr.Communication.Validation;
+using Amr.Communication.Monitoring;
 
 namespace Amr.Communication.Mqtt;
 
@@ -27,6 +28,17 @@ public sealed class MqttConnectionManager : IAsyncDisposable // mqtt관리 매�
     public MqttConnectionManager(BrokerConnectionOptions options, IncomingMessageProcessor processor)
         : this(options, () => new MqttClientService(processor))
         => ArgumentNullException.ThrowIfNull(processor);
+
+    // Heartbeat 감시 알림은 메시지 처리 큐와 별도 경계로 전달합니다.
+    public MqttConnectionManager(BrokerConnectionOptions options, IncomingMessageProcessor processor,
+        HeartbeatMonitorOptions heartbeatOptions, IHeartbeatEventSink heartbeatSink)
+        : this(options, () => new MqttClientService(processor, heartbeatOptions, heartbeatSink))
+    {
+        ArgumentNullException.ThrowIfNull(processor);
+        ArgumentNullException.ThrowIfNull(heartbeatOptions);
+        ArgumentNullException.ThrowIfNull(heartbeatSink);
+        heartbeatOptions.Validate();
+    }
 
     internal MqttConnectionManager(BrokerConnectionOptions options, Func<IBrokerClient> createClient)
     {

@@ -1,0 +1,199 @@
+{
+  "executed_at": "2026-09-29T18:06:18.4377297+09:00",
+  "completed": true,
+  "failed_checks": 0,
+  "error": null,
+  "environment": {
+    "Host": "127.0.0.1",
+    "Port": 1883,
+    "Timeout": "00:00:01.5000000",
+    "CheckInterval": "00:00:00.1000000",
+    "amrA": "HB_aec8127f2f_A",
+    "amrB": "HB_aec8127f2f_B",
+    "publicationMilliseconds": 200,
+    "mqttnet": "5.2.0.1603",
+    "testDoubles": "AMR publisher and gated Core/event sink; real Mosquitto transport"
+  },
+  "checks": [
+    {
+      "name": "no_timeout_before_first_heartbeat",
+      "executed_at": "2026-09-29T18:06:08.2462554+09:00",
+      "result": "passed",
+      "expected": "No inferred AMRs before first valid heartbeat",
+      "actual": 0
+    },
+    {
+      "name": "two_amrs_refresh_while_core_a_blocked",
+      "executed_at": "2026-09-29T18:06:11.6003883+09:00",
+      "result": "passed",
+      "expected": "Both heartbeat clocks refresh despite A Core being blocked for over twice the timeout",
+      "actual": {
+        "notifications": [
+          {
+            "AmrId": "HB_aec8127f2f_A",
+            "Kind": 0,
+            "LastReceivedUnixMilliseconds": 1790672768276,
+            "ObservedUnixMilliseconds": 1790672768276,
+            "ElapsedMilliseconds": 0,
+            "TimeoutMilliseconds": 1500
+          },
+          {
+            "AmrId": "HB_aec8127f2f_B",
+            "Kind": 0,
+            "LastReceivedUnixMilliseconds": 1790672768281,
+            "ObservedUnixMilliseconds": 1790672768281,
+            "ElapsedMilliseconds": 0,
+            "TimeoutMilliseconds": 1500
+          }
+        ],
+        "deliveredB": 17
+      }
+    },
+    {
+      "name": "only_a_times_out_despite_invalid_heartbeats",
+      "executed_at": "2026-09-29T18:06:13.8795211+09:00",
+      "result": "passed",
+      "expected": "Invalid A input cannot refresh; healthy B and Broker stay connected; no duplicate timeout",
+      "actual": {
+        "timeout": {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 1,
+          "LastReceivedUnixMilliseconds": 1790672771522,
+          "ObservedUnixMilliseconds": 1790672773037,
+          "ElapsedMilliseconds": 1514.8281,
+          "TimeoutMilliseconds": 1500
+        },
+        "invalid": 11,
+        "brokerConnected": true
+      }
+    },
+    {
+      "name": "timeout_event_contains_receipt_and_timing",
+      "executed_at": "2026-09-29T18:06:13.8812304+09:00",
+      "result": "passed",
+      "expected": "1500ms deadline \u002B 100ms poll \u002B 500ms scheduling tolerance; local receipt time, not payload ts",
+      "actual": {
+        "AmrId": "HB_aec8127f2f_A",
+        "Kind": 1,
+        "LastReceivedUnixMilliseconds": 1790672771522,
+        "ObservedUnixMilliseconds": 1790672773037,
+        "ElapsedMilliseconds": 1514.8281,
+        "TimeoutMilliseconds": 1500
+      }
+    },
+    {
+      "name": "valid_heartbeat_recovers_once",
+      "executed_at": "2026-09-29T18:06:14.5803575+09:00",
+      "result": "passed",
+      "expected": "One recovery notification when normal heartbeats resume",
+      "actual": [
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 0,
+          "LastReceivedUnixMilliseconds": 1790672768276,
+          "ObservedUnixMilliseconds": 1790672768276,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 1,
+          "LastReceivedUnixMilliseconds": 1790672771522,
+          "ObservedUnixMilliseconds": 1790672773037,
+          "ElapsedMilliseconds": 1514.8281,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 2,
+          "LastReceivedUnixMilliseconds": 1790672773958,
+          "ObservedUnixMilliseconds": 1790672773958,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        }
+      ]
+    },
+    {
+      "name": "disconnect_stops_monitor",
+      "executed_at": "2026-09-29T18:06:16.403146+09:00",
+      "result": "passed",
+      "expected": "No AMR timeout notifications after deliberate receiver disconnect",
+      "actual": {
+        "beforeStop": 4,
+        "afterStop": 4
+      }
+    },
+    {
+      "name": "reconnect_starts_fresh_monitor",
+      "executed_at": "2026-09-29T18:06:16.6209496+09:00",
+      "result": "passed",
+      "expected": "New session learns both AMRs anew instead of reusing old timeout state",
+      "actual": [
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 0,
+          "LastReceivedUnixMilliseconds": 1790672768276,
+          "ObservedUnixMilliseconds": 1790672768276,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_B",
+          "Kind": 0,
+          "LastReceivedUnixMilliseconds": 1790672768281,
+          "ObservedUnixMilliseconds": 1790672768281,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 1,
+          "LastReceivedUnixMilliseconds": 1790672771522,
+          "ObservedUnixMilliseconds": 1790672773037,
+          "ElapsedMilliseconds": 1514.8281,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 2,
+          "LastReceivedUnixMilliseconds": 1790672773958,
+          "ObservedUnixMilliseconds": 1790672773958,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_A",
+          "Kind": 0,
+          "LastReceivedUnixMilliseconds": 1790672776591,
+          "ObservedUnixMilliseconds": 1790672776591,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        },
+        {
+          "AmrId": "HB_aec8127f2f_B",
+          "Kind": 0,
+          "LastReceivedUnixMilliseconds": 1790672776591,
+          "ObservedUnixMilliseconds": 1790672776591,
+          "ElapsedMilliseconds": 0,
+          "TimeoutMilliseconds": 1500
+        }
+      ]
+    },
+    {
+      "name": "broker_loss_is_not_amr_timeout",
+      "executed_at": "2026-09-29T18:06:18.4264619+09:00",
+      "result": "passed",
+      "expected": "Broker disconnection stops AMR timers and reports ConnectionLost separately",
+      "actual": {
+        "Snapshot": {
+          "State": 4,
+          "Reason": "ConnectionLost",
+          "TimestampUnixMilliseconds": 1790672776626,
+          "Error": "SessionTakenOver"
+        },
+        "eventsBefore": 6,
+        "eventsAfter": 6
+      }
+    }
+  ]
+}

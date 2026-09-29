@@ -1,0 +1,52 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-219dc3c322644bffa4c0228b08bf231e","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790672825903,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790672825956,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+{"Event":"HeartbeatConfiguration","TimeoutSeconds":5,"CheckIntervalSeconds":0.5,"StartPolicy":"FirstValidHeartbeat"}
+{"Event":"HeartbeatMonitoringStarted","AmrId":"HB_CONSOLE_a6ac876100_A","LastReceivedUnixMilliseconds":1790672826172,"ObservedUnixMilliseconds":1790672826172,"ElapsedMilliseconds":0,"TimeoutMilliseconds":5000}
+{"Event":"HeartbeatMonitoringStarted","AmrId":"HB_CONSOLE_a6ac876100_B","LastReceivedUnixMilliseconds":1790672826180,"ObservedUnixMilliseconds":1790672826180,"ElapsedMilliseconds":0,"TimeoutMilliseconds":5000}
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672826153
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672826147
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672827177
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672827177
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672828192
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672828191
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672829204
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672830219
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672831235
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672832248
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672833261
+{"Event":"HeartbeatTimeout","AmrId":"HB_CONSOLE_a6ac876100_A","LastReceivedUnixMilliseconds":1790672828193,"ObservedUnixMilliseconds":1790672833415,"ElapsedMilliseconds":5222.7603,"TimeoutMilliseconds":5000}
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672834273
+{"Event":"HeartbeatRecovered","AmrId":"HB_CONSOLE_a6ac876100_A","LastReceivedUnixMilliseconds":1790672834476,"ObservedUnixMilliseconds":1790672834476,"ElapsedMilliseconds":0,"TimeoutMilliseconds":5000}
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672834457
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672835287
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672835491
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672836300
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672836503
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672837313
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672837516
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672838323
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672838526
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672839335
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672839535
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672840344
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672840544
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672841354
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672841557
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672842373
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672842577
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672843388
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672843590
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672844402
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672844606
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672845417
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672845619
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672846432
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672846633
+Received Heartbeat: HB_CONSOLE_a6ac876100_B ts=1790672847444
+Received Heartbeat: HB_CONSOLE_a6ac876100_A ts=1790672847649
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790672847961,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790672847973,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790672847974,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790672847974,"Error":null}

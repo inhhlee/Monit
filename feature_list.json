@@ -175,6 +175,19 @@
         "COM-01"
       ],
       "review_trigger": "운영 AMR 수/처리량 확정, 실제 Core/GUI 연결, QoS 보장·재전송 또는 Heartbeat 수신 시각 도입 시 검토."
+    },
+    {
+      "id": "DN-10",
+      "status": "adopted",
+      "adoption": "provisional",
+      "topic": "COM-02 정상 Heartbeat 수신 시각 및 세션 감시",
+      "decision": "개발 기본 Timeout5초/확인주기500ms. 세션에서 최초 정상 Heartbeat를 받은 AMR부터 감시(미수신 장비는 DB등록 후속). 수신 검사 직전의 단조 시계와 수신 UTC를 캡처해 검증 통과·허용 AMR이면 큐 넣기 전에 갱신하며 Payload ts와 Core 처리 지연을 사용하지 않는다. QueueFull이어도 정상 Heartbeat 수신은 갱신. elapsed>=timeout에서 episode당1회 알림, 정상 수신 시 복구1회. 연결 종료/단절 시 감시 중단, 명시적 재접속은 새 세션. 별도 짧은 IHeartbeatEventSink에 관측 이벤트를 전달하며 최종 Offline/운행 정책은 Core 후속. 확인주기는 최소1ms이며 Timeout 이하로 제한한다.",
+      "reason": "사용자가 COM-02 구현을 요청했다. 느린 Core 큐로 인한 오탐과 Broker 단절/개별 AMR 이상 혼동을 피한다.",
+      "decided_at": "2026-09-29T17:29:02.2856647+09:00",
+      "affects": [
+        "COM-02"
+      ],
+      "review_trigger": "장비 등록/운영 Timeout/전체 Core/자동 재접속/MqttAlive 적용 시 검토"
     }
   ],
   "features": [
@@ -1328,6 +1341,128 @@
             "evidence/COM-03/20260929T143549-3d725957a3d84feba14ae999e660cf38/restart-client.log",
             "evidence/COM-03/20260929T143549-3d725957a3d84feba14ae999e660cf38/result.json"
           ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T18:04:45.2395545+09:00",
+          "command_or_procedure": "User init.cmd verify then its broker stage: dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker C:\\practice <docker-executable>",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "Broker 접속 정보와 KeepAlive 설정을 기록하고 실제 Mosquitto Broker를 실행한다. 통신 모듈 접속 후 클라이언트 연결 상태 및 Broker 로그에서 연결 성공을 확인한다.",
+          "actual": "Connected to actual Mosquitto at 127.0.0.1:59886",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/idle-client.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/healthy-broker.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/mosquitto.conf"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T18:04:51.4155703+09:00",
+          "command_or_procedure": "User init.cmd verify then its broker stage: dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker C:\\practice <docker-executable>",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "업무 메시지를 발행하지 않은 상태로 설정된 KeepAlive 주기의 2배 이상 연결을 관찰한다. 연결이 유지되고 PINGREQ/PINGRESP 교환 또는 MQTT 라이브러리 진단 정보로 KeepAlive 동작을 확인한다.",
+          "actual": "Idle maintained 6.015s with PINGREQ/PINGRESP and no business messages",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/idle-client.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/healthy-broker.log"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T18:04:59.8482176+09:00",
+          "command_or_procedure": "User init.cmd verify then its broker stage: dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker C:\\practice <docker-executable>",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "Broker를 정상 종료하는 경우와 네트워크 응답을 차단하는 경우를 각각 재현한다. 설정 및 라이브러리 기준으로 정한 감지 시간 내 연결 이상이 관찰되고 원인 또는 연결 끊김 로그가 기록되는지 확인한다.",
+          "actual": "Shutdown detected in 0.072s; blocked responses in 3.089s; broker remained alive",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/shutdown-client.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/shutdown-broker.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/blackhole-client.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/blackhole-broker.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/broker-still-alive-client.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/fault-timing.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T18:05:02.6131858+09:00",
+          "command_or_procedure": "User init.cmd verify then its broker stage: dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker C:\\practice <docker-executable>",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "Broker가 실행되지 않은 주소 또는 포트로 최초 연결을 시도한다. 연결 성공으로 표시하지 않고 실패 상태와 원인을 남기며 처리되지 않은 예외로 프로세스가 종료되지 않는지 확인한다.",
+          "actual": "Unavailable broker produced ConnectFailed with reason, no Connected state and controlled exit 2",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/unavailable-client.log"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T18:05:03.8376096+09:00",
+          "command_or_procedure": "User init.cmd verify then its broker stage: dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker C:\\practice <docker-executable>",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "연결 수명주기 관련 자동 테스트와 위 실제 Broker 연동 검증을 실행하고 실행 명령, 설정, 관찰 시간 및 로그를 evidence에 기록한다.",
+          "actual": "403 tests passed; actual Mosquitto checks 1-4 and process restart passed",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/build.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/unit.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/unit.trx",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/restart-client.log",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
         }
       ],
       "notes": "9페이지 COM-03, 7페이지 통신 실패 로그 정책 참조. 연결 성공 로그는 검증을 위한 관측 수단이다. 자동 재접속·재구독의 전체 복구 정책은 DN-04 및 후속 INT-04에서 다룬다. S007: DN-03/04에 연결 상태·명시적 재시도·시간 경계 계약을 채택해 revision 2로 관리. 초기화 evidence는 기능 통과 근거가 아니다.",
@@ -2450,6 +2585,222 @@
             "src/Amr.Communication/Validation/CONTRACT.md",
             "evidence/COM-01/S022-async-queues/broker-20260929T143602/result.json"
           ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T18:05:58.5342697+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "DN-01 로그 정책과 DN-02 스키마의 현재 적용 버전·범위를 기록한다. 임시 채택한 계약도 그 범위를 명시한다. Telemetry, Alarm, Heartbeat, ACK 각각의 정상 Payload와 필수 필드별 누락 사례를 준비한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T18:05:58.5343234+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "각 정상 메시지를 검증기 또는 수신 처리기에 입력한다. 메시지 유형이 올바르게 식별되고 AMR ID, Timestamp 및 유형별 데이터가 보존되어 Core 테스트 대역에 전달되는지 확인한다. ACK에 reason이 있으면 원문 문자열을 보존한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T18:05:58.5343529+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "깨진 JSON, 빈 Payload, 스키마에서 허용하지 않는 최상위 JSON 구조를 각각 입력한다. 처리되지 않은 예외 없이 실패 원인이 기록되고 Core 호출 횟수가 0인지 확인한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T18:05:58.534378+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "각 메시지 유형의 필수 필드를 하나씩 누락하거나 자료형을 틀리게 입력한다. 실패 원인 로그와 Core 미전달을 확인한다. 선택 ACK reason은 존재할 경우 비어 있지 않은 문자열이어야 한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T18:05:58.5344001+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "지원하지 않는 Topic, Topic과 맞지 않는 Payload, Payload에 id가 존재하는 유형에서 Topic AMR ID와 다른 id를 입력한다. 유효하지 않은 메시지로 거부되는지 확인한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 6,
+          "executed_at": "2026-09-29T18:05:58.5344232+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "정의되지 않은 State·Alarm Level 등 확정 스키마의 허용 범위를 벗어나는 값을 입력한다. 해당 메시지가 거부되는지 확인하고, Int64 범위의 2038년 이후 Timestamp는 정상 수용되는지 확인한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T18:05:58.5344466+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "비정상 메시지 직후 정상 메시지를 입력한다. 정상 메시지는 계속 처리되고 오류 로그에는 실패 이유와 식별 가능한 Topic 정보가 남는지 확인한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 8,
+          "executed_at": "2026-09-29T18:05:58.5344684+09:00",
+          "command_or_procedure": "init.cmd verify (403 product tests); actual MQTT incoming-message/command regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "전체 검증 테스트를 실행하여 입력 사례, Core 호출 결과 및 로그를 기록한다. 실제 MQTT 수신 경로에서 동일 검증기를 거치는지는 COM-01에서 추가 확인한다.",
+          "actual": "Current403 product tests all passed including all message validation cases; actual two-AMR/four-type transport, malformed input rejection, value/ACK reason preservation and recovery passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/typed-messages.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json"
+          ]
         }
       ],
       "notes": "4페이지 AMR 식별 기준, 5페이지 Timestamp 기준, 6페이지 MQTT 메시지 규칙, 9페이지 COM-04 참조. Command Type 검증은 관제의 Command 발행 입력을 받는 COM-01 검증에도 적용한다. 필드 누락 로그 정책은 DN-01을 따른다. S010: DN-01/02 내부 수신 계약 v1을 provisional 채택. 상세 src/Amr.Communication/Validation/CONTRACT.md. 실제 MQTT 연결은 COM-01 범위. S016: 사용자 요청으로 PDF 원문 반영 계약 v2 구현·재검증. revision 2 증거는 과거 계약의 기록으로 보존. S016: revision 3 검증 8항목 완료. 제품 306건(검증기286)/도구37건 및 실제 Heartbeat 회귀 통과. 증거 evidence/COM-04/S016-pdf-contract/README.md. S020: 수신 계약 v3/revision 4는 ACK의 선택 reason 문자열을 보존한다. 기존 reason 없는 SUCCESS/FAILURE는 호환 유지. Windows Smart App Control이 기준선 테스트 DLL을 차단하여 정상 실행 검증은 미완료이며 코드 준비/빌드부터 진행한다. S020 종료: 표준412건 및 실제 Broker 수신/명령 회귀 통과 후 revision 4 passing 복구. 초기 정책 차단은 최종 표준 실행에서는 재현되지 않았으며 에이전트가 보안 설정을 바꾸지 않았다.",
@@ -2462,7 +2813,7 @@
       "area": "Amr.Communication",
       "title": "MQTT 메시지 구독·발행 및 AMR별 처리 큐",
       "user_visible_behavior": "AMR의 Telemetry·Alarm·Heartbeat·ACK를 구독해 검증 후 전달하고, 관제 Command를 대상 AMR Topic으로 발행한다. 같은 AMR의 수신 메시지는 순차 처리하고 다른 AMR은 서로 독립적으로 처리한다.",
-      "status": "in_progress",
+      "status": "passing",
       "depends_on": [
         "COM-03",
         "COM-04"
@@ -3274,6 +3625,296 @@
             "evidence/COM-01/S022-async-queues/broker-20260929T143602/result.json",
             "evidence/COM-01/S022-async-queues/broker-20260929T143602/observer.log"
           ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T18:05:58.5119388+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "실제 Broker에 연결한 뒤 amr/{amrId}/telemetry, alarm, heartbeat, ack에 대응하는 구독이 완료되었는지 확인하고 구독 Topic과 QoS 설정을 기록한다.",
+          "actual": "Four wildcard subscriptions/QoS0 confirmed; two AMRs and four incoming types received over Mosquitto.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T18:05:58.51617+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "테스트용 AMR 2대가 각 수신 유형의 정상 메시지를 발행한다. 통신 모듈이 AMR과 유형을 구분하여 해당 처리 경로 및 Core 테스트 대역에 전달하는지 확인한다.",
+          "actual": "Both AMRs delivered Heartbeat/Telemetry/Alarm/ACK with typed values preserved; real audit12/12.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T18:05:58.516239+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "구독 Topic으로 깨진 JSON, 필수 필드 누락, Topic ID 불일치 메시지를 실제 발행한다. COM-04 검증을 거쳐 로그만 남고 Core에는 전달되지 않는지 확인한다.",
+          "actual": "Malformed JSON/missing status/ID mismatch/invalid UTF8 rejected; subsequent valid heartbeat delivered.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T18:05:58.5162683+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "같은 AMR의 여러 메시지를 수신 처리기에 정해진 순서로 입력하고 첫 처리에 지연을 준다. 이후 메시지가 앞선 처리를 추월하거나 같은 AMR 처리와 중첩되지 않는지 실행 기록으로 확인한다.",
+          "actual": "Gated first A message: no overtake or overlap; ordered timestamps401,402,404.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T18:05:58.5162958+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "AMR_001의 메시지 처리를 지연시킨 상태에서 AMR_002 메시지를 입력한다. AMR_001 처리 완료 전 AMR_002가 처리되어 AMR별 큐가 독립적으로 동작하는지 확인한다.",
+          "actual": "A blocked5s while B completed about44ms after A started, before A release.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 6,
+          "executed_at": "2026-09-29T18:05:58.5163182+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "Core 테스트 대역에서 MOVE, STOP, RESET을 각각 요청한다. amr/{대상AMR ID}/command로 발행되고 대상 AMR 구독 클라이언트가 Command Type과 Payload를 그대로 수신하며 다른 AMR의 전용 구독에는 전달되지 않는지 확인한다.",
+          "actual": "MOVE/STOP/RESET reached only requested AMR /command topic and retained payload; actual Console/TestClient9/9.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T18:05:58.5163428+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "정의되지 않은 Command Type 또는 확정 스키마에 맞지 않는 Command를 요청한다. 발행 전에 거부되고 이유가 확인되는지 검증한다.",
+          "actual": "Invalid type and malformed command rejected before publish; real audit forwarded0.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 8,
+          "executed_at": "2026-09-29T18:05:58.5163633+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "AMR 메시지 수신과 Core의 Command 요청을 동시에 발생시킨다. 두 입력 경로가 구분되어 수신 검증과 대상 Topic 발행이 모두 수행되는지 확인하고 큐 테스트 및 실제 송수신 로그를 기록한다.",
+          "actual": "Real bidirectional send/receive, four types and all three commands passed; Console/TestClient9/9.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 9,
+          "executed_at": "2026-09-29T18:05:58.5163948+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "작은 용량의 AMR 큐를 채우고 초과 입력은 처리 로그와 함께 거부되는지 확인한다. 다른 AMR 처리 및 기존 AMR 순서가 유지되고, 잘못된 입력이 AMR 큐 자원을 점유하지 않아야 한다.",
+          "actual": "All9 queue unit cases passed in product403, including per-AMR capacity/AMR-count limits, ordering and independent admission.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 10,
+          "executed_at": "2026-09-29T18:05:58.5164172+09:00",
+          "command_or_procedure": "User init.cmd verify; rebuilt Amr.Communication.Audit HOST PORT NEW_DIR 5000; tools/verify-command-basics.ps1; actual COM-03 regression",
+          "environment": {
+            "code": "b3523c0 + S024 working changes and preserved user edits; final-validation/source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto 2.1.2-alpine / Docker 29.7.2",
+            "configuration": "MQTT5 QoS0 Retain=false; localhost:1883; COM-03 uses isolated temporary ports",
+            "test_doubles": "Core/log and AMR peers for audits; actual Console/TestClient for command regression; no actual movement/GUI"
+          },
+          "expected": "Core 처리 예외 이후 정상 입력을 계속 처리한다. 연결 종료 또는 단절 시 진행 작업을 취소하고 대기 메시지를 폐기한다. 종료 대기 취소·재시작·늦은 입력에서도 이전 큐를 다시 전달하지 않는지 확인한다.",
+          "actual": "All9 queue unit cases passed; actual shutdown cancellation/discard, explicit fresh restart and connection-loss cancellation passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/summary.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Communication.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/baseline/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/processing-timeline.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/observer.log"
+          ]
         }
       ],
       "unverified_historical_evidence": [
@@ -3292,7 +3933,7 @@
           "command_or_procedure": "dotnet run Amr.TestClient and Amr.Communication.Console --heartbeat"
         }
       ],
-      "notes": "6페이지 Topic 규칙, 9페이지 COM-01 참조. 순서 검증은 통신 모듈에 도착한 순서를 기준으로 하며 서로 다른 발행자의 전역 순서를 보장한다는 의미가 아니다. 중복 전달 정책은 DN-04에서 별도로 정한다. S015: DN-07에 따라 가상 AMR Heartbeat 발행과 관제 수신·검사·콘솔 대역 출력만 구현·실제 검증. evidence/COM-01/S015-heartbeat/README.md. 다른 메시지 유형, Command 발행 및 AMR별 큐는 미완료이므로 in_progress 유지. 전체 verification 통과 기록으로 등록하지 않는다. S016: 사용자 지정 COM-04 보완으로 작업 전환. Heartbeat status 필수 계약 변경에 따른 기존 S015 부분 경로 재검증 대기. 구현은 보존하고 COM-01 전체 완료로 판정하지 않는다. S016 종료: Heartbeat status 필수 경로의 실제 Broker 회귀·재시작은 통과했다. 전체 COM-01은 다른 유형/큐/Command 미완료로 not_started(재개 대기). 과거 S015 README 경로는 현재 존재하지 않으므로 새 근거는 S016 evidence를 참조. S018: S017의 passing은 artifact_paths가 빈 검증8 주장만 있어 tracker 실패. 원본을 tracker-before.json과 unverified_historical_evidence에 보존하고 in_progress로 정정했다. 실제 4유형 수신·검사·기본 Command/ACK 왕복은 통과했으나 verification 5(AMR 독립 처리), 6(/command 대신 /cmd), 7(발행 전 검증)은 실패했다. 추가 관찰: 콘솔 cmdId 고정, 가상 AMR이 깨진 명령에도 임의 ID로 SUCCESS 응답. COM-02 Timeout과 자동 재접속은 구현되지 않았다. S018-audit/README.md 참조. 명세 변경 없이 실행 결과를 정정했으므로 revision 2 유지. S020: 사용자 첫 작업 1~4 구현 요청. Command v1과 ACK reason 확장에 따라 revision 3. COM-04 계약 확장 회귀를 먼저 활성화하므로 잠시 not_started로 전환. 기존 사용자 변경과 S018 실패 증거 보존. S020 종료: 사용자 네 항목 구현·실제 검증 완료, COM-04 passing 후 COM-01 in_progress 복귀. 최신 revision 3의 verification 1/2/3/4/6/7/8 통과, 5(다른 AMR 독립 처리) 실패. 정상 Command에 대한 TestClient FAILURE는 시뮬레이션 미구현을 정확히 나타내며 이동 완료가 아니다. S021: 사용자 검증 요청으로 실제 Broker에서 A 처리 5초 지연. 동일 AMR 세 메시지 순서와 불량 입력 후 회복은 통과, B는 A 해제 전 처리되지 않아 verification5 실패 재확인. 제품 변경 없이 진단 도구·증거만 보완했으며 revision3/in_progress 유지. S022: AMR별 Channel/비동기 소비자, 용량 제한 및 종료/처리 실패 정책(DN-09)을 채택하여 revision4. 기존 1~8 순서 유지, 검증9(과부하)/10(오류·종료) 추가. COM-01 in_progress 유지. 제품 작업 후 COM-03/04 회귀와 전체10항목을 확인한다. S022 종료: revision4의10항목 현재 증거 모두 통과(전체421, 실제진단12, 명령9, COM03회귀5). 기존 사용자 지시대로 COM-01 전체 상태 in_progress 유지, 이번 AMR 독립 처리 범위는 완료. 다음 기능 전 전체 완료 판정을 정리한다.",
+      "notes": "6페이지 Topic 규칙, 9페이지 COM-01 참조. 순서 검증은 통신 모듈에 도착한 순서를 기준으로 하며 서로 다른 발행자의 전역 순서를 보장한다는 의미가 아니다. 중복 전달 정책은 DN-04에서 별도로 정한다. S015: DN-07에 따라 가상 AMR Heartbeat 발행과 관제 수신·검사·콘솔 대역 출력만 구현·실제 검증. evidence/COM-01/S015-heartbeat/README.md. 다른 메시지 유형, Command 발행 및 AMR별 큐는 미완료이므로 in_progress 유지. 전체 verification 통과 기록으로 등록하지 않는다. S016: 사용자 지정 COM-04 보완으로 작업 전환. Heartbeat status 필수 계약 변경에 따른 기존 S015 부분 경로 재검증 대기. 구현은 보존하고 COM-01 전체 완료로 판정하지 않는다. S016 종료: Heartbeat status 필수 경로의 실제 Broker 회귀·재시작은 통과했다. 전체 COM-01은 다른 유형/큐/Command 미완료로 not_started(재개 대기). 과거 S015 README 경로는 현재 존재하지 않으므로 새 근거는 S016 evidence를 참조. S018: S017의 passing은 artifact_paths가 빈 검증8 주장만 있어 tracker 실패. 원본을 tracker-before.json과 unverified_historical_evidence에 보존하고 in_progress로 정정했다. 실제 4유형 수신·검사·기본 Command/ACK 왕복은 통과했으나 verification 5(AMR 독립 처리), 6(/command 대신 /cmd), 7(발행 전 검증)은 실패했다. 추가 관찰: 콘솔 cmdId 고정, 가상 AMR이 깨진 명령에도 임의 ID로 SUCCESS 응답. COM-02 Timeout과 자동 재접속은 구현되지 않았다. S018-audit/README.md 참조. 명세 변경 없이 실행 결과를 정정했으므로 revision 2 유지. S020: 사용자 첫 작업 1~4 구현 요청. Command v1과 ACK reason 확장에 따라 revision 3. COM-04 계약 확장 회귀를 먼저 활성화하므로 잠시 not_started로 전환. 기존 사용자 변경과 S018 실패 증거 보존. S020 종료: 사용자 네 항목 구현·실제 검증 완료, COM-04 passing 후 COM-01 in_progress 복귀. 최신 revision 3의 verification 1/2/3/4/6/7/8 통과, 5(다른 AMR 독립 처리) 실패. 정상 Command에 대한 TestClient FAILURE는 시뮬레이션 미구현을 정확히 나타내며 이동 완료가 아니다. S021: 사용자 검증 요청으로 실제 Broker에서 A 처리 5초 지연. 동일 AMR 세 메시지 순서와 불량 입력 후 회복은 통과, B는 A 해제 전 처리되지 않아 verification5 실패 재확인. 제품 변경 없이 진단 도구·증거만 보완했으며 revision3/in_progress 유지. S022: AMR별 Channel/비동기 소비자, 용량 제한 및 종료/처리 실패 정책(DN-09)을 채택하여 revision4. 기존 1~8 순서 유지, 검증9(과부하)/10(오류·종료) 추가. COM-01 in_progress 유지. 제품 작업 후 COM-03/04 회귀와 전체10항목을 확인한다. S022 종료: revision4의10항목 현재 증거 모두 통과(전체421, 실제진단12, 명령9, COM03회귀5). 기존 사용자 지시대로 COM-01 전체 상태 in_progress 유지, 이번 AMR 독립 처리 범위는 완료. 다음 기능 전 전체 완료 판정을 정리한다. S024: 사용자 COM-02 착수 요청에 따라 S022 revision4 전체10항목 증거·S024 시작421건 기준선을 확인해 COM-01 완료 판정을 정리했다. 모니터 선택 연결의 회귀를 이번 세션에서 추가 확인한다. S024 종료: 감시 연동으로 수신/종료 코드가 변경되어 회귀 재검증 대기로 다시 연다(not_started). Windows 앱 제어 정책이 새 통신 DLL 실행을 차단해 현재 변경의 큐/수명주기 회귀를 통과로 판단하지 않는다. S022 증거는 이전 코드 버전의 이력으로 보존한다. S024 재개: 사용자 17:58 표준 검증의 제품403/도구37 통과와 소스 SHA256 일치를 확인했다. Heartbeat 연동 후 실제 송수신·큐 회귀를 먼저 수행한다. S024 회귀 완료: 표준440건, 실제송수신/큐12, 명령9, COM-03회귀5 통과. 현재 revision4 전체10항목 passing 복구.",
       "spec_revision": 4,
       "blocker": null
     },
@@ -3302,7 +3943,7 @@
       "area": "Amr.Communication",
       "title": "AMR별 Heartbeat 수신 관리 및 Timeout 감지",
       "user_visible_behavior": "AMR별 마지막 정상 Heartbeat 수신 시각을 관리하고 설정된 시간 동안 Heartbeat가 없으면 해당 AMR의 통신 이상을 감지하여 연결 감시 및 관제 연계 경로로 알린다.",
-      "status": "not_started",
+      "status": "passing",
       "depends_on": [
         "COM-01"
       ],
@@ -3315,9 +3956,450 @@
         "Timeout 이벤트에 대상 AMR, 마지막 정상 수신 시각 및 판정 정보가 포함되고 계약된 연결 감시 및 관제 연계 수신자에게 전달되는지 확인한다. Broker 연결 끊김과 개별 AMR Heartbeat Timeout을 구분하여 관찰한다.",
         "테스트 시계 기반 자동 테스트와 실제 Broker 기반 Heartbeat 중단 시나리오를 실행하고 AMR별 시각, 이벤트 및 로그를 기록한다."
       ],
-      "evidence": [],
-      "notes": "5페이지 Heartbeat 기준, 9페이지 COM-02 참조. AMR별 독립 감시를 검증하되 스레드 또는 비동기 작업 등 실행 구조는 구현 설계에서 정한다. 장비 SQLite 등록은 CORE-01 범위이며 최종 Offline·MqttAlive 정책은 DN-05에서 관리한다.",
-      "spec_revision": 1,
+      "evidence": [
+        {
+          "spec_revision": 2,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T17:31:57.7129883+09:00",
+          "command_or_procedure": "dotnet test tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj --filter HeartbeatMonitorTests|AmrMessageDispatcherTests; second attempt --no-build outside sandbox",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "Heartbeat timing and dispatcher integration tests execute and pass",
+          "actual": "27 tests report FileLoadException 0x800711C7 loading Amr.Communication.dll; product assertions were not reached",
+          "result": "failed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/development/heartbeat-development.trx",
+            "evidence/COM-02/S024-heartbeat/development/code-integrity.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T17:32:13.5305018+09:00",
+          "command_or_procedure": "dotnet test tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj --filter HeartbeatMonitorTests|AmrMessageDispatcherTests; second attempt --no-build outside sandbox",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "Heartbeat timing and dispatcher integration tests execute and pass",
+          "actual": "27 tests report FileLoadException 0x800711C7 loading Amr.Communication.dll; product assertions were not reached",
+          "result": "failed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/development/heartbeat-development-retry.trx",
+            "evidence/COM-02/S024-heartbeat/development/code-integrity.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T17:39:39.6314121+09:00",
+          "command_or_procedure": "Static contract/source review of DN-10 and Monitoring/CONTRACT.md",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "감시 대상 AMR 2대, Heartbeat Timeout, 감시 주기, 최초 Heartbeat 이전 감시 시작 기준 및 이벤트 계약을 정해 기록한다. 테스트 시간값은 운영 확정값과 구분한다.",
+          "actual": "Policy, two audit AMRs, event contract, defaults, clock and session boundaries documented; compile passed",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/development/build.log",
+            "evidence/COM-02/S024-heartbeat/development/audit-build.log",
+            "src/Amr.Communication/Monitoring/CONTRACT.md"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T17:39:39.6314121+09:00",
+          "command_or_procedure": "Runtime verification pending legitimate Windows execution allowance",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "두 AMR이 Timeout보다 짧은 주기로 정상 Heartbeat를 발행한다. 마지막 수신 시각이 AMR별로 갱신되고 Timeout 이벤트가 발생하지 않는지 확인한다.",
+          "actual": "Prepared tests and real Broker audit; execution acceptance not observed because the development DLL is policy-blocked",
+          "result": "not_run",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/development/build.log",
+            "evidence/COM-02/S024-heartbeat/development/audit-build.log",
+            "src/Amr.Communication/Monitoring/CONTRACT.md"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T17:39:39.6314121+09:00",
+          "command_or_procedure": "Runtime verification pending legitimate Windows execution allowance",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "Broker 연결과 AMR_002 Heartbeat를 유지한 채 AMR_001 Heartbeat만 중단한다. Timeout과 감시 주기로 정한 판정 시간 내 AMR_001 통신 이상이 감지되고 AMR_002에는 같은 이상이 발생하지 않는지 확인한다.",
+          "actual": "Prepared tests and real Broker audit; execution acceptance not observed because the development DLL is policy-blocked",
+          "result": "not_run",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/development/build.log",
+            "evidence/COM-02/S024-heartbeat/development/audit-build.log",
+            "src/Amr.Communication/Monitoring/CONTRACT.md"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T17:39:39.6314121+09:00",
+          "command_or_procedure": "Runtime verification pending legitimate Windows execution allowance",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "제어 가능한 테스트 시계로 Timeout 직전·경계·직후를 검증한다. Payload의 과거 또는 미래 ts가 실제 마지막 수신 시각을 덮어써 Timeout을 왜곡하지 않는지 확인한다.",
+          "actual": "Prepared tests and real Broker audit; execution acceptance not observed because the development DLL is policy-blocked",
+          "result": "not_run",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/development/build.log",
+            "evidence/COM-02/S024-heartbeat/development/audit-build.log",
+            "src/Amr.Communication/Monitoring/CONTRACT.md"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T17:39:39.6314121+09:00",
+          "command_or_procedure": "Runtime verification pending legitimate Windows execution allowance",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "정상 Heartbeat 중단 후 비정상 Heartbeat만 발행한다. 유효성 검증에 실패한 메시지가 마지막 정상 수신 시각을 갱신하지 않고 Timeout을 숨기지 않는지 확인한다.",
+          "actual": "Prepared tests and real Broker audit; execution acceptance not observed because the development DLL is policy-blocked",
+          "result": "not_run",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/development/build.log",
+            "evidence/COM-02/S024-heartbeat/development/audit-build.log",
+            "src/Amr.Communication/Monitoring/CONTRACT.md"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 6,
+          "executed_at": "2026-09-29T17:39:39.6314121+09:00",
+          "command_or_procedure": "Runtime verification pending legitimate Windows execution allowance",
+          "environment": {
+            "code": "b3523c0 + S024 working changes + preserved user edits; source-sha256.json",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "broker": "not run in S024; configured development Mosquitto 2.1.2-alpine",
+            "configuration": "default timeout5s/check500ms; controlled clock boundaries; real audit planned1500ms/100ms/200ms publish",
+            "test_doubles": "Controlled TimeProvider and Core/event sink; new Broker audit compiled only"
+          },
+          "expected": "Timeout 이벤트에 대상 AMR, 마지막 정상 수신 시각 및 판정 정보가 포함되고 계약된 연결 감시 및 관제 연계 수신자에게 전달되는지 확인한다. Broker 연결 끊김과 개별 AMR Heartbeat Timeout을 구분하여 관찰한다.",
+          "actual": "Prepared tests and real Broker audit; execution acceptance not observed because the development DLL is policy-blocked",
+          "result": "not_run",
+          "artifact_paths": [
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/development/build.log",
+            "evidence/COM-02/S024-heartbeat/development/audit-build.log",
+            "src/Amr.Communication/Monitoring/CONTRACT.md"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T18:11:19.2139755+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "감시 대상 AMR 2대, Heartbeat Timeout, 감시 주기, 최초 Heartbeat 이전 감시 시작 기준 및 이벤트 계약을 정해 기록한다. 테스트 시간값은 운영 확정값과 구분한다.",
+          "actual": "DN-10 and Monitoring/CONTRACT.md document first-valid-receipt admission, default5s/0.5s and event contract; actual audit2AMRs1500ms/100ms and console2AMRs5000ms/500ms recorded.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T18:11:19.2173313+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "두 AMR이 Timeout보다 짧은 주기로 정상 Heartbeat를 발행한다. 마지막 수신 시각이 AMR별로 갱신되고 Timeout 이벤트가 발생하지 않는지 확인한다.",
+          "actual": "Both AMR clocks refreshed while A Core was blocked over3.3s (>2 timeouts); B17 deliveries and no test AMR timeout. Actual two TestClients started monitoring and continued periodic receipt.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T18:11:19.2173852+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "Broker 연결과 AMR_002 Heartbeat를 유지한 채 AMR_001 Heartbeat만 중단한다. Timeout과 감시 주기로 정한 판정 시간 내 AMR_001 통신 이상이 감지되고 AMR_002에는 같은 이상이 발생하지 않는지 확인한다.",
+          "actual": "With Broker/B healthy, A valid heartbeats stopped: audit timeout1514.8281ms (limit1500); console process stop produced A-only timeout5222.7603ms (limit5000), B continued; exactly one timeout and one recovery.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T18:11:19.2174121+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "제어 가능한 테스트 시계로 Timeout 직전·경계·직후를 검증한다. Payload의 과거 또는 미래 ts가 실제 마지막 수신 시각을 덮어써 Timeout을 왜곡하지 않는지 확인한다.",
+          "actual": "All19 heartbeat unit cases passed including4999/5000/5001ms boundary, monotonic clock vs UTC shift, old/new payload timestamps, out-of-order receipt; MQTT ts1/Int64.MaxValue did not replace receipt time.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T18:11:19.2174712+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "정상 Heartbeat 중단 후 비정상 Heartbeat만 발행한다. 유효성 검증에 실패한 메시지가 마지막 정상 수신 시각을 갱신하지 않고 Timeout을 숨기지 않는지 확인한다.",
+          "actual": "11 malformed A heartbeats rejected during real interruption and A still timed out; healthy B did not. Unit validation failures and non-heartbeat types never refresh.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 6,
+          "executed_at": "2026-09-29T18:11:19.2175223+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "Timeout 이벤트에 대상 AMR, 마지막 정상 수신 시각 및 판정 정보가 포함되고 계약된 연결 감시 및 관제 연계 수신자에게 전달되는지 확인한다. Broker 연결 끊김과 개별 AMR Heartbeat Timeout을 구분하여 관찰한다.",
+          "actual": "Events preserve AmrId/last receipt/observation/elapsed/timeout; Core event sink and console received timeout/recovery. After deliberate disconnect or SessionTakenOver ConnectionLost, no additional AMR events; explicit reconnect starts fresh monitoring.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T18:11:19.2175457+09:00",
+          "command_or_procedure": "init.cmd verify; Amr.Heartbeat.Audit HOST PORT NEW_OUTPUT; pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1 -EvidenceRoot NEW_OUTPUT; recorded COM-01/03/04 regressions",
+          "environment": {
+            "code": "b3523c0 + S024 changes; final-validation/source-sha256-final.json; user edits preserved",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "powershell": "7.6.5 (user17:58 baseline reports7.6.6)",
+            "mqttnet": "5.2.0.1603",
+            "broker": "Mosquitto2.1.2-alpine / Docker29.7.2",
+            "configuration": "localhost:1883 QoS0 Retain=false; audit1500ms timeout/100ms check/200ms publish; console5000ms/500ms/1000ms",
+            "test_doubles": "AMR publishers and gated Core/event sink in audit; actual Console/TestClient processes in console check; no real Core/GUI/movement"
+          },
+          "expected": "테스트 시계 기반 자동 테스트와 실제 Broker 기반 Heartbeat 중단 시나리오를 실행하고 AMR별 시각, 이벤트 및 로그를 기록한다.",
+          "actual": "Final standard440 tests (product403 including heartbeat19 + verifier37), real Heartbeat8/8, console5/5, communication12/12, command9/9, broker5/5 all passed. Rebuilt solution includes Heartbeat Audit; repeated real console process startup succeeded.",
+          "result": "passed",
+          "artifact_paths": [
+            "src/Amr.Communication/Monitoring/CONTRACT.md",
+            "evidence/COM-02/S024-heartbeat/README.md",
+            "evidence/COM-02/S024-heartbeat/final-validation/source-sha256-final.json",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/summary.log",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T180809400+0900-b03879/Amr.Verification.Tests.trx",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/notifications.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe/validation-errors.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/heartbeat-probe.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/console-probe/observer.log",
+            "evidence/COM-02/S024-heartbeat/final-validation/communication-probe/result.json",
+            "evidence/COM-02/S024-heartbeat/final-validation/broker-20260929T180351/result.json",
+            "evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/result.json"
+          ]
+        }
+      ],
+      "notes": "5페이지 Heartbeat 기준, 9페이지 COM-02 참조. AMR별 독립 감시를 검증하되 스레드 또는 비동기 작업 등 실행 구조는 구현 설계에서 정한다. 장비 SQLite 등록은 CORE-01 범위이며 최종 Offline·MqttAlive 정책은 DN-05에서 관리한다. S024: DN-10의 최초 정상 수신부터 감시·5초/500ms·수신시각 기준·중복 알림 억제·복구 및 세션 종료 정책을 채택하여 revision2. 검증7항목 순서는 유지한다. S024: 구현/솔루션/실제 Broker 진단 도구 빌드 완료. 새 테스트18건+기존큐9건 모두 DLL 로딩 정책 차단, 동일빌드 재시도도 차단. 이후 타이머 최소1ms 방어 테스트1건 추가(최종19건)는 컴파일만 확인. 실제 Broker/콘솔 미실행. 사용자가 허용 절차를 확인하기로 했으며 보안 설정은 변경하지 않았다. S024 재개: 17:58 표준440건(Heartbeat19건 포함) 통과로 DLL 실행 차단이 이번 실행에서 해소됨을 확인. 보안 설정 변경 여부는 추정하지 않는다. COM-01 회귀 완료 후 실제 Broker 검증으로 재개한다. S024 최종: 제품403/도구37 총440건, 실제 Heartbeat8/8 및 Console/TestClient5/5, COM-01/03/04 회귀 통과. COM-02 revision2 전체7항목 passing. 초기 Windows 차단 실패/미실행 증거는 보존하며 최종 실행에서는 재현되지 않았다. 에이전트는 보안 설정을 변경하지 않았다.",
+      "spec_revision": 2,
       "blocker": null
     },
     {
@@ -3478,6 +4560,21 @@
       "date": "2026-09-29",
       "session": "S022",
       "description": "COM-01 revision3→4: per-AMR queue overload/shutdown policy DN-09; preserve verification1-8, append9-10. COM-04 wire validation contract and COM-03 lifecycle contract unchanged; regression required."
+    },
+    {
+      "date": "2026-09-29",
+      "session": "S024",
+      "description": "COM-01 검증된 revision4 완료 정리 후 사용자 요청 COM-02 착수. DN-10 채택으로 COM-02 revision1→2, 기존7항목 순서 유지. DN-05 최종 Offline 책임은 미확정 유지."
+    },
+    {
+      "date": "2026-09-29",
+      "session": "S024",
+      "description": "COM-02 implemented but blocked by Windows code integrity; COM-01 changed receive path reopened not_started pending regression. Build success is not product passing. Prior evidence preserved."
+    },
+    {
+      "date": "2026-09-29",
+      "session": "S024",
+      "description": "사용자17:58 기준선440건 확인 후 COM-01/03/04 회귀와 COM-02 실제8/콘솔5 및 최종 표준440건 통과. COM-01 passing 복구, COM-02 revision2 passing; 과거 Windows 차단 증거 보존. Heartbeat Audit 솔루션 등록 및 시험 ID 관측 범위 보완, 계약/revision 변경 없음. 다음 COM-05."
     }
   ],
   "initialization": {

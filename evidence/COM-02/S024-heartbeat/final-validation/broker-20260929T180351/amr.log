@@ -1,0 +1,55 @@
+Connected: 127.0.0.1:1883 / S020_1751f7c52365 (Á¾·á: Ctrl+C)
+Subscribed to commands: amr/S020_1751f7c52365/command
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672633519,"status":"OK"}
+Received Command: amr/S020_1751f7c52365/command {"cmdId":"CMD-c9c9d468882d4ddbaf82f187d8f7ef4e","type":"MOVE","ts":1790672633627,"param":{"x":30,"y":15}}
+Published ACK: amr/S020_1751f7c52365/ack {"id":"S020_1751f7c52365","cmdId":"CMD-c9c9d468882d4ddbaf82f187d8f7ef4e","ts":1790672633719,"result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672634553,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672635565,"status":"OK"}
+Received Command: amr/S020_1751f7c52365/command {"cmdId":"CMD-bd4f698ccfe14c30b5d73aab40a2f52d","type":"STOP","ts":1790672635836,"param":{}}
+Published ACK: amr/S020_1751f7c52365/ack {"id":"S020_1751f7c52365","cmdId":"CMD-bd4f698ccfe14c30b5d73aab40a2f52d","ts":1790672635921,"result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672636579,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672637592,"status":"OK"}
+Received Command: amr/S020_1751f7c52365/command {"cmdId":"CMD-aa5b68bd6e06493b90913704f667a895","type":"RESET","ts":1790672638017,"param":{}}
+Published ACK: amr/S020_1751f7c52365/ack {"id":"S020_1751f7c52365","cmdId":"CMD-aa5b68bd6e06493b90913704f667a895","ts":1790672638104,"result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672638596,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672639607,"status":"OK"}
+Received Command: amr/S020_1751f7c52365/command {
+
+Rejected Command: InvalidJson $: Malformed JSON or maximum depth exceeded.
+Received Command: amr/S020_1751f7c52365/command {"type":"MOVE","ts":1,"param":{"x":1,"y":2}}
+
+Rejected Command: MissingField $.cmdId: Required field is missing.
+Received Command: amr/S020_1751f7c52365/command {"cmdId":"A","cmdId":"B","type":"MOVE","ts":1,"param":{"x":1,"y":2}}
+
+Rejected Command: DuplicateField $: Duplicate field in object.
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672640620,"status":"OK"}
+Received Command: amr/S020_1751f7c52365/command {"cmdId":"BAD-TYPE","type":"FLY","ts":1,"param":{}}
+
+Rejected Command: OutOfRange $.type: Unsupported Command type.
+Published ACK: amr/S020_1751f7c52365/ack {"id":"S020_1751f7c52365","cmdId":"BAD-TYPE","ts":1790672640689,"result":"FAILURE","reason":"OutOfRange $.type: Unsupported Command type."}
+Received Command: amr/S020_1751f7c52365/command {"cmdId":"BAD-PARAM","type":"MOVE","ts":1,"param":{"x":1}}
+
+Rejected Command: MissingField $.param.y: Required field is missing.
+Published ACK: amr/S020_1751f7c52365/ack {"id":"S020_1751f7c52365","cmdId":"BAD-PARAM","ts":1790672640857,"result":"FAILURE","reason":"MissingField $.param.y: Required field is missing."}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672641631,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672642645,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672643659,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672644675,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672645684,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672646695,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672647712,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672648726,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672649736,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672650751,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672651764,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672652778,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672653792,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672654795,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672655809,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672656825,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672657837,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672658851,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672659864,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672660875,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672661889,"status":"OK"}
+Published: amr/S020_1751f7c52365/heartbeat {"id":"S020_1751f7c52365","ts":1790672662901,"status":"OK"}

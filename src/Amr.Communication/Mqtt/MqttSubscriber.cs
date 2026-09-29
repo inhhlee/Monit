@@ -2,6 +2,7 @@ using Amr.Communication.Mqtt;
 using System;
 using System.Buffers;
 using Amr.Communication.Validation;
+using Amr.Communication.Monitoring;
 using MQTTnet;
 using MQTTnet.Protocol;
 
@@ -18,12 +19,14 @@ internal sealed class MqttSubscriber : IDisposable
     private readonly AmrMessageDispatcher _dispatcher;
 
     // 생성자: 연결(client)과 검사/전달 담당자(processor)를 받아 접수처를 준비합니다.
-    public MqttSubscriber(IMqttClient client, IncomingMessageProcessor processor)
+    public MqttSubscriber(IMqttClient client, IncomingMessageProcessor processor,
+        HeartbeatMonitorOptions? heartbeatOptions = null, IHeartbeatEventSink? heartbeatSink = null)
     {
         // 받은 MQTT 연결을 나중에도 사용할 수 있도록 필드에 저장합니다.
         _client = client;
         // 이 연결에서 사용할 AMR별 대기열 관리자를 만듭니다. 아직 AMR별 작업은 시작하지 않습니다.
-        _dispatcher = new AmrMessageDispatcher(processor);
+        var monitor = heartbeatOptions is null ? null : new HeartbeatMonitor(heartbeatOptions, heartbeatSink!);
+        _dispatcher = new AmrMessageDispatcher(processor, heartbeats: monitor);
         // +=는 알림 등록입니다. 실제 메시지가 도착하면 아래 OnMessageReceivedAsync를 호출하게 합니다.
         _client.ApplicationMessageReceivedAsync += OnMessageReceivedAsync;
     }

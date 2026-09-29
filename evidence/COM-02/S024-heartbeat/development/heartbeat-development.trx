@@ -1,0 +1,789 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d2ef7aef-e815-4363-9a81-01e666f16dd7" name="Admin@DESKTOP-N1BSNS3 2026-09-29 17:31:56" runUser="DESKTOP-N1BSNS3\CodexSandboxOffline" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-29T17:31:56.4795668+09:00" queuing="2026-09-29T17:31:56.4795670+09:00" start="2026-09-29T17:31:51.0952550+09:00" finish="2026-09-29T17:31:57.7129883+09:00" />
+  <TestSettings name="default" id="77d0c98a-b614-4b97-a9ab-597663be98ed">
+    <Deployment runDeploymentRoot="Admin_DESKTOP-N1BSNS3_2026-09-29_17_31_56" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a1af7b72-e709-4bc9-ae0a-42f6316b408b" testId="6231b1f0-e747-b677-8c72-f979b75d6d37" testName="Amr.Communication.Tests.HeartbeatMonitorTests.DisposalSuppressesLateTimerCallbacksAndNewObservations" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1207571" startTime="2026-09-29T17:31:56.0423664+09:00" endTime="2026-09-29T17:31:56.1540398+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1af7b72-e709-4bc9-ae0a-42f6316b408b">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.DisposalSuppressesLateTimerCallbacksAndNewObservations() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 93&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9a19c155-15b2-445a-9793-dfddeba0fd02" testId="ab10bb25-58dc-58c7-cda8-5e62db7620aa" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1243451" startTime="2026-09-29T17:31:56.0924484+09:00" endTime="2026-09-29T17:31:56.2161767+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a19c155-15b2-445a-9793-dfddeba0fd02">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e570f194-f812-4fde-a118-45a6dd50bba6" testId="3a6a39b4-ae1a-a9ce-3e79-d0c9dc295dd1" testName="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 86400001, interval: 100)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1363399" startTime="2026-09-29T17:31:56.4669820+09:00" endTime="2026-09-29T17:31:56.5984132+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e570f194-f812-4fde-a118-45a6dd50bba6">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Throws() Failure: Exception type was not an exact match&#xD;
+Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+Actual:   typeof(System.IO.FileLoadException)&#xD;
+---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2bec83d3-d667-44b6-b62a-8ed96492acfe" testId="f46d14c8-87bd-ad3b-766a-9023045ca026" testName="Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 5001, expired: True)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0635347" startTime="2026-09-29T17:31:57.2943610+09:00" endTime="2026-09-29T17:31:57.3575706+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2bec83d3-d667-44b6-b62a-8ed96492acfe">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 33&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 33&#xD;
+   at InvokeStub_HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="95524603-ccb2-4653-b71e-9041d0f86f60" testId="2063afc0-7abe-2eed-2e1c-0b7c9072b67f" testName="Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(shift: 86400000)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0628401" startTime="2026-09-29T17:31:57.3580017+09:00" endTime="2026-09-29T17:31:57.4205644+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95524603-ccb2-4653-b71e-9041d0f86f60">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Int32 shift) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 72&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="70ca98d9-7f99-4e8f-a60e-3e5a12c5662b" testId="5fd1b103-e819-8ba9-ffd0-b5770cb782d8" testName="Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 5000, expired: True)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0650896" startTime="2026-09-29T17:31:57.2291931+09:00" endTime="2026-09-29T17:31:57.2939852+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="70ca98d9-7f99-4e8f-a60e-3e5a12c5662b">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 33&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 33&#xD;
+   at InvokeStub_HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef405fa7-288d-484a-b090-484673b6234f" testId="277d878c-6dc2-dc77-4cb4-96b291629cb2" testName="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 5000, interval: 5001)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1225666" startTime="2026-09-29T17:31:56.3396364+09:00" endTime="2026-09-29T17:31:56.4619079+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef405fa7-288d-484a-b090-484673b6234f">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Throws() Failure: Exception type was not an exact match&#xD;
+Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+Actual:   typeof(System.IO.FileLoadException)&#xD;
+---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="29267576-9ed4-4402-8bcd-3bdeec60a3b7" testId="7ed91ae5-c87e-8de9-0bee-d4bfadd21bea" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(throwingLogger: True)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1261040" startTime="2026-09-29T17:31:56.6618826+09:00" endTime="2026-09-29T17:31:56.7908329+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="29267576-9ed4-4402-8bcd-3bdeec60a3b7">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7a8c4a8c-68dd-405e-ad60-0cf749ec6147" testId="27b4ead6-f256-e79f-8116-7700025f2798" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1314066" startTime="2026-09-29T17:31:56.4007710+09:00" endTime="2026-09-29T17:31:56.5319494+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a8c4a8c-68dd-405e-ad60-0cf749ec6147">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e11e01df-0ff8-4d62-9017-82cde1e4a2f7" testId="5e8b6216-6be7-ebb8-6911-443dd4fb6754" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1303680" startTime="2026-09-29T17:31:56.9141145+09:00" endTime="2026-09-29T17:31:57.0441406+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e11e01df-0ff8-4d62-9017-82cde1e4a2f7">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="214b3d1f-088c-4250-8e94-272f4b22ebf0" testId="4cb50485-d63c-c080-f3eb-d365f7b57cb2" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1281513" startTime="2026-09-29T17:31:55.9746393+09:00" endTime="2026-09-29T17:31:56.0916475+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="214b3d1f-088c-4250-8e94-272f4b22ebf0">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="43b52ad2-d100-4d49-88b4-e25b31ce7638" testId="2178ae28-e0a0-6c6d-c9e7-d70a6acc3cf9" testName="Amr.Communication.Tests.HeartbeatMonitorTests.FirstValidReceiptStartsMonitoringAndNoUnknownAmrTimeout" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1229871" startTime="2026-09-29T17:31:56.9834788+09:00" endTime="2026-09-29T17:31:57.1050032+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="43b52ad2-d100-4d49-88b4-e25b31ce7638">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.FirstValidReceiptStartsMonitoringAndNoUnknownAmrTimeout() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 19&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ea826e7b-1b4a-4631-b417-f1eaebe9b794" testId="d0926456-7d55-4b30-2354-11ac320584bb" testName="Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0646453" startTime="2026-09-29T17:31:57.5460073+09:00" endTime="2026-09-29T17:31:57.6098274+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ea826e7b-1b4a-4631-b417-f1eaebe9b794">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout()&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a622fd56-3204-49cf-a37e-918921d0f29f" testId="f7a145cb-c5d6-f2ea-a517-7adc5d73ed57" testName="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 5000, interval: 0)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1267355" startTime="2026-09-29T17:31:56.5990824+09:00" endTime="2026-09-29T17:31:56.7254293+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a622fd56-3204-49cf-a37e-918921d0f29f">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Throws() Failure: Exception type was not an exact match&#xD;
+Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+Actual:   typeof(System.IO.FileLoadException)&#xD;
+---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="96c30ff1-77f4-4290-a7c2-cb5839ab0641" testId="29268079-4a16-66e9-88a5-43c98bc151d1" testName="Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0672383" startTime="2026-09-29T17:31:55.9754340+09:00" endTime="2026-09-29T17:31:56.0334569+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="96c30ff1-77f4-4290-a7c2-cb5839ab0641">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh()&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef4a4879-ffc5-4f07-9c98-6c7682da08df" testId="d5e1eaab-ec4b-a047-7bf5-0492a73b429c" testName="Amr.Communication.Tests.HeartbeatMonitorTests.OutOfOrderObservationDoesNotReplaceNewerReceipt" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1315885" startTime="2026-09-29T17:31:56.8505074+09:00" endTime="2026-09-29T17:31:56.9818441+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef4a4879-ffc5-4f07-9c98-6c7682da08df">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.OutOfOrderObservationDoesNotReplaceNewerReceipt() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 82&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9bff15ac-a385-4d1b-a844-d2d41863d88f" testId="b08668a0-b125-72aa-88af-c32eddf9cb87" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1230724" startTime="2026-09-29T17:31:56.2774528+09:00" endTime="2026-09-29T17:31:56.4003150+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9bff15ac-a385-4d1b-a844-d2d41863d88f">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c72e562b-98a6-48a9-9417-709aae3a1e14" testId="9d0ac0ac-6d7e-73c8-7121-cf62d16c64d3" testName="Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(shift: -86400000)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0625061" startTime="2026-09-29T17:31:57.4209809+09:00" endTime="2026-09-29T17:31:57.4832274+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c72e562b-98a6-48a9-9417-709aae3a1e14">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Int32 shift) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 72&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Int32 shift) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 72&#xD;
+   at InvokeStub_HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f2bbe9e0-5458-41ea-a9b6-f4ffcfafa5df" testId="d6a3a58c-d6a2-59f0-1f69-3d2b6f8f1e7c" testName="Amr.Communication.Tests.HeartbeatMonitorTests.RefreshIsPerAmrAndRepeatedTicksEmitOnlyOneTimeout" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0613127" startTime="2026-09-29T17:31:57.4836728+09:00" endTime="2026-09-29T17:31:57.5448776+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f2bbe9e0-5458-41ea-a9b6-f4ffcfafa5df">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.RefreshIsPerAmrAndRepeatedTicksEmitOnlyOneTimeout() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 53&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="40160761-f490-4701-a6bb-3422ac07a04d" testId="a365030e-df15-0e37-9dd2-cab2e866723e" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(throwingLogger: False)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1224965" startTime="2026-09-29T17:31:56.7912702+09:00" endTime="2026-09-29T17:31:56.9135331+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40160761-f490-4701-a6bb-3422ac07a04d">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+   at InvokeStub_AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4b41ecee-428e-43ad-9470-6e6bf05d3075" testId="9f121d9d-4986-04bb-43da-6b3214eabd38" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0605584" startTime="2026-09-29T17:31:56.2166666+09:00" endTime="2026-09-29T17:31:56.2770046+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b41ecee-428e-43ad-9470-6e6bf05d3075">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="39ee91d7-7def-47bf-bfde-ebb73d82dbec" testId="ef1c012a-10bb-9613-1b08-24cb9b52d3b2" testName="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 0, interval: 100)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1243803" startTime="2026-09-29T17:31:56.7259065+09:00" endTime="2026-09-29T17:31:56.8500466+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="39ee91d7-7def-47bf-bfde-ebb73d82dbec">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Throws() Failure: Exception type was not an exact match&#xD;
+Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+Actual:   typeof(System.IO.FileLoadException)&#xD;
+---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="95bb1fd9-c8e2-46ab-9cb0-5090985784ae" testId="e57c2ebf-49bf-0cc1-5b82-7a01244bc428" testName="Amr.Communication.Tests.HeartbeatMonitorTests.ObserverExceptionDoesNotStopOtherAmrOrRecovery" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0621767" startTime="2026-09-29T17:31:57.6104398+09:00" endTime="2026-09-29T17:31:57.6720767+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95bb1fd9-c8e2-46ab-9cb0-5090985784ae">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.ObserverExceptionDoesNotStopOtherAmrOrRecovery() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 103&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="41511b0b-5c1a-41f4-a791-9afbeec015c2" testId="2a6ab43d-bd4f-1f41-af5b-549277e865a1" testName="Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 4999, expired: False)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0613846" startTime="2026-09-29T17:31:57.1674738+09:00" endTime="2026-09-29T17:31:57.2286044+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41511b0b-5c1a-41f4-a791-9afbeec015c2">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 33&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ec50e206-4353-422d-a92a-861560170337" testId="fa2f6029-583d-fd65-fb13-cafb80d2a7ba" testName="Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1290524" startTime="2026-09-29T17:31:56.5324869+09:00" endTime="2026-09-29T17:31:56.6613113+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec50e206-4353-422d-a92a-861560170337">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater()&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fbf44d56-773c-43e1-b339-1f5b7651817c" testId="0c911b64-55cc-748b-c7ca-c895587e330d" testName="Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring" computerName="DESKTOP-N1BSNS3" duration="00:00:00.0617769" startTime="2026-09-29T17:31:57.1054747+09:00" endTime="2026-09-29T17:31:57.1670693+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fbf44d56-773c-43e1-b339-1f5b7651817c">
+      <Output>
+        <ErrorInfo>
+          <Message>System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring()&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring()&#xD;
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring()&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7204c3f9-a58a-471c-8d19-6d05582a4931" testId="2a0acd60-2c42-98e3-5c7d-9d3628521f70" testName="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: -1, interval: 100)" computerName="DESKTOP-N1BSNS3" duration="00:00:00.1844941" startTime="2026-09-29T17:31:56.1545833+09:00" endTime="2026-09-29T17:31:56.3390716+09:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7204c3f9-a58a-471c-8d19-6d05582a4931">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Throws() Failure: Exception type was not an exact match&#xD;
+Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+Actual:   typeof(System.IO.FileLoadException)&#xD;
+---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)</Message>
+          <StackTrace>   at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval) in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+----- Inner Stack Trace -----&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121&#xD;
+   at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0() in C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs:line 121</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(throwingLogger: False)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="a365030e-df15-0e37-9dd2-cab2e866723e">
+      <Execution id="40160761-f490-4701-a6bb-3422ac07a04d" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="HandlerOrProcessingLoggerFailureDoesNotKillWorker" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.OutOfOrderObservationDoesNotReplaceNewerReceipt" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="d5e1eaab-ec4b-a047-7bf5-0492a73b429c">
+      <Execution id="ef4a4879-ffc5-4f07-9c98-6c7682da08df" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="OutOfOrderObservationDoesNotReplaceNewerReceipt" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.DisposalSuppressesLateTimerCallbacksAndNewObservations" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="6231b1f0-e747-b677-8c72-f979b75d6d37">
+      <Execution id="a1af7b72-e709-4bc9-ae0a-42f6316b408b" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="DisposalSuppressesLateTimerCallbacksAndNewObservations" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="29268079-4a16-66e9-88a5-43c98bc151d1">
+      <Execution id="96c30ff1-77f4-4290-a7c2-cb5839ab0641" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 0, interval: 100)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="ef1c012a-10bb-9613-1b08-24cb9b52d3b2">
+      <Execution id="39ee91d7-7def-47bf-bfde-ebb73d82dbec" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="InvalidTimingSettingsAreRejected" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="27b4ead6-f256-e79f-8116-7700025f2798">
+      <Execution id="7a8c4a8c-68dd-405e-ad60-0cf749ec6147" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="DifferentMessageTypesOfSameAmrShareOneQueue" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 86400001, interval: 100)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="3a6a39b4-ae1a-a9ce-3e79-d0c9dc295dd1">
+      <Execution id="e570f194-f812-4fde-a118-45a6dd50bba6" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="InvalidTimingSettingsAreRejected" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="4cb50485-d63c-c080-f3eb-d365f7b57cb2">
+      <Execution id="214b3d1f-088c-4250-8e94-272f4b22ebf0" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="d0926456-7d55-4b30-2354-11ac320584bb">
+      <Execution id="ea826e7b-1b4a-4631-b417-f1eaebe9b794" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="b08668a0-b125-72aa-88af-c32eddf9cb87">
+      <Execution id="9bff15ac-a385-4d1b-a844-d2d41863d88f" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(throwingLogger: True)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="7ed91ae5-c87e-8de9-0bee-d4bfadd21bea">
+      <Execution id="29267576-9ed4-4402-8bcd-3bdeec60a3b7" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="HandlerOrProcessingLoggerFailureDoesNotKillWorker" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="5e8b6216-6be7-ebb8-6911-443dd4fb6754">
+      <Execution id="e11e01df-0ff8-4d62-9017-82cde1e4a2f7" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 5001, expired: True)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="f46d14c8-87bd-ad3b-766a-9023045ca026">
+      <Execution id="2bec83d3-d667-44b6-b62a-8ed96492acfe" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="TimeoutBoundaryUsesElapsedReceiptTime" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 5000, interval: 5001)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="277d878c-6dc2-dc77-4cb4-96b291629cb2">
+      <Execution id="ef405fa7-288d-484a-b090-484673b6234f" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="InvalidTimingSettingsAreRejected" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 4999, expired: False)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="2a6ab43d-bd4f-1f41-af5b-549277e865a1">
+      <Execution id="41511b0b-5c1a-41f4-a791-9afbeec015c2" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="TimeoutBoundaryUsesElapsedReceiptTime" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="ab10bb25-58dc-58c7-cda8-5e62db7620aa">
+      <Execution id="9a19c155-15b2-445a-9793-dfddeba0fd02" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="SameAmrWaitsInOrderWhileOtherAmrCompletes" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.RefreshIsPerAmrAndRepeatedTicksEmitOnlyOneTimeout" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="d6a3a58c-d6a2-59f0-1f69-3d2b6f8f1e7c">
+      <Execution id="f2bbe9e0-5458-41ea-a9b6-f4ffcfafa5df" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="RefreshIsPerAmrAndRepeatedTicksEmitOnlyOneTimeout" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(shift: -86400000)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="9d0ac0ac-6d7e-73c8-7121-cf62d16c64d3">
+      <Execution id="c72e562b-98a6-48a9-9417-709aae3a1e14" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="WallClockChangesDoNotChangeElapsedTimeout" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.ObserverExceptionDoesNotStopOtherAmrOrRecovery" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="e57c2ebf-49bf-0cc1-5b82-7a01244bc428">
+      <Execution id="95bb1fd9-c8e2-46ab-9cb0-5090985784ae" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="ObserverExceptionDoesNotStopOtherAmrOrRecovery" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="fa2f6029-583d-fd65-fb13-cafb80d2a7ba">
+      <Execution id="ec50e206-4353-422d-a92a-861560170337" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="9f121d9d-4986-04bb-43da-6b3214eabd38">
+      <Execution id="4b41ecee-428e-43ad-9470-6e6bf05d3075" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.AmrMessageDispatcherTests" name="ConcurrentFirstMessagesCreateOneWorkerPerAmr" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="0c911b64-55cc-748b-c7ca-c895587e330d">
+      <Execution id="fbf44d56-773c-43e1-b339-1f5b7651817c" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.FirstValidReceiptStartsMonitoringAndNoUnknownAmrTimeout" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="2178ae28-e0a0-6c6d-c9e7-d70a6acc3cf9">
+      <Execution id="43b52ad2-d100-4d49-88b4-e25b31ce7638" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="FirstValidReceiptStartsMonitoringAndNoUnknownAmrTimeout" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 5000, interval: 0)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="f7a145cb-c5d6-f2ea-a517-7adc5d73ed57">
+      <Execution id="a622fd56-3204-49cf-a37e-918921d0f29f" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="InvalidTimingSettingsAreRejected" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 5000, expired: True)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="5fd1b103-e819-8ba9-ffd0-b5770cb782d8">
+      <Execution id="70ca98d9-7f99-4e8f-a60e-3e5a12c5662b" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="TimeoutBoundaryUsesElapsedReceiptTime" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: -1, interval: 100)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="2a0acd60-2c42-98e3-5c7d-9d3628521f70">
+      <Execution id="7204c3f9-a58a-471c-8d19-6d05582a4931" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="InvalidTimingSettingsAreRejected" />
+    </UnitTest>
+    <UnitTest name="Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(shift: 86400000)" storage="c:\practice\tests\amr.communication.tests\bin\debug\net10.0\amr.communication.tests.dll" id="2063afc0-7abe-2eed-2e1c-0b7c9072b67f">
+      <Execution id="95524603-ccb2-4653-b71e-9041d0f86f60" />
+      <TestMethod codeBase="C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Amr.Communication.Tests.HeartbeatMonitorTests" name="WallClockChangesDoNotChangeElapsedTimeout" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="6231b1f0-e747-b677-8c72-f979b75d6d37" executionId="a1af7b72-e709-4bc9-ae0a-42f6316b408b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ab10bb25-58dc-58c7-cda8-5e62db7620aa" executionId="9a19c155-15b2-445a-9793-dfddeba0fd02" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3a6a39b4-ae1a-a9ce-3e79-d0c9dc295dd1" executionId="e570f194-f812-4fde-a118-45a6dd50bba6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f46d14c8-87bd-ad3b-766a-9023045ca026" executionId="2bec83d3-d667-44b6-b62a-8ed96492acfe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2063afc0-7abe-2eed-2e1c-0b7c9072b67f" executionId="95524603-ccb2-4653-b71e-9041d0f86f60" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fd1b103-e819-8ba9-ffd0-b5770cb782d8" executionId="70ca98d9-7f99-4e8f-a60e-3e5a12c5662b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="277d878c-6dc2-dc77-4cb4-96b291629cb2" executionId="ef405fa7-288d-484a-b090-484673b6234f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7ed91ae5-c87e-8de9-0bee-d4bfadd21bea" executionId="29267576-9ed4-4402-8bcd-3bdeec60a3b7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="27b4ead6-f256-e79f-8116-7700025f2798" executionId="7a8c4a8c-68dd-405e-ad60-0cf749ec6147" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5e8b6216-6be7-ebb8-6911-443dd4fb6754" executionId="e11e01df-0ff8-4d62-9017-82cde1e4a2f7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4cb50485-d63c-c080-f3eb-d365f7b57cb2" executionId="214b3d1f-088c-4250-8e94-272f4b22ebf0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2178ae28-e0a0-6c6d-c9e7-d70a6acc3cf9" executionId="43b52ad2-d100-4d49-88b4-e25b31ce7638" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d0926456-7d55-4b30-2354-11ac320584bb" executionId="ea826e7b-1b4a-4631-b417-f1eaebe9b794" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7a145cb-c5d6-f2ea-a517-7adc5d73ed57" executionId="a622fd56-3204-49cf-a37e-918921d0f29f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="29268079-4a16-66e9-88a5-43c98bc151d1" executionId="96c30ff1-77f4-4290-a7c2-cb5839ab0641" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5e1eaab-ec4b-a047-7bf5-0492a73b429c" executionId="ef4a4879-ffc5-4f07-9c98-6c7682da08df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b08668a0-b125-72aa-88af-c32eddf9cb87" executionId="9bff15ac-a385-4d1b-a844-d2d41863d88f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d0ac0ac-6d7e-73c8-7121-cf62d16c64d3" executionId="c72e562b-98a6-48a9-9417-709aae3a1e14" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d6a3a58c-d6a2-59f0-1f69-3d2b6f8f1e7c" executionId="f2bbe9e0-5458-41ea-a9b6-f4ffcfafa5df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a365030e-df15-0e37-9dd2-cab2e866723e" executionId="40160761-f490-4701-a6bb-3422ac07a04d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9f121d9d-4986-04bb-43da-6b3214eabd38" executionId="4b41ecee-428e-43ad-9470-6e6bf05d3075" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef1c012a-10bb-9613-1b08-24cb9b52d3b2" executionId="39ee91d7-7def-47bf-bfde-ebb73d82dbec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e57c2ebf-49bf-0cc1-5b82-7a01244bc428" executionId="95bb1fd9-c8e2-46ab-9cb0-5090985784ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2a6ab43d-bd4f-1f41-af5b-549277e865a1" executionId="41511b0b-5c1a-41f4-a791-9afbeec015c2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa2f6029-583d-fd65-fb13-cafb80d2a7ba" executionId="ec50e206-4353-422d-a92a-861560170337" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c911b64-55cc-748b-c7ca-c895587e330d" executionId="fbf44d56-773c-43e1-b339-1f5b7651817c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2a0acd60-2c42-98e3-5c7d-9d3628521f70" executionId="7204c3f9-a58a-471c-8d19-6d05582a4931" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="목록에 없는 결과" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="로드된 모든 결과" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="27" executed="27" passed="0" failed="27" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:04.42]   Discovering: Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:04.54]   Discovered:  Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:04.55]   Starting:    Amr.Communication.Tests&#xD;
+[xUnit.net 00:00:04.64]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:04.64]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.64]            at Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh()&#xD;
+[xUnit.net 00:00:04.64]            at Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh()&#xD;
+[xUnit.net 00:00:04.64]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:04.64]            at Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh()&#xD;
+[xUnit.net 00:00:04.64]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:04.64]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:04.70]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:04.70]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.70]            at Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput()&#xD;
+[xUnit.net 00:00:04.70]            at Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput()&#xD;
+[xUnit.net 00:00:04.70]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:04.70]            at Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput()&#xD;
+[xUnit.net 00:00:04.70]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:04.70]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:04.76]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:04.76]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.76]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(93,0): at Amr.Communication.Tests.HeartbeatMonitorTests.DisposalSuppressesLateTimerCallbacksAndNewObservations()&#xD;
+[xUnit.net 00:00:04.76]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:04.76]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:04.82]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:04.82]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.82]            at Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes()&#xD;
+[xUnit.net 00:00:04.82]            at Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes()&#xD;
+[xUnit.net 00:00:04.82]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:04.82]            at Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes()&#xD;
+[xUnit.net 00:00:04.82]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:04.82]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:04.88]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:04.88]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.88]            at Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr()&#xD;
+[xUnit.net 00:00:04.88]            at Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr()&#xD;
+[xUnit.net 00:00:04.88]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:04.88]            at Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr()&#xD;
+[xUnit.net 00:00:04.88]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:04.88]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:04.95]       Assert.Throws() Failure: Exception type was not an exact match&#xD;
+[xUnit.net 00:00:04.95]       Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+[xUnit.net 00:00:04.95]       Actual:   typeof(System.IO.FileLoadException)&#xD;
+[xUnit.net 00:00:04.95]       ---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:04.95]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.95]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval)&#xD;
+[xUnit.net 00:00:04.95]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:04.95]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:04.95]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:04.95]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:04.95]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.01]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.01]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.01]            at Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr()&#xD;
+[xUnit.net 00:00:05.01]            at Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr()&#xD;
+[xUnit.net 00:00:05.01]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.01]            at Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr()&#xD;
+[xUnit.net 00:00:05.01]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.01]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.07]       Assert.Throws() Failure: Exception type was not an exact match&#xD;
+[xUnit.net 00:00:05.07]       Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+[xUnit.net 00:00:05.07]       Actual:   typeof(System.IO.FileLoadException)&#xD;
+[xUnit.net 00:00:05.07]       ---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.07]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.07]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval)&#xD;
+[xUnit.net 00:00:05.07]            at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.07]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:05.07]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:05.07]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.07]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.14]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.14]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.14]            at Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue()&#xD;
+[xUnit.net 00:00:05.14]            at Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue()&#xD;
+[xUnit.net 00:00:05.14]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.14]            at Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue()&#xD;
+[xUnit.net 00:00:05.14]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.14]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.21]       Assert.Throws() Failure: Exception type was not an exact match&#xD;
+[xUnit.net 00:00:05.21]       Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+[xUnit.net 00:00:05.21]       Actual:   typeof(System.IO.FileLoadException)&#xD;
+[xUnit.net 00:00:05.21]       ---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.21]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.21]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval)&#xD;
+[xUnit.net 00:00:05.21]            at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.21]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:05.21]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:05.21]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.21]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.27]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.27]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.27]            at Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater()&#xD;
+[xUnit.net 00:00:05.27]            at Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater()&#xD;
+[xUnit.net 00:00:05.27]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.27]            at Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater()&#xD;
+[xUnit.net 00:00:05.27]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.27]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.33]       Assert.Throws() Failure: Exception type was not an exact match&#xD;
+[xUnit.net 00:00:05.33]       Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+[xUnit.net 00:00:05.33]       Actual:   typeof(System.IO.FileLoadException)&#xD;
+[xUnit.net 00:00:05.33]       ---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.33]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.33]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval)&#xD;
+[xUnit.net 00:00:05.33]            at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.33]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:05.33]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:05.33]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.33]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.40]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.40]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.40]            at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+[xUnit.net 00:00:05.40]            at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+[xUnit.net 00:00:05.40]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.40]            at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+[xUnit.net 00:00:05.40]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.40]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.46]       Assert.Throws() Failure: Exception type was not an exact match&#xD;
+[xUnit.net 00:00:05.46]       Expected: typeof(System.ArgumentOutOfRangeException)&#xD;
+[xUnit.net 00:00:05.46]       Actual:   typeof(System.IO.FileLoadException)&#xD;
+[xUnit.net 00:00:05.46]       ---- System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.46]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.46]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Int32 timeout, Int32 interval)&#xD;
+[xUnit.net 00:00:05.46]            at InvokeStub_HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.46]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:05.46]         ----- Inner Stack Trace -----&#xD;
+[xUnit.net 00:00:05.46]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.46]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(121,0): at Amr.Communication.Tests.HeartbeatMonitorTests.&lt;&gt;c__DisplayClass9_0.&lt;InvalidTimingSettingsAreRejected&gt;b__0()&#xD;
+[xUnit.net 00:00:05.52]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.52]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.52]            at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+[xUnit.net 00:00:05.52]            at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+[xUnit.net 00:00:05.52]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.52]            at Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Boolean throwingLogger)&#xD;
+[xUnit.net 00:00:05.52]            at InvokeStub_AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.52]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:05.59]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.59]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.59]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(82,0): at Amr.Communication.Tests.HeartbeatMonitorTests.OutOfOrderObservationDoesNotReplaceNewerReceipt()&#xD;
+[xUnit.net 00:00:05.59]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.59]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.65]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.65]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.65]            at Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit()&#xD;
+[xUnit.net 00:00:05.65]            at Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit()&#xD;
+[xUnit.net 00:00:05.65]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.65]            at Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit()&#xD;
+[xUnit.net 00:00:05.65]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.65]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.71]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.71]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.71]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(19,0): at Amr.Communication.Tests.HeartbeatMonitorTests.FirstValidReceiptStartsMonitoringAndNoUnknownAmrTimeout()&#xD;
+[xUnit.net 00:00:05.71]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.71]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.77]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.77]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.77]            at Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring()&#xD;
+[xUnit.net 00:00:05.77]            at Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring()&#xD;
+[xUnit.net 00:00:05.77]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:05.77]            at Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring()&#xD;
+[xUnit.net 00:00:05.77]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.77]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.84]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.84]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.84]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(33,0): at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired)&#xD;
+[xUnit.net 00:00:05.84]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:05.84]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:05.90]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.90]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.90]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(33,0): at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired)&#xD;
+[xUnit.net 00:00:05.90]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(33,0): at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired)&#xD;
+[xUnit.net 00:00:05.90]            at InvokeStub_HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.90]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:05.96]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:05.96]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.96]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(33,0): at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired)&#xD;
+[xUnit.net 00:00:05.96]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(33,0): at Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Int32 milliseconds, Boolean expired)&#xD;
+[xUnit.net 00:00:05.96]            at InvokeStub_HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(Object, Span`1)&#xD;
+[xUnit.net 00:00:05.96]            at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:06.03]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:06.03]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.03]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(72,0): at Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Int32 shift)&#xD;
+[xUnit.net 00:00:06.03]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:06.03]            at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:06.09]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:06.09]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.09]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(72,0): at Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Int32 shift)&#xD;
+[xUnit.net 00:00:06.09]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(72,0): at Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Int32 shift)&#xD;
+[xUnit.net 00:00:06.09]            at InvokeStub_HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(Object, Span`1)&#xD;
+[xUnit.net 00:00:06.09]            at System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+[xUnit.net 00:00:06.15]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:06.15]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.15]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(53,0): at Amr.Communication.Tests.HeartbeatMonitorTests.RefreshIsPerAmrAndRepeatedTicksEmitOnlyOneTimeout()&#xD;
+[xUnit.net 00:00:06.15]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:06.15]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:06.22]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:06.22]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.22]            at Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout()&#xD;
+[xUnit.net 00:00:06.22]            at Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout()&#xD;
+[xUnit.net 00:00:06.22]            at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine&amp; stateMachine)&#xD;
+[xUnit.net 00:00:06.22]            at Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout()&#xD;
+[xUnit.net 00:00:06.22]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:06.22]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:06.28]       System.IO.FileLoadException : Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+[xUnit.net 00:00:06.28]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.28]         C:\practice\tests\Amr.Communication.Tests\HeartbeatMonitorTests.cs(103,0): at Amr.Communication.Tests.HeartbeatMonitorTests.ObserverExceptionDoesNotStopOtherAmrOrRecovery()&#xD;
+[xUnit.net 00:00:06.28]            at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)&#xD;
+[xUnit.net 00:00:06.28]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
+[xUnit.net 00:00:06.28]   Finished:    Amr.Communication.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.0355392+09:00">
+        <Text>[xUnit.net 00:00:04.64]     Amr.Communication.Tests.HeartbeatMonitorTests.FullQueueAndBlockedCoreDoNotDelayHeartbeatRefresh [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.0920372+09:00">
+        <Text>[xUnit.net 00:00:04.70]     Amr.Communication.Tests.AmrMessageDispatcherTests.StopCancelsActiveWorkDiscardsPendingAndRejectsLateInput [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.1545115+09:00">
+        <Text>[xUnit.net 00:00:04.76]     Amr.Communication.Tests.HeartbeatMonitorTests.DisposalSuppressesLateTimerCallbacksAndNewObservations [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.2166047+09:00">
+        <Text>[xUnit.net 00:00:04.82]     Amr.Communication.Tests.AmrMessageDispatcherTests.SameAmrWaitsInOrderWhileOtherAmrCompletes [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.2773640+09:00">
+        <Text>[xUnit.net 00:00:04.88]     Amr.Communication.Tests.AmrMessageDispatcherTests.ConcurrentFirstMessagesCreateOneWorkerPerAmr [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.3395223+09:00">
+        <Text>[xUnit.net 00:00:04.95]     Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: -1, interval: 100) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.4006846+09:00">
+        <Text>[xUnit.net 00:00:05.01]     Amr.Communication.Tests.AmrMessageDispatcherTests.FullQueueRejectsOnlyNewMessageAndDoesNotBlockAnotherAmr [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.4622745+09:00">
+        <Text>[xUnit.net 00:00:05.07]     Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 5000, interval: 5001) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.5325186+09:00">
+        <Text>[xUnit.net 00:00:05.14]     Amr.Communication.Tests.AmrMessageDispatcherTests.DifferentMessageTypesOfSameAmrShareOneQueue [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.5987973+09:00">
+        <Text>[xUnit.net 00:00:05.21]     Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 86400001, interval: 100) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.6617803+09:00">
+        <Text>[xUnit.net 00:00:05.27]     Amr.Communication.Tests.AmrMessageDispatcherTests.StopWaitCanBeCancelledWithoutDeliveringQueuedWorkLater [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.7257830+09:00">
+        <Text>[xUnit.net 00:00:05.33]     Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 5000, interval: 0) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.7912079+09:00">
+        <Text>[xUnit.net 00:00:05.40]     Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(throwingLogger: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.8503588+09:00">
+        <Text>[xUnit.net 00:00:05.46]     Amr.Communication.Tests.HeartbeatMonitorTests.InvalidTimingSettingsAreRejected(timeout: 0, interval: 100) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.9139121+09:00">
+        <Text>[xUnit.net 00:00:05.52]     Amr.Communication.Tests.AmrMessageDispatcherTests.HandlerOrProcessingLoggerFailureDoesNotKillWorker(throwingLogger: False) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:56.9822161+09:00">
+        <Text>[xUnit.net 00:00:05.59]     Amr.Communication.Tests.HeartbeatMonitorTests.OutOfOrderObservationDoesNotReplaceNewerReceipt [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.0444544+09:00">
+        <Text>[xUnit.net 00:00:05.65]     Amr.Communication.Tests.AmrMessageDispatcherTests.InvalidInputDoesNotConsumeAmrSlotAndExistingAmrWorksAtLimit [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.1053092+09:00">
+        <Text>[xUnit.net 00:00:05.71]     Amr.Communication.Tests.HeartbeatMonitorTests.FirstValidReceiptStartsMonitoringAndNoUnknownAmrTimeout [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.1673724+09:00">
+        <Text>[xUnit.net 00:00:05.77]     Amr.Communication.Tests.HeartbeatMonitorTests.OtherMessageTypesAndRejectedAmrDoNotStartHeartbeatMonitoring [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.2289359+09:00">
+        <Text>[xUnit.net 00:00:05.84]     Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 4999, expired: False) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.2944151+09:00">
+        <Text>[xUnit.net 00:00:05.90]     Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 5000, expired: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.3578645+09:00">
+        <Text>[xUnit.net 00:00:05.96]     Amr.Communication.Tests.HeartbeatMonitorTests.TimeoutBoundaryUsesElapsedReceiptTime(milliseconds: 5001, expired: True) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.4208717+09:00">
+        <Text>[xUnit.net 00:00:06.03]     Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(shift: 86400000) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.4835172+09:00">
+        <Text>[xUnit.net 00:00:06.09]     Amr.Communication.Tests.HeartbeatMonitorTests.WallClockChangesDoNotChangeElapsedTimeout(shift: -86400000) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.5452398+09:00">
+        <Text>[xUnit.net 00:00:06.15]     Amr.Communication.Tests.HeartbeatMonitorTests.RefreshIsPerAmrAndRepeatedTicksEmitOnlyOneTimeout [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.6101815+09:00">
+        <Text>[xUnit.net 00:00:06.22]     Amr.Communication.Tests.HeartbeatMonitorTests.PayloadTimeAndInvalidHeartbeatCannotPostponeTimeout [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T17:31:57.6723656+09:00">
+        <Text>[xUnit.net 00:00:06.28]     Amr.Communication.Tests.HeartbeatMonitorTests.ObserverExceptionDoesNotStopOtherAmrOrRecovery [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>
