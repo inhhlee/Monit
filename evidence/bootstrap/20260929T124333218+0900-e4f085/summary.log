@@ -1,0 +1,17 @@
+Started: 2026-09-29T12:43:33.2385929+09:00
+Root: C:\practice; PowerShell: 7.6.6; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: 2f0ef64f58cf0e59d17d4d651371ace442038ecb
+BEGIN restore : dotnet restore AmrControlSystem.slnx --disable-parallel -m:1 -nr:false
+PASS restore
+BEGIN build : dotnet build AmrControlSystem.slnx --no-restore -m:1 -nr:false
+PASS build
+BEGIN harness : dotnet C:\practice\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll tracker C:\practice\feature_list.json
+PASS harness
+BEGIN test-Amr.Communication.Tests : dotnet test C:\practice\tests\Amr.Communication.Tests\Amr.Communication.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Communication.Tests.trx --results-directory C:\practice\evidence\bootstrap\20260929T124333218+0900-e4f085
+FAILED stage=test-Amr.Communication.Tests : test-Amr.Communication.Tests failed with exit code 1

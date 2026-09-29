@@ -1,0 +1,164 @@
+[
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 101,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.853
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 101,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.8684
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 101,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9112
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 101,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9145
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 102,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.9181
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 102,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9182
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 102,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.9183
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 102,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9184
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 103,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.9188
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 103,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.9188
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 103,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9189
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 103,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9188
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 104,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.9196
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 104,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9197
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 104,
+    "Phase": "started",
+    "ElapsedMilliseconds": 97.9197
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 104,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 97.9199
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 299,
+    "Phase": "started",
+    "ElapsedMilliseconds": 120.9021
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 299,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 120.9028
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 401,
+    "Phase": "started",
+    "ElapsedMilliseconds": 837.1057
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 403,
+    "Phase": "started",
+    "ElapsedMilliseconds": 838.3108
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_B",
+    "Timestamp": 403,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 838.3113
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 401,
+    "Phase": "released",
+    "ElapsedMilliseconds": 5848.8057
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 401,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 5848.9899
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 402,
+    "Phase": "started",
+    "ElapsedMilliseconds": 5849.0138
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 402,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 5849.0139
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 404,
+    "Phase": "started",
+    "ElapsedMilliseconds": 5849.0153
+  },
+  {
+    "AmrId": "AUDIT_86175c3150_A",
+    "Timestamp": 404,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 5849.0153
+  }
+]

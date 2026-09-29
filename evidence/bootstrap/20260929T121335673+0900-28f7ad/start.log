@@ -1,0 +1,147 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-e61eef3b4de249d795d7083ff9faf194","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790651617098,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790651617159,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+Received Heartbeat: AMR_001 ts=1790651617809
+Received Heartbeat: AMR_001 ts=1790651618821
+Received Heartbeat: AMR_001 ts=1790651619833
+Received Heartbeat: AMR_001 ts=1790651620845
+Received Heartbeat: AMR_001 ts=1790651621855
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651622176
+Received Heartbeat: AMR_001 ts=1790651622855
+Received Heartbeat: AMR_001 ts=1790651623863
+Received Heartbeat: AMR_001 ts=1790651624865
+Received Heartbeat: AMR_001 ts=1790651625880
+Received Heartbeat: AMR_001 ts=1790651626895
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651627179
+Received Heartbeat: AMR_001 ts=1790651627910
+Received Heartbeat: AMR_001 ts=1790651628925
+Received Heartbeat: AMR_001 ts=1790651629933
+Received Heartbeat: AMR_001 ts=1790651630943
+Received Heartbeat: AMR_001 ts=1790651631955
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651632190
+Received Heartbeat: AMR_001 ts=1790651632967
+Received Heartbeat: AMR_001 ts=1790651633983
+Received Heartbeat: AMR_001 ts=1790651634996
+Received Heartbeat: AMR_001 ts=1790651635996
+Received Heartbeat: AMR_001 ts=1790651637010
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651637199
+Received Heartbeat: AMR_001 ts=1790651638023
+Received Heartbeat: AUDIT_cdfe823ca1_A ts=101
+Received Telemetry: AUDIT_cdfe823ca1_A ts=102
+Received Alarm: AUDIT_cdfe823ca1_A ts=103
+Received Ack: AUDIT_cdfe823ca1_A ts=104
+Received Heartbeat: AUDIT_cdfe823ca1_B ts=101
+Received Telemetry: AUDIT_cdfe823ca1_B ts=102
+Received Alarm: AUDIT_cdfe823ca1_B ts=103
+Received Ack: AUDIT_cdfe823ca1_B ts=104
+{"Event":"Rejected","Topic":"amr/AUDIT_cdfe823ca1_A/heartbeat","Code":"InvalidJson","Field":"$","Reason":"Malformed JSON or maximum depth exceeded."}
+{"Event":"Rejected","Topic":"amr/AUDIT_cdfe823ca1_A/heartbeat","Code":"MissingField","Field":"$.status","Reason":"Required field is missing."}
+{"Event":"Rejected","Topic":"amr/AUDIT_cdfe823ca1_A/heartbeat","Code":"IdMismatch","Field":"$.id","Reason":"Payload ID differs from Topic ID."}
+{"Event":"Rejected","Topic":"amr/AUDIT_cdfe823ca1_A/heartbeat","Code":"InvalidUtf8","Field":"$","Reason":"Payload is not valid UTF-8."}
+Received Heartbeat: AUDIT_cdfe823ca1_A ts=299
+Received Heartbeat: AUDIT_cdfe823ca1_A ts=401
+Received Heartbeat: AUDIT_cdfe823ca1_A ts=402
+Received Heartbeat: AUDIT_cdfe823ca1_B ts=403
+Received Heartbeat: AMR_001 ts=1790651639024
+Received Heartbeat: AMR_001 ts=1790651640036
+Received Heartbeat: AMR_001 ts=1790651641050
+Received Heartbeat: AMR_001 ts=1790651642064
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651642205
+Received Heartbeat: AMR_001 ts=1790651643074
+Received Heartbeat: AMR_001 ts=1790651644081
+Received Heartbeat: AMR_001 ts=1790651645081
+Received Heartbeat: AMR_001 ts=1790651646094
+Received Heartbeat: AMR_001 ts=1790651647094
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651647219
+Received Heartbeat: AMR_001 ts=1790651648104
+Received Heartbeat: AMR_001 ts=1790651649104
+Received Heartbeat: AMR_001 ts=1790651650114
+Received Heartbeat: AMR_001 ts=1790651651125
+Received Heartbeat: AMR_001 ts=1790651652139
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651652235
+Received Heartbeat: AMR_001 ts=1790651653151
+Received Heartbeat: AMR_001 ts=1790651654166
+Received Heartbeat: AMR_001 ts=1790651655181
+Received Heartbeat: AMR_001 ts=1790651656195
+Received Heartbeat: AMR_001 ts=1790651657210
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651657243
+Received Heartbeat: AMR_001 ts=1790651658225
+Received Heartbeat: AMR_001 ts=1790651659240
+Received Heartbeat: AMR_001 ts=1790651660253
+Received Heartbeat: AMR_001 ts=1790651661267
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651662249
+Received Heartbeat: AMR_001 ts=1790651662277
+Received Heartbeat: AMR_001 ts=1790651663286
+Received Heartbeat: AMR_001 ts=1790651664299
+Received Heartbeat: AMR_001 ts=1790651665307
+Received Heartbeat: AMR_001 ts=1790651666320
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651667253
+Received Heartbeat: AMR_001 ts=1790651667331
+Received Heartbeat: AMR_001 ts=1790651668344
+Received Heartbeat: AMR_001 ts=1790651669358
+Received Heartbeat: AMR_001 ts=1790651670372
+Received Heartbeat: AMR_001 ts=1790651671372
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651672268
+Received Heartbeat: AMR_001 ts=1790651672376
+Received Heartbeat: AMR_001 ts=1790651673387
+Received Heartbeat: AMR_001 ts=1790651674388
+Received Heartbeat: AMR_001 ts=1790651675403
+Received Heartbeat: AMR_001 ts=1790651676418
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651677281
+Received Heartbeat: AMR_001 ts=1790651677432
+Received Heartbeat: AMR_001 ts=1790651678445
+Received Heartbeat: AMR_001 ts=1790651679460
+Received Heartbeat: AMR_001 ts=1790651680471
+Received Heartbeat: AMR_001 ts=1790651681486
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651682295
+Received Heartbeat: AMR_001 ts=1790651682494
+Received Heartbeat: AMR_001 ts=1790651683509
+Received Heartbeat: AMR_001 ts=1790651684522
+Received Heartbeat: AMR_001 ts=1790651685523
+Received Heartbeat: AMR_001 ts=1790651686534
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651687299
+Received Heartbeat: AMR_001 ts=1790651687548
+Received Heartbeat: AMR_001 ts=1790651688559
+Received Heartbeat: AMR_001 ts=1790651689569
+Received Heartbeat: AMR_001 ts=1790651690583
+Received Heartbeat: AMR_001 ts=1790651691592
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651692312
+Received Heartbeat: AMR_001 ts=1790651692594
+Received Heartbeat: AMR_001 ts=1790651693609
+Received Heartbeat: AMR_001 ts=1790651694609
+Received Heartbeat: AMR_001 ts=1790651695621
+Received Heartbeat: AMR_001 ts=1790651696624
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651697313
+Received Heartbeat: AMR_001 ts=1790651697638
+Received Heartbeat: AMR_001 ts=1790651698650
+Received Heartbeat: AMR_001 ts=1790651699664
+Received Heartbeat: AMR_001 ts=1790651700677
+Received Heartbeat: AMR_001 ts=1790651701677
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651702315
+Received Heartbeat: AMR_001 ts=1790651702691
+Received Heartbeat: AMR_001 ts=1790651703704
+Received Heartbeat: AMR_001 ts=1790651704709
+Received Heartbeat: AMR_001 ts=1790651705721
+Received Heartbeat: AMR_001 ts=1790651706735
+Published Command to AMR_001: {"cmdId":"test-cmd-","type":"MOVE","target":"STATION-1"}
+Received Ack: AMR_001 ts=1790651707330
+Received Heartbeat: AMR_001 ts=1790651707746
+Received Heartbeat: AMR_001 ts=1790651708746

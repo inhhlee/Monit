@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d331888f-4c83-49cc-866f-411a76609962" name="Admin@DESKTOP-N1BSNS3 2026-09-29 12:42:43" runUser="DESKTOP-N1BSNS3\Admin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-29T12:42:43.3441678+09:00" queuing="2026-09-29T12:42:43.3441683+09:00" start="2026-09-29T12:42:42.7209885+09:00" finish="2026-09-29T12:42:43.3446800+09:00" />
+  <TestSettings name="default" id="a8e47249-2f19-4142-96aa-dc269dbfc756">
+    <Deployment runDeploymentRoot="Admin_DESKTOP-N1BSNS3_2026-09-29_12_42_43" />
+  </TestSettings>
+  <TestLists>
+    <TestList name="목록에 없는 결과" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="로드된 모든 결과" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="0" executed="0" passed="0" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Error" timestamp="2026-09-29T12:42:43.2983029+09:00">
+        <Text>[xUnit.net 00:00:00.30] Amr.Communication.Tests: Catastrophic failure: System.IO.FileLoadException: Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)&#xD;
+File name: 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll'&#xD;
+   at System.Reflection.RuntimeAssembly.InternalLoad(AssemblyName assemblyName, StackCrawlMark&amp; stackMark, AssemblyLoadContext assemblyLoadContext, RuntimeAssembly requestingAssembly, Boolean throwOnFileNotFound)&#xD;
+   at System.Reflection.Assembly.Load(AssemblyName assemblyRef)&#xD;
+   at Xunit.Sdk.ReflectionAssemblyInfo..ctor(String assemblyFileName) in /_/src/xunit.execution/Sdk/Reflection/ReflectionAssemblyInfo.cs:line 31&#xD;
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Constructor(Object obj, IntPtr* args)&#xD;
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)&#xD;
+--- End of stack trace from previous location ---&#xD;
+   at Xunit.AppDomainManager_NoAppDomain.CreateObject[TObject](AssemblyName assemblyName, String typeName, Object[] args)&#xD;
+   at Xunit.Runner.v2.Xunit2..ctor(IMessageSink diagnosticMessageSink, AppDomainSupport appDomainSupport, ISourceInformationProvider sourceInformationProvider, IAssemblyInfo assemblyInfo, String assemblyFileName, String xunitExecutionAssemblyPath, String configFileName, Boolean shadowCopy, String shadowCopyFolder, Boolean verifyAssembliesOnDisk)&#xD;
+   at Xunit.Runner.v2.Xunit2.ForDiscoveryAndExecution(XunitProjectAssembly projectAssembly, ISourceInformationProvider sourceInformationProvider, IMessageSink diagnosticMessageSink, Boolean verifyAssembliesOnDisk)&#xD;
+   at Xunit.XunitFrontController.Create(XunitProjectAssembly projectAssembly, ISourceInformationProvider sourceInformationProvider, IMessageSink diagnosticMessageSink, ITestProcessLauncher testProcessLauncher)&#xD;
+   at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)&#xD;
+   at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-N1BSNS3" outcome="Warning" timestamp="2026-09-29T12:42:43.3000235+09:00">
+        <Text>C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll에서 테스트를 사용할 수 없습니다. 테스트 Discoverer 및 Executor가 등록되고 플랫폼 및 프레임워크 버전 설정이 적절한지 확인하고 다시 시도하세요.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

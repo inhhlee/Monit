@@ -9,8 +9,8 @@
 | 빌드·기존 자동 테스트 | 통과 | 표준 verify-broker: 제품306 + 도구37 = 343건, skip 0 |
 | Broker 연결·KeepAlive·끊김·최초 연결 실패·재시작 | 통과 | 실제 Mosquitto 5항목; idle 6.009초, 종료 감지 0.071초, 응답 차단 감지 3.071초 |
 | 두 AMR × 네 유형 수신 | 통과 | Heartbeat/Telemetry/Alarm/ACK 8건 Core 대역 도착, 필드와 실패 ACK 원값 보존 |
-| 비정상 수신 거부·이후 정상 처리 | 통과 | 깨진 JSON/status 누락/ID 불일치/잘못된 UTF-8 4건 거부, 다음 정상 입력 전달 |
-| 가상 AMR Heartbeat·Command/ACK | 기본 왕복 통과 | 실제 실행 파일로 명령3건 → 가상 AMR → ACK3건 → 관제 출력 |
+| 비정상 수신 거부·이후 정상 처리 | 통과실행 파일로 명령3건 → 가상 AMR → ACK3건 → 관제 출력 | 깨진 JSON/status 누락/ID 불일치/잘못된 UTF-8 4건 거부, 다음 정상 입력 전달 |
+| 가상 AMR Heartbeat·Command/ACK | 기본 왕복 통과 | 실제  |
 | 명령 Topic 계약 | 실패 | 추적기는 /command인데 실제 발행·AMR 구독은 /cmd |
 | 발행 전 명령 검사 | 실패 | FLY와 깨진 JSON이 예외 없이 Broker로 전달됨 |
 | 같은 AMR의 순서 | 이번 시나리오 통과 | A 첫 처리를 지연하면 A 두 번째는 대기 |
@@ -20,7 +20,7 @@
 | Heartbeat Timeout | 미구현 | HeartbeatMonitor가 비어 있음. AMR2 중단 뒤 알림도 관찰되지 않음; 확정 Timeout 정책 없으므로 시간 경계 합격 시험은 아님 |
 | 자동 재접속 | 미구현 | Broker 끊김은 감지하나 콘솔 종료. 재접속 루프 없음; COM-03 통과에 포함되지 않음 |
 
-ACK SUCCESS는 현재 실습 프로그램의 자동 응답이다. 로봇 이동 성공이나 실제 Core 업무 완료를 뜻하지 않는다. GUI/DB/실제 장비 운행은 검사하지 않았다.
+AK SUCCECSS는 현재 실습 프로그램의 자동 응답이다. 로봇 이동 성공이나 실제 Core 업무 완료를 뜻하지 않는다. GUI/DB/실제 장비 운행은 검사하지 않았다.
 
 ## 증거
 

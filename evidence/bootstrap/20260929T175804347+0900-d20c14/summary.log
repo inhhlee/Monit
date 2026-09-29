@@ -1,0 +1,26 @@
+Started: 2026-09-29T17:58:04.3662021+09:00
+Root: C:\practice; PowerShell: 7.6.6; Mode: verify
+BEGIN dotnet-sdk : dotnet --version
+PASS dotnet-sdk
+BEGIN git-version : git --version
+PASS git-version
+BEGIN git-state : git status --short
+PASS git-state
+Code version: b3523c0ddd19b528b713f67aed5a9636135e1d06
+BEGIN restore : dotnet restore AmrControlSystem.slnx --disable-parallel -m:1 -nr:false
+PASS restore
+BEGIN build : dotnet build AmrControlSystem.slnx --no-restore -m:1 -nr:false
+PASS build
+BEGIN harness : dotnet C:\practice\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll tracker C:\practice\feature_list.json
+PASS harness
+BEGIN test-Amr.Communication.Tests : dotnet test C:\practice\tests\Amr.Communication.Tests\Amr.Communication.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Communication.Tests.trx --results-directory C:\practice\evidence\bootstrap\20260929T175804347+0900-d20c14
+PASS test-Amr.Communication.Tests
+BEGIN test-count-Amr.Communication.Tests : dotnet C:\practice\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll trx C:\practice\evidence\bootstrap\20260929T175804347+0900-d20c14\Amr.Communication.Tests.trx
+PASS test-count-Amr.Communication.Tests
+BEGIN test-Amr.Verification.Tests : dotnet test C:\practice\tests\Amr.Verification.Tests\Amr.Verification.Tests.csproj --no-build --no-restore --logger trx;LogFileName=Amr.Verification.Tests.trx --results-directory C:\practice\evidence\bootstrap\20260929T175804347+0900-d20c14
+PASS test-Amr.Verification.Tests
+BEGIN test-count-Amr.Verification.Tests : dotnet C:\practice\tools\Amr.Verification\bin\Debug\net10.0\Amr.Verification.dll trx C:\practice\evidence\bootstrap\20260929T175804347+0900-d20c14\Amr.Verification.Tests.trx
+PASS test-count-Amr.Verification.Tests
+BASELINE PASSED. Actual Broker verification remains separate.
+Finished: 2026-09-29T17:58:11.3179393+09:00
+Evidence: C:\practice\evidence\bootstrap\20260929T175804347+0900-d20c14

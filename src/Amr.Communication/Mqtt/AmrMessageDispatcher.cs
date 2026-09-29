@@ -45,6 +45,7 @@ internal sealed class AmrMessageDispatcher : IDisposable, IAsyncDisposable
         _heartbeats = heartbeats;
     }
 
+// 큐잉된 메시지를 처리하고, Core 경계의 수신자에게 전달합니다.// AMR별로 순차 처리, 다른 AMR은 병렬 처리
     // [2] 분류: 이 메서드 자체는 동기적으로 검사·접수합니다. 실제 전달은 [3]의 별도 작업이 수행합니다.
     // topic은 배송 주소, payload는 읽기 전용 바이트 묶음입니다. true는 "큐에 넣음"을 뜻합니다.
     public bool TryEnqueue(string topic, ReadOnlyMemory<byte> payload)

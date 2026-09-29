@@ -57,6 +57,8 @@ internal sealed class MqttSubscriber : IDisposable
             throw new InvalidOperationException("Broker rejected one or more subscriptions.");
     }
 
+    // 수신된 메시지를 처리하고, 검증을 통과하면 Core 경계의 수신자에게 전달합니다
+    // MQTT 메시지를 받아 넘김
     // [1] 접수: args는 MQTTnet이 넘겨준 배달 봉투이며, Topic(주소)과 Payload(내용)가 들어 있습니다.
     // Task를 반환하지만 여기서는 await하지 않습니다. 접수 후 오래 걸리는 처리는 별도 작업에 맡깁니다.
     private Task OnMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)

@@ -6,9 +6,9 @@ param(
     [string]$Mode = 'verify',
     [switch]$Start,
     [string]$Docker = $env:AMR_DOCKER,
-    [ValidateRange(1, 86400)][int]$DurationSeconds
     [ValidateRange(1, 86400)][int]$DurationSeconds,
     [switch]$Heartbeat
+)
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $utf8 = [System.Text.UTF8Encoding]::new($false)
@@ -43,7 +43,6 @@ function Resolve-Docker {
     $script:Docker = Require-Command $script:Docker 'Install Docker Desktop, restart this terminal, or set AMR_DOCKER to docker.exe.'
     Run-Step 'docker-engine' $script:Docker @('version', '--format', '{{.Server.Version}}')
 }
-function Start-Console {
 function Start-Console {
     $arguments = @('run', '--project', 'src/Amr.Communication.Console/Amr.Communication.Console.csproj', '--')
     if ($Heartbeat) { $arguments += '--heartbeat' }

@@ -13,7 +13,7 @@ public sealed class BrokerConnectionOptions
 
     internal void Validate() // Broker 검증
     {
-        // 문자열 WhiteSpace 찾기
+        // 문자열 WhiteSpace 찾기    
         ArgumentException.ThrowIfNullOrWhiteSpace(Host); 
         ArgumentException.ThrowIfNullOrWhiteSpace(ClientId); 
 
