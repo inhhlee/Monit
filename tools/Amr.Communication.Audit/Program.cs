@@ -44,7 +44,7 @@ peer.ApplicationMessageReceivedAsync += e =>
     return Task.CompletedTask;
 };
 var options = new BrokerConnectionOptions { Host = args[0], Port = int.Parse(args[1]) };
-await using var manager = new MqttConnectionManager(options, new IncomingMessageProcessor(sink, validationLog));
+await using var manager = new MqttConnectionManager(options, new IncomingMessageProcessor(sink, validationLog, validationLog));
 var collection = "failed";
 string? error = null;
 try
@@ -128,6 +128,50 @@ try
     Check("normal_cleanup_after_release", drained && manager.Snapshot.State == BrokerConnectionState.Disposed,
         "After releasing A and draining messages, disconnect/dispose completes normally; not a queued-worker cancellation test",
         new { drained, state = manager.Snapshot.State.ToString(), elapsedMilliseconds = cleanup.Elapsed.TotalMilliseconds });
+
+    // 종료 시 진행 중 Core 호출과 아직 대기 중인 다음 메시지를 함께 확인합니다.
+    var stopSink = new RecordingSink(prefix) { BlockTimestamp = 501 };
+    await using var stopManager = new MqttConnectionManager(options, new IncomingMessageProcessor(stopSink, validationLog, validationLog));
+    if (!await stopManager.ConnectAsync()) throw new InvalidOperationException("Stop test could not connect");
+    await Publish(a, "heartbeat", Heartbeat(a, 501));
+    await stopSink.Entered.Task.WaitAsync(TimeSpan.FromSeconds(3));
+    await Publish(a, "heartbeat", Heartbeat(a, 502));
+    await Publish(b, "heartbeat", Heartbeat(b, 503));
+    if (!await Wait(() => stopSink.Messages.Any(x => x.TimestampUnixMilliseconds == 503)))
+        throw new InvalidOperationException("Stop test B control message was not delivered");
+    await stopManager.DisconnectAsync().WaitAsync(TimeSpan.FromSeconds(5));
+    Check("shutdown_cancels_active_and_discards_pending",
+        stopSink.Timeline.Any(x => x.Timestamp == 501 && x.Phase == "cancelled") &&
+        !stopSink.Timeline.Any(x => x.Timestamp == 502) && validationLog.Processing.Any(x => x.Code == "ShutdownDiscarded"),
+        "Disconnect cancels blocked A and never invokes queued A2",
+        new { timeline = stopSink.Timeline.ToArray(), processing = validationLog.Processing.ToArray() });
+    if (!await stopManager.ConnectAsync()) throw new InvalidOperationException("Explicit restart could not connect");
+    await Publish(a, "heartbeat", Heartbeat(a, 504));
+    bool restarted = await Wait(() => stopSink.Messages.Any(x => x.TimestampUnixMilliseconds == 504));
+    Check("fresh_queue_after_explicit_restart", restarted && !stopSink.Timeline.Any(x => x.Timestamp == 502),
+        "Explicit reconnect creates fresh queues; pending old-session input is not replayed", stopSink.Timeline.ToArray());
+    await stopManager.DisconnectAsync();
+
+    var lostSink = new RecordingSink(prefix) { BlockTimestamp = 601 };
+    await using var lostManager = new MqttConnectionManager(options, new IncomingMessageProcessor(lostSink, validationLog, validationLog));
+    if (!await lostManager.ConnectAsync()) throw new InvalidOperationException("Disconnect test could not connect");
+    await Publish(a, "heartbeat", Heartbeat(a, 601));
+    await lostSink.Entered.Task.WaitAsync(TimeSpan.FromSeconds(3));
+    await Publish(a, "heartbeat", Heartbeat(a, 602));
+    await Publish(b, "heartbeat", Heartbeat(b, 603));
+    if (!await Wait(() => lostSink.Messages.Any(x => x.TimestampUnixMilliseconds == 603)))
+        throw new InvalidOperationException("Disconnect test B control message was not delivered");
+    // 같은 시험용 ClientId로 연결해 이 시험의 관측 클라이언트만 Broker에서 끊습니다.
+    using var replacement = new MqttClientFactory().CreateMqttClient();
+    await replacement.ConnectAsync(new MqttClientOptionsBuilder().WithTcpServer(options.Host, options.Port)
+        .WithProtocolVersion(MqttProtocolVersion.V500).WithClientId(options.ClientId).WithCleanStart().Build());
+    bool cancelledOnLoss = await Wait(() => lostSink.Timeline.Any(x => x.Timestamp == 601 && x.Phase == "cancelled"));
+    Check("connection_loss_stops_queues", cancelledOnLoss && lostManager.Snapshot.State == BrokerConnectionState.Faulted &&
+        !lostSink.Timeline.Any(x => x.Timestamp == 602),
+        "Broker-initiated disconnection cancels current session workers; old queued messages are not invoked",
+        new { state = lostManager.Snapshot, timeline = lostSink.Timeline.ToArray() });
+    await replacement.DisconnectAsync();
+    await lostManager.DisconnectAsync();
     collection = "completed";
 }
 catch (Exception ex) { error = ex.ToString(); Console.Error.WriteLine(error); }
@@ -135,6 +179,7 @@ finally
 {
     sink.Release.TrySetResult();
     await File.WriteAllTextAsync(Path.Combine(output, "processing-timeline.json"), JsonSerializer.Serialize(sink.Timeline, json));
+    await File.WriteAllTextAsync(Path.Combine(output, "processing-failures.json"), JsonSerializer.Serialize(validationLog.Processing, json));
     await File.WriteAllTextAsync(Path.Combine(output, "typed-messages.json"), JsonSerializer.Serialize(sink.Messages.Select(x => JsonSerializer.SerializeToElement(x, x.GetType())), json));
     await File.WriteAllTextAsync(Path.Combine(output, "result.json"), JsonSerializer.Serialize(new
     {
@@ -161,14 +206,21 @@ sealed class RecordingSink(string prefix) : IIncomingMessageSink
     {
         if (!message.AmrId.StartsWith(prefix, StringComparison.Ordinal)) return;
         Record(message.AmrId, message.TimestampUnixMilliseconds, "started");
-        if (message.TimestampUnixMilliseconds == BlockTimestamp) { Entered.TrySetResult(); await Release.Task; }
+        if (message.TimestampUnixMilliseconds == BlockTimestamp)
+        {
+            Entered.TrySetResult();
+            try { await Release.Task.WaitAsync(cancellationToken); }
+            catch (OperationCanceledException) { Record(message.AmrId, message.TimestampUnixMilliseconds, "cancelled"); throw; }
+        }
         Record(message.AmrId, message.TimestampUnixMilliseconds, "completed");
         Messages.Enqueue(message);
     }
 }
 sealed record ProcessingEvent(string AmrId, long Timestamp, string Phase, double ElapsedMilliseconds);
-sealed class RecordingLog(string prefix) : IValidationLog
+sealed class RecordingLog(string prefix) : IValidationLog, IMessageProcessingLog
 {
+    public ConcurrentQueue<MessageProcessingFailure> Processing { get; } = new();
+    public void Failed(MessageProcessingFailure failure) => Processing.Enqueue(failure);
     public ConcurrentQueue<ValidationFailureLog> Errors { get; } = new();
     public void Rejected(ValidationFailureLog failure)
     {

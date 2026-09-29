@@ -11,12 +11,12 @@ namespace Amr.Communication.Mqtt;
 internal sealed class MqttSubscriber : IDisposable
 {
     private readonly IMqttClient _client;
-    private readonly IncomingMessageProcessor _processor;
+    private readonly AmrMessageDispatcher _dispatcher;
 
     public MqttSubscriber(IMqttClient client, IncomingMessageProcessor processor)
     {
         _client = client;
-        _processor = processor;
+        _dispatcher = new AmrMessageDispatcher(processor);
         _client.ApplicationMessageReceivedAsync += OnMessageReceivedAsync;
     }
 
@@ -34,12 +34,22 @@ internal sealed class MqttSubscriber : IDisposable
             throw new InvalidOperationException("Broker rejected one or more subscriptions.");
     }
 
-    private async Task OnMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)
+    private Task OnMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)
     {
         // 검사를 통과해야 Core 경계의 수신자(현재는 콘솔 출력 대역)가 호출됩니다.
-        await _processor.ProcessAsync(args.ApplicationMessage.Topic,
-            args.ApplicationMessage.Payload.ToArray()).ConfigureAwait(false);
+        _dispatcher.TryEnqueue(args.ApplicationMessage.Topic, args.ApplicationMessage.Payload.ToArray());
+        return Task.CompletedTask;
     }
 
-    public void Dispose() => _client.ApplicationMessageReceivedAsync -= OnMessageReceivedAsync;
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _client.ApplicationMessageReceivedAsync -= OnMessageReceivedAsync;
+        return _dispatcher.StopAsync(cancellationToken);
+    }
+
+    public void Dispose()
+    {
+        _client.ApplicationMessageReceivedAsync -= OnMessageReceivedAsync;
+        _dispatcher.Dispose();
+    }
 }

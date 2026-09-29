@@ -1,9 +1,9 @@
 # Verifies the four S020 command basics against an existing local development Mosquitto.
 # Stops only processes created by this script. Any failed requirement returns nonzero.
-param([Parameter(Mandatory)][string]$Docker)
+param([Parameter(Mandatory)][string]$Docker, [string]$EvidenceRoot='evidence/COM-01/S020-command-basics')
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
-$run=Join-Path $root ('evidence/COM-01/S020-command-basics/broker-'+(Get-Date -Format yyyyMMddTHHmmss))
+$run=Join-Path (Join-Path $root $EvidenceRoot) ('broker-'+(Get-Date -Format yyyyMMddTHHmmss))
 New-Item -ItemType Directory -Path $run | Out-Null
 $amrId='S020_'+[guid]::NewGuid().ToString('N').Substring(0,12)
 $processes=[Collections.Generic.List[Diagnostics.Process]]::new()

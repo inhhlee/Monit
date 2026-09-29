@@ -1,6 +1,6 @@
 # AmrControlSystem (practice)
 
-가상 AMR 통신·관제 시스템의 개발 저장소다. 현재 구현된 제품 기능은 **COM-03: MQTT Broker 연결 및 연결 상태 감시**, **COM-04: PDF 반영 계약 v3에 따른 수신 메시지 유효성 검증**이다. 현재 **COM-01: 실제 MQTT 메시지 송수신 및 AMR별 처리 큐**는 진행 중이다. 네 유형 수신, 명령 검사, ID·실패 이유를 보존하는 ACK 왕복은 동작하며 AMR별 독립 처리는 남아 있다. 기존 WPF 화면은 실험용이고, Core·SQLite·GUI·실제 AMR 이동 통합은 후속 범위다.
+가상 AMR 통신·관제 시스템의 개발 저장소다. 현재 구현된 제품 기능은 **COM-03: MQTT Broker 연결 및 연결 상태 감시**, **COM-04: PDF 반영 계약 v3에 따른 수신 메시지 유효성 검증**이다. **COM-01: 실제 MQTT 메시지 송수신 및 AMR별 처리 큐**에서는 네 유형 수신, 명령 검사, ID·실패 이유를 보존하는 ACK 왕복과 AMR별 비동기 처리까지 검증했다. COM-01 전체 상태는 기존 사용자 요청대로 진행 중을 유지한다. 기존 WPF 화면은 실험용이고, Core·SQLite·GUI·실제 AMR 이동 통합은 후속 범위다.
 
 이 기준선은 **다른 Windows 노트북과 다른 체크아웃 경로에서 같은 명령으로 시작하는 것**을 목표로 한다. WPF 때문에 macOS/Linux 전체 솔루션 실행은 지원하지 않는다. 새 노트북 실물 검증 여부와 최근 증거는 [진행 기록](claude-progress.md)을 따른다.
 
@@ -78,6 +78,12 @@ dotnet run --no-build --project src/Amr.Communication.Console -- --command MOVE 
 
 명령 형식은 [Command 계약](src/Amr.Communication/Command/CONTRACT.md), 실제 검증 결과는 [S020 결과](evidence/COM-01/S020-command-basics/README.md)에 있다.
 
+## AMR별 비동기 수신 처리
+
+정상 메시지를 AMR별 대기열에 넣고 각 AMR의 작업이 하나씩 처리한다. 같은 AMR은 순서를 지키고 다른 AMR은 기다리지 않는다. S022 실제 검증에서는 A를 5초 멈춘 동안 B가 A 처리 시작 후 약0.041초에 처리됐다. 이는 해당 실험의 관측값이며 처리 시간 보장값은 아니다.
+
+현재 개발용 제한은 AMR당 대기256개, 연결당64개 AMR이다. 가득 찬 큐는 새 메시지를 거부하고 `ProcessingFailure` 로그를 남긴다. 종료·연결 끊김 시 진행 작업에 취소를 요청하고 남은 큐를 정리한다. 실제 Core를 연결할 때는 AMR 간 동시 호출과 취소 토큰을 지원해야 한다. [상세 계약](src/Amr.Communication/Mqtt/RECEIVE_QUEUE.md), [검증 결과](evidence/COM-01/S022-async-queues/README.md)를 참조한다.
+
 ## 실행 환경과 문제 해결
 
 - **PowerShell을 찾지 못함:** `pwsh --version`을 확인하고 설치 후 터미널을 다시 연다. 표준 PATH를 사용할 수 없으면 `POWERSHELL_EXE`에 이 PC의 `pwsh.exe` 전체 경로를 지정한다. `init.cmd`와 `init.sh`가 사용한다.
@@ -135,7 +141,7 @@ dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker fea
 
 | 경로 | 역할 |
 | --- | --- |
-| `src/Amr.Communication/` | Broker 연결·감시, 수신 검증, 명령 발행 전 검사; AMR별 독립 큐는 후속 |
+| `src/Amr.Communication/` | Broker 연결·감시, 수신 검증, 명령 발행 전 검사, AMR별 독립 처리 큐 |
 | `src/Amr.Communication.Console/` | 연결·수신 로그 및 명시적 명령 요청 |
 | `src/Amr.TestClient/` | Heartbeat 발행 및 검사 후 사실에 맞는 실패 ACK |
 | `src/AmrControlSystem/`, `src/AmrControlTest/` | WPF 실험 앱 |
@@ -145,7 +151,7 @@ dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker fea
 | `docker/` | 로컬 Mosquitto·Seq 설정 |
 | `evidence/` | 성공·실패 실행 증거 |
 
-S020에서 COM-04 수신 계약 v3(revision 4)의 선택 ACK reason을 검증했다. COM-01은 명령 형식·Topic·고유 ID·거짓 SUCCESS 문제를 보완했지만 AMR별 독립 처리가 남아 in_progress이다. 현재 상태와 실행 증거는 feature_list.json, claude-progress.md 및 [S020 결과](evidence/COM-01/S020-command-basics/README.md)를 따른다. 기존 WPF NU1701 경고와 GUI 직접 MQTT/SQLite 접근은 별개 실험 경로다. 실제 이동, 자동 재접속, Heartbeat Timeout, GUI/Core 통합과 다른 PC 검증은 후속이다.
+S020에서 COM-04 수신 계약 v3(revision 4)의 선택 ACK reason을 검증했고 S022에서 회귀 검증했다. COM-01 revision4는 AMR별 비동기 처리·과부하·종료 정책까지 검증했으며 기존 사용자 요청대로 전체 상태는 in_progress로 유지한다. 현재 상태와 실행 증거는 feature_list.json, claude-progress.md 및 [S022 결과](evidence/COM-01/S022-async-queues/README.md)를 따른다. 기존 WPF NU1701 경고와 GUI 직접 MQTT/SQLite 접근은 별개 실험 경로다. 실제 이동, 자동 재접속, Heartbeat Timeout, GUI/Core 통합과 다른 PC 검증은 후속이다.
 
 ## COM-04 수신 검증 계약
 
@@ -157,4 +163,4 @@ S020에서 COM-04 수신 계약 v3(revision 4)의 선택 ACK reason을 검증했
 - ACK는 선택 `reason`을 보존한다. 기존 reason 없는 ACK도 받을 수 있다.
 - `ts`는 기존 Unix 밀리초 Int64 계약을 유지한다. PDF 예시 숫자를 자릿수로 변환하지 않는다.
 
-이전 `Pos/sp/stat` 형식과 `status` 없는 Heartbeat는 거부된다. 현재 실제 구독은 Telemetry·Alarm·Heartbeat·ACK 네 유형이다. Command 발행 전 검증은 적용했고 AMR별 독립 처리는 COM-01에서 보완한다. 검증 테스트는 `tests/Amr.Communication.Tests/MessageValidationTests.cs`의 `PdfPageSixExamplesPreserveData`부터 읽는다.
+이전 `Pos/sp/stat` 형식과 `status` 없는 Heartbeat는 거부된다. 현재 실제 구독은 Telemetry·Alarm·Heartbeat·ACK 네 유형이다. 정상 모델은 AMR별 큐로 보내며 Command 발행 전 검증도 적용했다. 검증 테스트는 `tests/Amr.Communication.Tests/MessageValidationTests.cs`의 `PdfPageSixExamplesPreserveData`부터 읽는다.

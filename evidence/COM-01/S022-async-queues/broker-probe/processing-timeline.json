@@ -1,0 +1,164 @@
+[
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 101,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.0543
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 101,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.0558
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 101,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1037
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 101,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.107
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 102,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.1444
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 102,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1445
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 102,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.1451
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 102,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1453
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 103,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.1454
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 103,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1455
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 103,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.1457
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 103,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1458
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 104,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.1458
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 104,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1459
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 104,
+    "Phase": "started",
+    "ElapsedMilliseconds": 100.1461
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 104,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 100.1462
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 299,
+    "Phase": "started",
+    "ElapsedMilliseconds": 147.1353
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 299,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 147.1359
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 401,
+    "Phase": "started",
+    "ElapsedMilliseconds": 862.399
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 403,
+    "Phase": "started",
+    "ElapsedMilliseconds": 903.5541
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_B",
+    "Timestamp": 403,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 903.555
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 401,
+    "Phase": "released",
+    "ElapsedMilliseconds": 5865.4416
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 401,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 5865.5093
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 402,
+    "Phase": "started",
+    "ElapsedMilliseconds": 5865.5266
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 402,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 5865.5267
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 404,
+    "Phase": "started",
+    "ElapsedMilliseconds": 5865.5277
+  },
+  {
+    "AmrId": "AUDIT_0b2c777259_A",
+    "Timestamp": 404,
+    "Phase": "completed",
+    "ElapsedMilliseconds": 5865.5278
+  }
+]

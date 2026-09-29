@@ -40,13 +40,15 @@ public sealed class IncomingMessageProcessor
 
     // 실패메시지 로그
     private readonly IValidationLog _log;
+    private readonly IMessageProcessingLog? _processingLog;
 
     /// <summary>
     /// 정상메시지, 실패메시지 생성자 초기화
     /// </summary>    
-    public IncomingMessageProcessor(IIncomingMessageSink core, IValidationLog log)
-        => (_core, _log) = (core ?? throw new ArgumentNullException(nameof(core)),
-            log ?? throw new ArgumentNullException(nameof(log)));
+    public IncomingMessageProcessor(IIncomingMessageSink core, IValidationLog log,
+        IMessageProcessingLog? processingLog = null)
+        => (_core, _log, _processingLog) = (core ?? throw new ArgumentNullException(nameof(core)),
+            log ?? throw new ArgumentNullException(nameof(log)), processingLog);
 
     /// <summary>
     /// 수신받은 메시지의 토픽과 페이로드를 검증합니다.
@@ -58,11 +60,34 @@ public sealed class IncomingMessageProcessor
         cancellationToken.ThrowIfCancellationRequested();
 
         // 토픽과 페이로드를 검증하고, 결과를 반환합니다.
-        var result = _validator.Validate(topic, payload);
+        var result = Validate(topic, payload);
         if (result.IsValid)
-            await _core.ReceiveAsync(result.Message!, cancellationToken).ConfigureAwait(false);
-        else
-            _log.Rejected(new(topic, result.Error!));
+            await DeliverAsync(result.Message!, cancellationToken).ConfigureAwait(false);
         return result;
+    }
+
+    internal ValidationResult Validate(string? topic, ReadOnlyMemory<byte> payload)
+    {
+        var result = _validator.Validate(topic, payload);
+        if (!result.IsValid) _log.Rejected(new(topic, result.Error!));
+        return result;
+    }
+
+    internal ValueTask DeliverAsync(IncomingMessage message, CancellationToken cancellationToken)
+        => _core.ReceiveAsync(message, cancellationToken);
+
+    internal void ProcessingFailed(string? topic, string code, string reason)
+    {
+        try
+        {
+            if (_processingLog is not null) _processingLog.Failed(new(topic, code, reason));
+            else System.Diagnostics.Trace.TraceError("AMR processing: {0} {1} {2}", topic, code, reason);
+        }
+        catch
+        {
+            // 처리 로그 구현의 예외가 다른 AMR의 작업을 중단시키지 않게 합니다.
+            try { System.Diagnostics.Trace.TraceError("AMR processing logger failed ({0}).", code); }
+            catch { }
+        }
     }
 }

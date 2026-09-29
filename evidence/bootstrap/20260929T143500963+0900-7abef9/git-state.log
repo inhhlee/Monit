@@ -1,0 +1,29 @@
+ M AmrControlSystem.slnx
+ D Program.cs
+ M claude-progress.md
+ M evidence/COM-01/S018-audit/README.md
+ M feature_list.json
+MM init.ps1
+ M src/Amr.Communication.Console/Program.cs
+ M src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs
+ M src/Amr.Communication/Mqtt/MqttClientService.cs
+ M src/Amr.Communication/Mqtt/MqttSubscriber.cs
+ M src/Amr.Communication/Validation/IncomingMessageProcessor.cs
+ M tools/Amr.Communication.Audit/Program.cs
+?? evidence/COM-01/S022-async-queues/
+?? evidence/bootstrap/20260929T114434080+0900-8c17f0/
+?? evidence/bootstrap/20260929T121125396+0900-95f007/
+?? evidence/bootstrap/20260929T121335673+0900-28f7ad/
+?? evidence/bootstrap/20260929T124151732+0900-95e1e9/
+?? evidence/bootstrap/20260929T124239847+0900-34b87c/
+?? evidence/bootstrap/20260929T124333218+0900-e4f085/
+?? evidence/bootstrap/20260929T133138572+0900-77fd57/
+?? evidence/bootstrap/20260929T133156370+0900-2c3c22/
+?? evidence/bootstrap/20260929T133217445+0900-5e6a62/
+?? evidence/bootstrap/20260929T133839103+0900-885636/
+?? evidence/bootstrap/20260929T142934255+0900-6b3c68/
+?? evidence/bootstrap/20260929T143500963+0900-7abef9/
+?? src/Amr.Communication/Mqtt/AmrMessageDispatcher.cs
+?? src/Amr.Communication/Mqtt/RECEIVE_QUEUE.md
+?? src/Amr.Communication/Validation/MessageProcessingLog.cs
+?? tests/Amr.Communication.Tests/AmrMessageDispatcherTests.cs

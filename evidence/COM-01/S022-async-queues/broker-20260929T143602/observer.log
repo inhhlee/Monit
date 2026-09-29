@@ -1,0 +1,45 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-0d72a8e0537d4d9ca11696788a9aded7","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790660163174,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790660163228,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660163436
+Received Ack: S020_8f5cd82d8e66 {"cmdId":"CMD-6166a32280664871b793aaabad8ac6da","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790660163664}
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660164470
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660165486
+Received Ack: S020_8f5cd82d8e66 {"cmdId":"CMD-f38dbe2f1fd74fcc8803f25d98bfde61","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790660165907}
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660166499
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660167515
+Received Ack: S020_8f5cd82d8e66 {"cmdId":"CMD-1f6b83ff9cfc4d08ab8257f2a4d13442","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790660168098}
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660168529
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660169545
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660170552
+Received Ack: S020_8f5cd82d8e66 {"cmdId":"BAD-TYPE","result":"FAILURE","reason":"OutOfRange $.type: Unsupported Command type.","ts":1790660170709}
+Received Ack: S020_8f5cd82d8e66 {"cmdId":"BAD-PARAM","result":"FAILURE","reason":"MissingField $.param.y: Required field is missing.","ts":1790660170871}
+Received Ack: S020_8f5cd82d8e66 {"cmdId":"ACK-SUCCESS-FIXTURE","result":"SUCCESS","reason":null,"ts":1}
+{"Event":"Rejected","Topic":"amr/S020_8f5cd82d8e66/heartbeat","Code":"MissingField","Field":"$.status","Reason":"Required field is missing."}
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660171564
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660172577
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660173590
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660174604
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660175615
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660176628
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660177642
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660178654
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660179665
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660180680
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660181693
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660182705
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660183715
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660184717
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660185730
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660186742
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660187756
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660188758
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660189774
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660190788
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660191800
+Received Heartbeat: S020_8f5cd82d8e66 ts=1790660192811
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790660193233,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790660193242,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790660193243,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790660193243,"Error":null}

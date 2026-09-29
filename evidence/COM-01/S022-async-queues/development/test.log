@@ -1,0 +1,8 @@
+  Amr.Communication -> C:\practice\src\Amr.Communication\bin\Debug\net10.0\Amr.Communication.dll
+  Amr.TestClient -> C:\practice\src\Amr.TestClient\bin\Debug\net10.0\Amr.TestClient.dll
+  Amr.Communication.Tests -> C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll
+C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll(.NETCoreApp,Version=v10.0)에 대한 테스트 실행
+지정된 패턴과 일치한 총 테스트 파일 수는 1개입니다.
+결과 파일: C:\practice\evidence\COM-01\S022-async-queues\development\queues.trx
+
+통과!  - 실패:     0, 통과:     9, 건너뜀:     0, 전체:     9, 기간: 50 ms - Amr.Communication.Tests.dll (net10.0)

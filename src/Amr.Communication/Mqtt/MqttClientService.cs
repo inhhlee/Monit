@@ -51,14 +51,19 @@ public sealed class MqttClientService : IBrokerClient // 상속 금지
             await _subscriber.SubscribeAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    public Task DisconnectAsync(CancellationToken cancellationToken = default) => // 능동적 연결 종료
-        _client.DisconnectAsync(new MqttClientDisconnectOptions(), cancellationToken);
+    public async Task DisconnectAsync(CancellationToken cancellationToken = default) // 능동적 연결 종료
+    {
+        if (_subscriber is not null) await _subscriber.StopAsync(cancellationToken).ConfigureAwait(false);
+        if (_client.IsConnected)
+            await _client.DisconnectAsync(new MqttClientDisconnectOptions(), cancellationToken).ConfigureAwait(false);
+    }
     public Task PublishCommandAsync(string amrId, string payload, CancellationToken cancellationToken = default) =>
         _publisher.PublishCommandAsync(amrId, payload, cancellationToken);
 
 
     private Task OnDisconnectedAsync(MqttClientDisconnectedEventArgs args)  // 끊김 알림 수신 및 통역 
     {
+        _subscriber?.Dispose(); // 연결이 끊긴 세션의 대기 메시지를 다음 연결로 전달하지 않습니다.
         Disconnected?.Invoke(new(args.ClientWasConnected, args.Reason.ToString(), args.Exception)); // 누군가 사용중이면 pass 
         return Task.CompletedTask;
     }

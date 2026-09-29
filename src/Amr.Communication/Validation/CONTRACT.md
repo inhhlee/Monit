@@ -54,9 +54,9 @@ Topic은 대소문자를 구분하는 `amr/{amrId}/{kind}` 3개 구간이다. ki
 
 MessageValidator는 실패 이유를 반환하고 PayloadValidator는 JSON 구조·필드를 검사한다. IncomingMessageProcessor는 성공한 불변 모델만 IIncomingMessageSink(Core 경계)에 전달한다. 실패 시 IValidationLog에 Topic·오류 코드·필드 경로·이유를 한 번 기록하고 Core는 호출하지 않는다. 원문 Payload와 업무 History는 기록하지 않는다. 로깅 구현은 Topic을 구조화된 문자열로 처리해야 한다.
 
-입력 오류는 다음 메시지 처리를 막지 않는다. 로깅/Core 수신자 자체의 예외는 입력 유효성 실패로 숨기지 않고 호출자에게 전파한다. MQTT 구독·큐·재시도·Heartbeat 시계·Core 업무 상태는 별도 책임이다.
+입력 오류는 다음 메시지 처리를 막지 않는다. IncomingMessageProcessor.ProcessAsync를 직접 호출하면 로깅/Core 수신자 자체의 예외는 입력 유효성 실패로 숨기지 않고 호출자에게 전파한다. S022 MQTT 큐에서는 검증과 전달을 분리하며 Core 오류를 별도 IMessageProcessingLog에 기록하고 다음 입력 처리를 계속한다. 큐 용량·종료·취소는 COM-01의 Mqtt/RECEIVE_QUEUE.md를 따른다. wire 검증 계약은 변경하지 않는다.
 
-현재 실제 MQTT 연결은 Telemetry/Alarm/Heartbeat/ACK를 구독하여 이 검증기를 거친다(S017 구현, S018 실제 Broker 점검). Core/로그 대역을 사용한다. S020에서 Command 발행 전 검증을 구현했고 AMR별 독립 처리는 COM-01 미완료 항목이다. WPF의 별도 MQTT 경로는 이 검증기를 사용하지 않는다. S020 v3는 ACK reason 허용·검사를 추가하며 다른 유형의 계약은 v2와 동일하다.
+현재 실제 MQTT 연결은 Telemetry/Alarm/Heartbeat/ACK를 구독하여 이 검증기를 거친다. Core/로그 대역을 사용한다. S020에서 Command 발행 전 검증을, S022에서 AMR별 독립 처리를 구현했다. 정상 모델만 큐에 들어가며 큐 초과·종료 폐기는 입력 형식 오류와 구분한다. WPF의 별도 MQTT 경로는 이 검증기를 사용하지 않는다. S020 v3는 ACK reason 허용·검사를 추가하며 다른 유형의 계약은 v2와 동일하다.
 
 ## 호환성 및 재검토
 

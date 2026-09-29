@@ -1,0 +1,5 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":49910,"ClientId":"amr-control-a95abbcc60d24c77a425e9c79424f0f5","KeepAliveSeconds":2,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790660169018,"Error":null}
+{"State":"Faulted","Reason":"ConnectFailed","TimestampUnixMilliseconds":1790660171105,"Error":"MqttCommunicationException -\u003E SocketException(ConnectionRefused)"}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790660171106,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790660171106,"Error":null}

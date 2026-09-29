@@ -74,7 +74,8 @@ try
         throw new ArgumentException("--amr-id/--x/--y require --command.");
     using var stop = new CancellationTokenSource();
     Console.CancelKeyPress += (_, e) => { e.Cancel = true; stop.Cancel(); };
-    var processor = new IncomingMessageProcessor(new ConsoleMessageSink(), new ConsoleValidationLog());
+    var log = new ConsoleValidationLog();
+    var processor = new IncomingMessageProcessor(new ConsoleMessageSink(), log, log);
     var receiveMessages = receiveHeartbeats || commandPayload is not null;
     await using var manager = receiveMessages
         ? new MqttConnectionManager(options, processor)
@@ -126,8 +127,11 @@ sealed class ConsoleMessageSink : IIncomingMessageSink
     }
 }
 
-sealed class ConsoleValidationLog : IValidationLog
+sealed class ConsoleValidationLog : IValidationLog, IMessageProcessingLog
 {
+    public void Failed(MessageProcessingFailure failure)
+        => Console.WriteLine(JsonSerializer.Serialize(new { Event = "ProcessingFailure", failure.Topic, failure.Code, failure.Reason }));
+
     public void Rejected(ValidationFailureLog failure)
         => Console.WriteLine(JsonSerializer.Serialize(new
         {
