@@ -4,12 +4,15 @@ using System.Text.Json;
 using MQTTnet;
 using MQTTnet.Formatter;
 using MQTTnet.Protocol;
+using Amr.Communication.Mqtt;
+using Amr.TestClient;
 
 // 첫 실습: 가상 AMR 한 대가 로컬 Broker에 Heartbeat를 보냅니다.
 string amrId = args.Length > 0 ? args[0] : "AMR_001";
 const string host = "127.0.0.1";
 const int port = 1883;
 var topic = $"amr/{amrId}/heartbeat";
+var commandTopic = MqttTopics.Target.Command(amrId);
 
 using var stop = new CancellationTokenSource();
 Console.CancelKeyPress += (_, e) =>
@@ -43,25 +46,12 @@ try
         var payloadString = e.ApplicationMessage.ConvertPayloadToString();
         Console.WriteLine($"Received Command: {receivedTopic} {payloadString}");
 
-        string? cmdId = null;
-        try
-        {
-            using var doc = JsonDocument.Parse(payloadString);
-            if (doc.RootElement.TryGetProperty("cmdId", out var cmdIdElement))
-            {
-                cmdId = cmdIdElement.GetString();
-            }
-        }
-        catch { }
-        cmdId ??= Guid.NewGuid().ToString();
-
-        var ackPayload = JsonSerializer.Serialize(new
-        {
-            id = amrId,
-            cmdId = cmdId,
-            result = "SUCCESS",
-            ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-        });
+        if (receivedTopic != commandTopic) return;
+        var response = BasicCommandHandler.Handle(amrId, e.ApplicationMessage.Payload.ToArray(),
+            DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+        if (response.Error is { } error)
+            Console.WriteLine($"Rejected Command: {error.Code} {error.Field}: {error.Reason}");
+        if (response.AckPayload is not { } ackPayload) return;
 
         var ackTopic = $"amr/{amrId}/ack";
         var ackMessage = new MqttApplicationMessageBuilder()
@@ -75,10 +65,10 @@ try
     };
 
     var subOptions = new MqttClientSubscribeOptionsBuilder()
-        .WithTopicFilter(f => f.WithTopic($"amr/{amrId}/cmd").WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
+        .WithTopicFilter(f => f.WithTopic(commandTopic).WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce))
         .Build();
     await client.SubscribeAsync(subOptions, stop.Token);
-    Console.WriteLine($"Subscribed to commands: amr/{amrId}/cmd");
+    Console.WriteLine($"Subscribed to commands: {commandTopic}");
     while (!stop.IsCancellationRequested)
     {
         // 2. 계약 v2: AMR ID, 현재 시각(Unix 밀리초), 생존 상태를 JSON으로 만듭니다.

@@ -1,0 +1,62 @@
+[
+  {
+    "TimeCreated": "2026-09-29T12:43:36.635704+09:00",
+    "Id": 3118,
+    "Message": "Smart App Control Block Deteails"
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.6357008+09:00",
+    "Id": 3089,
+    "Message": "Signature information for another event. Match using the Correlation Id."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.6356991+09:00",
+    "Id": 3077,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.Tests.dll that did not meet the Enterprise signing level requirements or violated code integrity policy (Policy ID:{0283ac0f-fff1-49ae-ada1-8a933130cad6})."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.6354365+09:00",
+    "Id": 3089,
+    "Message": "Signature information for another event. Match using the Correlation Id."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.6354356+09:00",
+    "Id": 3033,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.Tests.dll that did not meet the Enterprise signing level requirements."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.571244+09:00",
+    "Id": 3118,
+    "Message": "Smart App Control Block Deteails"
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.5712406+09:00",
+    "Id": 3089,
+    "Message": "Signature information for another event. Match using the Correlation Id."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.5712391+09:00",
+    "Id": 3077,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.Tests.dll that did not meet the Enterprise signing level requirements or violated code integrity policy (Policy ID:{0283ac0f-fff1-49ae-ada1-8a933130cad6})."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.5709668+09:00",
+    "Id": 3089,
+    "Message": "Signature information for another event. Match using the Correlation Id."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.5709659+09:00",
+    "Id": 3033,
+    "Message": "Code Integrity determined that a process (\\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\testhost.exe) attempted to load \\Device\\HarddiskVolume3\\practice\\tests\\Amr.Communication.Tests\\bin\\Debug\\net10.0\\Amr.Communication.Tests.dll that did not meet the Enterprise signing level requirements."
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.5040841+09:00",
+    "Id": 3118,
+    "Message": "Smart App Control Block Deteails"
+  },
+  {
+    "TimeCreated": "2026-09-29T12:43:36.5040809+09:00",
+    "Id": 3089,
+    "Message": "Signature information for another event. Match using the Correlation Id."
+  }
+]

@@ -16,6 +16,7 @@
   <ItemGroup>
     <Using Include="Xunit" />
     <ProjectReference Include="../../src/Amr.Communication/Amr.Communication.csproj" />
+    <ProjectReference Include="../../src/Amr.TestClient/Amr.TestClient.csproj" />
   </ItemGroup>
 
 </Project>

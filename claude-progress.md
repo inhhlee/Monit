@@ -8,19 +8,19 @@
 | --- | --- |
 | Last updated | 2026-09-29, Asia/Seoul |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
-| Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. 기본 송수신 실습은 ./init.cmd start -Heartbeat와 별도 Amr.TestClient 실행. Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
+| Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목 35개. |
-| Highest priority unfinished feature | COM-01: 명령 검증, /command Topic 정합, AMR별 독립 처리 보완. |
-| Active feature | COM-01 in_progress. S018 실제 실행에서 verification 5/6/7 실패하여 S017의 근거 부족 passing 정정. COM-03/04 passing, COM-02/05 not_started. |
-| Verified product behavior | S018: 2 AMR × Heartbeat/Telemetry/Alarm/ACK 수신·검사, 비정상 입력 거부 후 정상 처리, 기본 Command/ACK 왕복 동작. 실제 Broker 연결·KeepAlive·끊김 감지 통과. 명령 발행 전 검증·AMR별 독립 처리 실패, /cmd와 /command 불일치. 고정 cmdId와 잘못된 명령의 SUCCESS 응답 확인. 전체 COM-01 통과 아님. |
-| Current blocker | 외부 blocker 없음. COM-01 수정 가능한 결함은 in_progress로 관리한다. 자동 재접속과 개별 AMR Heartbeat Timeout은 미구현이며 정상 송수신만으로 완료 처리하지 않는다. |
-| Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위와 검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 작업 순서 제안은 task_1_2_plan 및 evidence/bootstrap/S019-priority-review/README.md 참조; 구현 상태는 변경하지 않았다. |
-| Harness verification | S018 표준 verify-broker: restore/build/tracker/343 자동 테스트/TRX 통과, COM-03 실제 Mosquitto 5항목 통과. 시작 시 NuGet 접근 제한과 missing artifacts 실패도 보존했다. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 복제본/다른 PC/Git Bash는 이번에 미실행. |
-| Working rules | AGENTS.md 적용. DN-01 오류 로그 유지; DN-02 PDF 반영 계약 v2, COM-04 revision 3. DN-07 Heartbeat status=OK 필수. 시간 단위·세부 enum 미정값은 provisional. |
-| Environment | S018 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.41.0, MQTTnet 5.2.0.1603, Docker 29.7.2/Mosquitto 2.1.2-alpine. 기본 송수신 localhost:1883, QoS0/Retain false. COM-03은 격리된 임시 포트. WPF NU1701 경고 유지. |
+| Highest priority unfinished feature | COM-01: AMR별 독립 처리 큐. S020에서 명령 기본 네 항목은 구현·검증했다. |
+| Active feature | COM-01 revision 3/in_progress. verification 5(AMR별 독립 처리) 실패 유지. COM-03 revision 2 및 COM-04 revision 4 passing, COM-02/05 not_started. |
+| Verified product behavior | S020: /command 통일, Command 형식 검사, 요청별 고유 ID·ACK ID 보존, 거짓 SUCCESS 제거 및 실패 이유 전달. 두 AMR × 네 유형 수신·검사 및 불량 입력 후 정상 처리 통과. 가상 이동은 미구현이므로 정상 명령에도 FAILURE/SIMULATION_NOT_IMPLEMENTED. 실제 Broker 연결·KeepAlive·끊김 감시 회귀 통과. COM-01 전체 완료 아님. |
+| Current blocker | 최종 검증을 막는 외부 blocker 없음. 초기 Windows 정책 0x800711C7은 사용자 직접 실행에서도 재현됐으나 최종 표준 테스트·실제 Broker 실행에서 재현되지 않았다. 보안 설정은 변경하지 않았고 재발 여부는 미확정. AMR 독립 큐·자동 재접속·개별 AMR Heartbeat Timeout은 미완료. |
+| Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
+| Harness verification | S020 ./init.cmd verify: restore/build/tracker/제품375 + 도구37 = 412건/skip0/TRX 통과. 실제 Console/TestClient 명령 검사9/9 및 COM-03 Mosquitto 5/5 통과. COM-01 진단은8개 중7통과/독립 처리1실패. 사용자 init.ps1 등 로컬 수정이 있는 환경이며 클린 복제본/다른 PC/Git Bash는 이번에 미실행. |
+| Working rules | AGENTS.md 적용. DN-01 오류 로그 유지; DN-02 수신 계약 v3/COM-04 revision 4(선택 ACK reason), DN-08 Command v1. DN-07 Heartbeat status=OK 필수. ts Int64 밀리초·미정 enum·STOP/RESET 빈 param 등 개발용 결정은 provisional. |
+| Environment | S020 Windows 10.0.26200, SDK 10.0.401, PowerShell 7.6.5, Git 2.55.0.windows.5, MQTTnet 5.2.0.1603, Docker 29.7.2/Mosquitto 2.1.2-alpine. 기본 송수신 localhost:1883, QoS0/Retain false. COM-03은 격리된 임시 포트. 기존 WPF NU1701 경고6건 유지. |
 | Tool dependencies | Windows, Git, global.json의 .NET SDK, PowerShell 7.4+. Docker Desktop은 Broker 사용 시 필요. Python과 Codex 런타임에 의존하지 않는다. |
-| Current Windows baseline commit | 6746d44df66b3d3dea11bec13f8896254ed757f2 (S016 COM-04 revision 3, 자동343건 및 실제 Heartbeat 회귀). S018 점검 코드는 HEAD 9160f144fe6d351d2bd1753b516c8bf8dd7f6a8f + 사용자 init.ps1 로컬 수정이며 COM-01 결함이 있어 전체 완료 기준선으로 삼지 않는다. 사용자 수정은 점검 커밋에서 제외. 이전 S010 eb296f376c04d441e5d067a1cb8e060ccb199eac, S009 cc356d980a94b9e3a76b546250e34e3533ce827f. |
+| Current Windows baseline commit | 이전 기준선 6746d44df66b3d3dea11bec13f8896254ed757f2(S016). 최신 검증은 시작 HEAD 2f0ef64f58cf0e59d17d4d651371ace442038ecb + S020 변경 + 사용자 로컬 변경 상태다. S020 커밋은 아래 레코드에 기록한다. source-sha256.json으로 실행 상태를 구분하며 전체 COM-01 완료나 클린 복제본 검증으로 확대하지 않는다. 이전 S010 eb296f376c04d441e5d067a1cb8e060ccb199eac, S009 cc356d980a94b9e3a76b546250e34e3533ce827f. |
 | Initial baseline commit | 58a53008c02cde8765e37a23375cf54c35f7dc85. 이 커밋만 복제한 새 체크아웃에서도 빌드·테스트·콘솔 시작 통과. |
 | Git remote / branch | origin = https://github.com/indsf/practice.git, master → origin/master. S006에서 사용자 지정 저장소로 업로드. |
 
@@ -221,3 +221,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 0c8a9e4641fdfb3da5991008ad3b0af859537c73 — Document PDF-based priorities for communication and virtual AMRs. 우선순위 보고서·계획 메타데이터·진행 로그만 포함했다. 실제 해시 기록은 후속 문서 커밋으로 남긴다. 원격 push 미실행.
 - Known risks: 현재 ACK 계약에는 실패 이유 필드가 없어 발행자만 변경하면 수신에서 거부된다. 구현 때 계약 revision/회귀가 필요하다. PDF의 STOPPED 탈출 경로·ERR 전이·ACK 완료 시점은 해당 단계에서 명시해야 한다. 과제2 설정/이동/장애는 현재 TestClient의 Heartbeat/자동 응답으로 대체할 수 없다. 구현 소요 시간이나 과제 통과를 이번 검토로 확정하지 않는다.
 - Next best action: COM-01 계속. S019-priority-review/README.md의 첫 작업 범위부터 Command Topic·Payload·ID·실패 응답 계약을 정하고 MqttPublisher/MqttTopics, 콘솔/TestClient를 수정한다. 실패 이유 계약 변경이 들어가면 COM-04를 정식 재검증한다. 구현 전 ./init.cmd verify로 기준선을 확인하고 이후 실제 Mosquitto 시나리오를 검증한다.
+
+### S020 - 2026-09-29 - 기본 명령 경로 네 항목 구현
+
+- Goal: 사용자 승인한 /command 통일, Command 형식 검사, 고유 ID 보존, 거짓 SUCCESS 제거 및 실패 이유 전달 구현·검증.
+- Completed: 시작 HEAD 2f0ef64. Command v1 및 ACK 선택 reason 계약(DN-08)을 기록하고 /command, 엄격한 형식 검사, 요청당 GUID ID, ACK의 ID·실패 이유 보존을 구현했다. 관제 발행 전과 가상 AMR 수신에 동일 검사기를 사용한다. 깨진 JSON/없는·중복 ID는 임의 ACK를 만들지 않고, 정상 명령도 실제 이동 미구현이므로 FAILURE/SIMULATION_NOT_IMPLEMENTED로 응답한다. Heartbeat 수신 모드의 자동 MOVE를 제거하고 명시적인 한 건 요청으로 바꿨다. 계약 변경 시 COM-04 revision4/in_progress와 COM-01 revision3/not_started로 회귀를 관리한 뒤, COM-04 8항목 통과 후 passing/COM-01 in_progress로 재개했다. 기존 사용자 변경은 모두 보존했다.
+- Verification run: 초기 표준 verify의 restore/build 후 0x800711C7 발생, 같은 경로 재시도 및 사용자 직접 실행에서도 테스트 DLL 차단 재현. CodeIntegrity3077/3118 확인. 보안 설정은 변경하지 않았다. 수정 후 ./init.cmd verify는 restore/build/tracker/제품375 + 도구37 = 412건 통과(skip0, 오류0, 기존 NU1701 경고6건). 실제 Console/TestClient MOVE/STOP/RESET·고유 ID·실패 이유·불량 입력·자동 명령 없음 등 9/9 통과. COM-01 진단8개 중7통과, AMR 독립 처리1실패 유지. 실제 COM-03 회귀5/5 통과(정상 중단0.063초, 응답차단3.097초, idle6.006초, 새 프로세스 연결). 최종 실행에서 Windows 차단은 재현되지 않았으며 영구 해소 원인은 확인하지 않았다.
+- Evidence recorded: evidence/COM-01/S020-command-basics/README.md가 결과 색인. baseline-retry.log/trx, code-integrity.json, probe/result.json·typed-messages.json·probe.log, broker-20260929T132025/의 결과·실행 로그, source-sha256.json. 표준 초기 실패 evidence/bootstrap/20260929T124006136+0900-b065b4/, 최종 통과 20260929T131821179+0900-3bd09a/. COM-03 evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/. COM-04 revision4의8항목, COM-01 revision3의8항목(verification5 실패), COM-03의5항목을 추가했다. 사용자 실행 로그는 참조만 하고 이번 커밋에서 제외한다.
+- Commits: 최종 검토 후 관련 코드·증거·문서만 커밋 예정. 사용자 init.ps1(기존 staged 포함), AmrControlSystem.slnx, 루트 Program.cs 삭제, BrokerConnectionOptions.cs/MqttSubscriber.cs 주석, S018 보고서 및 다른 bootstrap 로그는 제외한다. 원격 push는 수행하지 않는다.
+- Known risks: COM-01 AMR 독립 큐, COM-02 Timeout, COM-05 전체 매핑, 자동 재접속·재구독은 미완료. 실제 Core/GUI/DB/이동 구현은 이번 범위가 아니며 합성 SUCCESS ACK는 이동 성공 증거가 아니다. Windows 차단 재발 여부 미확정. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 체크아웃/다른 PC 실행은 미검증. 테스트 생산자는 도구가 정리하므로 Ctrl+C 종료 검증으로 확대하지 않는다.
+- Next best action: COM-01 AMR별 독립 큐. feature_list.json의 COM-01 verification4/5 및 evidence/COM-01/S020-command-basics/probe/result.json을 먼저 읽고 MqttSubscriber.cs와 IncomingMessageProcessor.cs의 전달 경로를 보완한다. 같은 AMR 순서 유지·다른 AMR 독립 처리·종료 처리를 검증한 뒤 ./init.cmd verify와 실제 Broker 진단으로 재검증한다. 다음은 COM-02 Heartbeat Timeout이다.

@@ -62,14 +62,14 @@ try
         await Publish(id, "heartbeat", Heartbeat(id, 101));
         await Publish(id, "telemetry", JsonSerializer.Serialize(new { id, ts = 102L, pos = new { x = 1.25, y = -2.5 }, sp = 0.8, state = "BUSY" }));
         await Publish(id, "alarm", JsonSerializer.Serialize(new { id, ts = 103L, code = "ALM-AUDIT", level = "WARN", alarmState = "ACTIVE" }));
-        await Publish(id, "ack", JsonSerializer.Serialize(new { id, ts = 104L, cmdId = id + "-ack", result = "FAILURE" }));
+        await Publish(id, "ack", JsonSerializer.Serialize(new { id, ts = 104L, cmdId = id + "-ack", result = "FAILURE", reason = "AUDIT_FAILURE" }));
     }
     await Wait(() => sink.Messages.Count == 8);
     Check("two_amrs_four_message_types", sink.Messages.Count == 8 && new[] { a, b }.All(id =>
         sink.Messages.Count(x => x.AmrId == id) == 4), "All four types for each of two AMRs reach the Core test sink", sink.Messages.Select(x => new { x.AmrId, x.Kind, x.TimestampUnixMilliseconds }).ToArray());
     Check("typed_values_preserved", sink.Messages.OfType<TelemetryMessage>().Count(x => x.Position.X == 1.25 && x.Position.Y == -2.5 && x.Speed == 0.8 && x.State == AmrState.Busy) == 2
         && sink.Messages.OfType<AlarmMessage>().Count(x => x.Level == AlarmLevel.Warning && x.AlarmState == AlarmState.Active && x.Message is null) == 2
-        && sink.Messages.OfType<AckMessage>().Count(x => x.Result == AckResult.Failure && x.CommandId == x.AmrId + "-ack") == 2,
+        && sink.Messages.OfType<AckMessage>().Count(x => x.Result == AckResult.Failure && x.CommandId == x.AmrId + "-ack" && x.Reason == "AUDIT_FAILURE") == 2,
         "Telemetry/Alarm fields and FAILURE ACK identifiers survive transport and validation", "See typed-messages.json");
 
     await Publish(a, "heartbeat", "{");
@@ -81,17 +81,23 @@ try
     Check("invalid_messages_rejected_and_recovery", validationLog.Errors.Count == 4 && sink.Messages.Count == 9,
         "Four invalid messages rejected, none reaches sink; next valid message received", new { errors = validationLog.Errors.ToArray(), delivered = sink.Messages.Count });
 
+    var expectedCommands = new List<string>();
     foreach (var type in new[] { "MOVE", "STOP", "RESET" })
-        await manager.PublishCommandAsync(a, JsonSerializer.Serialize(new { cmdId = "audit-" + type, type, target = "STATION-1" }));
+    {
+        object parameters = type == "MOVE" ? new { x = 30.0, y = 15.0 } : new { };
+        var payload = JsonSerializer.Serialize(new { cmdId = "audit-" + type, type, ts = 2208988800123L, param = parameters });
+        expectedCommands.Add(payload);
+        await manager.PublishCommandAsync(a, payload);
+    }
     await Wait(() => received.Count >= 3);
-    Check("command_payload_transport", received.Count == 3 && received.All(x => x.topic == $"amr/{a}/cmd") &&
-        received.Select(x => JsonDocument.Parse(x.payload).RootElement.GetProperty("type").GetString()).SequenceEqual(new[] { "MOVE", "STOP", "RESET" }),
+    Check("command_payload_transport", received.Count == 3 && received.All(x => x.topic == $"amr/{a}/command") &&
+        received.Select(x => x.payload).SequenceEqual(expectedCommands),
         "MOVE, STOP, RESET payloads reach only the chosen AMR subscription", received.Select(x => new { x.topic, x.payload }).ToArray());
     Check("command_topic_contract", received.Count == 3 && received.All(x => x.topic == $"amr/{a}/command"),
         "COM-01 verification 6 requires amr/{id}/command", received.Select(x => x.topic).ToArray());
     var before = received.Count;
     bool invalidTypeThrew = false, invalidJsonThrew = false;
-    try { await manager.PublishCommandAsync(a, "{\"cmdId\":\"audit-invalid\",\"type\":\"FLY\"}"); } catch (ArgumentException) { invalidTypeThrew = true; }
+    try { await manager.PublishCommandAsync(a, "{\"cmdId\":\"audit-invalid\",\"type\":\"FLY\",\"ts\":1,\"param\":{}}"); } catch (ArgumentException) { invalidTypeThrew = true; }
     try { await manager.PublishCommandAsync(a, "{"); } catch (ArgumentException) { invalidJsonThrew = true; }
     await Wait(() => received.Count >= before + 2, 600);
     Check("invalid_commands_rejected_before_publish", invalidTypeThrew && invalidJsonThrew && received.Count == before,

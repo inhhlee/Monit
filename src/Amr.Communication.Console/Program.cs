@@ -11,6 +11,7 @@ try
     if (args.Contains("--help"))
     {
         Console.WriteLine("AMR MQTT connection host: --host HOST --port PORT --keepalive-seconds N --timeout-seconds N --duration-seconds N --heartbeat");
+        Console.WriteLine("One command: --command MOVE --amr-id AMR_001 --x 30 --y 15 (STOP/RESET need no coordinates). ACK reception is enabled automatically.");
         Console.WriteLine("Defaults: localhost:1883, keepalive 5s, timeout 3s; run until Ctrl+C unless duration is provided.");
         Console.WriteLine("Environment: AMR_MQTT_HOST, AMR_MQTT_PORT, AMR_MQTT_KEEPALIVE_SECONDS, AMR_MQTT_TIMEOUT_SECONDS, AMR_MQTT_USERNAME, AMR_MQTT_PASSWORD.");
         return 0;
@@ -21,7 +22,7 @@ try
     var receiveHeartbeats = args.Contains("--heartbeat");
     args = args.Where(arg => arg != "--heartbeat").ToArray();
     var arguments = new Dictionary<string, string>();
-    var allowed = new HashSet<string> { "--host", "--port", "--keepalive-seconds", "--timeout-seconds", "--duration-seconds" };
+    var allowed = new HashSet<string> { "--host", "--port", "--keepalive-seconds", "--timeout-seconds", "--duration-seconds", "--command", "--amr-id", "--x", "--y" };
     for (var i = 0; i < args.Length; i += 2)
     {
         if (!allowed.Contains(args[i]) || i + 1 >= args.Length || !arguments.TryAdd(args[i], args[i + 1]))
@@ -42,10 +43,40 @@ try
     TimeSpan? duration = arguments.TryGetValue("--duration-seconds", out var value) ? TimeSpan.FromSeconds(Number(value)) : null;
     if (duration.HasValue && (duration.Value <= TimeSpan.Zero || duration.Value > TimeSpan.FromDays(1)))
         throw new ArgumentException("Duration must be positive and at most one day.");
+    string? commandPayload = null;
+    var targetAmr = arguments.GetValueOrDefault("--amr-id", "AMR_001");
+    if (arguments.TryGetValue("--command", out var commandType))
+    {
+        object parameters;
+        if (commandType == "MOVE")
+        {
+            if (!arguments.TryGetValue("--x", out var x) || !arguments.TryGetValue("--y", out var y))
+                throw new ArgumentException("MOVE requires --x and --y.");
+            parameters = new { x = Number(x), y = Number(y) };
+        }
+        else
+        {
+            if (arguments.ContainsKey("--x") || arguments.ContainsKey("--y"))
+                throw new ArgumentException("Coordinates are only valid for MOVE.");
+            parameters = new { };
+        }
+        // 콘솔은 Core의 요청 생성 대역입니다. 통신 계층은 이 ID를 변경하지 않습니다.
+        commandPayload = JsonSerializer.Serialize(new
+        {
+            cmdId = $"CMD-{Guid.NewGuid():N}", type = commandType,
+            ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), param = parameters
+        });
+        var validation = new CommandValidator().Validate(System.Text.Encoding.UTF8.GetBytes(commandPayload));
+        if (!validation.IsValid) throw new ArgumentException(validation.Error!.Reason);
+        _ = MqttTopics.Target.Command(targetAmr);
+    }
+    else if (arguments.Keys.Any(key => key is "--amr-id" or "--x" or "--y"))
+        throw new ArgumentException("--amr-id/--x/--y require --command.");
     using var stop = new CancellationTokenSource();
     Console.CancelKeyPress += (_, e) => { e.Cancel = true; stop.Cancel(); };
     var processor = new IncomingMessageProcessor(new ConsoleMessageSink(), new ConsoleValidationLog());
-    await using var manager = receiveHeartbeats
+    var receiveMessages = receiveHeartbeats || commandPayload is not null;
+    await using var manager = receiveMessages
         ? new MqttConnectionManager(options, processor)
         : new MqttConnectionManager(options);
     var connectionLost = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -58,38 +89,12 @@ try
         options.ClientId, KeepAliveSeconds = options.KeepAlive.TotalSeconds, TimeoutSeconds = options.Timeout.TotalSeconds,
         Authentication = options.Username is null ? "anonymous" : "configured" }));
     if (!await manager.ConnectAsync(stop.Token)) return stop.IsCancellationRequested ? 0 : 2;
-    Task commandLoop = Task.CompletedTask;
-    if (receiveHeartbeats)
-    {
+    if (receiveMessages)
         Console.WriteLine("Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack");
-        commandLoop = Task.Run(async () =>
-        {
-            var commandId = 1;
-            while (!stop.IsCancellationRequested)
-            {
-                try
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(5), stop.Token);
-                    if (manager.IsConnected)
-                    {
-                        var cmdPayload = JsonSerializer.Serialize(new
-                        {
-                            cmdId = "test-cmd-",
-                            type = "MOVE",
-                            target = "STATION-1"
-                        });
-                        await manager.PublishCommandAsync("AMR_001", cmdPayload, stop.Token);
-                        Console.WriteLine($"Published Command to AMR_001: {cmdPayload}");
-                        commandId++;
-                    }
-                }
-                catch (OperationCanceledException) { break; }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Command Publish failed: {ex.Message}");
-                }
-            }
-        }, stop.Token);
+    if (commandPayload is not null)
+    {
+        await manager.PublishCommandAsync(targetAmr, commandPayload, stop.Token);
+        Console.WriteLine($"Published Command to {targetAmr}: {commandPayload}");
     }
     var wait = Task.Delay(duration ?? System.Threading.Timeout.InfiniteTimeSpan, stop.Token);
     await Task.WhenAny(wait, connectionLost.Task);
@@ -99,7 +104,8 @@ try
 }
 catch (Exception error)
 {
-    Console.Error.WriteLine(JsonSerializer.Serialize(new { Event = "HostError", Error = error.GetType().Name }));
+    Console.Error.WriteLine(JsonSerializer.Serialize(new { Event = "HostError", Error = error.GetType().Name,
+        Reason = error is ArgumentException ? error.Message : "Host operation failed." }));
     return 1;
 }
 
@@ -108,7 +114,14 @@ sealed class ConsoleMessageSink : IIncomingMessageSink
 {
     public ValueTask ReceiveAsync(IncomingMessage message, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"Received {message.Kind}: {message.AmrId} ts={message.TimestampUnixMilliseconds}");
+        if (message is AckMessage ack)
+            Console.WriteLine($"Received Ack: {ack.AmrId} " + JsonSerializer.Serialize(new
+            {
+                cmdId = ack.CommandId, result = ack.Result.ToString().ToUpperInvariant(),
+                reason = ack.Reason, ts = ack.TimestampUnixMilliseconds
+            }));
+        else
+            Console.WriteLine($"Received {message.Kind}: {message.AmrId} ts={message.TimestampUnixMilliseconds}");
         return ValueTask.CompletedTask;
     }
 }

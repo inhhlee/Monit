@@ -1,5 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text;
+using Amr.Communication.Validation;
 using MQTTnet;
 using MQTTnet.Protocol;
 
@@ -18,9 +20,16 @@ public class MqttPublisher
     public async Task PublishCommandAsync(string amrId, string payload, CancellationToken cancellationToken = default)
     {
         var topic = MqttTopics.Target.Command(amrId);
+        ArgumentNullException.ThrowIfNull(payload);
+        byte[] bytes;
+        try { bytes = new UTF8Encoding(false, true).GetBytes(payload); }
+        catch (EncoderFallbackException error) { throw new ArgumentException("Invalid Unicode in Command.", nameof(payload), error); }
+        var validation = new CommandValidator().Validate(bytes);
+        if (!validation.IsValid)
+            throw new ArgumentException($"Invalid Command: {validation.Error!.Code} {validation.Error.Field}: {validation.Error.Reason}", nameof(payload));
         var message = new MqttApplicationMessageBuilder()
             .WithTopic(topic)
-            .WithPayload(payload)
+            .WithPayload(bytes)
             .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce) // 현재는 QoS 0 적용
             .WithRetainFlag(false)
             .Build();

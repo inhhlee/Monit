@@ -82,7 +82,7 @@
       "adoption": "provisional",
       "decided_at": "2026-09-29",
       "review_trigger": "실제 Core/AMR 연동 또는 원문 세부 정책 확정 시 시간 단위·AlarmState·Heartbeat Status·ACK Result 재검토",
-      "decision": "COM-04 PDF 반영 수신 계약 v2: telemetry id/ts/pos{x,y}/sp/state, State IDLE/BUSY/STOPPED/FAULT; alarm id/ts/code/level/alarmState 및 선택 message, Level INFO/WARN/ERR/FATAL; heartbeat id/ts/status; ack cmdId/result/ts 및 선택 id. 상세 CONTRACT.md. PDF 미정값은 개발용 provisional: Unix milliseconds 유지(숫자 자동 변환 없음), alarmState ACTIVE/CLEARED, status OK, ACK SUCCESS/FAILURE 유지. Core 업무 정책·외부 장비 호환성 확정 아님.",
+      "decision": "COM-04 PDF 반영 수신 계약 v2: telemetry id/ts/pos{x,y}/sp/state, State IDLE/BUSY/STOPPED/FAULT; alarm id/ts/code/level/alarmState 및 선택 message, Level INFO/WARN/ERR/FATAL; heartbeat id/ts/status; ack cmdId/result/ts 및 선택 id. 상세 CONTRACT.md. PDF 미정값은 개발용 provisional: Unix milliseconds 유지(숫자 자동 변환 없음), alarmState ACTIVE/CLEARED, status OK, ACK SUCCESS/FAILURE 유지. Core 업무 정책·외부 장비 호환성 확정 아님. S020 수신 계약 v3/COM-04 revision 4: ACK에 선택 reason(nonempty string) 추가 및 모델/Core 경계 보존. v2의 reason 없는 ACK 호환 유지. 신규 TestClient 실패 응답에는 항상 reason 포함. DN-08 참조.",
       "reason": "2026-09-29 사용자가 제공된 PDF 기준 보완을 선택했다. p4의 위치/속도 분리 및 enum, p6 예시 형식을 반영. p3 Alarm Message와 p6 message 생략 예시를 함께 지원하기 위해 message 선택. 시간 단위와 enum 미정 부분은 기존 경로 또는 최소 개발 계약으로 명시한다."
     },
     {
@@ -147,6 +147,21 @@
       "decision": "Amr.TestClient에서 AMR_001이 로컬 127.0.0.1:1883의 Mosquitto에 MQTT 5/TCP로 연결하고 즉시 한 건, 이후 1초 대기마다 Heartbeat를 발행한다. Topic amr/AMR_001/heartbeat, Payload id/ts(Int64 Unix milliseconds)는 기존 DN-02 계약을 따른다. 실습 발행은 QoS 0, Retain false, 임의의 고유 ClientId, Ctrl+C 종료. 관제 콘솔은 같은 연결로 amr/+/heartbeat를 QoS 0으로 구독하고 SUBACK 성공 확인 후 수신 바이트를 기존 IncomingMessageProcessor로 전달한다. 정상 메시지는 콘솔 Core 대역에 출력하고 비정상 메시지는 실패 이유만 기록한다. 자동 재접속·Timeout·다른 유형 수신은 후속이다. S016 계약 v2부터 Heartbeat payload에 status=OK를 필수로 추가한다. QoS/주기/구독 범위는 유지.",
       "reason": "사용자가 가상 AMR Heartbeat 발행에 이어 관제의 Heartbeat 수신·검사·출력까지만 기본 수준으로 요청했다. 기존 검증 계약을 바꾸지 않고 작은 실행 예제로 시작한다.",
       "review_trigger": "COM-01 관제 구독 연결 및 COM-02 감시 구현 시 전송 주기와 QoS 재검토. 운영 설정 또는 다른 메시지의 QoS를 확정하는 결정이 아니다."
+    },
+    {
+      "id": "DN-08",
+      "status": "adopted",
+      "adoption": "provisional",
+      "topic": "기본 Command 계약과 사실에 맞는 ACK",
+      "decided_at": "2026-09-29",
+      "affects": [
+        "COM-01",
+        "COM-04",
+        "COM-05"
+      ],
+      "decision": "Command v1: amr/{id}/command; cmdId/type/ts/param 필수. MOVE param={x,y} 유한 숫자, STOP/RESET param={}. Type MOVE/STOP/RESET, ts Int64 Unix milliseconds. 요청 측 콘솔(Core 대역)이 Guid 기반 고유 ID 생성, Communication/AMR은 ID 재생성 금지. ACK reason은 선택 nonempty 문자열이며 TestClient 실패 응답은 반드시 이유 포함. 깨진 JSON/모호하거나 유효하지 않은 cmdId에는 ACK를 만들지 않고 로그 후 폐기. 유효한 ID가 있는 명령 거부는 같은 ID로 FAILURE. 이동 미구현 TestClient는 정상 MOVE/STOP/RESET도 SIMULATION_NOT_IMPLEMENTED 실패로 응답. Heartbeat 모드는 자동 명령을 보내지 않음.",
+      "reason": "사용자 요청 첫 작업 1~4 및 PDF p5/6/11. PDF가 미정인 STOP/RESET param/실패 이유 필드명은 최소 개발 계약으로 명시. 기존 ACK 호환성과 실행 결과의 정확성을 유지.",
+      "review_trigger": "실제 Core/AMR 이동·상태 처리 및 COM-05 매핑 구현 시 검토. 운영 정책 확정 아님."
     }
   ],
   "features": [
@@ -707,6 +722,137 @@
             "evidence/COM-03/20260929T121120-56119d760f6a4df7b383c9b2baf174ed/restart-client.log",
             "evidence/COM-03/20260929T121120-56119d760f6a4df7b383c9b2baf174ed/result.json"
           ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T13:21:23.0291966+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker <repository root> <Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 working changes, source hashes in result.json",
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "Isolated dynamic localhost ports, keepalive2s, timeout3s, connection-only Console",
+            "test_doubles": "none; lifecycle fake only in unit tests",
+            "response_block": "test TCP proxy drops broker-to-client bytes; no firewall changes"
+          },
+          "expected": "Broker 접속 정보와 KeepAlive 설정을 기록하고 실제 Mosquitto Broker를 실행한다. 통신 모듈 접속 후 클라이언트 연결 상태 및 Broker 로그에서 연결 성공을 확인한다.",
+          "actual": "Connected to actual Mosquitto at 127.0.0.1:49793",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/idle-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/healthy-broker.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/mosquitto.conf",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T13:21:29.1777033+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker <repository root> <Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 working changes, source hashes in result.json",
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "Isolated dynamic localhost ports, keepalive2s, timeout3s, connection-only Console",
+            "test_doubles": "none; lifecycle fake only in unit tests",
+            "response_block": "test TCP proxy drops broker-to-client bytes; no firewall changes"
+          },
+          "expected": "업무 메시지를 발행하지 않은 상태로 설정된 KeepAlive 주기의 2배 이상 연결을 관찰한다. 연결이 유지되고 PINGREQ/PINGRESP 교환 또는 MQTT 라이브러리 진단 정보로 KeepAlive 동작을 확인한다.",
+          "actual": "Idle maintained 6.006s with PINGREQ/PINGRESP and no business messages",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/idle-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/healthy-broker.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T13:21:37.5630896+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker <repository root> <Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 working changes, source hashes in result.json",
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "Isolated dynamic localhost ports, keepalive2s, timeout3s, connection-only Console",
+            "test_doubles": "none; lifecycle fake only in unit tests",
+            "response_block": "test TCP proxy drops broker-to-client bytes; no firewall changes"
+          },
+          "expected": "Broker를 정상 종료하는 경우와 네트워크 응답을 차단하는 경우를 각각 재현한다. 설정 및 라이브러리 기준으로 정한 감지 시간 내 연결 이상이 관찰되고 원인 또는 연결 끊김 로그가 기록되는지 확인한다.",
+          "actual": "Shutdown detected in 0.063s; blocked responses in 3.097s; broker remained alive",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/shutdown-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/shutdown-broker.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/blackhole-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/blackhole-broker.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/broker-still-alive-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/fault-timing.json",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T13:21:40.3044473+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker <repository root> <Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 working changes, source hashes in result.json",
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "Isolated dynamic localhost ports, keepalive2s, timeout3s, connection-only Console",
+            "test_doubles": "none; lifecycle fake only in unit tests",
+            "response_block": "test TCP proxy drops broker-to-client bytes; no firewall changes"
+          },
+          "expected": "Broker가 실행되지 않은 주소 또는 포트로 최초 연결을 시도한다. 연결 성공으로 표시하지 않고 실패 상태와 원인을 남기며 처리되지 않은 예외로 프로세스가 종료되지 않는지 확인한다.",
+          "actual": "Unavailable broker produced ConnectFailed with reason, no Connected state and controlled exit 2",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/unavailable-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/result.json"
+          ]
+        },
+        {
+          "spec_revision": 2,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T13:21:41.5353151+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll broker <repository root> <Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 working changes, source hashes in result.json",
+            "os": "Microsoft Windows NT 10.0.26200.0",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "Isolated dynamic localhost ports, keepalive2s, timeout3s, connection-only Console",
+            "test_doubles": "none; lifecycle fake only in unit tests",
+            "response_block": "test TCP proxy drops broker-to-client bytes; no firewall changes"
+          },
+          "expected": "연결 수명주기 관련 자동 테스트와 위 실제 Broker 연동 검증을 실행하고 실행 명령, 설정, 관찰 시간 및 로그를 evidence에 기록한다.",
+          "actual": "375 tests passed; actual Mosquitto checks 1-4 and process restart passed",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/build.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/unit.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/unit.trx",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/restart-client.log",
+            "evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/result.json"
+          ]
         }
       ],
       "notes": "9페이지 COM-03, 7페이지 통신 실패 로그 정책 참조. 연결 성공 로그는 검증을 위한 관측 수단이다. 자동 재접속·재구독의 전체 복구 정책은 DN-04 및 후속 INT-04에서 다룬다. S007: DN-03/04에 연결 상태·명시적 재시도·시간 경계 계약을 채택해 revision 2로 관리. 초기화 evidence는 기능 통과 근거가 아니다.",
@@ -725,9 +871,9 @@
       ],
       "verification": [
         "DN-01 로그 정책과 DN-02 스키마의 현재 적용 버전·범위를 기록한다. 임시 채택한 계약도 그 범위를 명시한다. Telemetry, Alarm, Heartbeat, ACK 각각의 정상 Payload와 필수 필드별 누락 사례를 준비한다.",
-        "각 정상 메시지를 검증기 또는 수신 처리기에 입력한다. 메시지 유형이 올바르게 식별되고 AMR ID, Timestamp 및 유형별 데이터가 보존되어 Core 테스트 대역에 전달되는지 확인한다.",
+        "각 정상 메시지를 검증기 또는 수신 처리기에 입력한다. 메시지 유형이 올바르게 식별되고 AMR ID, Timestamp 및 유형별 데이터가 보존되어 Core 테스트 대역에 전달되는지 확인한다. ACK에 reason이 있으면 원문 문자열을 보존한다.",
         "깨진 JSON, 빈 Payload, 스키마에서 허용하지 않는 최상위 JSON 구조를 각각 입력한다. 처리되지 않은 예외 없이 실패 원인이 기록되고 Core 호출 횟수가 0인지 확인한다.",
-        "각 메시지 유형의 필수 필드를 하나씩 누락하거나 자료형을 틀리게 입력한다. 실패 원인 로그와 Core 미전달을 확인한다.",
+        "각 메시지 유형의 필수 필드를 하나씩 누락하거나 자료형을 틀리게 입력한다. 실패 원인 로그와 Core 미전달을 확인한다. 선택 ACK reason은 존재할 경우 비어 있지 않은 문자열이어야 한다.",
         "지원하지 않는 Topic, Topic과 맞지 않는 Payload, Payload에 id가 존재하는 유형에서 Topic AMR ID와 다른 id를 입력한다. 유효하지 않은 메시지로 거부되는지 확인한다.",
         "정의되지 않은 State·Alarm Level 등 확정 스키마의 허용 범위를 벗어나는 값을 입력한다. 해당 메시지가 거부되는지 확인하고, Int64 범위의 2038년 이후 Timestamp는 정상 수용되는지 확인한다.",
         "비정상 메시지 직후 정상 메시지를 입력한다. 정상 메시지는 계속 처리되고 오류 로그에는 실패 이유와 식별 가능한 Topic 정보가 남는지 확인한다.",
@@ -1349,10 +1495,250 @@
             "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/consumer.log",
             "evidence/COM-04/S016-pdf-contract/broker-20260929T082053/restart.log"
           ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "DN-01 로그 정책과 DN-02 스키마의 현재 적용 버전·범위를 기록한다. 임시 채택한 계약도 그 범위를 명시한다. Telemetry, Alarm, Heartbeat, ACK 각각의 정상 Payload와 필수 필드별 누락 사례를 준비한다.",
+          "actual": "ACK contract v3 and Command v1 recorded in their CONTRACT.md files and DN-08. Existing v2 payloads remain valid; optional nonempty reason is preserved.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "각 정상 메시지를 검증기 또는 수신 처리기에 입력한다. 메시지 유형이 올바르게 식별되고 AMR ID, Timestamp 및 유형별 데이터가 보존되어 Core 테스트 대역에 전달되는지 확인한다. ACK에 reason이 있으면 원문 문자열을 보존한다.",
+          "actual": "Four message types for two AMRs retained their fields at Core boundary. FAILURE ACK reason AUDIT_FAILURE retained; actual Console prints same-ID failure reasons; synthetic SUCCESS remains SUCCESS.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "깨진 JSON, 빈 Payload, 스키마에서 허용하지 않는 최상위 JSON 구조를 각각 입력한다. 처리되지 않은 예외 없이 실패 원인이 기록되고 Core 호출 횟수가 0인지 확인한다.",
+          "actual": "Existing invalid JSON/root/size/UTF8 cases and new Command malformed inputs passed unit checks; actual malformed heartbeat dropped with log and subsequent good input delivered.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "각 메시지 유형의 필수 필드를 하나씩 누락하거나 자료형을 틀리게 입력한다. 실패 원인 로그와 Core 미전달을 확인한다. 선택 ACK reason은 존재할 경우 비어 있지 않은 문자열이어야 한다.",
+          "actual": "Existing required-field/type cases passed. Added ACK reason null/number/boolean/array/object/blank/bad Unicode rejection and optional reason compatibility checks passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "지원하지 않는 Topic, Topic과 맞지 않는 Payload, Payload에 id가 존재하는 유형에서 Topic AMR ID와 다른 id를 입력한다. 유효하지 않은 메시지로 거부되는지 확인한다.",
+          "actual": "Existing Topic/schema/ID mismatch cases passed; actual Topic ID mismatch rejected and no Core delivery. /command handled by the separate Command validator.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 6,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "정의되지 않은 State·Alarm Level 등 확정 스키마의 허용 범위를 벗어나는 값을 입력한다. 해당 메시지가 거부되는지 확인하고, Int64 범위의 2038년 이후 Timestamp는 정상 수용되는지 확인한다.",
+          "actual": "Enum/Int64/future timestamp cases passed unchanged; command MOVE/STOP/RESET/finite coordinates/Int64 checks added. Invalid FLY rejected before MQTT.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "비정상 메시지 직후 정상 메시지를 입력한다. 정상 메시지는 계속 처리되고 오류 로그에는 실패 이유와 식별 가능한 Topic 정보가 남는지 확인한다.",
+          "actual": "Actual Broker invalid JSON/missing status/mismatched ID/invalid UTF8 were logged; next valid heartbeat reached Core. Existing automated recovery tests passed.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 4,
+          "verification_index": 8,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "./init.cmd verify; dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe; pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "전체 검증 테스트를 실행하여 입력 사례, Core 호출 결과 및 로그를 기록한다. 실제 MQTT 수신 경로에서 동일 검증기를 거치는지는 COM-01에서 추가 확인한다.",
+          "actual": "Standard verify: 375 product + 37 verification-tool tests = 412 passed, skipped 0. Real Broker four-type receive regression and current Console/TestClient script passed all 9 checks. Initial policy-blocked failures retained.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/summary.log",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Communication.Tests.trx",
+            "evidence/bootstrap/20260929T131821179+0900-3bd09a/Amr.Verification.Tests.trx",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
         }
       ],
-      "notes": "4페이지 AMR 식별 기준, 5페이지 Timestamp 기준, 6페이지 MQTT 메시지 규칙, 9페이지 COM-04 참조. Command Type 검증은 관제의 Command 발행 입력을 받는 COM-01 검증에도 적용한다. 필드 누락 로그 정책은 DN-01을 따른다. S010: DN-01/02 내부 수신 계약 v1을 provisional 채택. 상세 src/Amr.Communication/Validation/CONTRACT.md. 실제 MQTT 연결은 COM-01 범위. S016: 사용자 요청으로 PDF 원문 반영 계약 v2 구현·재검증. revision 2 증거는 과거 계약의 기록으로 보존. S016: revision 3 검증 8항목 완료. 제품 306건(검증기286)/도구37건 및 실제 Heartbeat 회귀 통과. 증거 evidence/COM-04/S016-pdf-contract/README.md.",
-      "spec_revision": 3,
+      "notes": "4페이지 AMR 식별 기준, 5페이지 Timestamp 기준, 6페이지 MQTT 메시지 규칙, 9페이지 COM-04 참조. Command Type 검증은 관제의 Command 발행 입력을 받는 COM-01 검증에도 적용한다. 필드 누락 로그 정책은 DN-01을 따른다. S010: DN-01/02 내부 수신 계약 v1을 provisional 채택. 상세 src/Amr.Communication/Validation/CONTRACT.md. 실제 MQTT 연결은 COM-01 범위. S016: 사용자 요청으로 PDF 원문 반영 계약 v2 구현·재검증. revision 2 증거는 과거 계약의 기록으로 보존. S016: revision 3 검증 8항목 완료. 제품 306건(검증기286)/도구37건 및 실제 Heartbeat 회귀 통과. 증거 evidence/COM-04/S016-pdf-contract/README.md. S020: 수신 계약 v3/revision 4는 ACK의 선택 reason 문자열을 보존한다. 기존 reason 없는 SUCCESS/FAILURE는 호환 유지. Windows Smart App Control이 기준선 테스트 DLL을 차단하여 정상 실행 검증은 미완료이며 코드 준비/빌드부터 진행한다. S020 종료: 표준412건 및 실제 Broker 수신/명령 회귀 통과 후 revision 4 passing 복구. 초기 정책 차단은 최종 표준 실행에서는 재현되지 않았으며 에이전트가 보안 설정을 바꾸지 않았다.",
+      "spec_revision": 4,
       "blocker": null
     },
     {
@@ -1595,6 +1981,215 @@
             "evidence/COM-01/S018-audit/source-sha256.json",
             "evidence/COM-01/S018-audit/README.md"
           ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 1,
+          "executed_at": "2026-09-29T13:20:28.627918+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "실제 Broker에 연결한 뒤 amr/{amrId}/telemetry, alarm, heartbeat, ack에 대응하는 구독이 완료되었는지 확인하고 구독 Topic과 QoS 설정을 기록한다.",
+          "actual": "Two AMRs/four topics subscribed and delivered with QoS0. See source and raw records.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 2,
+          "executed_at": "2026-09-29T13:20:28.6406277+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "테스트용 AMR 2대가 각 수신 유형의 정상 메시지를 발행한다. 통신 모듈이 AMR과 유형을 구분하여 해당 처리 경로 및 Core 테스트 대역에 전달하는지 확인한다.",
+          "actual": "All 8 messages plus typed fields and ACK reason preserved.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 3,
+          "executed_at": "2026-09-29T13:20:28.6734245+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "구독 Topic으로 깨진 JSON, 필수 필드 누락, Topic ID 불일치 메시지를 실제 발행한다. COM-04 검증을 거쳐 로그만 남고 Core에는 전달되지 않는지 확인한다.",
+          "actual": "Four malformed inputs rejected, next valid input reached Core.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 6,
+          "executed_at": "2026-09-29T13:20:28.7390182+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "Core 테스트 대역에서 MOVE, STOP, RESET을 각각 요청한다. amr/{대상AMR ID}/command로 발행되고 대상 AMR 구독 클라이언트가 Command Type과 Payload를 그대로 수신하며 다른 AMR의 전용 구독에는 전달되지 않는지 확인한다.",
+          "actual": "MOVE/STOP/RESET reached only target A at /command with byte-equivalent payloads including cmdId/ts/param.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 7,
+          "executed_at": "2026-09-29T13:20:29.360104+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "정의되지 않은 Command Type 또는 확정 스키마에 맞지 않는 Command를 요청한다. 발행 전에 거부되고 이유가 확인되는지 검증한다.",
+          "actual": "Unknown FLY and malformed JSON both threw before publish; MQTT receiver observed 0 extra messages.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 4,
+          "executed_at": "2026-09-29T13:20:30.4251804+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "같은 AMR의 여러 메시지를 수신 처리기에 정해진 순서로 입력하고 첫 처리에 지연을 준다. 이후 메시지가 앞선 처리를 추월하거나 같은 AMR 처리와 중첩되지 않는지 실행 기록으로 확인한다.",
+          "actual": "A second message waited for its delayed first message and completed in order.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 5,
+          "executed_at": "2026-09-29T13:20:30.4265546+09:00",
+          "command_or_procedure": "dotnet tools/Amr.Communication.Audit/bin/Debug/net10.0/Amr.Communication.Audit.dll 127.0.0.1 1883 evidence/COM-01/S020-command-basics/probe",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "AMR_001의 메시지 처리를 지연시킨 상태에서 AMR_002 메시지를 입력한다. AMR_001 처리 완료 전 AMR_002가 처리되어 AMR별 큐가 독립적으로 동작하는지 확인한다.",
+          "actual": "FAILED: B remained blocked for 1000ms while A was held; independent AMR processing is still unimplemented.",
+          "result": "failed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/probe/typed-messages.json",
+            "evidence/COM-01/S020-command-basics/probe.log",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
+        },
+        {
+          "spec_revision": 3,
+          "verification_index": 8,
+          "executed_at": "2026-09-29T13:20:56.7882486+09:00",
+          "command_or_procedure": "pwsh -NoProfile -File tools/verify-command-basics.ps1 -Docker <local Docker CLI>",
+          "environment": {
+            "code": "2f0ef64 + S020 command changes; source-sha256.json; user init.ps1/solution/comment changes present and excluded from commit",
+            "os": "Windows 10.0.26200",
+            "sdk": "10.0.401",
+            "mqttnet": "5.2.0.1603",
+            "docker": "29.7.2",
+            "broker": "eclipse-mosquitto:2.1.2-alpine",
+            "configuration": "localhost:1883, MQTT5, QoS0, Retain=false",
+            "test_doubles": "Recording/gated Core and validation log sinks; MQTT synthetic peers; actual Console/TestClient. Movement unimplemented; valid requests receive FAILURE with reason."
+          },
+          "expected": "AMR 메시지 수신과 Core의 Command 요청을 동시에 발생시킨다. 두 입력 경로가 구분되어 수신 검증과 대상 Topic 발행이 모두 수행되는지 확인하고 큐 테스트 및 실제 송수신 로그를 기록한다.",
+          "actual": "Three explicit commands were sent during periodic Heartbeat reception; all produced same-ID FAILURE/SIMULATION_NOT_IMPLEMENTED at Core console. Three unique request IDs; invalid correlated requests returned reason, invalid/duplicate/missing IDs generated no ACK; no automatic MOVE in heartbeat mode. 9/9 script checks passed; independent queues remain failed separately.",
+          "result": "passed",
+          "artifact_paths": [
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/result.json",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/observer.log",
+            "evidence/COM-01/S020-command-basics/broker-20260929T132025/amr.log",
+            "evidence/COM-01/S020-command-basics/probe/result.json",
+            "evidence/COM-01/S020-command-basics/source-sha256.json",
+            "evidence/COM-01/S020-command-basics/README.md"
+          ]
         }
       ],
       "unverified_historical_evidence": [
@@ -1613,8 +2208,8 @@
           "command_or_procedure": "dotnet run Amr.TestClient and Amr.Communication.Console --heartbeat"
         }
       ],
-      "notes": "6페이지 Topic 규칙, 9페이지 COM-01 참조. 순서 검증은 통신 모듈에 도착한 순서를 기준으로 하며 서로 다른 발행자의 전역 순서를 보장한다는 의미가 아니다. 중복 전달 정책은 DN-04에서 별도로 정한다. S015: DN-07에 따라 가상 AMR Heartbeat 발행과 관제 수신·검사·콘솔 대역 출력만 구현·실제 검증. evidence/COM-01/S015-heartbeat/README.md. 다른 메시지 유형, Command 발행 및 AMR별 큐는 미완료이므로 in_progress 유지. 전체 verification 통과 기록으로 등록하지 않는다. S016: 사용자 지정 COM-04 보완으로 작업 전환. Heartbeat status 필수 계약 변경에 따른 기존 S015 부분 경로 재검증 대기. 구현은 보존하고 COM-01 전체 완료로 판정하지 않는다. S016 종료: Heartbeat status 필수 경로의 실제 Broker 회귀·재시작은 통과했다. 전체 COM-01은 다른 유형/큐/Command 미완료로 not_started(재개 대기). 과거 S015 README 경로는 현재 존재하지 않으므로 새 근거는 S016 evidence를 참조. S018: S017의 passing은 artifact_paths가 빈 검증8 주장만 있어 tracker 실패. 원본을 tracker-before.json과 unverified_historical_evidence에 보존하고 in_progress로 정정했다. 실제 4유형 수신·검사·기본 Command/ACK 왕복은 통과했으나 verification 5(AMR 독립 처리), 6(/command 대신 /cmd), 7(발행 전 검증)은 실패했다. 추가 관찰: 콘솔 cmdId 고정, 가상 AMR이 깨진 명령에도 임의 ID로 SUCCESS 응답. COM-02 Timeout과 자동 재접속은 구현되지 않았다. S018-audit/README.md 참조. 명세 변경 없이 실행 결과를 정정했으므로 revision 2 유지.",
-      "spec_revision": 2,
+      "notes": "6페이지 Topic 규칙, 9페이지 COM-01 참조. 순서 검증은 통신 모듈에 도착한 순서를 기준으로 하며 서로 다른 발행자의 전역 순서를 보장한다는 의미가 아니다. 중복 전달 정책은 DN-04에서 별도로 정한다. S015: DN-07에 따라 가상 AMR Heartbeat 발행과 관제 수신·검사·콘솔 대역 출력만 구현·실제 검증. evidence/COM-01/S015-heartbeat/README.md. 다른 메시지 유형, Command 발행 및 AMR별 큐는 미완료이므로 in_progress 유지. 전체 verification 통과 기록으로 등록하지 않는다. S016: 사용자 지정 COM-04 보완으로 작업 전환. Heartbeat status 필수 계약 변경에 따른 기존 S015 부분 경로 재검증 대기. 구현은 보존하고 COM-01 전체 완료로 판정하지 않는다. S016 종료: Heartbeat status 필수 경로의 실제 Broker 회귀·재시작은 통과했다. 전체 COM-01은 다른 유형/큐/Command 미완료로 not_started(재개 대기). 과거 S015 README 경로는 현재 존재하지 않으므로 새 근거는 S016 evidence를 참조. S018: S017의 passing은 artifact_paths가 빈 검증8 주장만 있어 tracker 실패. 원본을 tracker-before.json과 unverified_historical_evidence에 보존하고 in_progress로 정정했다. 실제 4유형 수신·검사·기본 Command/ACK 왕복은 통과했으나 verification 5(AMR 독립 처리), 6(/command 대신 /cmd), 7(발행 전 검증)은 실패했다. 추가 관찰: 콘솔 cmdId 고정, 가상 AMR이 깨진 명령에도 임의 ID로 SUCCESS 응답. COM-02 Timeout과 자동 재접속은 구현되지 않았다. S018-audit/README.md 참조. 명세 변경 없이 실행 결과를 정정했으므로 revision 2 유지. S020: 사용자 첫 작업 1~4 구현 요청. Command v1과 ACK reason 확장에 따라 revision 3. COM-04 계약 확장 회귀를 먼저 활성화하므로 잠시 not_started로 전환. 기존 사용자 변경과 S018 실패 증거 보존. S020 종료: 사용자 네 항목 구현·실제 검증 완료, COM-04 passing 후 COM-01 in_progress 복귀. 최신 revision 3의 verification 1/2/3/4/6/7/8 통과, 5(다른 AMR 독립 처리) 실패. 정상 Command에 대한 TestClient FAILURE는 시뮬레이션 미구현을 정확히 나타내며 이동 완료가 아니다.",
+      "spec_revision": 3,
       "blocker": null
     },
     {
@@ -1782,6 +2377,18 @@
       "before": "S017 marked COM-01 passing with only verification 8 and empty artifact_paths; standard tracker failed missing artifacts.",
       "after": "COM-01 in_progress; original tracker and unverified historical claim preserved without altering its content. Current revision 2 evidence records all eight checks, with 5/6/7 failed. No requirements relaxed and no product implementation changed. COM-03 revision 2 remains passing after fresh 5/5 real Broker checks.",
       "reverification": "343 standard automatic tests passed; real Mosquitto COM-03 5/5; COM-01 two-AMR four-type receive/validation, ordering/independence, outgoing commands and current console/TestClient diagnostics. COM-02/05 remain not_started."
+    },
+    {
+      "date": "2026-09-29",
+      "type": "contract_adoption",
+      "affected_features": [
+        "COM-01",
+        "COM-04"
+      ],
+      "reason": "사용자 첫 작업 네 항목 구현 요청",
+      "before": "COM-01 revision 2, /cmd 및 무검사 명령; ACK v2에는 reason 필드 없음",
+      "after": "COM-01 revision 3 Command v1; COM-04 revision 4 수신 계약 v3 선택 reason 확장. 과거 evidence 보존. COM-01 재개 전 COM-04 회귀 활성화",
+      "reverification": "표준 자동 테스트 및 실제 Broker 수신 회귀·명령 경로. 초기 기준선 테스트는 Smart App Control 0x800711C7에 의해 차단. 실행하지 못한 검증을 passed로 표시하지 않는다."
     }
   ],
   "initialization": {
@@ -1804,7 +2411,7 @@
   },
   "baseline": {
     "platform": "Windows",
-    "session": "S018",
+    "session": "S020",
     "start": "./init.cmd start",
     "verify": "./init.cmd verify",
     "verification_status": "passed",
@@ -1815,14 +2422,14 @@
     ],
     "broker": "./init.cmd broker",
     "next_feature": "COM-01",
-    "evidence_index": "evidence/COM-01/S018-audit/README.md",
+    "evidence_index": "evidence/COM-01/S020-command-basics/README.md",
     "verify_broker": "./init.cmd verify-broker",
     "check": "./init.cmd check",
     "repository_root": ".",
     "bash": "Git for Windows Bash: bash ./init.sh verify",
     "optional": "Docker Desktop Linux engine for local Broker and verify-broker",
     "solution": "AmrControlSystem.slnx",
-    "verification_scope": "S018 standard verify: restore/build/tracker/306 product + 37 tool tests/TRX passed after correcting unsupported COM-01 completion record. COM-03 actual Mosquitto 5/5 passed. COM-01 audit found failures in verification 5/6/7 and remains in_progress. User init.ps1 staged/unstaged fixes were present; no clean-checkout or another-PC validation. Basic messaging uses ./init.cmd start -Heartbeat; ./init.cmd start is connection-only."
+    "verification_scope": "S020 restore/build/tracker/product375+tool37=412 passed; actual Mosquitto COM-03 5/5; four requested Command fixes 9/9 runtime checks passed. COM-01 independence verification5 still failed; in_progress. User local startup/solution changes retained; no clean-checkout or another-PC verification."
   },
   "task_1_2_plan": {
     "session": "S019",
@@ -1841,6 +2448,7 @@
       "AMR-02 movement/STOP + AMR-05 telemetry + AMR-04 actual result",
       "AMR-03 faults/RESET + AMR-04 failure reasons + AMR-05 alarm"
     ],
-    "scope_note": "Planning review of tasks 1 and 2. Active implementation remains COM-01. No product feature status/spec_revision, acceptance criteria or adopted design decision changed. AMR features and reconnect are follow-up work, not passing."
+    "scope_note": "Planning review of tasks 1 and 2. Active implementation remains COM-01. No product feature status/spec_revision, acceptance criteria or adopted design decision changed. AMR features and reconnect are follow-up work, not passing.",
+    "first_work_result": "S020: four command basics implemented and verified; next COM-01 per-AMR independence. Larger priority-table steps 2/3/4 remain future work."
   }
 }

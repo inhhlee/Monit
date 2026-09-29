@@ -26,7 +26,7 @@ internal static class PayloadValidator
                 IncomingMessageKind.Telemetry => ["id", "ts", "pos", "sp", "state"],
                 IncomingMessageKind.Alarm => ["id", "ts", "code", "level", "alarmState", "message"],
                 IncomingMessageKind.Heartbeat => ["id", "ts", "status"],
-                IncomingMessageKind.Ack => ["id", "ts", "cmdId", "result"],
+                IncomingMessageKind.Ack => ["id", "ts", "cmdId", "result", "reason"],
                 _ => throw new ArgumentOutOfRangeException(nameof(kind))
             });
 
@@ -47,7 +47,8 @@ internal static class PayloadValidator
                 IncomingMessageKind.Alarm => new AlarmMessage(amrId, ts, Text(root, "code"), Level(Text(root, "level")),
                     AlarmLifecycle(Text(root, "alarmState")), root.TryGetProperty("message", out _) ? Text(root, "message") : null),
                 IncomingMessageKind.Heartbeat => new HeartbeatMessage(amrId, ts, Status(Text(root, "status"))),
-                IncomingMessageKind.Ack => new AckMessage(amrId, ts, Text(root, "cmdId"), Result(Text(root, "result"))),
+                IncomingMessageKind.Ack => new AckMessage(amrId, ts, Text(root, "cmdId"), Result(Text(root, "result")),
+                    root.TryGetProperty("reason", out _) ? Text(root, "reason") : null),
                 _ => throw new ArgumentOutOfRangeException(nameof(kind))
             };
             return ValidationResult.Accepted(message);
@@ -64,6 +65,43 @@ internal static class PayloadValidator
         {
             return ValidationResult.Rejected("InvalidJson", "$", "Malformed JSON or maximum depth exceeded.");
         }
+    }
+
+    internal static CommandValidationResult ValidateCommand(ReadOnlyMemory<byte> payload)
+    {
+        string? commandId = null;
+        CommandValidationResult Reject(string code, string field, string reason)
+            => new(null, commandId, new(code, field, reason));
+        if (payload.IsEmpty) return Reject("EmptyPayload", "$", "Payload is empty.");
+        if (payload.Length > MaxPayloadBytes) return Reject("PayloadTooLarge", "$", "Payload exceeds 65536 bytes.");
+        try
+        {
+            StrictUtf8.GetCharCount(payload.Span);
+            using var document = JsonDocument.Parse(payload, new JsonDocumentOptions { MaxDepth = 16 });
+            var root = document.RootElement;
+            // 정확히 한 번 나온 유효한 ID만 오류 응답에 사용할 수 있습니다.
+            if (root.ValueKind == JsonValueKind.Object &&
+                root.EnumerateObject().Count(p => DecodeString(() => p.Name, "$") == "cmdId") == 1)
+                commandId = Text(root, "cmdId");
+            Object(root, "$", ["cmdId", "type", "ts", "param"]);
+            commandId = Text(root, "cmdId");
+            var type = Text(root, "type") switch
+            {
+                "MOVE" => CommandType.Move, "STOP" => CommandType.Stop, "RESET" => CommandType.Reset,
+                _ => throw Invalid("OutOfRange", "$.type", "Unsupported Command type.")
+            };
+            var timestamp = Required(root, "ts");
+            if (timestamp.ValueKind != JsonValueKind.Number || !timestamp.TryGetInt64(out var ts))
+                throw Invalid("InvalidType", "$.ts", "Expected a signed Int64 JSON integer (Unix milliseconds).");
+            var parameters = Required(root, "param");
+            Object(parameters, "$.param", type == CommandType.Move ? ["x", "y"] : []);
+            CommandPosition? position = type == CommandType.Move
+                ? new(Number(parameters, "x", "$.param"), Number(parameters, "y", "$.param")) : null;
+            return new(new(commandId, ts, type, position), commandId, null);
+        }
+        catch (PayloadException error) { return Reject(error.Code, error.Field, error.Message); }
+        catch (DecoderFallbackException) { return Reject("InvalidUtf8", "$", "Payload is not valid UTF-8."); }
+        catch (JsonException) { return Reject("InvalidJson", "$", "Malformed JSON or maximum depth exceeded."); }
     }
 
     private static void Object(JsonElement value, string path, string[] allowed)

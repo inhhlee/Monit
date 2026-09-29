@@ -1,0 +1,94 @@
+[
+  {
+    "Status": 0,
+    "Kind": 2,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 101
+  },
+  {
+    "Position": {
+      "X": 1.25,
+      "Y": -2.5
+    },
+    "Speed": 0.8,
+    "State": 1,
+    "Kind": 0,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 102
+  },
+  {
+    "Code": "ALM-AUDIT",
+    "Level": 1,
+    "AlarmState": 0,
+    "Message": null,
+    "Kind": 1,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 103
+  },
+  {
+    "CommandId": "AUDIT_a4f79aecfc_A-ack",
+    "Result": 1,
+    "Reason": "AUDIT_FAILURE",
+    "Kind": 3,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 104
+  },
+  {
+    "Status": 0,
+    "Kind": 2,
+    "AmrId": "AUDIT_a4f79aecfc_B",
+    "TimestampUnixMilliseconds": 101
+  },
+  {
+    "Position": {
+      "X": 1.25,
+      "Y": -2.5
+    },
+    "Speed": 0.8,
+    "State": 1,
+    "Kind": 0,
+    "AmrId": "AUDIT_a4f79aecfc_B",
+    "TimestampUnixMilliseconds": 102
+  },
+  {
+    "Code": "ALM-AUDIT",
+    "Level": 1,
+    "AlarmState": 0,
+    "Message": null,
+    "Kind": 1,
+    "AmrId": "AUDIT_a4f79aecfc_B",
+    "TimestampUnixMilliseconds": 103
+  },
+  {
+    "CommandId": "AUDIT_a4f79aecfc_B-ack",
+    "Result": 1,
+    "Reason": "AUDIT_FAILURE",
+    "Kind": 3,
+    "AmrId": "AUDIT_a4f79aecfc_B",
+    "TimestampUnixMilliseconds": 104
+  },
+  {
+    "Status": 0,
+    "Kind": 2,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 299
+  },
+  {
+    "Status": 0,
+    "Kind": 2,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 401
+  },
+  {
+    "Status": 0,
+    "Kind": 2,
+    "AmrId": "AUDIT_a4f79aecfc_A",
+    "TimestampUnixMilliseconds": 402
+  },
+  {
+    "Status": 0,
+    "Kind": 2,
+    "AmrId": "AUDIT_a4f79aecfc_B",
+    "TimestampUnixMilliseconds": 403
+  }
+]

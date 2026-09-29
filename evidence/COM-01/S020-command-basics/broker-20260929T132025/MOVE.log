@@ -1,0 +1,25 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-56aba2a4496542d987dd7fffc17f9784","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790655627093,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790655627148,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+Published Command to S020_bf07f7915198: {"cmdId":"CMD-247d654bed5346038e4eecd5424a6e5a","type":"MOVE","ts":1790655627063,"param":{"x":30,"y":15}}
+Received Ack: S020_bf07f7915198 {"cmdId":"CMD-247d654bed5346038e4eecd5424a6e5a","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790655627158}
+Received Heartbeat: S020_bf07f7915198 ts=1790655627956
+Received Heartbeat: AUDIT_a4f79aecfc_A ts=101
+Received Telemetry: AUDIT_a4f79aecfc_A ts=102
+Received Alarm: AUDIT_a4f79aecfc_A ts=103
+Received Ack: AUDIT_a4f79aecfc_A {"cmdId":"AUDIT_a4f79aecfc_A-ack","result":"FAILURE","reason":"AUDIT_FAILURE","ts":104}
+Received Heartbeat: AUDIT_a4f79aecfc_B ts=101
+Received Telemetry: AUDIT_a4f79aecfc_B ts=102
+Received Alarm: AUDIT_a4f79aecfc_B ts=103
+Received Ack: AUDIT_a4f79aecfc_B {"cmdId":"AUDIT_a4f79aecfc_B-ack","result":"FAILURE","reason":"AUDIT_FAILURE","ts":104}
+{"Event":"Rejected","Topic":"amr/AUDIT_a4f79aecfc_A/heartbeat","Code":"InvalidJson","Field":"$","Reason":"Malformed JSON or maximum depth exceeded."}
+{"Event":"Rejected","Topic":"amr/AUDIT_a4f79aecfc_A/heartbeat","Code":"MissingField","Field":"$.status","Reason":"Required field is missing."}
+{"Event":"Rejected","Topic":"amr/AUDIT_a4f79aecfc_A/heartbeat","Code":"IdMismatch","Field":"$.id","Reason":"Payload ID differs from Topic ID."}
+{"Event":"Rejected","Topic":"amr/AUDIT_a4f79aecfc_A/heartbeat","Code":"InvalidUtf8","Field":"$","Reason":"Payload is not valid UTF-8."}
+Received Heartbeat: AUDIT_a4f79aecfc_A ts=299
+Received Heartbeat: S020_bf07f7915198 ts=1790655628970
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790655629158,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790655629163,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790655629164,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790655629164,"Error":null}

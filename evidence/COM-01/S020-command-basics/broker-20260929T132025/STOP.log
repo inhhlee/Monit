@@ -1,0 +1,15 @@
+{"Event":"Configuration","Host":"127.0.0.1","Port":1883,"ClientId":"amr-control-4fba2bb8a8b04ce4a70cc17d7cb30054","KeepAliveSeconds":5,"TimeoutSeconds":3,"Authentication":"anonymous"}
+{"State":"Connecting","Reason":"ConnectRequested","TimestampUnixMilliseconds":1790655629310,"Error":null}
+{"State":"Connected","Reason":"Connected","TimestampUnixMilliseconds":1790655629361,"Error":null}
+Subscribed: amr/+/heartbeat, amr/+/telemetry, amr/+/alarm, amr/+/ack
+Published Command to S020_bf07f7915198: {"cmdId":"CMD-7f3a15d0f0a24db881527284595670b1","type":"STOP","ts":1790655629281,"param":{}}
+Received Heartbeat: AUDIT_a4f79aecfc_A ts=401
+Received Heartbeat: AUDIT_a4f79aecfc_A ts=402
+Received Heartbeat: AUDIT_a4f79aecfc_B ts=403
+Received Ack: S020_bf07f7915198 {"cmdId":"CMD-7f3a15d0f0a24db881527284595670b1","result":"FAILURE","reason":"SIMULATION_NOT_IMPLEMENTED","ts":1790655629366}
+Received Heartbeat: S020_bf07f7915198 ts=1790655629984
+Received Heartbeat: S020_bf07f7915198 ts=1790655630986
+{"State":"Disconnecting","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790655631378,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectCompleted","TimestampUnixMilliseconds":1790655631386,"Error":null}
+{"State":"Disconnected","Reason":"DisconnectRequested","TimestampUnixMilliseconds":1790655631387,"Error":null}
+{"State":"Disposed","Reason":"Disposed","TimestampUnixMilliseconds":1790655631387,"Error":null}

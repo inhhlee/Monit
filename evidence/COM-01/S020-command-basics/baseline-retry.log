@@ -1,0 +1,22 @@
+  Amr.Communication -> C:\practice\src\Amr.Communication\bin\Debug\net10.0\Amr.Communication.dll
+  Amr.Communication.Tests -> C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll
+C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll(.NETCoreApp,Version=v10.0)에 대한 테스트 실행
+지정된 패턴과 일치한 총 테스트 파일 수는 1개입니다.
+[xUnit.net 00:00:00.29] Amr.Communication.Tests: Catastrophic failure: System.IO.FileLoadException: Could not load file or assembly 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll'. 애플리케이션 제어 정책에서 이 파일을 차단했습니다. (0x800711C7)
+File name: 'C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll'
+   at System.Reflection.RuntimeAssembly.InternalLoad(AssemblyName assemblyName, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext, RuntimeAssembly requestingAssembly, Boolean throwOnFileNotFound)
+   at System.Reflection.Assembly.Load(AssemblyName assemblyRef)
+   at Xunit.Sdk.ReflectionAssemblyInfo..ctor(String assemblyFileName) in /_/src/xunit.execution/Sdk/Reflection/ReflectionAssemblyInfo.cs:line 31
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Constructor(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+--- End of stack trace from previous location ---
+   at Xunit.AppDomainManager_NoAppDomain.CreateObject[TObject](AssemblyName assemblyName, String typeName, Object[] args)
+   at Xunit.Runner.v2.Xunit2..ctor(IMessageSink diagnosticMessageSink, AppDomainSupport appDomainSupport, ISourceInformationProvider sourceInformationProvider, IAssemblyInfo assemblyInfo, String assemblyFileName, String xunitExecutionAssemblyPath, String configFileName, Boolean shadowCopy, String shadowCopyFolder, Boolean verifyAssembliesOnDisk)
+   at Xunit.Runner.v2.Xunit2.ForDiscoveryAndExecution(XunitProjectAssembly projectAssembly, ISourceInformationProvider sourceInformationProvider, IMessageSink diagnosticMessageSink, Boolean verifyAssembliesOnDisk)
+   at Xunit.XunitFrontController.Create(XunitProjectAssembly projectAssembly, ISourceInformationProvider sourceInformationProvider, IMessageSink diagnosticMessageSink, ITestProcessLauncher testProcessLauncher)
+   at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)
+   at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)
+C:\practice\tests\Amr.Communication.Tests\bin\Debug\net10.0\Amr.Communication.Tests.dll에서 테스트를 사용할 수 없습니다. 테스트 Discoverer 및 Executor가 등록되고 플랫폼 및 프레임워크 버전 설정이 적절한지 확인하고 다시 시도하세요.
+결과 파일: C:\practice\evidence\COM-01\S020-command-basics\baseline-retry.trx
+
+또한 테스트 어댑터의 경로는 /TestAdapterPath 명령을 사용하여 지정할 수 있습니다. 예: /TestAdapterPath:<pathToCustomAdapters>.

@@ -21,15 +21,16 @@ namespace Amr.Communication.Mqtt
             public static string Command(string amrId)
             {
                 ValidateAmrId(amrId);
-                return $"{BasePrefix}/{amrId}/cmd";
+                return $"{BasePrefix}/{amrId}/command";
             }
         }
 
         private static void ValidateAmrId(string amrId)
         {
-            if (string.IsNullOrWhiteSpace(amrId))
+            if (string.IsNullOrWhiteSpace(amrId) ||
+                amrId.Any(c => char.IsWhiteSpace(c) || char.IsControl(c) || c is '/' or '+' or '#'))
             {
-                throw new ArgumentException("AMR ID는 비어있을 수 없습니다.", nameof(amrId));
+                throw new ArgumentException("AMR ID는 공백이나 Topic 구분자/와일드카드를 포함할 수 없습니다.", nameof(amrId));
             }
         }
     }
