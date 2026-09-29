@@ -251,3 +251,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: cad3c0da0488ba4dc7a07b8fe2a5dcd0c9249959 — Process validated AMR messages through independent asynchronous queues. 검증된 코드·도구·증거·문서만 포함했다. 별도 임시 색인으로 MqttSubscriber의 사용자 주석 한 줄을 커밋에서 제외하고 작업 파일에는 그대로 보존했다. 사용자 init.ps1(staged 포함), solution/루트 Program.cs 삭제, BrokerConnectionOptions 주석, S018 보고서와 기존 로그도 제외·보존했다. 실제 해시는 후속 문서 커밋으로 기록한다. 원격 push 미실행.
 - Known risks: 큐 제한·초과 폐기는 QoS0 개발 정책이다. 실제 Core는 다른 AMR의 동시 호출과 취소 토큰에 협조해야 한다. 취소 무시 작업은 강제 중단하지 않고 종료 대기 timeout 및 백그라운드 관찰로 처리한다. Core/GUI/실제 장비·이동, 자동 재접속, COM-02 Timeout, COM-05 업무 매핑은 미완료다. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 복제본/다른 PC 실행은 미검증이다.
 - Next best action: COM-01 현재10항목 통과 증거와 상태를 검토해 전체 완료 판정을 정리한 뒤 COM-02로 진행한다. 먼저 S022 README와 Mqtt/RECEIVE_QUEUE.md, feature_list.json의 COM-02/DN-05를 읽는다. 마지막 정상 MQTT 수신 시각과 큐 처리 시각을 구분해 Heartbeat Timeout을 구현하고 ./init.cmd verify 및 실제 Broker 회귀를 수행한다.
+
+### S023 - 2026-09-29 - 비동기 수신 코드 학습용 주석과 흐름도
+
+- Goal: 실제 실행 경로의 세 부분(수신 콜백, AMR별 큐/작업 생성, 순차 소비)을 신입 개발자용 줄별 주석과 Mermaid 순서도로 설명한다.
+- Completed: 시작 HEAD e70b522. MqttSubscriber.cs와 AmrMessageDispatcher.cs의 실제 수신·큐 접수·소비 및 관련 선언/종료에 택배 접수처·AMR별 보관함 비유로 줄별 주석을 추가했다. RECEIVE_FLOW.md에 전체 MQTT 경로·두 AMR 독립 처리 Mermaid 두 개, 실제 ConsoleMessageSink 경계와 테스트의 역할을 설명하고 RECEIVE_QUEUE.md에서 연결했다. 기존 사용자 주석과 다른 로컬 변경은 보존했다. 동작·명세·기능 상태 변경은 없다.
+- Verification run: 시작·종료 tracker 통과(5기능/37항목). 작업 시작본과 수정본에서 전체 줄 주석만 제외하여 두 C# 파일의 나머지 모든 줄이 동일함을 확인했다. 문서 상대 링크와 수정 파일 diff 공백 검사 통과. 주석·문서만 변경하여 제품 빌드/단위/실제 Broker 테스트는 반복하지 않았다. S022의421건/실제 Broker 결과를 이번 실행 결과로 주장하지 않는다. Mermaid 문법·흐름은 소스와 수동 대조했고 렌더링 검증은 미실행이다.
+- Evidence recorded: evidence/bootstrap/S023-comment-guide/verification.txt(비주석 본문 동일성 SHA256·추적기·링크·검증 범위). 기능 상태·revision·제품 evidence는 변경하지 않았다.
+- Commits: 주석·흐름도·검사 기록만 선택해 커밋 준비. 기존 사용자 주석은 작업 파일에 보존하고 커밋에서는 제외한다. 원격 push는 수행하지 않는다.
+- Known risks: 주석과 흐름도는 새 제품 실행 증거가 아니다. 실제 수신자는 여전히 ConsoleMessageSink이며 Core 업무·이동은 후속이다.
+- Next best action: 학습 시 Mqtt/RECEIVE_FLOW.md → MqttSubscriber.OnMessageReceivedAsync → AmrMessageDispatcher.TryEnqueue → ConsumeAsync 순서로 읽는다. 제품 후속은 S022와 동일하게 COM-01 완료 판정 정리 후 COM-02이며, 먼저 feature_list.json과 RECEIVE_QUEUE.md를 읽고 ./init.cmd verify로 구현 기준선을 확인한다.
