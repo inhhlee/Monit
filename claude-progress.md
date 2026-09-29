@@ -198,6 +198,6 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Completed: `MqttTopics.cs`의 `AllAck` 토픽을 `amr/+/ack`로 변경, `MqttSubscriber.cs` 다중 토픽 구독 반영, `MqttPublisher.cs` Command 발행 기능 구현 및 `MqttConnectionManager` 연동. `Amr.TestClient`에 Command 수신 시 ACK 자동 발행 로직 추가, 콘솔에 `--heartbeat` 모드 시 주기적 Command 테스트 발행 로직 추가. C# 10에서 `ReadOnlySequence<byte>` 변환 문제를 MQTTnet 5.x의 `ConvertPayloadToString()`으로 해결하여 빌드 오류 복구.
 - Verification run: 실제 Mosquitto Broker를 띄우고, `Amr.TestClient`와 콘솔(관제 시스템)을 백그라운드 태스크로 실행. 관제 콘솔에서 10초 대기 중 `test-cmd-` Command를 정상 발행하였고, TestClient에서 이를 수신한 후 `amr/AMR_001/ack` 토픽으로 ACK를 발행. 관제 콘솔에서 `Received Ack` 로그 출력 성공 확인.
 - Evidence recorded: 실행 로그(관제 발행 로그 및 ACK 수신 확인)를 통해 양방향 통신 증명. `feature_list.json` COM-01 상태 `passing` 및 증거 업데이트.
-- Commits: `[곧 수행할 커밋 해시]` - Implement bidirectional Command and ACK for COM-01.
+- Commits: `06efbaba37297bf4fe2ed4947668baad2f75d2cd` - Implement bidirectional Command and ACK for COM-01.
 - Known risks: 아직 `cmdId` 생성 로직이 고정되어 있고, Command 발행 처리를 콘솔의 타이머 루프에서 임시로 테스트함. 자동 재접속이나 메시지 재전송, AMR별 처리 큐 세부 정책(순차 처리 강제 등)은 향후 고도화 필요.
 - Next best action: COM-02. AMR별 Heartbeat 수신 시각을 추적하여 지정된 Timeout 내에 Heartbeat가 오지 않으면 통신 이상을 감지하는 로직을 구현한다.
