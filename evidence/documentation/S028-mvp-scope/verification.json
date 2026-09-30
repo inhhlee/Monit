@@ -1,0 +1,20 @@
+{
+  "session": "S028",
+  "executed_at": "2026-09-30T16:41:30.0721781+09:00",
+  "baseline_commit": "e817ac3",
+  "result": "passed",
+  "scope": "documentation only",
+  "documents": 12,
+  "valid_relative_links": 110,
+  "full_feature_ids": 24,
+  "full_acceptance_criteria": 93,
+  "plan_stages": 6,
+  "plan_acceptance_criteria": 6,
+  "features_array": "unchanged",
+  "prior_design_notes": "unchanged",
+  "full_feature_bodies": "unchanged",
+  "tracker": "PASS: 5 features, 37 verification items",
+  "product_changes": false,
+  "product_tests": "not_run",
+  "mvp_scenarios": "M1-AC-01 through M1-AC-06: not_run"
+}

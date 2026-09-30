@@ -1,6 +1,6 @@
 # AMR 관제 시스템 상세 설계
 
-현재 연결점과 목표 컴포넌트를 구분한다. 동작은 개정0.2 [기능명세](../instruction/feature_spec.md), 논리 데이터는 [공통 계약](../instruction/interface_contract.md), 미정 정책은 [PDF 비교서](../instruction/pdf_comparison.md)의 P-01~21을 따른다. 아래 실제 코드 연결점은 기존 저장소 안내이며 신규 구현의 클래스명을 강제하지 않는다. 목표 그림은 책임 설계이며 모든 컴포넌트가 구현됐다는 의미가 아니다.
+현재 연결점과 목표 컴포넌트를 구분한다. 동작은 개정0.3 [기능명세](../instruction/feature_spec.md), 논리 데이터는 [공통 계약](../instruction/interface_contract.md), 미정 정책은 [PDF 비교서](../instruction/pdf_comparison.md)의 P-01~21을 따른다. 아래 실제 코드 연결점은 기존 저장소 안내이며 신규 구현의 클래스명을 강제하지 않는다. 목표 그림은 책임 설계이며 모든 컴포넌트가 구현됐다는 의미가 아니다.
 
 ## 1. 현재 실행 구조
 

@@ -2,7 +2,7 @@
 
 여러 가상 AMR의 생존·위치·상태·장애를 관찰하고 명령과 결과를 추적하는 Windows/.NET 기반 학습·개발 시스템이다. 통신 기반을 검증한 뒤 가상 AMR, Core, GUI와 저장소를 단계적으로 연결한다.
 
-이 소개의 구현 상태는 기존 저장소 안내다. 다른 개발자에게 전달할 전체 제품 요구는 PDF를 직접 대조한 [요구사항0.2](../instruction/prd.md)·[기능명세0.2](../instruction/feature_spec.md)·[공통 계약](../instruction/interface_contract.md)·[원문 비교서](../instruction/pdf_comparison.md)를 사용한다. 미구현 항목도 전체 납품 범위에 포함된다.
+이 소개의 구현 상태는 기존 저장소 안내다. 다른 개발자에게 전달할 전체 제품 요구는 PDF를 직접 대조한 [요구사항0.3](../instruction/prd.md)·[기능명세0.3](../instruction/feature_spec.md)·[공통 계약](../instruction/interface_contract.md)·[원문 비교서](../instruction/pdf_comparison.md)를 사용한다. 미구현 항목도 전체 납품 범위에 포함된다.
 
 ## 1. 배경과 문제
 
@@ -29,7 +29,7 @@ S024에서 자동 테스트440건과 실제 Broker 시나리오가 통과했다.
 
 ## 4. 목표 범위
 
-전체 목표는 가상 AMR2대의 설정·이동·Telemetry·Alarm, Core·SQLite·GUI 통합과 통신 복구다. 실행 순서는 [정상 흐름 MVP 계획](../instruction/happy_path_plan.md)에 따라 Telemetry → Core → MOVE/ACK → WPF → DB → 통합 시연을 우선하고 복구·장애 정책을 확장한다. 물리 로봇과 고급 경로 탐색·충돌 회피는 범위 밖이다. 전체 요구와 결정 대기 사항은 [PRD](../instruction/prd.md)에 유지한다.
+전체 목표는 가상 AMR2대의 설정·이동·Telemetry·Alarm, Core·SQLite·GUI 통합과 통신 복구다. 실행 순서는 [정상 흐름 MVP 계획](../instruction/happy_path_plan.md)에 따라 임시 마커 → 실제 Telemetry/Core → 실제 마커 → MOVE/도착 ACK → 통합 시연을 우선하고 DB·복구·장애는 2차로 확장한다. 물리 로봇과 고급 경로 탐색·충돌 회피는 범위 밖이다. 전체 요구와 결정 대기 사항은 [PRD](../instruction/prd.md)에 유지한다.
 
 ## 5. 데이터 흐름
 
@@ -53,7 +53,8 @@ C#/.NET·MQTTnet·Mosquitto는 기존 구현 기반이다. Windows/WPF는 화면
 │   ├── interface_contract.md         공통 데이터·인터페이스
 │   ├── pdf_comparison.md             원문 비교·결정대장
 │   ├── task.md                       개발 작업
-│   ├── happy_path_plan.md            남은 기능의 MVP 우선 개발 계획
+│   ├── happy_path_plan.md            1차 MVP의 주 개발 문서
+│   ├── mvp_review_summary.md         사수 검토용 범위·일정 요약
 │   └── iteration_01.md               COM-05 전체 검증 계획
 ├── project_guide/
 │   ├── introduction.md               소개

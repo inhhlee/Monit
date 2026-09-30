@@ -1,12 +1,12 @@
 # AmrControlSystem (practice)
 
-가상 AMR 통신·관제 시스템의 개발 저장소다. **COM-03: MQTT Broker 연결 및 연결 상태 감시**, **COM-04: 수신 메시지 유효성 검증**, **COM-01: 실제 MQTT 송수신 및 AMR별 비동기 큐**, **COM-02: AMR별 Heartbeat Timeout·복구 감지**를 구현·검증했다. 현재 기준 COM-01~04는 passing이며 COM-05 Command/ACK 전체 연계 검증은 미착수다. 다음 개발은 [정상 흐름 MVP 계획](instruction/happy_path_plan.md)에 따라 Telemetry·Core·MOVE/ACK·WPF·DB를 먼저 연결한다. 기존 WPF 화면은 실험용이고 이 계획의 제품 통합은 아직 미구현이다.
+가상 AMR 통신·관제 시스템의 개발 저장소다. **COM-03: MQTT Broker 연결 및 연결 상태 감시**, **COM-04: 수신 메시지 유효성 검증**, **COM-01: 실제 MQTT 송수신 및 AMR별 비동기 큐**, **COM-02: AMR별 Heartbeat Timeout·복구 감지**를 구현·검증했다. 현재 기준 COM-01~04는 passing이며 COM-05 Command/ACK 전체 연계 검증은 미착수다. 다음 개발은 [정상 흐름 MVP 계획](instruction/happy_path_plan.md)에 따라 실제 Telemetry·Core·WPF 마커·MOVE/도착 ACK를 먼저 연결한다. SQLite는 2차 범위다. 기존 WPF 화면은 실험용이고 이 계획의 제품 통합은 아직 미구현이다.
 
 이 기준선은 **다른 Windows 노트북과 다른 체크아웃 경로에서 같은 명령으로 시작하는 것**을 목표로 한다. WPF 때문에 macOS/Linux 전체 솔루션 실행은 지원하지 않는다. 새 노트북 실물 검증 여부와 최근 증거는 [진행 기록](claude-progress.md)을 따른다.
 
 ## 기획과 설계 문서
 
-사용자 제공 KubeOpsAgent의 문서 구성을 참고해 `instruction/`과 `project_guide/`를 추가했다. 요구사항·기능명세 버전0.2는 PDF v0.3 원문을 대조하여 **다른 개발자가 구현할 전체 제품의 목표**로 개정했다. 현재 구현 상태는 PDF 비교서와 진행 로그에 분리했다. 기존 C# 소스·테스트·도구 구조와 제품 실행 계약은 유지하며, 실제 기능 상태·revision·증거는 계속 `feature_list.json`이 기준이다.
+사용자 제공 KubeOpsAgent의 문서 구성을 참고해 `instruction/`과 `project_guide/`를 추가했다. 요구사항·기능명세는 PDF v0.3 원문을 대조하여 **다른 개발자가 구현할 전체 제품의 목표**로 개정했다. 문서0.3은 최종 범위를 유지하면서 1차 MVP와 2차를 구분한다. 현재 구현 상태는 PDF 비교서와 진행 로그에 분리했다. 기존 C# 소스·테스트·도구 구조와 제품 실행 계약은 유지하며, 실제 기능 상태·revision·증거는 계속 `feature_list.json`이 기준이다.
 
 | 문서 | 내용 |
 | --- | --- |
@@ -18,7 +18,8 @@
 | [사용자 시나리오](project_guide/user_scenario.md) | 생존·명령·이동·장애·복구·통합 흐름 |
 | [상세 설계](project_guide/detail_architecture.md) | 현재/목표 구조·책임·인터페이스 |
 | [개발 작업 목록](instruction/task.md) | 단계별 작업과 완료 기준 |
-| [남은 기능 개발 계획](instruction/happy_path_plan.md) | 완료 기능 재사용, 정상 흐름 MVP 순서·공수·시연 기준·후속 범위 |
+| [1차 MVP 개발 계획](instruction/happy_path_plan.md) | 매일 볼 문서: 24기능 단계 배치·마커/MOVE 개발 순서·시연 기준 |
+| [사수 검토 요약](instruction/mvp_review_summary.md) | 전달용 목표·1차/2차 범위·3일 일정·검토 요청 |
 | [Iteration 01](instruction/iteration_01.md) | COM-05의 범위와7개 전체 검증 계획 |
 
 신규 개발자는 요구사항 → 기능명세 → 공통 계약 → PDF 비교/결정대장 순으로 읽는다. 개발 작업 목록과 Iteration01은 기존 저장소의 재개 계획이다. Telemetry·Alarm의 관제 수신은 구현됐지만 가상 AMR의 실제 생성·발행은 후속이다. 문서 개정으로 제품 기능 상태나 실행 계약 revision을 변경하지 않았다.
