@@ -1,0 +1,668 @@
+{
+  "document_version": "0.2",
+  "kind": "planned_acceptance_mapping_not_execution_evidence",
+  "source_pdf": {
+    "filename": "260917_SI생태계_요구사항 정의 및 기능명세_이인호 연구원_v0.3.pdf",
+    "sha256": "99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72",
+    "pages": 17
+  },
+  "functions": [
+    {
+      "feature_id": "COM-01",
+      "requirement_id": "R-COM-01",
+      "source_pages": "p6,9",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-COM-01-01",
+          "expected": "A1 처리 보류 중 B1은 처리되며 A2는 A1 이후에 처리된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-01-02",
+          "expected": "네 유형이 정확한 AMR로 전달되고 세 명령은 대상 AMR만 수신한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-01-03",
+          "expected": "입력 오류·소비자 오류 후 후속 정상 메시지가 처리된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-01-04",
+          "expected": "종료·단절 시 취소와 잔여 큐 정책을 검증하고 새 세션에 이전 메시지를 혼입하지 않는다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "COM-02",
+      "requirement_id": "R-COM-02",
+      "source_pages": "p5,9",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-COM-02-01",
+          "expected": "Timeout 직전/경계/직후에 정한 이벤트가 발생하며 Payload 시각·벽시계 변경에 영향받지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-02-02",
+          "expected": "A 중단 중 B 정상 수신 시 A만 이상으로 관측한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-02-03",
+          "expected": "중단 구간마다1회 이상 이벤트와 정상 재수신1회 복구 이벤트를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-02-04",
+          "expected": "느린 Core·큐 포화에서도 정상 생존 수신을 관측하고 세션 종료 후 오래된 감시가 동작하지 않는다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "COM-03",
+      "requirement_id": "R-COM-03",
+      "source_pages": "p8~9,17",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-COM-03-01",
+          "expected": "실제 Broker 연결·업무 메시지 없는 idle 구간의 KeepAlive를 관찰한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-03-02",
+          "expected": "Broker 종료와 응답 차단을 각각 재현해 합의 시간 내 단절을 관찰한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-03-03",
+          "expected": "잘못된 접속 주소와 취소/정상 종료의 결과를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-03-04",
+          "expected": "복구 후 필요한 구독과 새 송수신 재개는 INT-04에서 검증한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "COM-04",
+      "requirement_id": "R-COM-04",
+      "source_pages": "p3~7,9",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-COM-04-01",
+          "expected": "유형별 정상 입력의 값이 변형 없이 전달된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-04-02",
+          "expected": "잘못된 JSON·필드 누락/타입·허용값·ID 불일치 각각 Core 전달0건과 원인 로그를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-04-03",
+          "expected": "ACK의 선택 id가 없다는 이유로 거부하지 않으며 존재할 때 일치 검증한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-04-04",
+          "expected": "실패 뒤 정상 입력을 계속 처리한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "COM-05",
+      "requirement_id": "R-COM-05",
+      "source_pages": "p5,9,16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-COM-05-01",
+          "expected": "MOVE/STOP/RESET 생성 ID와 실제 AMR 수신 ID가 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-05-02",
+          "expected": "두 AMR의 여러 요청에 ACK를 역순 반환해도 대상·ID·결과·시각·이유가 보존된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-05-03",
+          "expected": "SUCCESS/FAILURE 의미를 바꾸지 않고 불량 cmdId ACK는 Core에 전달하지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-COM-05-04",
+          "expected": "요청→발행→AMR수신→ACK→Core까지 ID로 추적한다. 실제 업무 갱신은 CORE-04/INT-02에서 확인한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "AMR-01",
+      "requirement_id": "R-AMR-01",
+      "source_pages": "p10~11",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-AMR-01-01",
+          "expected": "설정만 바꿔 두 AMR의 ID·위치·경로·속도·초기 상태가 달라진다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-01-02",
+          "expected": "A의 이동·장애·정지가 B의 내부 상태를 바꾸지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-01-03",
+          "expected": "중복/불량 설정에서 합의한 시작 실패 동작과 원인을 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-01-04",
+          "expected": "동일 설정 재시작으로 정한 초기 상태를 재현한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "AMR-02",
+      "requirement_id": "R-AMR-02",
+      "source_pages": "p4~5,11",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-AMR-02-01",
+          "expected": "IDLE에서 유효 MOVE 시 실제 좌표가 변하고 합의 도착 오차 내 종료한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-02-02",
+          "expected": "이동 중 STOP 후 다음 시뮬레이션 갱신부터 좌표가 변하지 않고 속도가0이다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-02-03",
+          "expected": "장애 원인이 남은 RESET은 실패하고 해소 후에는 합의한 정상 상태로 복구한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-02-04",
+          "expected": "BUSY 신규 MOVE·IDLE STOP·STOPPED 재출발은 확정한 전이표대로 동작한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "AMR-03",
+      "requirement_id": "R-AMR-03",
+      "source_pages": "p4~5,11",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-AMR-03-01",
+          "expected": "발생 임계값 직전/경계/직후와 해제 유지시간 경계에서 이벤트를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-03-02",
+          "expected": "INFO/WARN/ERR/FATAL 별 합의 상태·MOVE 허용 여부를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-03-03",
+          "expected": "발생→지속→해제→재발 시 회차·이벤트가 정한 정책과 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-03-04",
+          "expected": "원인 해소·RESET·상태 복구·Alarm 해제 순서를 검증한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "AMR-04",
+      "requirement_id": "R-AMR-04",
+      "source_pages": "p3,5,11",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-AMR-04-01",
+          "expected": "실제 완료 이전 SUCCESS가 발행되지 않고 완료 후 해당 ID의 결과가 나온다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-04-02",
+          "expected": "허용되지 않은 명령은 상태 변경 없이 FAILURE와 이유를 반환한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-04-03",
+          "expected": "STOP으로 중단된 MOVE와 STOP 자체의 결과가 서로 다른 원래 ID로 반환된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-04-04",
+          "expected": "cmdId 누락/중복과 정상 ID를 가진 형식 오류를 구분해 정한 응답 정책을 확인한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "AMR-05",
+      "requirement_id": "R-AMR-05",
+      "source_pages": "p3,6,11",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-AMR-05-01",
+          "expected": "이동 중 여러 시점의 실제 상태와 수신 Telemetry가 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-05-02",
+          "expected": "정지 시 속도0·고정 좌표, 상태 전이와 Telemetry가 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-05-03",
+          "expected": "실제 장애 발생/해제에서 Alarm이 나오고 명령 결과 ACK가 같은 ID를 가진다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-AMR-05-04",
+          "expected": "A 발행 중단 시 B는 계속 발행하며 주기 측정은 합의 프로파일을 따른다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "GUI-01",
+      "requirement_id": "R-GUI-01",
+      "source_pages": "p12",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-GUI-01-01",
+          "expected": "고정 Mock 데이터의 장비/State/Alarm/Command 집계가 화면과 정확히 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-01-02",
+          "expected": "실제 Core 데이터 변화가 합의 갱신시간 안에 반영된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-01-03",
+          "expected": "기간·ID·code·level 단독/복합 필터가 결과에 적용된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-01-04",
+          "expected": "빈 결과와 오류가 구별되어 표시된다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "GUI-02",
+      "requirement_id": "R-GUI-02",
+      "source_pages": "p13",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-GUI-02-01",
+          "expected": "원점·축 방향·지도 모서리 등 기준점 변환이 계산값과 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-02-02",
+          "expected": "같은 ID는 하나의 Marker이며 다른 ID 위치가 섞이지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-02-03",
+          "expected": "Marker 선택 후 Core의 같은 ID 상세가 표시되고 갱신된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-02-04",
+          "expected": "미수신/오류 상태를 정상 위치와 구분한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "GUI-03",
+      "requirement_id": "R-GUI-03",
+      "source_pages": "p13~14",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-GUI-03-01",
+          "expected": "20건 초과 입력에서 합의 정렬 기준의 최근20건이 나온다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-03-02",
+          "expected": "선택 ID와 상세·표/차트가 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-03-03",
+          "expected": "기간/ID/Event 및 필요한 Alarm 필터를 조합해 결과·초기화를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-03-04",
+          "expected": "0건·위치 없음·잘못된 기간·조회 실패 화면을 확인한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "GUI-04",
+      "requirement_id": "R-GUI-04",
+      "source_pages": "p14,16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-GUI-04-01",
+          "expected": "MOVE의 불량 좌표와 대상 미선택 요청은 안내되며 잘못된 실행이 발생하지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-04-02",
+          "expected": "세 명령의 요청 ID와 Core/ACK 표시가 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-04-03",
+          "expected": "성공/실패/대기/Timeout·실패 이유·응답시간이 구분된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-GUI-04-04",
+          "expected": "화면이 MQTT/SQLite에 직접 접근하지 않는다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "CORE-01",
+      "requirement_id": "R-CORE-01",
+      "source_pages": "p7,16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-CORE-01-01",
+          "expected": "같은 ID를 반복·동시에 등록해도 기본정보는1건이다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-01-02",
+          "expected": "서로 다른 ID가 독립 등록되고 재시작 후 조회된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-01-03",
+          "expected": "유형별 미등록 입력의 등록/거부/Log가 P-06 결정표와 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-01-04",
+          "expected": "저장 실패를 등록 성공으로 반환하지 않는다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "CORE-02",
+      "requirement_id": "R-CORE-02",
+      "source_pages": "p7,16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-CORE-02-01",
+          "expected": "같은 State로 위치만 여러 번 바꿔도 최신 위치만 갱신되고 State변경 이력은 늘지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-02-02",
+          "expected": "BUSY→IDLE 등 전이가1회 기록되고 이전/이후 상태·시각·대상이 맞는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-02-03",
+          "expected": "미등록 입력과 시각 역전 입력은 합의 정책대로 처리된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-02-04",
+          "expected": "GUI 조회는 각 AMR의 같은 스냅샷 필드를 반환한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "CORE-03",
+      "requirement_id": "R-CORE-03",
+      "source_pages": "p16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-CORE-03-01",
+          "expected": "반복 ACTIVE가 하나의 활성 Alarm이며 발생 History가 중복되지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-03-02",
+          "expected": "CLEARED가 대상 발생의 해제 시각·상태를 갱신한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-03-03",
+          "expected": "해제 후 재발은 과거 이력을 보존하면서 새 회차로 구분한다는 제안 정책을 검증한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-03-04",
+          "expected": "다른 AMR의 같은 code는 서로 독립이다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "CORE-04",
+      "requirement_id": "R-CORE-04",
+      "source_pages": "p5,16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-CORE-04-01",
+          "expected": "동시·다중 AMR 요청마다 고유 ID가 생성되고 역순 ACK가 올바른 요청에 연결된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-04-02",
+          "expected": "타 AMR/미요청 ACK가 다른 요청을 완료 처리하지 않는다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-04-03",
+          "expected": "Deadline 전/경계/후, 중복·늦은 ACK의 상태와 이력이 정책과 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-04-04",
+          "expected": "발행 실패·실행 실패·Timeout을 구분하고 GUI·History에 같은 결과를 제공한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "CORE-05",
+      "requirement_id": "R-CORE-05",
+      "source_pages": "p6~7,16",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-CORE-05-01",
+          "expected": "정상 Telemetry 반복은 업무 이력이 늘지 않고 State전이/Alarm/명령 사건은 누락 없이 저장된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-05-02",
+          "expected": "기간·ID·Event 및 Alarm 필터 조합의 정답 집합과 결과가 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-05-03",
+          "expected": "재시작 후 기존 이력이 조회되며 DB 오류와0건이 구분된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-05-04",
+          "expected": "표/차트는 같은 조회 조건의 데이터를 사용한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "CORE-06",
+      "requirement_id": "R-CORE-06",
+      "source_pages": "p15 도식, p3/7/16",
+      "source_kind": "diagram_only_detailed_in_v0.2",
+      "acceptance": [
+        {
+          "id": "AC-CORE-06-01",
+          "expected": "종료/재시작 후 등록 정보와 History가 보존된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-06-02",
+          "expected": "중복 키와 중간 쓰기 실패에서 합의한 원자성/일관성이 유지된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-06-03",
+          "expected": "필터·정렬·페이지 경계가 정의된 조회 결과와 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-CORE-06-04",
+          "expected": "GUI가 저장소를 우회 호출하지 않으며 저장 오류가 Core에 전달된다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "INT-01",
+      "requirement_id": "R-INT-01",
+      "source_pages": "p17",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-INT-01-01",
+          "expected": "실제 위치·속도·State가 수신·Core·Map/상세에서 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-01-02",
+          "expected": "A/B 상태가 섞이지 않으며 좌표 변환 기준점을 만족한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-01-03",
+          "expected": "재시작 절차와 설정으로 같은 시험을 재현한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "INT-02",
+      "requirement_id": "R-INT-02",
+      "source_pages": "p17",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-INT-02-01",
+          "expected": "각 명령의 실제 동작과 ID·결과·시각·이유가 전 단계에 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-02-02",
+          "expected": "실행 거부/중단/Timeout이 서로 구별되어 표시·저장된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-02-03",
+          "expected": "여러 AMR의 역순 응답이 정확한 요청에 연결된다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "INT-03",
+      "requirement_id": "R-INT-03",
+      "source_pages": "p17",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-INT-03-01",
+          "expected": "ERR/FATAL 시 확정 정책의 정지/FAULT와 MOVE 제한을 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-03-02",
+          "expected": "실제 발생/해제와 Core·화면·DB의 대상·코드·시각이 일치한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-03-03",
+          "expected": "원인 지속 RESET 실패와 해소 후 복구를 확인한다.",
+          "result": "not_run"
+        }
+      ]
+    },
+    {
+      "feature_id": "INT-04",
+      "requirement_id": "R-INT-04",
+      "source_pages": "p7~8,17",
+      "source_kind": "original_function_table",
+      "acceptance": [
+        {
+          "id": "AC-INT-04-01",
+          "expected": "A 중단에도 B는 정상 유지하고 A 재개 시 정한 복구 표시를 확인한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-04-02",
+          "expected": "Broker 재시작 후 합의한 자동 재연결·재구독으로 프로그램 재실행 없이 송수신이 재개된다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-04-03",
+          "expected": "통신 복구와 단절 전 미완료 명령 처리를 별도 검증한다.",
+          "result": "not_run"
+        },
+        {
+          "id": "AC-INT-04-04",
+          "expected": "복구 도중 종료 요청 시 재시도가 멈추고 자원이 정리된다.",
+          "result": "not_run"
+        }
+      ]
+    }
+  ]
+}

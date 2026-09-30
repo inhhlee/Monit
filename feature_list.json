@@ -1,6 +1,6 @@
 {
   "project": "AmrControlSystem",
-  "last_updated": "2026-09-29",
+  "last_updated": "2026-09-30",
   "scope": {
     "title": "과제 1 - MQTT 기반 실시간 통신",
     "included": [
@@ -188,6 +188,16 @@
         "COM-02"
       ],
       "review_trigger": "장비 등록/운영 Timeout/전체 Core/자동 재접속/MqttAlive 적용 시 검토"
+    },
+    {
+      "id": "DN-11",
+      "status": "proposed",
+      "topic": "PDF 원문 기반 신규 개발자 전달 명세와 미해결 정책",
+      "detail": "S026에서 PDF v0.3 SHA256 99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72 전체17페이지를 직접 대조했다. 원문 기능표23개와 p15 도식 CORE-06을 포함한24개 목표 기능·93개 수용 시험을 instruction/prd.md, feature_spec.md, interface_contract.md에 작성했다. p5/9/16 CommandId 책임, p7/16 미등록 Telemetry, p4/5 STOP/STOPPED·Alarm 전이, p6/7/9 로그, p8/17 복구, p12~16 GUI/History 쟁점과 권고는 instruction/pdf_comparison.md P-01~21에 기록했다.",
+      "proposed_resolution": "현재 구현 설명과 목표 제품 요구를 분리한다. 기존 DN-01~10의 채택 범위는 유지하고 신규 권고안은 승인/채택된 제품 계약으로 취급하지 않는다. 실제 적용 시 관련 정책을 결정하고 영향 기능의 계약·spec_revision·verification·회귀를 갱신한다. 미구현 AMR/GUI/CORE/INT를 이번 문서 작성으로 시작하거나 통과 처리하지 않는다.",
+      "affects": ["COM-01", "COM-02", "COM-03", "COM-04", "COM-05"],
+      "source_pages": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+      "review_trigger": "신규 개발자 전달 명세 확정, COM-05 책임 채택, 재접속 또는 AMR/Core/GUI 구현 착수"
     }
   ],
   "features": [
@@ -4575,6 +4585,11 @@
       "date": "2026-09-29",
       "session": "S024",
       "description": "사용자17:58 기준선440건 확인 후 COM-01/03/04 회귀와 COM-02 실제8/콘솔5 및 최종 표준440건 통과. COM-01 passing 복구, COM-02 revision2 passing; 과거 Windows 차단 증거 보존. Heartbeat Audit 솔루션 등록 및 시험 ID 관측 범위 보완, 계약/revision 변경 없음. 다음 COM-05."
+    },
+    {
+      "date": "2026-09-30",
+      "session": "S026",
+      "description": "사용자 요청으로 현재 구현 중심 문서0.1을 PDF 직접 대조한 전체 제품 목표 명세0.2로 개정. 원문23기능+도식 CORE-06,24기능·93개 미실행 수용 시험·P-01~21 충돌/제안 기록. DN-11은 proposed이며 현재5기능의 계약·status·spec_revision·verification·evidence 배열은 변경하지 않았다. 실행 기준 채택이나 제품 passing 판정이 아닌 문서/설계 검토다."
     }
   ],
   "initialization": {

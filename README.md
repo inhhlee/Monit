@@ -6,19 +6,21 @@
 
 ## 기획과 설계 문서
 
-사용자 제공 KubeOpsAgent의 문서 구성을 참고해 `instruction/`과 `project_guide/`를 추가했다. 기존 C# 소스·테스트·도구 구조는 유지한다. 문서 버전0.1은 현재 적용 계약과 후속 개발 제안을 구분하며, 실제 기능 상태·명세 변경·증거의 기준은 계속 `feature_list.json`과 `claude-progress.md`다.
+사용자 제공 KubeOpsAgent의 문서 구성을 참고해 `instruction/`과 `project_guide/`를 추가했다. 요구사항·기능명세 버전0.2는 PDF v0.3 원문을 대조하여 **다른 개발자가 구현할 전체 제품의 목표**로 개정했다. 현재 구현 상태는 PDF 비교서와 진행 로그에 분리했다. 기존 C# 소스·테스트·도구 구조와 제품 실행 계약은 유지하며, 실제 기능 상태·revision·증거는 계속 `feature_list.json`이 기준이다.
 
 | 문서 | 내용 |
 | --- | --- |
 | [프로젝트 소개](project_guide/introduction.md) | 목표·현재 상태·폴더 구성·읽는 순서 |
 | [요구사항 정의서](instruction/prd.md) | 범위·요구사항·인수 목표·결정 대기 사항 |
 | [기능명세서](instruction/feature_spec.md) | 입력·처리·출력·예외·메시지 계약·검증 |
+| [공통 데이터와 인터페이스](instruction/interface_contract.md) | wire·Core/GUI·저장·상태·설정·시험 프로파일 |
+| [PDF 비교와 결정대장](instruction/pdf_comparison.md) | 원문 페이지별 대응·누락·충돌·권고·현재 구현 차이 |
 | [사용자 시나리오](project_guide/user_scenario.md) | 생존·명령·이동·장애·복구·통합 흐름 |
 | [상세 설계](project_guide/detail_architecture.md) | 현재/목표 구조·책임·인터페이스 |
 | [개발 작업 목록](instruction/task.md) | 단계별 작업과 완료 기준 |
 | [Iteration 01](instruction/iteration_01.md) | 다음 COM-05의 범위와7개 검증 계획 |
 
-Telemetry·Alarm의 관제 수신은 구현됐지만 가상 AMR의 실제 생성·발행은 후속이다. 위 문서 작성으로 제품 기능 상태나 계약 revision을 변경하지 않았다.
+신규 개발자는 요구사항 → 기능명세 → 공통 계약 → PDF 비교/결정대장 순으로 읽는다. 개발 작업 목록과 Iteration01은 기존 저장소의 재개 계획이다. Telemetry·Alarm의 관제 수신은 구현됐지만 가상 AMR의 실제 생성·발행은 후속이다. 문서 개정으로 제품 기능 상태나 실행 계약 revision을 변경하지 않았다.
 
 ## 다른 Windows PC에서 처음 시작하기
 

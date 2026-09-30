@@ -2,6 +2,8 @@
 
 여러 가상 AMR의 생존·위치·상태·장애를 관찰하고 명령과 결과를 추적하는 Windows/.NET 기반 학습·개발 시스템이다. 통신 기반을 검증한 뒤 가상 AMR, Core, GUI와 저장소를 단계적으로 연결한다.
 
+이 소개의 구현 상태는 기존 저장소 안내다. 다른 개발자에게 전달할 전체 제품 요구는 PDF를 직접 대조한 [요구사항0.2](../instruction/prd.md)·[기능명세0.2](../instruction/feature_spec.md)·[공통 계약](../instruction/interface_contract.md)·[원문 비교서](../instruction/pdf_comparison.md)를 사용한다. 미구현 항목도 전체 납품 범위에 포함된다.
+
 ## 1. 배경과 문제
 
 MQTT 송수신 외에도 입력 검증, 장비 간 독립 처리, 요청·결과 연결, 실제 상태 생성과 화면 표시가 필요하다. 각 단계는 별도 기능·증거로 관리한다.
@@ -48,6 +50,8 @@ C#/.NET·MQTTnet·Mosquitto는 기존 구현 기반이다. Windows/WPF는 화면
 ├── instruction/
 │   ├── prd.md                        요구사항 정의서
 │   ├── feature_spec.md               기능명세서
+│   ├── interface_contract.md         공통 데이터·인터페이스
+│   ├── pdf_comparison.md             원문 비교·결정대장
 │   ├── task.md                       개발 작업
 │   └── iteration_01.md               다음 COM-05 계획
 ├── project_guide/
