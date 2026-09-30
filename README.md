@@ -20,6 +20,7 @@
 | [개발 작업 목록](instruction/task.md) | 단계별 작업과 완료 기준 |
 | [1차 MVP 개발 계획](instruction/happy_path_plan.md) | 매일 볼 문서: 24기능 단계 배치·마커/MOVE 개발 순서·시연 기준 |
 | [사수 검토 요약](instruction/mvp_review_summary.md) | 전달용 목표·1차/2차 범위·3일 일정·검토 요청 |
+| [과제별 산출물 대응표](instruction/assignment_mapping.md) | 원문 과제1~5 연결·Mock GUI/DataProvider 완료 기준·확인 사항 |
 | [Iteration 01](instruction/iteration_01.md) | COM-05의 범위와7개 전체 검증 계획 |
 
 신규 개발자는 요구사항 → 기능명세 → 공통 계약 → PDF 비교/결정대장 순으로 읽는다. 개발 작업 목록과 Iteration01은 기존 저장소의 재개 계획이다. Telemetry·Alarm의 관제 수신은 구현됐지만 가상 AMR의 실제 생성·발행은 후속이다. 문서 개정으로 제품 기능 상태나 실행 계약 revision을 변경하지 않았다.

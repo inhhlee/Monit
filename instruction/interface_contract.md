@@ -144,6 +144,12 @@ P-16 권고안은 AMR+code별 활성 Alarm1건, 동일 ACTIVE 반복 시 새 발
 
 GUI 데이터의 '없음'은0값이나 IDLE로 바꾸지 않는다. 화면·Core 스냅샷의 시각을 함께 제공하여 오래된 상태를 최신으로 오인하지 않게 한다. Command ACK만으로 좌표를 갱신하지 않고 실제 Telemetry를 사용한다.
 
+### GUI DataProvider 적용
+
+2026-09-04자 단계별 과제 PDF3페이지가 지정한 과제3 산출물은 Mock 실행 화면과 DataProvider 인터페이스다. 위 논리 계약을 GUI 공급자 경계로 사용한다. Mock 공급자는 GUI 단독 실행 데이터를 제공하고, 실제 공급자는 Core를 경유한다. 두 공급자는 같은 데이터 구조와 요청/결과 의미를 사용하며 화면·ViewModel 변경 없이 실행 구성에서 교체할 수 있어야 한다. 특정 C# 인터페이스명이나 별도 HTTP 서버를 요구하지 않는다.
+
+1차 제공 범위는 장비 목록·위치/상태·MOVE 요청·명령 결과다. Mock 모드는 표시하고 모의 결과를 실제 AMR ACK로 간주하지 않는다. 좌표 변환·UI Dispatcher 처리는 GUI 책임이며 공급자 어댑터는 MQTT/SQLite를 우회 호출하지 않는다. 단독 실행·공급자 교체·실제 시연 완료 기준은 [과제 대응표](assignment_mapping.md)의 D-GUI-01~03에 정의한다. 이 추가 문서 기준은 미실행이며 현재 제품 구현을 인증하지 않는다.
+
 ## 8. 명령 업무 상태와 경쟁 조건
 
 P-08 제안: Created(요청 보관), AwaitingAck(발행 후 대기), Succeeded, Failed, PublishFailed, TimedOut를 내부 상태로 구분한다. 이 값은 ACK result enum이 아니다.

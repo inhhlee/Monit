@@ -216,6 +216,15 @@
       "proposed_resolution": "설정의 AMR2대, 실제 좌표의 마커, 정상 MOVE, 도착 후 동일 cmdId SUCCESS, 실제2대 시연을 1차로 계획한다. SQLite/History, STOP/RESET, Alarm, 업무 Timeout/중복/지연, 자동 재접속은 2차다. 전체24기능·93AC를 삭제하거나 현재5기능의 계약/revision/증거를 변경하지 않는다. M1-AC-01~06은 새 계획의 미실행 시연 기준이며 HP-AC와 혼용하지 않는다. 상세 개발값·신규 기능 추적 단위는 구현 착수 시 기록한다.",
       "affects": ["COM-01", "COM-02", "COM-03", "COM-04", "COM-05"],
       "review_trigger": "1차 MVP 구현 착수와 개발용 정책 채택, 사수 검토 의견 반영, 2차 기능 확장"
+    },
+    {
+      "id": "DN-14",
+      "status": "proposed",
+      "topic": "단계별 과제의 GUI 공급자 산출물과 개발 순서 확인",
+      "detail": "2026-09-04 단계별 개발 과제 PDF2~3페이지와 현재 명세를 instruction/assignment_mapping.md에 연결했다. 과제3의 Mock GUI·DataProvider를 D-GUI-01~03 미실행 산출물 검증으로 명시했다. GUI는 동일 논리 계약의 Mock/실제 Core 공급자를 실행 구성으로 교체하고 실제 공급자는 Communication/SQLite를 우회 호출하지 않는다. 특정 클래스명이나 별도 서버를 확정하지 않는다.",
+      "proposed_resolution": "현재 MVP 순서는 유지하며 원문 과제1의 자동 재접속을 화면 시연 이후로 옮기는 납품 순서와, 운행 이력이 업무 이벤트 외 좌표/경로 시계열을 포함하는지를 사수에게 확인할 초안을 준비했다. 답변 전 좌표 저장 범위를 확대하지 않는다. 기존24기능·93AC와5개 제품 기능의 계약/검증/증거는 유지하며 추가 GUI 검증은 해당 기능 착수 시 등록한다.",
+      "affects": ["COM-01", "COM-05"],
+      "review_trigger": "GUI/Core 구현 착수, 원문 과제 납품 순서 및 운행 이력 범위에 대한 사수 답변"
     }
   ],
   "features": [
@@ -4618,6 +4627,11 @@
       "date": "2026-09-30",
       "session": "S028",
       "description": "최소 MVP 범위를 전체 문서에 정리: DB는2차, 마커 화면은1차, 임시 화면→실제 Telemetry/Core→마커→MOVE/도착 ACK→통합 순서. PRD/기능명세 문서0.3에서 전체24기능·93AC 본문 유지 및 단계 적용 안내 추가. 24기능 범위표, M1 단계6개·미실행 인수6개, 사수 검토 요약 추가. DN-13 proposed이며 제품 기능 상태/revision/검증은 그대로다. 과거 HP 계획·증거는 보존하고 새 기준으로 소급 사용하지 않는다."
+    },
+    {
+      "date": "2026-09-30",
+      "session": "S030",
+      "description": "단계별 과제 PDF 대조 후 사용자 동의로 과제1~5/공통 산출물 대응표, GUI Mock/DataProvider의 D-GUI-01~03 미실행 검증 계획, 사수 확인 메시지 초안을 작성했다. 기능명세·공통 계약·작업 목록·README에 연결하고 DN-14 proposed를 추가했다. 기존5기능 배열·24기능 본문·93AC·M1 계획과 사용자 수정은 보존했다. 제품 구현·외부 발송·사수 승인은 수행하지 않았다."
     }
   ],
   "initialization": {

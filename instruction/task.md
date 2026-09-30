@@ -60,6 +60,8 @@ S026 구분: 이 목록은 **현재 저장소를 이어 개발하는 계획**이
 
 ## Phase 6. GUI와 통합
 
+원문 과제3의 Mock 화면·DataProvider 결과물은 [과제 대응표](assignment_mapping.md)의 D-GUI-01~03으로 확인한다.1차에서는 마커 화면의 독립 Mock 실행, 실제 Core 공급자로 교체, 실제 MOVE/ACK 연동까지 확인하며 나머지 화면은2차로 확장한다.
+
 - [ ] TASK-6.1 화면·Core 인터페이스. 완료 기준: 목록·상세·명령·Alarm·History 화면, 요청/응답·갱신 방식 명세.
 - [ ] TASK-6.2 표시·조작. 완료 기준: GUI가 Core를 경유하고 상태·결과 일치, Communication/SQLite 직접 접근 없음.
 - [ ] TASK-6.3 통합 시연. 완료 기준: SC-001~006을 실제 가상 AMR/Core/GUI/DB로 수행, 대역 시험과 별도 증거.
