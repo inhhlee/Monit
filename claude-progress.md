@@ -6,13 +6,14 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-29, Asia/Seoul |
+| Last updated | 2026-09-30, Asia/Seoul. S025 문서 구성 갱신; 최신 제품 실행 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목37개(COM-01 과부하·종료2항목 추가). |
 | Highest priority unfinished feature | COM-05 Command/ACK 식별자 연계. COM-02 Heartbeat Timeout·복구는 표준·실제 Mosquitto·콘솔 검증 완료. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
+| Planning documents | S025: instruction/prd.md·feature_spec.md·task.md·iteration_01.md와 project_guide/ 3개 문서 추가. KubeOpsAgent 문서 형식 참고, 전체 AMR 목표와 현재/후속 구분. 제품 기준은 feature_list.json 유지. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -271,3 +272,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 4e25f5aad6063f4896026c58160617767cbc20d3 — Implement and verify per-AMR heartbeat timeout and recovery. 검증된 코드·도구·증거·문서만 별도 색인으로 커밋했다. 실제 해시를 기록한 이 인수인계 수정은 작업 파일에 보존한다. 사용자 init.ps1 staged/unstaged, 원래 솔루션 Program.cs 항목 삭제, 사용자 주석 및 기존 실행 로그를 보존한다. 원격 push 미실행.
 - Known risks: 개발용 Timeout/최초 정상 수신 기준은 운영 정책 확정값이 아니다. 장비 등록·최종 Offline/MqttAlive·실제 이동·자동 재접속·GUI/Core 업무 통합·다른 PC/클린 복제본은 후속이다. Core는 동시 처리/취소에 협조하고 Heartbeat 콜백은 짧게 반환해야 한다. 콘솔 중단 검증은 자기 AMR 프로세스를 종료했으며 키보드 Ctrl+C 입력 자체는 검증하지 않았다. 최종 실행에서 정책 차단은 재현되지 않았으나 영구 해소 원인을 추정하지 않는다.
 - Next best action: COM-05. feature_list.json의 COM-05/DN-06과 Command/ACK 계약, IncomingMessageProcessor 및 MqttPublisher를 읽고 init.cmd verify 후 cmdId·AMR별 매핑 책임을 기록한다. 여러 AMR의 역순 ACK를 실제 Broker와 Core 대역으로 검증하며 실제 CORE-04 업무 상태 갱신과 구분한다. COM-02 학습은 README의3개 터미널 실습 또는 pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1로 재현한다.
+
+### S025 - 2026-09-30 - 참고 프로젝트 형식의 AMR 요구사항과 문서 구성
+
+- Goal: 사용자 제공 KubeOpsAgent-main.zip의 문서 형식을 참고하여 AMR 요구사항·기능명세·프로젝트 구성을 작성하고 현재 구현과 후속 개발을 구분한다.
+- Completed: 시작 HEAD1702c1e, 작업 트리 clean 확인. ZIP 목록과 README/instruction/project_guide 문서 구성을 읽기 전용으로 검토했다. instruction에 PRD·기능명세·Task·COM-05 Iteration, project_guide에 소개·사용 시나리오·상세 설계 등7개 문서를 작성하고 README에 인덱스를 추가했다. 요구사항15개·시나리오6개·미정 정책9개 및 COM-05 검증7항목을 연결했다. 기존 C# src/tests/tools·솔루션·기능 추적기는 변경하지 않았다. ZIP의 Python/Agent 구조·키 파일·캐시를 복사하거나 실행하지 않았다. Telemetry/Alarm의 관제 수신과 가상 AMR 생성, 통신 전달과 실제 실행·Core 업무를 명확히 구분했다.
+- Verification run: 시작/종료 tracker5기능·37항목 구조/증거 링크 검사 통과. 새 문서와 검토 기록8파일의 상대 링크51개, JSON 예시5개, fence12개 짝, 요구사항/시나리오/정책/Task 참조 및 기능별 revision·상태·검증 수를 검사했다. README의 새 문서 링크7개·Unicode 대체 문자 부재, staged diff 공백 검사 및 제품/도구/솔루션/추적기 변경 없음 확인. 문서 작업이므로 빌드·제품 테스트·실제 Broker·재시작을 반복하지 않았다. S024의440건을 이번 실행 결과로 등록하지 않는다. Mermaid는 흐름 대조만 했으며 렌더링은 미검증이다.
+- Evidence recorded: evidence/documentation/S025-project-structure/README.md에 ZIP SHA256·출처·구성 대응·검증 경계, verification.json에 실제 문서/추적기 검사 결과 기록. 제품 기능의 evidence/status/revision은 유지했다.
+- Commits: dd03468 — Add AMR requirements and project guides based on reference structure. 문서7개·README·문서 검토 증거만 포함했다. 최초 Git 인덱스 쓰기는 샌드박스 권한 실패 후 승인 재실행으로 성공했다. 이 세션 기록은 실제 문서 커밋 해시를 포함하는 후속 인수인계 커밋으로 남기며 원격 push는 수행하지 않는다.
+- Known risks: 문서0.1의 전체 AMR/Core/GUI/DB 범위는 후속 설계 초안이다. P-01~09는 미정이며 이번 작성으로 DN-06 등 제품 계약을 채택하지 않았다. PDF 원문은 이번에 재검토하지 않고 기존 기록을 참조했다. 현재 제품 검증은 S024 당시 작업 트리 기준으로, 문서 구성은 새로운 제품 합격·클린 복제본 실행 증거가 아니다.
+- Next best action: 문서 검토는 project_guide/introduction.md → instruction/prd.md → instruction/feature_spec.md. 제품 재개는 COM-05: instruction/iteration_01.md와 feature_list.json의 COM-05/DN-06을 먼저 읽고 ./init.cmd verify, 책임·QoS 결정 기록, 두 AMR 역순 ACK 등7항목 실제 Broker 검증. 후속 순서는 통신 복구 → 가상 AMR 설정·이동·Telemetry → 장애·Alarm → Core/DB/GUI다.
