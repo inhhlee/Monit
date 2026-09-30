@@ -6,14 +6,14 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-30, Asia/Seoul. S026 PDF 직접 대조·목표 명세0.2 개정; 최신 제품 실행 검증은 S024(2026-09-29). |
+| Last updated | 2026-09-30, Asia/Seoul. S027 정상 흐름 MVP 우선 개발 계획; 최신 제품 실행 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목37개(COM-01 과부하·종료2항목 추가). |
-| Highest priority unfinished feature | COM-05 Command/ACK 식별자 연계. COM-02 Heartbeat Timeout·복구는 표준·실제 Mosquitto·콘솔 검증 완료. |
+| Highest priority unfinished feature | 현재 등록 기능 중 COM-05 Command/ACK 식별자 연계가 미완료. 사용자 요청의 다음 개발 순서는 happy_path_plan.md의 HP-00~06이며 신규 범위·의존성은 구현 착수 시 등록한다. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
-| Planning documents | S026: PDF v0.3 직접 대조한 instruction/prd.md·feature_spec.md 0.2 및 interface_contract.md·pdf_comparison.md. 원문23개+도식CORE-06=24기능·43요구·93미실행AC·P-01~21. DN-11 proposed, 현재5기능의 실행 계약·revision·증거 유지. task/iteration/project_guide는 기존 저장소 안내와 구분. |
+| Planning documents | S026: PDF v0.3 직접 대조한 instruction/prd.md·feature_spec.md 0.2 및 interface_contract.md·pdf_comparison.md. 원문23개+도식CORE-06=24기능·43요구·93미실행AC·P-01~21. DN-11 proposed, 현재5기능의 실행 계약·revision·증거 유지. S027 happy_path_plan.md가 현재 개발 순서이며 기본14~20시간 목표의 Telemetry/Core/MOVE/WPF/DB 시연을 우선한다. DN-12 proposed, 전체 요구·COM-05 검증7항목 유지. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -292,3 +292,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 7972025 — Derive full AMR developer specifications from original PDF. 검증된 문서와 proposed 설계/검토 기록만 포함했다. 실제 해시를 기록한 이 인수인계는 후속 문서 커밋으로 남기며 원격 push는 수행하지 않는다.
 - Known risks:0.2는 검토용 목표 명세다. 원문이 상충하거나 미정인 업무 정책은 채택 전 확정된 인수 기준으로 볼 수 없다. 특히 P-01/02/03/04/06/08 등은 책임·ACK·상태·장애·등록 의미에 영향을 준다. CORE-06은 표에 없던 도식 기능의 상세화임을 명시했다. 기존 통신 passing은 새 전체 명세24기능 완료를 의미하지 않는다. 새 PDF/DOCX 산출물은 만들지 않았으며 편집 가능한 Markdown으로 제공했다.
 - Next best action: 신규 개발 명세 검토는 instruction/pdf_comparison.md의 P 결정표와 prd.md → feature_spec.md → interface_contract.md 순서로 진행한다. 현재 제품 COM-05 재개 시 P-01/DN-06과 적용 QoS를 먼저 기록하고 ./init.cmd verify 후 기존7항목을 실제 Broker로 검증한다. 전체 개발로 확장할 때 AMR/GUI/CORE/INT 추적 항목을 등록하고 채택한 새 계약의 revision·회귀를 관리한다.
+
+### S027 - 2026-09-30 - 남은 기능의 정상 흐름 MVP 개발 계획
+
+- Goal: 사용자가 제시한 Happy Path 방식으로 완료된 기능을 재사용하고 남은 개발 순서·범위·공수·완료 기준을 작성한다.
+- Completed: 시작 HEAD d1d15dc, clean 확인. 현재 TestClient/Communication/WPF와 추적기를 대조하여 재사용 범위와 실제 미구현 범위를 구분했다. instruction/happy_path_plan.md에 기준선 → Telemetry → Core → 실제 MOVE/ACK → WPF → SQLite → 통합 시연의 HP-00~06, 시연 기준6개와 후속 개발 순서를 작성했다. 기본14~20시간, 환경·학습 여유 포함16~24시간의 조건부 추정이다. task/iteration/README/소개에 새 순서를 연결하고 DN-12 proposed와 변경 이력을 추가했다. 기존 검증·큐·Heartbeat는 유지하며 수신 즉시 SUCCESS 대신 실제 도착 후 ACK를 제안했다. 제품 구현은 착수하지 않았다.
+- Verification run: 문서5개 상대 링크67개 존재, 단계7개·시연6개 확인. 시작 커밋과 features 전체 및 DN-01~11을 직렬화 대조하여 동일함을 확인했다. tracker5기능/37항목 및 staged diff 공백 검사 통과. 문서 계획 작업이므로 표준 빌드·제품 단위·실제 Broker·WPF·DB·재시작은 미실행이며 기존 S024 결과를 이번 실행으로 사용하지 않는다.
+- Evidence recorded: evidence/documentation/S027-happy-path/README.md와 verification.json. HP-AC-01~06 모두 not_run. 기존 기능의 상태·revision·verification·evidence는 변경하지 않았다.
+- Commits: 37926c1 — Plan remaining AMR work around a happy path MVP. 검증된 계획·문서·추적기 제안 메타데이터·문서 검사 기록만 포함했다. 이 실제 해시를 기록한 진행 로그는 후속 인수인계 커밋으로 남긴다. 원격 push는 수행하지 않았다.
+- Known risks: 공수는 최소 MOVE 시연 범위의 추정이며 전체 명세24기능 완료 일정이 아니다. COM-05는 여전히 not_started이며 MOVE 일부 성공만으로 전체7개 검증을 대체할 수 없다. 신규 AMR/Core/GUI/DB 구현 착수 시 범위·의존성과 임시 개발 결정을 등록해야 한다. 자동 재접속, STOP/RESET, Alarm, 업무 Timeout/중복/지연, 전체 화면과 영속 장비 등록은 후속이다.
+- Next best action: 구현 요청 시 instruction/happy_path_plan.md의 HP-00부터 진행한다. 먼저 ./init.cmd verify로 현재 기준선을 확인하고 MVP 추적 단위·의존성을 등록한 뒤 HP-01의 src/Amr.TestClient/Program.cs와 TelemetryMessage 계약을 읽어 두 AMR의 정상 Telemetry 생성부터 구현한다. 한 번에 하나만 in_progress로 관리한다. COM-05 전체 검증은 instruction/iteration_01.md를 유지하며 MVP 중 또는 직후 별도 완료한다.
