@@ -312,3 +312,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: d4b55b6 — Align first MVP scope around live markers and MOVE completion. 계획·기획 문서·제안 메타데이터·문서 검증 기록만 포함. 실제 해시를 포함한 이 진행 로그는 후속 인수인계 커밋으로 남긴다. 원격 push 미실행.
 - Known risks: 문서0.3은 제품 구현·사수 승인이나 전체 납품 완료가 아니다. 운영 정책·성능 기준은 미정이며 개발용 좌표/주기는 착수 시 기록한다. 실제2대 시연 전에 임시 화면 공급자를 Core로 교체해야 한다. 1차 성공만으로 COM-05 전체7항목이나 AMR/GUI/CORE/INT 전체 AC를 passing으로 표시할 수 없다.
 - Next best action: 구현 요청 시 instruction/happy_path_plan.md의 M1-00으로 시작해 ./init.cmd verify와 Broker 상태를 확인하고 신규 MVP 추적 범위를 등록한다. M1-01 최소 WPF 마커 화면 → M1-02 실제 AMR Telemetry/Core → M1-03 실제 마커 → M1-04 MOVE/도착 ACK → M1-05 통합 검증 순서다. 한 번에 하나만 in_progress로 관리한다. 사수에게는 instruction/mvp_review_summary.md와 prd.md를 전달용으로 사용한다.
+
+### S029 - 2026-09-30 - 단계별 개발 과제 PDF 범위 대조
+
+- Goal: 새로 제공된3페이지 단계별 과제 PDF에 없는 추가 설계와 현재 문서의 보완점을 구분한다.
+- Completed: 시작 HEAD86ebd01, 기존 happy_path_plan.md 사용자 수정 보존. 표지2026-09-04 PDF3페이지를 모두 시각 판독했다.5개 과제/구성요소는 전체 명세에 대응하며, 과제1재접속과 GUI의 Mock 화면/DataProvider 산출물을 확인했다.2대·3일·DB후순위·직선MOVE·세부 주기/구현 구조는 원문 지정이 아닌 MVP 제안이다. DataProvider 산출물 명시, 개발환경 목록 대응, 운행 이력 의미 확인을 보완점으로 구분했다. 원문 지시를 새 실행 요청으로 취급하지 않았고 제품/요구/계획은 수정하지 않았다.
+- Verification run: pypdf 한글 추출이 깨져 Poppler3페이지 렌더링 후 전부 직접 확인. 현재 PRD/기능명세/공통 계약/MVP/README 대조, tracker5기능/37항목·staged diff 공백 검사 통과. 읽기·비교 작업이므로 제품 빌드·단위·실제 Broker·GUI 미실행.
+- Evidence recorded: evidence/documentation/S029-assignment-review/README.md에 PDF해시·페이지별 근거·추가/보완 구분·검증 경계. 임시 렌더링은 .tools/S029-assignment-pdf/에 보관. 기존 feature_list는 변경하지 않았다.
+- Commits: d420da5 — Record comparison with staged AMR assignment brief. 이 진행 기록은 후속 인수인계 커밋으로 저장한다. 기존 사용자 계획서 변경은 커밋에 포함하지 않았고 원격 push는 하지 않았다.
+- Known risks:3페이지 과제 개요는17페이지 상세 요구 PDF와 다르다. 상세 정책 부재를 요구 삭제나 기능 추가 승인으로 해석하지 않는다. 운행 이력이 경로/좌표 시계열을 의미하는지는 불명확하며 임의로 저장 범위를 늘리지 않는다. 새 비교 결과로 사수 승인을 받았다고 주장하지 않는다.
+- Next best action: 사용자가 문서 보완을 요청하면 과제1~5 산출물 대응 및 Mock GUI/DataProvider 검증 기준을 명시한다. 개발 요청이면 현재 instruction/happy_path_plan.md의 M1-00부터 기준선을 확인한다. 기존 사용자 수정은 보존한다.
