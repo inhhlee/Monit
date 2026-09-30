@@ -48,6 +48,6 @@
 - Completed: 시작 HEAD a6a56ad3f687a3761fa889c91ec26531d2c44c64, 시작 작업 트리 clean. 받은 과제와 작성한 PDF의 역할, 기본/상세 수준과 초안/채택 상태의 구분, AMR 식별·시간·Alarm 예시, 다음 작업 순서를 docs/guides/common_rules_worknote.md에 기록하고 docs/README.md에서 연결했다. 원본 PDF·PRD·계약·feature_list.json·제품 코드는 유지했다.
 - Verification run: 변경 문서3개의 상대 링크 대상45개 존재 확인, 출처·상태 표현 검토, feature_list.json SHA256 6D6DA7CCD6581BDA1451C241C3185730C1BD0C71F348A12B1200CEE97DE804ED 보존 확인. tracker5기능/37항목 및 Git 공백 검사 통과. 실행 경로와 제품 계약에 영향이 없는 작성 메모이므로 빌드·단위·Broker·GUI 검증은 미실행이다.
 - Evidence recorded: 위 문서 검사 관찰 결과를 이 Session Record에 기록했다. 제품 실행 증거는 추가하지 않는다.
-- Commits: 없음. 문서 검사 후 관련 변경만 커밋할 예정이다.
+- Commits: 5d6bb1cd9fa389ee7ba3d40a773d45acbc5f75a7 — Record common rules writing handoff. 검증된 메모·문서 안내·진행 기록3파일을 커밋했다. 실제 해시 기록은 후속 인수인계 커밋으로 남긴다.
 - Known risks: 예시는 새 확정 규칙이 아니다. Alarm 임계값·전이·등록·운영 시간 정책 등은 미정 상태를 보존해야 한다. 현재 COM-01~04 passing은 기존 계약 범위이며 전체 관제 통합 완료가 아니다.
 - Next best action: 2026-10-02 docs/guides/common_rules_worknote.md를 읽고 세 항목을 자신의 말로 작성한다. 기존 PRD 6절·interface_contract와 채택된 계약을 대조하고 미정 사항은 명시한다. 제품 구현 재개 시에는 AGENTS의 표준 기준선 절차를 따른다.
