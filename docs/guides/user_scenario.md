@@ -2,11 +2,11 @@
 
 사용자 행동과 관찰할 결과를 정의한다. 현재 콘솔/대역 실습과 후속 시나리오를 구분한다. 예시·기대값은 절차이며 실제 실행 로그가 아니다.
 
-이 문서는 현 저장소의 SC 실습 안내다. 신규 개발의 원문 통합 인수는 개정0.3 [기능명세](../instruction/feature_spec.md)의 INT-01~04이며, 정책은 [PDF 비교서](../instruction/pdf_comparison.md)의 P-01~21을 따른다. SC-001/002 통신 대역 시험이 전체 통합 인수를 대체하지 않는다.
+이 문서는 현 저장소의 SC 실습 안내다. 신규 개발의 원문 통합 인수는 개정0.3 [기능명세](../full/feature_spec.md)의 INT-01~04이며, 정책은 [PDF 비교서](../full/pdf_comparison.md)의 P-01~21을 따른다. SC-001/002 통신 대역 시험이 전체 통합 인수를 대체하지 않는다.
 
 ## SC-001 두 AMR 생존과 중단 감지
 
-검증 담당자가 한 AMR의 중단이 다른 AMR 감시에 영향을 주는지 확인한다. 현재 콘솔/TestClient로 검증된 범위다. 사전 조건은 Broker, 빌드된 수신 콘솔, 서로 다른 ID의 TestClient2대다. 실행 명령은 [README](../README.md)를 따른다.
+검증 담당자가 한 AMR의 중단이 다른 AMR 감시에 영향을 주는지 확인한다. 현재 콘솔/TestClient로 검증된 범위다. 사전 조건은 Broker, 빌드된 수신 콘솔, 서로 다른 ID의 TestClient2대다. 실행 명령은 [README](development.md)를 따른다.
 
 | 단계 | 사용자 행동 | 시스템 동작 | 확인 |
 | --- | --- | --- | --- |
@@ -27,7 +27,7 @@
 | 3 | A의 ID1 SUCCESS 나중 반환 | 원형 전달 | A/ID1 요청에만 연결 |
 | 4 | cmdId 없는 ACK 발행 | 검증 로그·폐기 | Core 전달 없음 |
 
-기대 관측은 `B / ID2 / FAILURE / 원래 이유`, `A / ID1 / SUCCESS`다. SUCCESS는 응답 대역의 시험값으로 실제 이동 완료가 아니다. 세 명령 유형과 전체7항목은 [Iteration01](../instruction/iteration_01.md)에 있다.
+기대 관측은 `B / ID2 / FAILURE / 원래 이유`, `A / ID1 / SUCCESS`다. SUCCESS는 응답 대역의 시험값으로 실제 이동 완료가 아니다. 세 명령 유형과 전체7항목은 [Iteration01](../full/iteration_01.md)에 있다.
 
 ## SC-003 이동과 Telemetry
 

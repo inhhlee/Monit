@@ -2,20 +2,20 @@
 
 문서 버전0.3, 2026-09-30. **가상 AMR 2대 → MQTT 좌표 → Core → WPF 마커 → MOVE → 실제 도착 ACK**를 가장 먼저 연결한다. 개발자가 매일 볼 주 문서다. SQLite·Alarm·STOP/RESET·자동 재접속·업무 Timeout은 2차다.
 
-이 계획은 S027의 목록 화면·DB 포함 MVP를 대체한다. 기존 HP 단계와 HP-AC 식별자는 당시 계획으로 보존하며, 이번 계획은 M1 단계와 M1-AC를 사용한다. 제품 구현과 시연은 아직 미실행이다. 전체24기능·93AC는 [기능명세서](feature_spec.md)에 유지한다.
+이 계획은 S027의 목록 화면·DB 포함 MVP를 대체한다. 기존 HP 단계와 HP-AC 식별자는 당시 계획으로 보존하며, 이번 계획은 M1 단계와 M1-AC를 사용한다. 제품 구현과 시연은 아직 미실행이다. 전체24기능·93AC는 [기능명세서](../full/feature_spec.md)에 유지한다.
 
 ## 1. 문서 사용 순서
 
 | 목적 | 볼 문서 | 사용 방법 |
 | --- | --- | --- |
-| 매일 시작 | [진행 기록](../claude-progress.md) | 완료 범위·진행 기능·검증 상태 확인 |
+| 매일 시작 | [진행 기록](../../claude-progress.md) | 완료 범위·진행 기능·검증 상태 확인 |
 | 오늘 할 개발 | 이 문서 | 아래 단계 하나를 선택해 결과까지 확인 |
-| 구현 상세 | [기능명세서](feature_spec.md) | 현재 단계에 연결된 기능의 1차 부분만 참조 |
-| 데이터 연결 | [공통 계약](interface_contract.md) | Topic·필드·Core/GUI 책임 확인 |
-| 현재 채택된 wire 계약 | [수신 계약](../src/Amr.Communication/Validation/CONTRACT.md), [Command 계약](../src/Amr.Communication/Command/CONTRACT.md) | 기존 코드와 연결할 형식·검증 기준 확인 |
-| 최종 제품 범위 | [PRD](prd.md), [PDF 비교서](pdf_comparison.md) | 최종 목표·출처·미정 정책을 검토할 때 |
-| 사수 검토 | [1차 MVP 검토 요약](mvp_review_summary.md) | 목표·범위·일정·검토 요청을 전달 |
-| 전체 잔여 작업 | [작업 목록](task.md), [COM-05 검증 계획](iteration_01.md) | 2차 확장과 기능 전체 passing 판정 시 |
+| 구현 상세 | [기능명세서](../full/feature_spec.md) | 현재 단계에 연결된 기능의 1차 부분만 참조 |
+| 데이터 연결 | [공통 계약](../full/interface_contract.md) | Topic·필드·Core/GUI 책임 확인 |
+| 현재 채택된 wire 계약 | [수신 계약](../../src/Amr.Communication/Validation/CONTRACT.md), [Command 계약](../../src/Amr.Communication/Command/CONTRACT.md) | 기존 코드와 연결할 형식·검증 기준 확인 |
+| 최종 제품 범위 | [PRD](../full/prd.md), [PDF 비교서](../full/pdf_comparison.md) | 최종 목표·출처·미정 정책을 검토할 때 |
+| 사수 검토 | [1차 MVP 검토 요약](../reports/mvp_review_summary.md) | 목표·범위·일정·검토 요청을 전달 |
+| 전체 잔여 작업 | [작업 목록](../full/task.md), [COM-05 검증 계획](../full/iteration_01.md) | 2차 확장과 기능 전체 passing 판정 시 |
 
 공통 계약의 신규 제안과 현재 채택된 계약이 다르면 구현 전에 해당 결정을 기록한다. 화면 예시나 현재 코드만 보고 요구를 바꾸지 않는다.
 
@@ -77,7 +77,7 @@ M1은 계획 단계이며 feature_list의 기능 ID가 아니다. 착수 시 전
 
 ### M1-00 시작 확인
 
-[진행 기록](../claude-progress.md)과 [추적기](../feature_list.json)를 읽고 프로젝트 루트에서 `./init.cmd verify`, `./init.cmd broker`를 실행한다. 환경 실패와 코드 실패를 분리한다. 새로운 전체 관제 실행 명령은 구현 후 README에 기록한다. 현재 `init.cmd start`는 통신 콘솔 실행이며 관제 GUI 실행으로 안내하지 않는다.
+[진행 기록](../../claude-progress.md)과 [추적기](../../feature_list.json)를 읽고 프로젝트 루트에서 `./init.cmd verify`, `./init.cmd broker`를 실행한다. 환경 실패와 코드 실패를 분리한다. 새로운 전체 관제 실행 명령은 구현 후 README에 기록한다. 현재 `init.cmd start`는 통신 콘솔 실행이며 관제 GUI 실행으로 안내하지 않는다.
 
 ### M1-01 먼저 보이는 화면
 
@@ -87,7 +87,7 @@ M1은 계획 단계이며 feature_list의 기능 ID가 아니다. 착수 시 전
 
 ### M1-02 실제 Telemetry와 Core
 
-[Amr.TestClient](../src/Amr.TestClient/Program.cs)의 기존 연결·구독·Heartbeat를 확장하고 서로 다른 ID의 프로세스2개를 실행한다. 처음에는 정지 좌표·속도0·IDLE을 Telemetry로 발행한다. Topic ID와 Payload ID, 필드·자료형·Unix ms는 채택된 계약을 따른다.
+[Amr.TestClient](../../src/Amr.TestClient/Program.cs)의 기존 연결·구독·Heartbeat를 확장하고 서로 다른 ID의 프로세스2개를 실행한다. 처음에는 정지 좌표·속도0·IDLE을 Telemetry로 발행한다. Topic ID와 Payload ID, 필드·자료형·Unix ms는 채택된 계약을 따른다.
 
 `src/Amr.Core/`는 신규 프로젝트 제안 경로다. 기존 `IIncomingMessageSink`로 검증된 메시지만 받아 AMR별 불변 스냅샷을 교체한다. MQTT 구독·JSON 검사를 Core에 다시 만들지 않는다. 상태 조회와 명령 요청을 Core가 제공하고 GUI는 그 인터페이스만 사용한다. 별도 HTTP 서버나 프로세스 간 통신은 MVP에 필요하지 않다.
 
@@ -110,7 +110,7 @@ AMR별 진행 요청은1건으로 제한하고 Core 검사와 버튼 비활성�
 
 ### M1-05 실제 연결 검증
 
-Broker·가상 AMR2대·Core·WPF를 실제로 연결한다. 제품 단위/영향 회귀와 실제 Broker 검증은 서로 대체하지 않는다. 전체 COM-05 passing은 [기존7개 검증](iteration_01.md)을 별도로 모두 만족해야 한다. 최종 시연에 Mock 공급자나 가짜 SUCCESS가 남아 있으면 MVP 완료가 아니다.
+Broker·가상 AMR2대·Core·WPF를 실제로 연결한다. 제품 단위/영향 회귀와 실제 Broker 검증은 서로 대체하지 않는다. 전체 COM-05 passing은 [기존7개 검증](../full/iteration_01.md)을 별도로 모두 만족해야 한다. 최종 시연에 Mock 공급자나 가짜 SUCCESS가 남아 있으면 MVP 완료가 아니다.
 
 ## 5. 1차 시연 인수 기준
 

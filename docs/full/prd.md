@@ -146,9 +146,9 @@ CORE-06은 p16 표에 없는 보완 명세다. 스키마·트랜잭션·보관·
 
 ## 13. 우선순위와 개발 조건
 
-필수 기능은 전부 최종 납품 범위다. 현재 개발은 [1차 MVP 계획](happy_path_plan.md)을 우선한다. 1차는 AMR2대의 Telemetry → Core → WPF 마커, 화면 MOVE → 실제 이동 → 도착 ACK까지 인메모리로 연결한다. SQLite·History·Alarm·STOP/RESET·자동 재접속·업무 Timeout·전체 Dashboard는 2차다. 24기능 각각의 1차 적용 부분과 2차 잔여 범위는 해당 계획의 범위표를 따른다.
+필수 기능은 전부 최종 납품 범위다. 현재 개발은 [1차 MVP 계획](../mvp/happy_path_plan.md)을 우선한다. 1차는 AMR2대의 Telemetry → Core → WPF 마커, 화면 MOVE → 실제 이동 → 도착 ACK까지 인메모리로 연결한다. SQLite·History·Alarm·STOP/RESET·자동 재접속·업무 Timeout·전체 Dashboard는 2차다. 24기능 각각의 1차 적용 부분과 2차 잔여 범위는 해당 계획의 범위표를 따른다.
 
-개발 순서는 최소 임시 마커 화면 → 실제 Telemetry/Core → 실제 마커 갱신 → MOVE/ACK → 실제2대 시연이다. 임시 데이터는 초기 UI 확인에만 쓰고 최종 1차 인수에는 실제 가상 AMR·Broker·Core·WPF를 연결한다. 위의 DB 포함 전체 인수 기준은 최종 제품 기준이며 1차 시연 완료를 전체 기능 완료로 판정하지 않는다. 사수 검토용 범위·일정은 [MVP 요약](mvp_review_summary.md)에 분리했다.
+개발 순서는 최소 임시 마커 화면 → 실제 Telemetry/Core → 실제 마커 갱신 → MOVE/ACK → 실제2대 시연이다. 임시 데이터는 초기 UI 확인에만 쓰고 최종 1차 인수에는 실제 가상 AMR·Broker·Core·WPF를 연결한다. 위의 DB 포함 전체 인수 기준은 최종 제품 기준이며 1차 시연 완료를 전체 기능 완료로 판정하지 않는다. 사수 검토용 범위·일정은 [MVP 요약](../reports/mvp_review_summary.md)에 분리했다.
 
 등록, STOPPED 전이, 장애 해제, 완료 ACK, 업무 Timeout 등 관련 P 결정이 필요한 부분은 [비교서](pdf_comparison.md)에 있다. 개발자가 운영 의미를 임의로 확정하지 않는다. 되돌릴 수 있는 기술값은 근거를 기록하고 개발용 프로파일로 검증할 수 있다.
 

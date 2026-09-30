@@ -10,7 +10,7 @@
 | COM-04 | PDF 반영 계약 v2, revision 3 | COM-01이 반드시 거쳐야 하는 기존 수신 검증 경계 |
 | COM-01 | 전체 미완료, revision 2 | 앞으로 만들 구독·발행·AMR별 큐의 개념과 검증 설계 |
 
-COM-01의 흐름도·큐 구성·추가 테스트는 **학습용 설계 제안**이다. 이번 문서 작성으로 구현·정책을 확정하거나 기능 상태를 변경하지 않았다. 최종 기준은 [feature_list.json](feature_list.json)의 verification과 design_notes다.
+COM-01의 흐름도·큐 구성·추가 테스트는 **학습용 설계 제안**이다. 이번 문서 작성으로 구현·정책을 확정하거나 기능 상태를 변경하지 않았다. 최종 기준은 [feature_list.json](../../feature_list.json)의 verification과 design_notes다.
 
 ## 1. 꼭 기억할 세 가지
 
@@ -24,13 +24,13 @@ COM-01의 흐름도·큐 구성·추가 테스트는 **학습용 설계 제안**
 
 | 순서 | 파일 | 읽으며 답할 질문 |
 | --- | --- | --- |
-| 1 | [BrokerConnectionOptions.cs](src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs) | 어디에 연결하고 얼마나 기다리는가? |
-| 2 | [BrokerConnectionSnapshot.cs](src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs) | 상태와 이유를 어떤 데이터로 알리는가? |
-| 3 | [IBrokerClient.cs](src/Amr.Communication/Mqtt/IBrokerClient.cs) | 실제 통신 수단이 지켜야 할 약속은 무엇인가? |
-| 4 | [MqttClientService.cs](src/Amr.Communication/Mqtt/MqttClientService.cs) | MQTTnet을 실제로 호출하는 곳은 어디인가? |
-| 5 | [MqttConnectionManager.cs](src/Amr.Communication/Mqtt/MqttConnectionManager.cs) | 요청 순서·실패·취소·이전 연결을 어떻게 관리하는가? |
-| 6 | [Console/Program.cs](src/Amr.Communication.Console/Program.cs) | 설정을 읽고 연결을 시작·종료하는 입구는 어디인가? |
-| 7 | [ConnectionLifecycleTests.cs](tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs) | 위 규칙이 깨지는 상황을 어떻게 재현하는가? |
+| 1 | [BrokerConnectionOptions.cs](../../src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs) | 어디에 연결하고 얼마나 기다리는가? |
+| 2 | [BrokerConnectionSnapshot.cs](../../src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs) | 상태와 이유를 어떤 데이터로 알리는가? |
+| 3 | [IBrokerClient.cs](../../src/Amr.Communication/Mqtt/IBrokerClient.cs) | 실제 통신 수단이 지켜야 할 약속은 무엇인가? |
+| 4 | [MqttClientService.cs](../../src/Amr.Communication/Mqtt/MqttClientService.cs) | MQTTnet을 실제로 호출하는 곳은 어디인가? |
+| 5 | [MqttConnectionManager.cs](../../src/Amr.Communication/Mqtt/MqttConnectionManager.cs) | 요청 순서·실패·취소·이전 연결을 어떻게 관리하는가? |
+| 6 | [Console/Program.cs](../../src/Amr.Communication.Console/Program.cs) | 설정을 읽고 연결을 시작·종료하는 입구는 어디인가? |
+| 7 | [ConnectionLifecycleTests.cs](../../tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs) | 위 규칙이 깨지는 상황을 어떻게 재현하는가? |
 
 ### 역할을 나눈 이유
 
@@ -63,7 +63,7 @@ private readonly Func<IBrokerClient> _createClient;
 
 ## 3. 연결 시작부터 성공까지 한 번 따라가기
 
-대상은 [MqttConnectionManager.cs](src/Amr.Communication/Mqtt/MqttConnectionManager.cs)의 `ConnectAsync`다.
+대상은 [MqttConnectionManager.cs](../../src/Amr.Communication/Mqtt/MqttConnectionManager.cs)의 `ConnectAsync`다.
 
 | 순서 | 실제 동작 | 필요한 이유 |
 | --- | --- | --- |
@@ -84,7 +84,7 @@ private readonly Func<IBrokerClient> _createClient;
 
 ### 실제 MQTTnet 호출은 어디에 있나
 
-[MqttClientService.cs](src/Amr.Communication/Mqtt/MqttClientService.cs)의 `ConnectAsync`에서 옵션 Builder에 주소·포트·ClientId·MQTT 5·KeepAlive·Timeout을 넣는다. 실제 라이브러리 호출 결과가 Success인지 확인한 뒤 Manager로 돌아온다.
+[MqttClientService.cs](../../src/Amr.Communication/Mqtt/MqttClientService.cs)의 `ConnectAsync`에서 옵션 Builder에 주소·포트·ClientId·MQTT 5·KeepAlive·Timeout을 넣는다. 실제 라이브러리 호출 결과가 Success인지 확인한 뒤 Manager로 돌아온다.
 
 `.WithCleanStart()`는 기존 세션을 이어받는 대신 새 세션으로 시작하도록 요청하는 설정이다. 이것만으로 재접속·재구독이 구현되는 것은 아니다. 현재 프로젝트의 자동 재접속·재구독은 후속 범위다. 프로토콜의 세션 의미는 [MQTT 5 표준, 3.1.2.4](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html)를 참고한다.
 
@@ -177,7 +177,7 @@ lock 안에서 네트워크 작업을 await하는 구조가 아니다. 또한 `S
 
 ## 7. COM-03 테스트를 읽는 순서
 
-아래 메서드는 모두 [ConnectionLifecycleTests.cs](tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs)에 실제 존재한다.
+아래 메서드는 모두 [ConnectionLifecycleTests.cs](../../tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs)에 실제 존재한다.
 
 | 순서 | 테스트 | 확인할 핵심 |
 | --- | --- | --- |
@@ -199,7 +199,7 @@ lock 안에서 네트워크 작업을 await하는 구조가 아니다. 또한 `S
 
 ### 대역 테스트만으로 알 수 없는 것
 
-FakeClient는 실제 패킷을 보내지 않는다. 따라서 실제 연결·PINGREQ/PINGRESP·응답 차단은 [BrokerVerification.cs](tools/Amr.Verification/BrokerVerification.cs)에서 별도로 확인한다.
+FakeClient는 실제 패킷을 보내지 않는다. 따라서 실제 연결·PINGREQ/PINGRESP·응답 차단은 [BrokerVerification.cs](../../tools/Amr.Verification/BrokerVerification.cs)에서 별도로 확인한다.
 
 | COM-03 verification | 실제 검증 도구가 보는 것 |
 | --- | --- |
@@ -211,7 +211,7 @@ FakeClient는 실제 패킷을 보내지 않는다. 따라서 실제 연결·PIN
 
 이 값은 DN-03의 **개발 검증 기준**이다. 모든 네트워크에서 보장하는 운영 성능값은 아니다. 일반 콘솔 기본값은 KeepAlive 5초, Timeout 3초로 실증 설정과 다르다.
 
-응답 차단 테스트는 [ResponseDropProxy.cs](tools/Amr.Verification/ResponseDropProxy.cs)를 사용하고, 차단 후 Broker에 직접 다시 접속해 Broker 자체는 살아 있는지도 확인한다. 프록시가 요청은 통과시키고 응답만 버리는지는 [ProxyTests.cs](tests/Amr.Verification.Tests/ProxyTests.cs)의 `DropModePreservesRequestsAndDiscardsResponses`가 검사한다.
+응답 차단 테스트는 [ResponseDropProxy.cs](../../tools/Amr.Verification/ResponseDropProxy.cs)를 사용하고, 차단 후 Broker에 직접 다시 접속해 Broker 자체는 살아 있는지도 확인한다. 프록시가 요청은 통과시키고 응답만 버리는지는 [ProxyTests.cs](../../tests/Amr.Verification.Tests/ProxyTests.cs)의 `DropModePreservesRequestsAndDiscardsResponses`가 검사한다.
 
 ## 8. COM-01 — 다음에 공부할 핵심
 
@@ -231,14 +231,14 @@ COM-03에서 연결 통로를 만들었다면 COM-01은 그 통로로 **올바�
 
 | 파일 | 현재 상태와 읽는 목적 |
 | --- | --- |
-| [MqttSubscriber.cs](src/Amr.Communication/Mqtt/MqttSubscriber.cs) | S015부터 Heartbeat 구독·수신 바이트 검증 연결 구현. 다른 유형 및 큐는 후속 |
-| [MqttPublisher.cs](src/Amr.Communication/Mqtt/MqttPublisher.cs) | 발행 기능 골격 |
-| [MqttTopics.cs](src/Amr.Communication/Mqtt/MqttTopics.cs) | 기존 Topic 문자열과 현재 요구사항 차이 확인 |
-| [IBrokerClient.cs](src/Amr.Communication/Mqtt/IBrokerClient.cs) | 현재는 연결 API만 있음. 송수신에 필요한 경계를 설계해야 함 |
-| [IncomingMessageProcessor.cs](src/Amr.Communication/Validation/IncomingMessageProcessor.cs) | 실제 수신 경로에서 재사용할 기존 검증·전달 경계 |
-| [CONTRACT.md](src/Amr.Communication/Validation/CONTRACT.md) | 네 수신 유형의 현재 내부 계약 |
-| [CommandMessage.cs](src/Amr.Communication/Models/CommandMessage.cs) | 아직 빈 모델. Command 필드는 DN-02에서 구체화해야 함 |
-| [feature_list.json](feature_list.json) | COM-01의 8개 검증 항목과 DN-02/04/06 확인 |
+| [MqttSubscriber.cs](../../src/Amr.Communication/Mqtt/MqttSubscriber.cs) | S015부터 Heartbeat 구독·수신 바이트 검증 연결 구현. 다른 유형 및 큐는 후속 |
+| [MqttPublisher.cs](../../src/Amr.Communication/Mqtt/MqttPublisher.cs) | 발행 기능 골격 |
+| [MqttTopics.cs](../../src/Amr.Communication/Mqtt/MqttTopics.cs) | 기존 Topic 문자열과 현재 요구사항 차이 확인 |
+| [IBrokerClient.cs](../../src/Amr.Communication/Mqtt/IBrokerClient.cs) | 현재는 연결 API만 있음. 송수신에 필요한 경계를 설계해야 함 |
+| [IncomingMessageProcessor.cs](../../src/Amr.Communication/Validation/IncomingMessageProcessor.cs) | 실제 수신 경로에서 재사용할 기존 검증·전달 경계 |
+| [CONTRACT.md](../../src/Amr.Communication/Validation/CONTRACT.md) | 네 수신 유형의 현재 내부 계약 |
+| [CommandMessage.cs](../../src/Amr.Communication/Models/CommandMessage.cs) | 아직 빈 모델. Command 필드는 DN-02에서 구체화해야 함 |
+| [feature_list.json](../../feature_list.json) | COM-01의 8개 검증 항목과 DN-02/04/06 확인 |
 
 `MqttClientService`의 내부 클라이언트는 private이다. 현재 골격에 함수 호출 몇 줄만 채우면 전체 송수신 구조가 완성되는 상태는 아니다. 어느 인터페이스에 송수신 동작을 둘지 먼저 설계해야 한다.
 
@@ -355,7 +355,7 @@ Retain은 새 구독자에게도 전달할 수 있도록 Topic의 메시지를 B
 
 ## 12. COM-01 테스트는 무엇을 기준으로 만들까
 
-기준은 [feature_list.json](feature_list.json)의 **COM-01 verification 1~8**이다. 아래는 요구사항에서 도출한 테스트 설계이며 아직 구현된 테스트 이름이나 실행 결과가 아니다.
+기준은 [feature_list.json](../../feature_list.json)의 **COM-01 verification 1~8**이다. 아래는 요구사항에서 도출한 테스트 설계이며 아직 구현된 테스트 이름이나 실행 결과가 아니다.
 
 | 항목 | 만들 테스트 상황 | 기대 관찰 | 검증 방식 |
 | --- | --- | --- | --- |
@@ -416,7 +416,7 @@ Core 대역이 받은 메시지나 AMR 대역이 받은 Command를 검사했다�
 
 ## 14. 공부하면서 실행할 명령
 
-프로젝트 루트에서 실행하며 준비 조건은 [README.md](README.md)를 따른다. 아래는 사용자가 직접 실행할 학습 절차다. 이번 문서 작성에서는 제품 테스트·Broker 실행을 다시 수행하지 않았다.
+프로젝트 루트에서 실행하며 준비 조건은 [README.md](../guides/development.md)를 따른다. 아래는 사용자가 직접 실행할 학습 절차다. 이번 문서 작성에서는 제품 테스트·Broker 실행을 다시 수행하지 않았다.
 
 ### 공통 준비
 
@@ -500,4 +500,4 @@ MQTT 규격은 프로토콜 사실을 설명하고, 우리 프로젝트의 큐·
 
 ## S016 계약 변경 안내
 
-현재 [COM-04 계약 v2](src/Amr.Communication/Validation/CONTRACT.md)는 PDF의 `pos{x,y}`, `sp`, `state` 구조와 `IDLE/BUSY/STOPPED/FAULT`를 적용한다. Heartbeat에는 `status:"OK"`가 필수다. `ts`는 밀리초 Int64를 유지한다. S015에서 Heartbeat 발행·구독·검증 연결이 추가되었으며 S016에서는 그 입력 계약을 보완한다. 다른 유형 구독·AMR별 큐·Command 발행은 여전히 COM-01 후속이다. 이전 예시나 실습을 실행할 때 현재 계약을 먼저 확인한다.
+현재 [COM-04 계약 v2](../../src/Amr.Communication/Validation/CONTRACT.md)는 PDF의 `pos{x,y}`, `sp`, `state` 구조와 `IDLE/BUSY/STOPPED/FAULT`를 적용한다. Heartbeat에는 `status:"OK"`가 필수다. `ts`는 밀리초 Int64를 유지한다. S015에서 Heartbeat 발행·구독·검증 연결이 추가되었으며 S016에서는 그 입력 계약을 보완한다. 다른 유형 구독·AMR별 큐·Command 발행은 여전히 COM-01 후속이다. 이전 예시나 실습을 실행할 때 현재 계약을 먼저 확인한다.

@@ -1,0 +1,82 @@
+[
+  {
+    "old": "instruction/README.md",
+    "new": "docs/README.md",
+    "original_sha256": "1F430FBA0AD2C225F8FE5A5E8E5B86D5FAC23E488CEF6239B4DA39EF5AF012AF"
+  },
+  {
+    "old": "instruction/happy_path_plan.md",
+    "new": "docs/mvp/happy_path_plan.md",
+    "original_sha256": "649D3457A417CDDC70DBAC3525F6951BC27E6AD93426E504E9BB18E82992E974"
+  },
+  {
+    "old": "instruction/prd.md",
+    "new": "docs/full/prd.md",
+    "original_sha256": "281CA9615D058CB62DF46144388A2829737329C4C868EFFAA38FE3A5B33BACFE"
+  },
+  {
+    "old": "instruction/feature_spec.md",
+    "new": "docs/full/feature_spec.md",
+    "original_sha256": "53019A41B6777EFC3A381A5D0348026893017E43F139DC0ED13CE58B534FC685"
+  },
+  {
+    "old": "instruction/interface_contract.md",
+    "new": "docs/full/interface_contract.md",
+    "original_sha256": "BB7F3D87AA5F022A70A2B1310511D92145FB54C105C1554DE429617C255CE602"
+  },
+  {
+    "old": "instruction/pdf_comparison.md",
+    "new": "docs/full/pdf_comparison.md",
+    "original_sha256": "9FA7D834621675E531777B6086CE100F5FD279CE1D9FE4E1C93BC70BA19209C7"
+  },
+  {
+    "old": "instruction/assignment_mapping.md",
+    "new": "docs/full/assignment_mapping.md",
+    "original_sha256": "C327C8481972F712B8C5D887683B8D5AC7138F56B560FC0BC8FFAE0708F7A78B"
+  },
+  {
+    "old": "instruction/task.md",
+    "new": "docs/full/task.md",
+    "original_sha256": "7B957CB1C60EB9ACFD9FC9C622D163E0C770288CCF1ADC9551E1CB484FD8D303"
+  },
+  {
+    "old": "instruction/iteration_01.md",
+    "new": "docs/full/iteration_01.md",
+    "original_sha256": "1BD08ABB232786565896CEAA3D8911FA4DCDF926B15133EFCDDDF4CC53BD6C51"
+  },
+  {
+    "old": "instruction/mvp_review_summary.md",
+    "new": "docs/reports/mvp_review_summary.md",
+    "original_sha256": "F536F5C0927762B82FCDAFA7AEA06607B7F7A80251B0AA3DA1BA4EB8C2FCE45D"
+  },
+  {
+    "old": "project_guide/introduction.md",
+    "new": "docs/guides/introduction.md",
+    "original_sha256": "8A313E72FDC481B12AE7EAC80F43D88604331D623E360C5FC14FC350975F6677"
+  },
+  {
+    "old": "project_guide/user_scenario.md",
+    "new": "docs/guides/user_scenario.md",
+    "original_sha256": "0103A8B3416D0FEC0EAFB6B9F65E6E8EDFF33133A6E77EF9D03E14D30F55258B"
+  },
+  {
+    "old": "project_guide/detail_architecture.md",
+    "new": "docs/guides/detail_architecture.md",
+    "original_sha256": "FFCA26576936F9FFC32F9E6890C53D458847FCFD0038E9752D86097346536A50"
+  },
+  {
+    "old": "Studyreadme.md",
+    "new": "docs/study/Studyreadme.md",
+    "original_sha256": "2410EB5671885FA49313A0E4C85C6469AAA56E9A997054E65965E43BD824C544"
+  },
+  {
+    "old": "study2.md",
+    "new": "docs/study/study2.md",
+    "original_sha256": "7B0C86969982ADCA0C869522636D8DF7E121C4E2FC15E06CD85D3D783738AE5D"
+  },
+  {
+    "old": "README.md",
+    "new": "docs/guides/development.md",
+    "original_sha256": "E3C0FB6FDF163A2E919A86EA4E2F7EC0AB3894F9CF22D6A0A559F5699BE94975"
+  }
+]

@@ -10,6 +10,8 @@
 | --- | --- |
 | `AGENTS.md` | 시작·작업·검증·종료 절차 및 아키텍처 제약 |
 | `claude-progress.md` | 현재 검증된 시스템 상태, 세션 기록, blocker, 다음 작업 |
+| `docs/README.md` | 목적별 문서 위치와 읽는 순서 |
+| `docs/history/` | 지난 세션 기록. 현재 상태는 루트 진행 로그를 우선 |
 | `feature_list.json` | 기능별 범위·우선순위·상태·검증·증거의 기준 |
 | `feature_list.json`의 `design_notes`, `change_log` | 현재 설계 결정, 미해결 쟁점, 명세 변경 이력 |
 | `init.cmd`, `init.ps1`, `init.sh` | Windows 진입점과 공통 준비·빌드·테스트·실행 헬퍼 |
@@ -53,7 +55,10 @@
 - 단위·통합 테스트 및 테스트 대역: `tests/<테스트프로젝트>/`
 - 실행·개발·검사 도구: `tools/<프로젝트>/` (표준 진입점 `init.cmd`, `init.sh`, `init.ps1`은 루트). S009 사용자 요청으로 Python scripts는 .NET 도구로 대체했다.
 - 검증 증거: `evidence/<기능ID>/<실행식별자>/`
+- 개발 문서: `docs/mvp/`(1차 계획), `docs/full/`(전체 명세·계약·작업), `docs/guides/`(실행·설계), `docs/reports/`(보고), `docs/study/`(학습), `docs/history/`(지난 세션)
 - 진행 로그·기능 추적기·에이전트 규칙·솔루션 파일: 프로젝트 루트
+
+루트 `claude-progress.md`에는 현재 검증 상태와 최근 세션을 유지한다. 지난 세션은 내용을 보존해 `docs/history/`로 옮기고 루트에서 연결한다. 과거 기록의 당시 경로는 이력으로 남기며 S032 문서 이동 대응은 `evidence/documentation/S032-organization/migration.json`에서 찾는다. 현재 문서 경로는 `docs/README.md`가 안내한다.
 
 기존 구조가 다르면 영향 범위를 먼저 확인하고 필요한 변경만 수행한다. 한 기능을 구현하면서 저장소 전체를 불필요하게 재배치하지 않는다.
 

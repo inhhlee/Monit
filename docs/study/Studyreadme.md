@@ -2,7 +2,7 @@
 
 이 문서는 **지금 있는 코드가 왜 이렇게 나뉘었는지, 무엇부터 공부해야 하는지, 테스트가 무엇을 근거로 검사하는지** 설명한다. C#과 테스트 코드에 익숙하지 않은 상태를 기준으로 작성했다.
 
-작성 기준: S010 학습 안내에 S016(2026-09-29) PDF 반영 계약 v2를 보완했다. 최신 기능 상태는 추적기를 따른다. S015부터 실제 Heartbeat 구독 경로가 연결되어 있으며 다른 유형과 큐는 미완료다. 이 문서는 학습 안내이며 요구사항의 기준은 [feature_list.json](feature_list.json), 실제 검증 이력은 [claude-progress.md](claude-progress.md)다.
+작성 기준: S010 학습 안내에 S016(2026-09-29) PDF 반영 계약 v2를 보완했다. 최신 기능 상태는 추적기를 따른다. S015부터 실제 Heartbeat 구독 경로가 연결되어 있으며 다른 유형과 큐는 미완료다. 이 문서는 학습 안내이며 요구사항의 기준은 [feature_list.json](../../feature_list.json), 실제 검증 이력은 [claude-progress.md](../../claude-progress.md)다.
 
 ## 1. 지금 가장 중요한 한 가지
 
@@ -18,7 +18,7 @@
 
 마지막 행이 중요하다. **로봇이 “명령 수행 실패”라고 정상적으로 보고한 것**과 **메시지 자체가 잘못된 것**은 다르다. 전자는 Core가 업무 결과를 판단할 수 있도록 전달해야 한다.
 
-먼저 [IncomingMessageProcessor.cs](src/Amr.Communication/Validation/IncomingMessageProcessor.cs)의 `ProcessAsync`와 [MessageValidationTests.cs](tests/Amr.Communication.Tests/MessageValidationTests.cs)의 `Reject`를 함께 읽는다. 이 두 메서드가 위 표를 가장 짧게 보여준다.
+먼저 [IncomingMessageProcessor.cs](../../src/Amr.Communication/Validation/IncomingMessageProcessor.cs)의 `ProcessAsync`와 [MessageValidationTests.cs](../../tests/Amr.Communication.Tests/MessageValidationTests.cs)의 `Reject`를 함께 읽는다. 이 두 메서드가 위 표를 가장 짧게 보여준다.
 
 ## 2. 이 프로젝트가 하는 일과 현재 구현 범위
 
@@ -81,7 +81,7 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 예를 들어 `{"id":"AMR_001","ts":"123"}`는 올바른 JSON이지만, `ts`가 문자열이어서 현재 계약을 위반한다. `ts: 123`과 `ts: "123"`은 다르다.
 
-읽을 곳: [CONTRACT.md](src/Amr.Communication/Validation/CONTRACT.md) → [MessageValidator.cs](src/Amr.Communication/Validation/MessageValidator.cs) → [PayloadValidator.cs](src/Amr.Communication/Validation/PayloadValidator.cs).
+읽을 곳: [CONTRACT.md](../../src/Amr.Communication/Validation/CONTRACT.md) → [MessageValidator.cs](../../src/Amr.Communication/Validation/MessageValidator.cs) → [PayloadValidator.cs](../../src/Amr.Communication/Validation/PayloadValidator.cs).
 
 이해 확인: “ACK에는 id가 없어도 되는데 Heartbeat에는 왜 반드시 있어야 하는가?”에 **현재 계약이 그렇게 정했고 코드와 테스트가 그 계약을 따르기 때문**이라고 답할 수 있어야 한다. 외부 장비의 보편적 규칙이라고 암기하지 않는다.
 
@@ -97,7 +97,7 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 실제 Core가 아직 없어도 `Probe.Messages.Count`를 검사하면 “전달하면 안 되는 메시지가 전달됐는지” 확인할 수 있다. 하지만 실제 Core가 올바르게 업무를 처리하는지는 이 테스트로 알 수 없다.
 
-읽을 곳: [IncomingMessageProcessor.cs](src/Amr.Communication/Validation/IncomingMessageProcessor.cs)의 생성자와 인터페이스, [MessageValidationTests.cs](tests/Amr.Communication.Tests/MessageValidationTests.cs)의 `Probe`, [IBrokerClient.cs](src/Amr.Communication/Mqtt/IBrokerClient.cs).
+읽을 곳: [IncomingMessageProcessor.cs](../../src/Amr.Communication/Validation/IncomingMessageProcessor.cs)의 생성자와 인터페이스, [MessageValidationTests.cs](../../tests/Amr.Communication.Tests/MessageValidationTests.cs)의 `Probe`, [IBrokerClient.cs](../../src/Amr.Communication/Mqtt/IBrokerClient.cs).
 
 ### 3순위: 테스트의 입력·실행·기대 결과
 
@@ -109,7 +109,7 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 `Assert.True(result.IsValid)`만 보면 놓치는 것이 있다. 정상 메시지는 **Core 전달 횟수와 전달한 내용**도 확인해야 한다. 비정상 메시지는 **Core 미전달, 이유 로그, 다음 정상 입력의 처리**까지 확인해야 한다.
 
-읽을 곳: [MessageValidationTests.cs](tests/Amr.Communication.Tests/MessageValidationTests.cs)의 `NormalMessagesPreserveAllFieldsAtCoreBoundary`, `EveryRequiredFieldMustBePresent`, `Reject`.
+읽을 곳: [MessageValidationTests.cs](../../tests/Amr.Communication.Tests/MessageValidationTests.cs)의 `NormalMessagesPreserveAllFieldsAtCoreBoundary`, `EveryRequiredFieldMustBePresent`, `Reject`.
 
 ### 4순위: async/await, 취소, 자원 정리
 
@@ -126,7 +126,7 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 | `try/finally` | 성공·실패와 관계없이 잠금 해제 등 마무리 수행 |
 | `ConfigureAwait(false)` | await 이후 기존 실행 컨텍스트로 복귀할 필요가 없음을 표시. 새 스레드 생성이나 병렬 처리 명령이 아님 |
 
-읽을 곳: [MqttConnectionManager.cs](src/Amr.Communication/Mqtt/MqttConnectionManager.cs)의 `ConnectAsync`, `DisconnectCoreAsync`, `DisposeAsync`. 대응 테스트는 `TimeoutReturnsFailureAndReleasesResources`, `CallerCancellationIsDistinctFromFailure`다.
+읽을 곳: [MqttConnectionManager.cs](../../src/Amr.Communication/Mqtt/MqttConnectionManager.cs)의 `ConnectAsync`, `DisconnectCoreAsync`, `DisposeAsync`. 대응 테스트는 `TimeoutReturnsFailureAndReleasesResources`, `CallerCancellationIsDistinctFromFailure`다.
 
 ### 5순위: 연결 상태와 동시성
 
@@ -137,7 +137,7 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 - `ReferenceEquals(source, _client)`는 알림을 보낸 객체가 **지금 연결에 사용하는 객체인지** 확인한다. 이전 연결에서 늦게 도착한 끊김 알림이 새 연결을 망가뜨리는 것을 막는다.
 - `StateChanged` 이벤트 수신자는 짧게 처리해야 한다. 이 콜백에서 연결 메서드를 `.Wait()`나 `.Result`로 동기 대기하면 교착 위험이 있다.
 
-읽을 곳: [MqttConnectionManager.cs](src/Amr.Communication/Mqtt/MqttConnectionManager.cs)의 `OnDisconnected`, [ConnectionLifecycleTests.cs](tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs)의 `ConcurrentConnectsDoNotDuplicateSessions`, `FailedConnectionAndLateCallbackCannotFaultExplicitRetry`.
+읽을 곳: [MqttConnectionManager.cs](../../src/Amr.Communication/Mqtt/MqttConnectionManager.cs)의 `OnDisconnected`, [ConnectionLifecycleTests.cs](../../tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs)의 `ConcurrentConnectsDoNotDuplicateSessions`, `FailedConnectionAndLateCallbackCannotFaultExplicitRetry`.
 
 ### 6순위: 시간 단위와 두 종류의 생존 확인
 
@@ -149,7 +149,7 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 | 현재 담당 | COM-03, MQTTnet의 KeepAlive 동작 | COM-02에서 구현 예정 |
 | 주의점 | Broker 연결이 살아 있다고 모든 로봇이 정상인 것은 아님 | Payload의 `ts` 대신 마지막 정상 **수신 시각**으로 Timeout을 판단해야 함 |
 
-읽을 곳: [BrokerConnectionOptions.cs](src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs), [HeartbeatMessage.cs](src/Amr.Communication/Models/HeartbeatMessage.cs), `Int64TimestampsArePreservedWithoutDateConversion` 테스트.
+읽을 곳: [BrokerConnectionOptions.cs](../../src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs), [HeartbeatMessage.cs](../../src/Amr.Communication/Models/HeartbeatMessage.cs), `Int64TimestampsArePreservedWithoutDateConversion` 테스트.
 
 ## 4. 파일 구성 — 어디에 무엇이 들어 있나
 
@@ -157,19 +157,19 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 | 경로 | 역할 | 공부할 때의 사용법 |
 | --- | --- | --- |
-| [README.md](README.md) | 시작·검증 명령과 준비 도구 | 처음 실행할 때 |
-| [AGENTS.md](AGENTS.md) | 작업·검증·기록 규칙 | 기능 수정 전 작업 범위 확인 |
-| [feature_list.json](feature_list.json) | 기능별 요구사항, 상태, 설계 결정, 증거 | 테스트가 무엇을 보장해야 하는지 확인 |
-| [claude-progress.md](claude-progress.md) | 실제 수행한 작업과 다음 할 일 | 최신 상태 확인 |
-| [AmrControlSystem.slnx](AmrControlSystem.slnx) | 여러 프로젝트를 묶는 솔루션 목록 | 어떤 프로젝트들이 같이 빌드되는지 확인 |
-| [global.json](global.json) | 사용할 .NET SDK 기준 | 환경 문제를 볼 때 |
-| [init.cmd](init.cmd) | Windows 실행 입구 | 보통 이 파일을 통해 실행 |
-| [init.ps1](init.ps1) | 복원·빌드·검사·테스트의 실제 공통 절차 | 검증 단계가 궁금할 때 |
-| [init.sh](init.sh) | Git Bash에서 같은 PowerShell 절차를 호출 | Bash 환경에서 실행할 때 |
-| [src](src) | 제품·실험 앱 소스 | 실제 동작 읽기 |
-| [tests](tests) | 자동 테스트와 대역 | 기대 동작과 실패 조건 읽기 |
-| [tools](tools) | 개발 검증 도구 | 테스트 결과를 어떻게 판정하는지 읽기 |
-| [evidence](evidence) | 과거 실행 로그·TRX·결과 | “실제로 실행했는가?” 확인 |
+| [README.md](../guides/development.md) | 시작·검증 명령과 준비 도구 | 처음 실행할 때 |
+| [AGENTS.md](../../AGENTS.md) | 작업·검증·기록 규칙 | 기능 수정 전 작업 범위 확인 |
+| [feature_list.json](../../feature_list.json) | 기능별 요구사항, 상태, 설계 결정, 증거 | 테스트가 무엇을 보장해야 하는지 확인 |
+| [claude-progress.md](../../claude-progress.md) | 실제 수행한 작업과 다음 할 일 | 최신 상태 확인 |
+| [AmrControlSystem.slnx](../../AmrControlSystem.slnx) | 여러 프로젝트를 묶는 솔루션 목록 | 어떤 프로젝트들이 같이 빌드되는지 확인 |
+| [global.json](../../global.json) | 사용할 .NET SDK 기준 | 환경 문제를 볼 때 |
+| [init.cmd](../../init.cmd) | Windows 실행 입구 | 보통 이 파일을 통해 실행 |
+| [init.ps1](../../init.ps1) | 복원·빌드·검사·테스트의 실제 공통 절차 | 검증 단계가 궁금할 때 |
+| [init.sh](../../init.sh) | Git Bash에서 같은 PowerShell 절차를 호출 | Bash 환경에서 실행할 때 |
+| [src](../../src) | 제품·실험 앱 소스 | 실제 동작 읽기 |
+| [tests](../../tests) | 자동 테스트와 대역 | 기대 동작과 실패 조건 읽기 |
+| [tools](../../tools) | 개발 검증 도구 | 테스트 결과를 어떻게 판정하는지 읽기 |
+| [evidence](../../evidence) | 과거 실행 로그·TRX·결과 | “실제로 실행했는가?” 확인 |
 | 각 프로젝트의 `obj/` | 복원 정보·자동 생성 코드 등 빌드 중간 산출물 | 학습용 원본 코드가 아니므로 우선 읽지 않아도 됨 |
 | 각 프로젝트의 `bin/` | 빌드된 DLL·실행 산출물 | 실행 결과물. 직접 소스 수정하는 곳이 아님 |
 
@@ -179,17 +179,17 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 | 파일 | 역할 | 먼저 볼 부분 |
 | --- | --- | --- |
-| [Validation/CONTRACT.md](src/Amr.Communication/Validation/CONTRACT.md) | 현재 사용할 내부 메시지 규칙 | 필수 필드 표와 오류 정책 |
-| [IncomingMessageProcessor.cs](src/Amr.Communication/Validation/IncomingMessageProcessor.cs) | 검사 후 Core 전달 또는 실패 로그 기록 | `ProcessAsync`, 두 인터페이스 |
-| [MessageValidator.cs](src/Amr.Communication/Validation/MessageValidator.cs) | Topic 구조·ID 형식·유형 검사 | `Validate`, `IsValidId` |
-| [PayloadValidator.cs](src/Amr.Communication/Validation/PayloadValidator.cs) | 바이트·JSON·필드·값 검사 및 모델 생성 | `Validate` 다음 `Object`, `Required`, `Text`, `Number` |
-| [ValidationResult.cs](src/Amr.Communication/Validation/ValidationResult.cs) | 성공 메시지 또는 실패 정보를 반환 | `IsValid`, `Message`, `Error` |
-| [IncomingMessage.cs](src/Amr.Communication/Models/IncomingMessage.cs) | 수신 모델 공통 부분 | AMR ID, 시간, `Kind` |
-| [TelemetryMessage.cs](src/Amr.Communication/Models/TelemetryMessage.cs) | 위치·속도·상태 모델 | `TelemetryPosition`, `AmrState` |
-| [AlarmMessage.cs](src/Amr.Communication/Models/AlarmMessage.cs) | 알람 코드·수준·내용 모델 | `AlarmLevel`, `Code`, `Message` |
-| [HeartbeatMessage.cs](src/Amr.Communication/Models/HeartbeatMessage.cs) | 로봇 ID·시간 모델 | 별도 Timeout 판단이 없다는 점 |
-| [AckMessage.cs](src/Amr.Communication/Models/AckMessage.cs) | 명령 ID와 성공·실패 결과 | `CommandId`, `AckResult` |
-| [TelemetryPayLoad.cs](src/Amr.Communication/Models/TelemetryPayLoad.cs) | 기존 실험용 `TelemetryPayload`·`PositionData` | 새 `TelemetryMessage` 검증 경로와 구분 |
+| [Validation/CONTRACT.md](../../src/Amr.Communication/Validation/CONTRACT.md) | 현재 사용할 내부 메시지 규칙 | 필수 필드 표와 오류 정책 |
+| [IncomingMessageProcessor.cs](../../src/Amr.Communication/Validation/IncomingMessageProcessor.cs) | 검사 후 Core 전달 또는 실패 로그 기록 | `ProcessAsync`, 두 인터페이스 |
+| [MessageValidator.cs](../../src/Amr.Communication/Validation/MessageValidator.cs) | Topic 구조·ID 형식·유형 검사 | `Validate`, `IsValidId` |
+| [PayloadValidator.cs](../../src/Amr.Communication/Validation/PayloadValidator.cs) | 바이트·JSON·필드·값 검사 및 모델 생성 | `Validate` 다음 `Object`, `Required`, `Text`, `Number` |
+| [ValidationResult.cs](../../src/Amr.Communication/Validation/ValidationResult.cs) | 성공 메시지 또는 실패 정보를 반환 | `IsValid`, `Message`, `Error` |
+| [IncomingMessage.cs](../../src/Amr.Communication/Models/IncomingMessage.cs) | 수신 모델 공통 부분 | AMR ID, 시간, `Kind` |
+| [TelemetryMessage.cs](../../src/Amr.Communication/Models/TelemetryMessage.cs) | 위치·속도·상태 모델 | `TelemetryPosition`, `AmrState` |
+| [AlarmMessage.cs](../../src/Amr.Communication/Models/AlarmMessage.cs) | 알람 코드·수준·내용 모델 | `AlarmLevel`, `Code`, `Message` |
+| [HeartbeatMessage.cs](../../src/Amr.Communication/Models/HeartbeatMessage.cs) | 로봇 ID·시간 모델 | 별도 Timeout 판단이 없다는 점 |
+| [AckMessage.cs](../../src/Amr.Communication/Models/AckMessage.cs) | 명령 ID와 성공·실패 결과 | `CommandId`, `AckResult` |
+| [TelemetryPayLoad.cs](../../src/Amr.Communication/Models/TelemetryPayLoad.cs) | 기존 실험용 `TelemetryPayload`·`PositionData` | 새 `TelemetryMessage` 검증 경로와 구분 |
 
 `record`는 데이터 중심 타입이며 값 비교를 제공한다. 현재 모델은 생성 뒤 기존 값을 일반 setter로 바꾸는 용도가 아니다. 다만 **record를 쓴다는 이유만으로 내부의 모든 객체까지 자동으로 불변이 되는 것은 아니다.** 현재 위치 모델도 record로 구성되어 있다.
 
@@ -197,12 +197,12 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 | 파일 | 역할 | 핵심 읽기 포인트 |
 | --- | --- | --- |
-| [Console/Program.cs](src/Amr.Communication.Console/Program.cs) | 설정 읽기, 연결 시작, 상태 출력, 종료 | `await using`, `StateChanged`, `ConnectAsync` |
-| [BrokerConnectionOptions.cs](src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs) | 주소·포트·KeepAlive·Timeout·인증 설정 | 기본값과 `Validate` |
-| [BrokerConnectionSnapshot.cs](src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs) | 상태·이유·시간·오류를 묶은 알림 데이터 | `BrokerConnectionState` enum |
-| [IBrokerClient.cs](src/Amr.Communication/Mqtt/IBrokerClient.cs) | 연결 수단을 추상화한 내부 인터페이스 | 실제 MQTT와 FakeClient 교체 지점 |
-| [MqttClientService.cs](src/Amr.Communication/Mqtt/MqttClientService.cs) | MQTTnet 실제 호출과 이벤트 변환 | 옵션 Builder, 연결 결과 확인, 이벤트 해제 |
-| [MqttConnectionManager.cs](src/Amr.Communication/Mqtt/MqttConnectionManager.cs) | 연결 요청 순서·상태·취소·해제 관리 | semaphore/lock, 이전 연결 알림 무시 |
+| [Console/Program.cs](../../src/Amr.Communication.Console/Program.cs) | 설정 읽기, 연결 시작, 상태 출력, 종료 | `await using`, `StateChanged`, `ConnectAsync` |
+| [BrokerConnectionOptions.cs](../../src/Amr.Communication/Mqtt/BrokerConnectionOptions.cs) | 주소·포트·KeepAlive·Timeout·인증 설정 | 기본값과 `Validate` |
+| [BrokerConnectionSnapshot.cs](../../src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs) | 상태·이유·시간·오류를 묶은 알림 데이터 | `BrokerConnectionState` enum |
+| [IBrokerClient.cs](../../src/Amr.Communication/Mqtt/IBrokerClient.cs) | 연결 수단을 추상화한 내부 인터페이스 | 실제 MQTT와 FakeClient 교체 지점 |
+| [MqttClientService.cs](../../src/Amr.Communication/Mqtt/MqttClientService.cs) | MQTTnet 실제 호출과 이벤트 변환 | 옵션 Builder, 연결 결과 확인, 이벤트 해제 |
+| [MqttConnectionManager.cs](../../src/Amr.Communication/Mqtt/MqttConnectionManager.cs) | 연결 요청 순서·상태·취소·해제 관리 | semaphore/lock, 이전 연결 알림 무시 |
 
 `MqttClientService`는 실제 통신 라이브러리를 호출하고, `MqttConnectionManager`는 그 호출을 언제 하고 상태를 어떻게 관리할지 결정한다. 두 역할을 나눴기 때문에 실제 Broker 없이도 Manager의 상태 처리를 테스트할 수 있다.
 
@@ -210,16 +210,16 @@ Topic 단계에서 실패해도 같은 실패 기록 경로로 돌아온다. S01
 
 | 파일 | 현재 상태 |
 | --- | --- |
-| [MqttSubscriber.cs](src/Amr.Communication/Mqtt/MqttSubscriber.cs) | Heartbeat 구독 및 검증기 전달 구현. 다른 유형·AMR별 큐는 후속 |
-| [MqttPublisher.cs](src/Amr.Communication/Mqtt/MqttPublisher.cs) | 발행 기능 골격 |
-| [MqttTopics.cs](src/Amr.Communication/Mqtt/MqttTopics.cs) | 기존 문자열 정의. `cmd/ack`, `cmd`, `state`가 현재 추적기와 다름 |
-| [HeartbeatMonitor.cs](src/Amr.Communication/Monitoring/HeartbeatMonitor.cs) | 개별 AMR 감시 미구현 |
-| [AmrConnectionState.cs](src/Amr.Communication/Monitoring/AmrConnectionState.cs) | 개별 AMR 상태 골격. BrokerConnectionSnapshot과 별개 |
-| [CommandManager.cs](src/Amr.Communication/Command/CommandManager.cs) | 명령 관련 골격 |
-| [CommandMessage.cs](src/Amr.Communication/Models/CommandMessage.cs), [MqttAliveMessage.cs](src/Amr.Communication/Models/MqttAliveMessage.cs) | 아직 데이터 계약·동작이 구현되지 않은 골격 |
-| [Amr.TestClient/Program.cs](src/Amr.TestClient/Program.cs) | Heartbeat 발행 실습. S016부터 status=OK 포함; 이동·명령 처리는 후속 |
-| [AmrControlSystem/MainWindow.xaml.cs](src/AmrControlSystem/MainWindow.xaml.cs) | 차트·MQTT·SQLite 등 실험 코드. GUI가 직접 MQTT/DB에 접근하는 기존 구조 |
-| [AmrControlTest/MainWindow.xaml.cs](src/AmrControlTest/MainWindow.xaml.cs), [MqttTestService.cs](src/AmrControlTest/Tests/MqttTestService.cs), [LoggingTestService.cs](src/AmrControlTest/Tests/LoggingTestService.cs) | 별도의 WPF 실험 앱·보조 코드. tests/ 아래 xUnit 자동 테스트와 구분 |
+| [MqttSubscriber.cs](../../src/Amr.Communication/Mqtt/MqttSubscriber.cs) | Heartbeat 구독 및 검증기 전달 구현. 다른 유형·AMR별 큐는 후속 |
+| [MqttPublisher.cs](../../src/Amr.Communication/Mqtt/MqttPublisher.cs) | 발행 기능 골격 |
+| [MqttTopics.cs](../../src/Amr.Communication/Mqtt/MqttTopics.cs) | 기존 문자열 정의. `cmd/ack`, `cmd`, `state`가 현재 추적기와 다름 |
+| [HeartbeatMonitor.cs](../../src/Amr.Communication/Monitoring/HeartbeatMonitor.cs) | 개별 AMR 감시 미구현 |
+| [AmrConnectionState.cs](../../src/Amr.Communication/Monitoring/AmrConnectionState.cs) | 개별 AMR 상태 골격. BrokerConnectionSnapshot과 별개 |
+| [CommandManager.cs](../../src/Amr.Communication/Command/CommandManager.cs) | 명령 관련 골격 |
+| [CommandMessage.cs](../../src/Amr.Communication/Models/CommandMessage.cs), [MqttAliveMessage.cs](../../src/Amr.Communication/Models/MqttAliveMessage.cs) | 아직 데이터 계약·동작이 구현되지 않은 골격 |
+| [Amr.TestClient/Program.cs](../../src/Amr.TestClient/Program.cs) | Heartbeat 발행 실습. S016부터 status=OK 포함; 이동·명령 처리는 후속 |
+| [AmrControlSystem/MainWindow.xaml.cs](../../src/AmrControlSystem/MainWindow.xaml.cs) | 차트·MQTT·SQLite 등 실험 코드. GUI가 직접 MQTT/DB에 접근하는 기존 구조 |
+| [AmrControlTest/MainWindow.xaml.cs](../../src/AmrControlTest/MainWindow.xaml.cs), [MqttTestService.cs](../../src/AmrControlTest/Tests/MqttTestService.cs), [LoggingTestService.cs](../../src/AmrControlTest/Tests/LoggingTestService.cs) | 별도의 WPF 실험 앱·보조 코드. tests/ 아래 xUnit 자동 테스트와 구분 |
 
 WPF의 `MainWindow.xaml`은 화면 배치, `MainWindow.xaml.cs`는 화면 이벤트 코드, `App.xaml`·`App.xaml.cs`는 앱 시작 설정과 코드다. 먼저 통신 흐름을 익힌 뒤 본다. 현재 GUI 코드를 최종 계층 분리의 모범으로 그대로 따라 만들면 안 된다.
 
@@ -227,13 +227,13 @@ WPF의 `MainWindow.xaml`은 화면 배치, `MainWindow.xaml.cs`는 화면 이벤
 
 | 파일 | 역할 |
 | --- | --- |
-| [docker-compose.yml](docker/docker-compose.yml) | 개발 Mosquitto와 Seq 서비스 설정. `init.cmd broker`는 Mosquitto를 시작 |
-| [mosquitto.conf](docker/mosquitto/config/mosquitto.conf) | 개발 Broker의 접속·저장·로그 설정. 운영 TLS/인증 계약은 별도 |
-| [tools/Amr.Verification/Program.cs](tools/Amr.Verification/Program.cs) | tracker, trx, broker 명령 선택 |
-| [TrackerValidator.cs](tools/Amr.Verification/TrackerValidator.cs) | 기능 상태·의존성·revision·증거 파일 연결 검사 |
-| [TrxValidator.cs](tools/Amr.Verification/TrxValidator.cs) | 테스트 0건·실패·미실행·결과 모순을 통과로 오인하지 않게 검사 |
-| [BrokerVerification.cs](tools/Amr.Verification/BrokerVerification.cs) | 실제 테스트용 Mosquitto와 콘솔을 실행해 COM-03 시나리오 검사 |
-| [ResponseDropProxy.cs](tools/Amr.Verification/ResponseDropProxy.cs) | 테스트에서 Broker의 응답만 차단해 단절 감지를 확인 |
+| [docker-compose.yml](../../docker/docker-compose.yml) | 개발 Mosquitto와 Seq 서비스 설정. `init.cmd broker`는 Mosquitto를 시작 |
+| [mosquitto.conf](../../docker/mosquitto/config/mosquitto.conf) | 개발 Broker의 접속·저장·로그 설정. 운영 TLS/인증 계약은 별도 |
+| [tools/Amr.Verification/Program.cs](../../tools/Amr.Verification/Program.cs) | tracker, trx, broker 명령 선택 |
+| [TrackerValidator.cs](../../tools/Amr.Verification/TrackerValidator.cs) | 기능 상태·의존성·revision·증거 파일 연결 검사 |
+| [TrxValidator.cs](../../tools/Amr.Verification/TrxValidator.cs) | 테스트 0건·실패·미실행·결과 모순을 통과로 오인하지 않게 검사 |
+| [BrokerVerification.cs](../../tools/Amr.Verification/BrokerVerification.cs) | 실제 테스트용 Mosquitto와 콘솔을 실행해 COM-03 시나리오 검사 |
+| [ResponseDropProxy.cs](../../tools/Amr.Verification/ResponseDropProxy.cs) | 테스트에서 Broker의 응답만 차단해 단절 감지를 확인 |
 
 ## 5. 메시지 하나를 끝까지 따라가기
 
@@ -283,13 +283,13 @@ S016에서 제공된 PDF v0.3 p4·6을 반영해 Telemetry 구조와 State·Alar
 
 | 순서 | 파일 | 볼 내용 |
 | --- | --- | --- |
-| 1 | [MessageValidationTests.cs](tests/Amr.Communication.Tests/MessageValidationTests.cs) | 입력 검증, 전달 여부, 대역, 표 기반 테스트 |
-| 2 | [ConnectionLifecycleTests.cs](tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs) | 연결 상태 변화, 실패·취소, 동시 호출, 자원 정리 |
-| 3 | [ScaffoldTests.cs](tests/Amr.Communication.Tests/ScaffoldTests.cs) | 기존 모델 왕복 직렬화와 빈 AMR ID 검사. 이것만으로 COM 기능 통과를 보장하지 않음 |
+| 1 | [MessageValidationTests.cs](../../tests/Amr.Communication.Tests/MessageValidationTests.cs) | 입력 검증, 전달 여부, 대역, 표 기반 테스트 |
+| 2 | [ConnectionLifecycleTests.cs](../../tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs) | 연결 상태 변화, 실패·취소, 동시 호출, 자원 정리 |
+| 3 | [ScaffoldTests.cs](../../tests/Amr.Communication.Tests/ScaffoldTests.cs) | 기존 모델 왕복 직렬화와 빈 AMR ID 검사. 이것만으로 COM 기능 통과를 보장하지 않음 |
 
 ### COM-04 요구사항과 테스트의 연결
 
-아래 메서드는 모두 [MessageValidationTests.cs](tests/Amr.Communication.Tests/MessageValidationTests.cs)에 있다. 파일 안에서 메서드 이름으로 검색하면 된다.
+아래 메서드는 모두 [MessageValidationTests.cs](../../tests/Amr.Communication.Tests/MessageValidationTests.cs)에 있다. 파일 안에서 메서드 이름으로 검색하면 된다.
 
 | 요구사항 | 대표 테스트 | 중요한 확인 |
 | --- | --- | --- |
@@ -360,7 +360,7 @@ Assert.Empty(probe.Failures);
 
 ## 7. COM-03 테스트를 읽을 때 특히 볼 것
 
-모두 [ConnectionLifecycleTests.cs](tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs)에 있다. 여기서는 `FakeClient`가 Broker 대신 연결 동작을 흉내 낸다.
+모두 [ConnectionLifecycleTests.cs](../../tests/Amr.Communication.Tests/ConnectionLifecycleTests.cs)에 있다. 여기서는 `FakeClient`가 Broker 대신 연결 동작을 흉내 낸다.
 
 | 테스트 | 재현하는 상황 | 공부할 코드 |
 | --- | --- | --- |
@@ -375,21 +375,21 @@ Assert.Empty(probe.Failures);
 
 `TaskCompletionSource`는 테스트에서 “언제 작업을 끝낼지” 제어하는 도구다. `ConcurrentConnectsDoNotDuplicateSessions`의 `release`는 실제 연결 완료를 잠시 보류해 요청이 겹치는 상황을 만든다. 임의로 오래 잠들게 하는 방식보다 진행 순서를 명확히 읽을 수 있다.
 
-이 테스트들이 실제 MQTT 패킷 전달까지 증명하지는 않는다. 실제 Broker 검증은 [BrokerVerification.cs](tools/Amr.Verification/BrokerVerification.cs)가 별도로 수행한다. 현재 실제 시나리오는 연결·KeepAlive·Broker 종료·응답 차단·최초 실패·프로세스 재시작이며 COM-01 메시지 송수신 검증은 아직 아니다.
+이 테스트들이 실제 MQTT 패킷 전달까지 증명하지는 않는다. 실제 Broker 검증은 [BrokerVerification.cs](../../tools/Amr.Verification/BrokerVerification.cs)가 별도로 수행한다. 현재 실제 시나리오는 연결·KeepAlive·Broker 종료·응답 차단·최초 실패·프로세스 재시작이며 COM-01 메시지 송수신 검증은 아직 아니다.
 
 ## 8. 검증 도구 자체의 테스트도 있는 이유
 
 | 테스트 파일 | 검증하는 것 |
 | --- | --- |
-| [TrackerTests.cs](tests/Amr.Verification.Tests/TrackerTests.cs) | 증거 없는 passing, 과거 revision, 최신 실패 뒤의 passing, 여러 in_progress 등을 거부하는지 |
-| [TrxTests.cs](tests/Amr.Verification.Tests/TrxTests.cs) | 테스트가 0건·실패·미실행이거나 집계와 개별 결과가 모순될 때 통과로 처리하지 않는지 |
-| [ProxyTests.cs](tests/Amr.Verification.Tests/ProxyTests.cs) | 테스트용 TCP 프록시가 요청은 전달하고 응답만 차단하는지 |
+| [TrackerTests.cs](../../tests/Amr.Verification.Tests/TrackerTests.cs) | 증거 없는 passing, 과거 revision, 최신 실패 뒤의 passing, 여러 in_progress 등을 거부하는지 |
+| [TrxTests.cs](../../tests/Amr.Verification.Tests/TrxTests.cs) | 테스트가 0건·실패·미실행이거나 집계와 개별 결과가 모순될 때 통과로 처리하지 않는지 |
+| [ProxyTests.cs](../../tests/Amr.Verification.Tests/ProxyTests.cs) | 테스트용 TCP 프록시가 요청은 전달하고 응답만 차단하는지 |
 
 제품 테스트는 “통신 코드가 맞는가?”를 확인한다. 도구 테스트는 “우리가 통과·실패를 판정하는 도구가 맞는가?”를 확인한다. 추적기 검사가 통과해도 실제 메시지 통신까지 통과한 것은 아니다.
 
 ## 9. 실제로 공부하며 실행하는 순서
 
-프로젝트 루트에서 실행한다. 준비 도구는 [README.md](README.md)를 따른다.
+프로젝트 루트에서 실행한다. 준비 도구는 [README.md](../guides/development.md)를 따른다.
 
 **처음 한 번: 전체 준비 상태와 기준선 확인**
 

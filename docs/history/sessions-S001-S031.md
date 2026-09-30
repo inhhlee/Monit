@@ -1,0 +1,321 @@
+# 지난 세션 기록 S001~S031
+
+이 문서는 당시 작업·검증·경로를 보존한 기록이다. 현재 상태는 [루트 진행 기록](../../claude-progress.md)을 따른다. 문서의 옛 경로는 [S032 이동 대응표](../../evidence/documentation/S032-organization/migration.json)에서 현재 위치를 확인한다.
+
+## 세션 레코드 (Session Record)
+
+### S001 - 2026-09-18 - 최초 검토 (이전 대화에서 소급 기록)
+
+- Goal: 사용자가 작성한 초기 feature_list와 PDF의 일치 여부 검토.
+- Completed: 누락된 연결 감시·유효성 검증·Core 책임을 지적하고 PDF의 로그 정책 및 미등록 Telemetry 처리 충돌을 확인했다.
+- Verification run: PDF 텍스트 추출 및 관련 페이지 시각 검토. 제품 테스트는 실행하지 않았다.
+- Evidence recorded: 원문 PDF 6·7·9·16페이지 및 이전 대화의 검토 결과. 별도 제품 증거 파일은 없음.
+- Commits: 없음.
+- Known risks: PDF가 미완성이며 세부 정책이 서로 다르거나 미확정이다.
+- Next best action: 과제 1에 한정한 기능 추적기를 작성한다.
+
+### S002 - 2026-09-18 - 과제 1 추적기 작성 (이전 대화에서 소급 기록)
+
+- Goal: 과제 1 COM-01~05의 feature_list.json 작성.
+- Completed: 5개 기능과 35개 검증 항목, 구현 순서, 의존성 및 설계 쟁점 6개를 작성했다.
+- Verification run: Python으로 JSON 파싱, 5개 ID, 우선순위, 의존성 및 초기 상태를 검사했다. 제품 테스트는 실행하지 않았다.
+- Evidence recorded: feature_list.json 및 이전 대화의 검사 출력. 별도 실행 로그 파일은 남기지 않았다.
+- Commits: 없음.
+- Known risks: 실제 소스와 실행 명령이 미확인이다. 설계 확정을 일괄 선행 조건으로 해석하면 구현이 불필요하게 지연될 수 있다.
+- Next best action: 미완성 명세 변경 규칙과 세션 인수인계를 추가한다.
+
+### S003 - 2026-09-18 - 하네스 규칙 및 명세 변경 흐름 정리
+
+- Goal: PDF를 구현 중 수정할 수 있는 작업 규칙과 검증·진행 기록을 마련한다.
+- Completed: AGENTS.md, 이 진행 로그 및 scripts/verify_harness.py를 작성했다. feature_list.json에 결정 정책, 변경 이력, 기능별 spec_revision·blocker를 추가했다. 기존 5개 기능과 35개 검증 항목, 미착수 상태는 유지했다.
+- Verification run: 2026-09-18 17:15:29 +09:00에 추적기 구조 검사를 실행해 종료 코드 0을 확인했다. 합성 증거 정상 사례, 잘못된 상태·증거·의존성 8개 거부 사례, 잘못된 JSON의 CLI 종료 코드 1을 확인했다. 실제 실행 경로와 결과는 evidence/harness-validation.txt에 기록했다. MQTT/제품 테스트는 미실행이다.
+- Evidence recorded: evidence/harness-validation.txt. 기능별 evidence는 계속 빈 배열이다.
+- Commits: 없음. 문서 산출물을 실제 저장소에 설치하거나 커밋하지 않았다.
+- Known risks: 문서 규칙만으로 실행 결과의 진실성을 보장할 수 없다. 검사기는 증거 내용의 실제 정확성, 제품 동작, 변경된 코드가 증거에 미치는 영향을 자동 판정하지 못한다. 에이전트의 시작 지침에 이 규칙과 진행 로그의 읽기 순서를 연결해야 한다.
+- Next best action: 실제 저장소 경로·소스를 확인하고 파일을 루트에 배치한다. 기존 규칙 파일이 있으면 내용을 병합한다. 실행·테스트 명령을 확인해 Current Verified State를 갱신한 뒤 COM-03 하나를 in_progress로 변경하고 구현한다.
+
+### S004 - 2026-09-18 - 두 작업 규칙 문서 통합
+
+- Goal: 사용자가 제시한 개발·아키텍처 규칙과 기존 인수인계·명세 변경 규칙을 하나의 AGENTS.md로 통합한다.
+- Completed: 시작 절차, 기준선 복구, 폴더·아키텍처 제약, 단일 기능 작업, 명세 변경, 검증 증거, 완료 정의, 종료·커밋 절차를 통합했다. init.sh와 Windows 실행 환경의 확인·구축 조건을 명시했다. 기존 기능 추적기의 상태와 제품 증거는 변경하지 않았다.
+- Verification run: scripts/verify_harness.py가 종료 코드 0으로 통과했다. 통합 문서의 10개 절과 주요 규칙 포함 여부, Markdown 전달 과정의 불필요한 이스케이프 부재를 확인하고 문서의 절차·범위 일관성을 검토했다. 제품 빌드·MQTT·재시작 검증은 문서 통합 범위이므로 실행하지 않았다.
+- Evidence recorded: evidence/harness-validation-S004.txt. S003의 검사 로그는 보존했다.
+- Commits: 없음. 실제 AmrControlSystem 저장소가 확인되지 않아 복사용 문서만 수정했다.
+- Known risks: 실제 솔루션·SDK·Bash 또는 PowerShell 환경을 확인해야 init.sh나 동등 진입점을 구현·검증할 수 있다. 현재 규칙 문서만으로 제품 재시작 가능성을 주장할 수 없다.
+- Next best action: 실제 프로젝트 루트에 통합 규칙과 추적기·진행 로그·검사기를 배치하고 기존 규칙이 있으면 병합한다. 저장소·실행 경로를 확인해 진행 로그를 갱신하고 기준선을 준비한 뒤 COM-03을 시작한다.
+
+### S005 - 2026-09-18 - 실제 프로젝트 초기화 및 기준선 복구
+
+- Goal: 초기화 플레이북에 따라 이후 세션이 시작·검증·작업 경계를 재도출하지 않아도 되는 운영 환경과 안전 기준선 커밋 마련.
+- Completed: 실제 프로젝트 루트 확인, 기존 5개 프로젝트 보존, 문서 배치, 신규 Git 저장소(main) 구성. 빈 클래스 5개의 잘못된 MqttSubscriber 이름을 파일 책임에 맞게 분리하고 기존 WPF 실험 서비스의 MQTTnet 4 API를 설치된 5.2.0.1603 API로 수정하여 빌드 복구. init.ps1 및 Git Bash 래퍼 init.sh, SDK 기준 global.json, 자동 테스트 프로젝트와 추적기/TRX 검사기, README 및 제외 규칙 추가. 사용자 DB·Broker/Seq 데이터·IDE 상태는 삭제하거나 커밋하지 않는다. COM 기능은 모두 not_started 유지.
+- Verification run: 최초 restore는 샌드박스 NuGet.Config 접근 제한으로 실패한 뒤 승인된 재시도에서 성공. 최초 build는 중복 클래스 및 MQTTnet API 오류 10건으로 실패했다. 첫 헬퍼 실행은 Windows Store Python 별칭 때문에 종료 코드 1; 실제 Python을 선택하도록 복구했다. 18:13:55+09:00 PowerShell 전체 기준선 및 콘솔 시작 통과(.NET 4건, Python 8건). Git Bash 재시작은 새 .git의 샌드박스 계정 소유권으로 종료 코드 1; .git 소유자만 실제 Admin으로 복구하고 전역 신뢰 설정은 변경하지 않았다. 18:16:01+09:00 상위 repos에서 Git Bash 절대 경로 호출로 전체 기준선 및 콘솔 재시작 통과.
+- Evidence recorded: evidence/initialization/S005/README.md의 실행별 목록. 실패 로그와 재시도 로그 모두 보존. 기능별 evidence 배열은 비어 있으며 초기화 결과를 제품 기능 통과 증거로 등록하지 않았다.
+- Commits: `58a53008c02cde8765e37a23375cf54c35f7dc85` — Initialize AMR scaffold with reproducible build and verification workflow. 검증 증거 및 인수인계 갱신은 별도 문서 커밋으로 남긴다(최신 해시는 git log -1로 확인).
+- Known risks: WPF의 OpenTK/SkiaSharp NU1701 호환성 경고. 통신 메서드는 빈 골격이며 GUI가 MQTT/SQLite에 직접 접근하는 실험 코드는 목표 아키텍처 미충족. MqttTopics의 cmd/cmd/ack/state와 현재 추적기 계약 차이를 COM-01/04에서 검토해야 한다. Docker CLI 및 실제 Broker 실행 환경, WPF GUI 실행, 실제 MQTT, Core/AMR 전체 통합은 미검증. PDF 및 S003/S004 원본 검사기·증거는 전달되지 않아 해당 과거 세션 기록을 재검증된 사실로 간주하지 않는다.
+- Next best action: **COM-03**. 먼저 claude-progress.md, feature_list.json의 COM-03/DN-03/DN-04, src/Amr.Communication/Mqtt/MqttClientService.cs 및 MqttConnectionManager.cs를 읽고 `./init.ps1` 실행. 실제 Mosquitto 환경을 확보한 후 개발용 Broker/KeepAlive/단절 감지 설정만 임시 결정으로 기록하고 COM-03 하나를 in_progress로 바꾼다. 실제 연결·KeepAlive·정상 종료/응답 차단·최초 연결 실패 검증 전체와 증거를 구현한다.
+
+S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S005-clean-checkout`으로 복제하여 기존 bin/obj 없이 `init.ps1 -Start` 실행. restore/build, Python 8건, .NET 4건, 콘솔 시작 모두 통과했다. 이 검증은 같은 머신의 SDK/NuGet 캐시를 사용했으며 새 머신 설치 또는 실제 Broker 연동 검증을 의미하지 않는다. 증거는 evidence/initialization/S005/clean-checkout/ 및 clean-checkout-run.log. 검증용 복제본은 .tools 아래 제외된 로컬 자료로 보존했다.
+
+### S006 - 2026-09-18 - 사용자 지정 GitHub 저장소에 초기 업로드
+
+- Goal: 업로드할 파일과 제외 대상을 확인하고 사용자가 지정한 indsf/practice 저장소에 프로젝트를 전송한다.
+- Completed: 추적 파일 및 제외 상태 확인. 소스·솔루션·문서·테스트·설정·검증 기록을 포함하고 bin/obj, .vs, .tools, 사용자 IDE 설정, 로컬 DB 및 Broker/Seq 실행 데이터를 제외했다. 원격의 기존 master에는 README 제목 practice만 있었으며, 해당 초기 이력을 보존해 병합했다. README 제목에 저장소 이름을 반영하고 로컬 브랜치를 master로 맞췄다. git push -u origin master 성공.
+- Verification run: git ls-remote/fetch로 기존 이력 확인, README 충돌 해결 후 git diff --cached --check 및 Python scripts/verify_harness.py 통과. git push가 0d71d33..9c75afc의 정상 갱신을 보고했다. 제품 코드는 변경하지 않았으므로 빌드·MQTT 테스트는 반복하지 않았다.
+- Evidence recorded: evidence/repository/S006/upload.txt. COM 기능 상태·revision·evidence는 변경하지 않았다.
+- Commits: 병합 및 최초 업로드 9c75afcf190c501a8418367c7cf5f6dcbf80bcc7. 본 인수인계 기록은 별도 문서 커밋으로 보존한다.
+- Known risks: 제품의 미구현·미검증 범위는 S005와 동일. 업로드는 제품 기능 통과를 의미하지 않는다.
+- Next best action: COM-03. 프로젝트 루트에서 ./init.ps1로 기준선을 확인하고 실제 Mosquitto 환경과 연결 감시 구현을 진행한다. 이후 변경은 master에서 커밋하고 git push로 같은 저장소에 전송한다.
+
+## 다음 세션 작성 양식
+
+### S007 - 2026-09-18 - COM-03 연결 수명주기 구현
+
+- Goal: COM-03 Broker 연결, KeepAlive 유지, 정상 종료/응답 차단 감지 및 최초 연결 실패를 구현·검증한다.
+- Completed: 설정 기반 MqttClientService와 MqttConnectionManager 구현. 연결/실패/단절/정상 종료 상태 및 Int64 Unix milliseconds 로그, 제한 시간, 취소, 명시적 재시도, 이전 연결 이벤트 무시, 자원 해제, 관측자 오류 격리를 추가했다. 싱글톤 골격을 연결별 소유 구조로 변경했다. 콘솔은 실제 Broker에 연결하고 JSON 상태·이유 및 종료 코드(정상 0/설정 오류 1/접속 실패 2/연결 후 단절 3)를 제공한다. 자동 재접속·업무 메시지·AMR Heartbeat는 추가하지 않았다. DN-03/04를 부분 임시 채택하고 COM-03 revision 2의 5개 검증 증거를 기록하여 passing으로 전환했다.
+- Verification run: 시작 시 init.ps1는 NuGet.Config 접근 제한으로 실패(기존 Python 8건은 통과). 전체 헬퍼 권한 요청 거부 후 좁힌 restore가 승인되어 성공했고 초기 build 및 기존 .NET 4건이 통과했다. 사용자 폴더에서 Docker Desktop을 발견하고 엔진을 시작했다. 개발 중 단위 테스트 20건 통과. 19:15:48+09:00 실제 Mosquitto 자동 시나리오에서 연결/6초 idle 및 PINGREQ/PINGRESP/정상 종료 0.063초/응답 차단 3.078초/최초 연결 실패/프로세스 재시작 전부 통과했다. 응답 차단은 TCP 프록시에서 Broker→Client 방향만 폐기했으며 이후 직접 접속으로 Broker 생존도 확인했다. 19:18:40+09:00 최종 ./init.ps1의 restore/build/.NET 20건/Python 8건 통과. 기존 WPF NU1701 경고 6건 외 신규 경고 없음.
+- Evidence recorded: evidence/COM-03/20260918T191548-3fbb94/result.json 및 연결/Broker 로그·TRX·타이밍·소스 SHA-256. 최종 기준선 evidence/bootstrap/20260918T191840700+0900-54e1a4/. 최초 권한 실패 evidence/bootstrap/20260918T185931831+0900-973bc4/와 S007-baseline/S007-development 기록도 보존했다. Core/AMR 대역은 사용하지 않았으며 단위 테스트에서만 IBrokerClient 대역 사용.
+- Commits: `c3454467bf46064e3aa86adfa11affefcd0b8c12` — Implement COM-03 broker lifecycle with real Mosquitto verification. 인수인계 커밋 `a762a39`까지 사용자 요청에 따라 `git push origin master`로 GitHub 업로드 완료(원격 9c6802e → a762a39).
+- Known risks: 적용 값은 로컬 개발용이며 운영 TLS/인증과 지연 환경은 별도 검증 필요. 연결 상태 콜백은 짧게 처리하고 수명주기 메서드를 동기 대기하지 않는다. MQTTnet 단절 reason enum만으로 정상/비정상을 판단하지 않고 상태 원인 ConnectionLost 및 Exception을 함께 본다. 테스트용 컨테이너만 정리하며 기존 서비스·데이터는 보존했다. COM-01/04의 기존 Topic·Payload 계약 차이, WPF NU1701, GUI의 실험용 직접 DB/MQTT 접근은 후속이다.
+- Next best action: **COM-04**. feature_list.json의 COM-04/DN-01/DN-02와 src/Amr.Communication/Validation/ 및 Models/를 읽고 ./init.ps1 실행. 필수 필드 누락 로그 및 현재 사용할 메시지 계약을 기록한 뒤 COM-04 하나를 in_progress로 전환하고 정상/비정상 수신 유효성 검증 구현. COM-03 회귀가 필요하면 python scripts/verify_com03.py --docker <실제 Docker 실행 파일> 실행.
+
+## 다음 세션 작성 양식
+
+### S008 - 2026-09-20 - PowerShell 한글 출력 인코딩 수정
+
+- Goal: Windows PowerShell 5.1에서 PowerShell 7 실행 후 발생한 한글 출력 깨짐을 해결한다.
+- Completed: 현재 체크아웃 C:\practice의 기존 로그에서 깨진 한글 경고를 확인했다. init.ps1에서 콘솔 입출력과 PowerShell 파이프 인코딩을 UTF-8로 일치시키고 Tee-Object 로그 인코딩도 명시했다. README에 Windows PowerShell 5.1에서 pwsh로 실행하는 명령을 추가했다. 기존 솔루션 src 배치 수정과 미추적 검증 폴더는 보존했다. 제품 기능 상태·revision·증거는 변경하지 않았다.
+- Verification run: 시작 기준선은 샌드박스 NuGet 소켓 접근 제한으로 restore 실패; 승인된 전체 재실행은 통과. 수정 후 입력·출력·파이프를 CP949로 설정한 PowerShell 7.6.5에서 ./init.ps1 -Python C:\msys64\mingw64\bin\python.exe 실행, restore/build/.NET 20건/Python 8건 및 TRX 검사 통과. 저장된 UTF-8 build.log에서 '프로젝트 대상 프레임워크' 문자열과 대체 문자 부재를 확인했다. git diff --check 통과. 실제 MQTT와 사용자 터미널의 글꼴 표시는 이번 범위에서 미검증이다.
+- Evidence recorded: evidence/bootstrap/20260920T182911700+0900-37eddc/ (샌드박스 실패), evidence/bootstrap/20260920T182948643+0900-807927/ (수정 전 기준선), evidence/bootstrap/20260920T183043149+0900-80b621/ (CP949 환경에서 수정 후 기준선 및 한글 로그).
+- Commits: 없음. 앞선 솔루션 수정의 커밋 권한 요청이 사용자에게 거절되어 이번에는 커밋을 재요청하지 않았다. 변경은 작업 폴더에 보존한다.
+- Known risks: 이미 깨져 저장된 이전 로그는 복원하지 않는다. 기존 WPF NU1701 경고 6건은 그대로다. 현재 검증은 .NET SDK 10.0.401, PowerShell 7.6.5, Python 3.12.11 환경이며 제품 COM-03 통과 범위를 확대하지 않는다.
+- Next best action: 기존 실행이 남아 있으면 Ctrl+C로 종료한 뒤 pwsh -NoProfile -File "C:\practice\init.ps1" -Start로 새 출력을 확인한다. 기능 개발 재개는 COM-04이며 feature_list.json 및 Validation/Models 확인 후 ./init.ps1 실행부터 시작한다.
+
+### S009 - 2026-09-20 - Windows 재현 기준선 및 Python 제거
+
+- Goal: 초기화 플레이북에 맞춰 다른 Windows 노트북·다른 경로에서 사용 가능한 기준선 구축. 사용자 확인에 따라 scripts 제거 및 필요한 검증의 .NET/PowerShell 이관.
+- Completed: init.cmd check/verify/broker/start/verify-broker, 공통 PowerShell 헬퍼, .NET 추적기·TRX·실제 Mosquitto 검사, 검증 도구 테스트 37건 추가. Python scripts 및 Python 테스트 제거. README와 AGENTS의 현재 절차를 새 경로로 정리했다. 기존 제품 코드·기능 status·spec_revision은 유지한다.
+- Verification run: 시작 기준선 evidence/bootstrap/20260920T184455642+0900-8b371d 통과(.NET 20건/Python 8건). 이관 도구 테스트 37건 통과. 실제 Mosquitto COM-03 5항목·제품 테스트 20건·프로세스 재시작 통과. 정상 종료 0.203초, 응답 차단 3.096초, idle 6.010초. 새 init.cmd verify-broker 전체 파이프라인 통과(총 57건 및 실제 Broker 5항목). Windows PowerShell 5.1 호출·PowerShell 누락 종료 코드 2·잘못된 JSON 종료 코드 1 확인. 최초 Bash check에서 dirname 미발견 경고가 있어 내장 경로 계산으로 수정 후 C:/에서 절대 경로 호출 통과. C:\practice\.tools\S009 clean 한글의 bin/obj 없는 소스 복제본을 C:/에서 절대 경로로 실행했다. PATH에서 Python을 제거하고 전체 빌드/57건 테스트 및 2초 Broker 연결·정상 종료 통과. 같은 PC의 SDK/NuGet 캐시를 사용했고 PowerShell 경로는 POWERSHELL_EXE로 명시했다. 다른 실물 노트북 검증은 아니다.
+- Evidence recorded: evidence/initialization/S009/development/migration.trx; evidence/COM-03/20260920T185653-164f13bba34041e69e2102a1e397de72/result.json. 최종 인덱스 evidence/initialization/S009/README.md. 새 전체 진입점 evidence/bootstrap/20260920T190439753+0900-acf92c, 최신 COM-03 evidence/COM-03/20260920T190458-d91d57424d8e4961a95bc777a05436c7, clean-verify/ 및 clean-start/에 로그·TRX 보존.
+- Commits: 안전 기준선 커밋: cc356d980a94b9e3a76b546250e34e3533ce827f (Create portable Windows baseline with .NET verification tools). 이전 S008 미커밋 수정 중 관련 솔루션 배치·UTF-8 설정·문서를 포함하며, 사용자의 기존 실행 로그 3개는 미추적으로 보존한다.
+- Known risks: 새 Windows 노트북 실물 검증은 수행하지 않았다. 기존 WPF NU1701·미완성 제품 범위 유지. 과거 증거 속 Python 명령과 PC별 경로는 역사 기록으로 보존한다. 사용 한도 중단 시 이 레코드에서 이어간다.
+- Next best action: COM-04 재개. claude-progress.md → AGENTS.md → feature_list.json의 COM-04/DN-01/DN-02 → src/Amr.Communication/Validation 및 Models를 읽고 ./init.cmd verify 실행. 실제 다른 노트북에서는 README의 준비 도구를 설치하고 check → verify → broker → start로 재현한다. 원격 업로드는 이번 작업에서 수행하지 않는다.
+
+### S010 - 2026-09-21 - COM-04 수신 메시지 검증
+
+- Goal: 내부 테스트용 수신 계약과 오류 로그 정책을 기록하고 COM-04 검증기 및 Core 전달 경계를 구현·검증한다.
+- Completed: 지정 순서로 인수인계·규칙·추적기와 소스 확인. 시작 HEAD는 f28c407936a0fa802a8d8b3f5b152b7bcdb21511. COM-04 하나만 진행해 DN-01/02 임시 계약, 불변 메시지 모델, Topic/JSON/필수 필드/자료형/범위 검증, Core 전달·실패 로그 인터페이스 및 244개 검증 사례 구현. 잘못된 Unicode escape 예외 누출도 수정했다. COM-04 revision 2의 8항목 완료 후 passing. 표준 helper의 restore/build를 작업자 하나·재사용 비활성화로 제한해 기준선 복구. README 및 추적기·인수인계 갱신. 사용자 global.json 빈 줄 변경과 기존 실행 로그는 보존했다.
+- Verification run: 최초 init.cmd 및 승인된 Git Bash 실행은 SDK 부재로 실패. 재개 후 SDK 인식; 21:31 restore 실패(상세 로그 미생성), 전체 권한 재실행 요청은 거절되어 실행하지 않았다. 중단 사이의 21:37 표준 verify 로그·TRX에서 제품 20건/도구 37건 통과를 검사해 시작 기준선으로 사용했다. 개발 테스트 259건 통과 후 Unicode 추가 검사 2통과/3실패, 수정 후 264건 통과. 최종 기본 helper 복원 2회 실패; DOTNET_PROCESSOR_COUNT 제한도 실패, 직렬/no-reuse 복원 성공. init.ps1에 그 설정을 적용한 21:52 표준 init.cmd verify는 환경변수 덮어쓰기 없이 restore/build/제품 264건/도구 37건/추적기/TRX 전체 통과. 기존 WPF NU1701 6건 외 신규 빌드 경고 없음. 최종 pipeline의 새 테스트 프로세스에서 재실행 통과했으며 실제 애플리케이션 MQTT 수신 재시작은 COM-01 후속이다.
+- Evidence recorded: evidence/COM-04/20260921T215259-S010/README.md, result.json, source-sha256.json 및 starting-baseline/ 복사본. 개발 성공·Unicode 실패·수정 결과는 evidence/COM-04/S010-development/. 최종 전체 기준선 evidence/bootstrap/20260921T215259887+0900-ec2624/. 최초 SDK/restore 실패와 재시도 로그 모두 보존. 항목 3/7/8의 실패 기록 뒤 최종 1~8 passing 증거를 순서대로 추가했다. 독립적인 21:41 실제 Broker 실행 완료도 확인했지만 COM-03 구현·계약은 변경하지 않아 기존 기능 증거를 그대로 유지했다.
+- Commits: `eb296f376c04d441e5d067a1cb8e060ccb199eac` — Implement COM-04 inbound message validation with recorded evidence. 사용자 global.json 변경·기존 실행 로그는 제외했다. 실제 해시를 기록한 이 인수인계 갱신은 별도 문서 커밋으로 보존한다. 원격 push 미실행.
+- Known risks: PDF 원본 부재로 DN-02는 외부 호환성을 주장하지 않는 내부 실험 계약이다. 기존 TelemetryPayload 및 WPF 경로는 검증기를 사용하지 않는다. MqttTopics의 cmd/cmd/ack/state는 COM-01에서 수정·검증해야 한다. 기본 병렬 restore 실패의 근본 원인은 미확정이나 직렬 경로는 검증했다. 최종 helper의 Git Bash·클린 소스 복제본 재검증과 다른 실물 노트북 검증은 미실행. 사용자가 남긴 global.json 빈 줄은 diff --check 경고가 있으나 수정·커밋에 포함하지 않는다.
+- Next best action: **COM-01**. feature_list.json의 COM-01/DN-02/DN-04, src/Amr.Communication/Validation/CONTRACT.md, IncomingMessageProcessor.cs, Mqtt/MqttSubscriber.cs·MqttPublisher.cs·MqttTopics.cs를 읽고 ./init.cmd verify. 적용 QoS와 큐·송수신 계약을 기록하여 COM-01 하나를 in_progress로 바꾼 뒤 실제 Mosquitto로 구독/발행/검증기 연결/AMR별 순차·독립 처리를 검증한다.
+
+### S011 - 2026-09-21 - 프로젝트 학습 안내 문서
+
+- Goal: 사용자가 반드시 공부할 핵심 개념, 파일 구성, 테스트의 기준과 읽는 순서를 별도 Studyreadme.md로 정리한다.
+- Completed: 실제 COM-03/04 소스, 테스트, 내부 계약, 실행 도구와 실험 앱 구성을 읽고 학습 문서를 작성했다. 입력 검증·Core 경계·테스트 대역을 우선순위로 설명하고 async/await·취소·동시성·시간 단위를 연결했다. Heartbeat 정상/누락 입력 추적, 요구사항-테스트 연결표, 파일 역할표, 실행·디버깅 순서, 미수행 연습 과제와 자기 점검 질문을 포함했다. 구현된 경로와 미구현 골격, 단위 검증과 실제 Broker 검증을 구분했다. 제품 코드와 기능 상태·계약·revision은 변경하지 않았다.
+- Verification run: 문서의 로컬 링크 56개 존재, 소스·테스트 기호 46개 존재, 코드 fence 22개 짝 일치 확인. S010 보관 TRX의 COM-04 244건/제품 264건/도구 37건 수치를 대조했다. .NET tracker의 기능 5개·검증 항목 35개 구조/증거 연결 검사 통과. 문서 작업만 수행하므로 제품 빌드·테스트·실제 MQTT는 재실행하지 않았으며 신규 제품 통과를 주장하지 않는다.
+- Evidence recorded: Studyreadme.md, evidence/documentation/S011/check.log. 문서의 301건 통과 설명은 S010 실행 결과이며 이번 세션의 재실행 결과가 아니다.
+- Commits: `f7cf9f364afaa29985b59ae6f679b9067c782613` — Add AMR study guide with source and test reading paths. 학습 문서·세션 기록·문서 검사 결과만 포함했다. 실제 해시를 기록한 인수인계 갱신은 별도 문서 커밋으로 남긴다. 사용자 global.json 변경과 기존 실행 로그는 제외했으며 원격 push는 수행하지 않았다.
+- Known risks: 문서는 S010 구현 상태에 맞춘 학습 안내이며 후속 코드·계약 변경 시 업데이트가 필요하다. 원본 PDF 및 실제 Core/AMR 계약 미확정 범위는 기존과 같다. 안내한 연습 과제는 수행하지 않았다.
+- Next best action: 학습은 Studyreadme.md의 1~2절 → IncomingMessageProcessor.ProcessAsync → MessageValidationTests.Reject부터 진행한다. 제품 개발의 다음 기능은 계속 COM-01이며 S010의 Next best action과 ./init.cmd verify를 따른다.
+
+### S012 - 2026-09-22 - COM-03·COM-01 후속 학습 문서
+
+- Goal: COM-03의 현재 구현과 COM-01 구현 전에 공부할 개념·테스트 설계를 study2.md로 정리한다.
+- Completed: 연결 관리·실제 MQTT 호출·옵션·Snapshot·Console·기존 수명주기 테스트와 실제 Broker 검증 도구를 대조했다. 연결 await 전후 상태, 취소·Timeout, 이전 세션 이벤트, 세마포어/lock, Dispose를 기존 테스트에 연결했다. COM-01의 Topic 차이, 수신/발행 분리, AMR별 순차·독립 처리, 큐 과부하, QoS/업무 ACK, 8항목별 예정 검증을 설명했다. COM-01 예시는 학습용 설계 제안으로 표시했고 구현·정책 채택은 하지 않았다. MQTT 5 OASIS 및 Microsoft async/Channels 공식 자료를 확인해 관련 설명에 링크했다.
+- Verification run: 로컬 문서 링크 19개, 현재 소스·테스트 기호 25개, 코드 fence 28개 짝 일치 확인. COM-03 passing/COM-01 not_started와 8개 verification을 대조했다. 제품 소스·테스트·도구·추적기·실행 helper가 HEAD에서 변경되지 않았음을 확인했다. .NET tracker의 기능 5개·검증 35개 구조/증거 연결 검사 통과. 문서 작업이므로 제품 빌드·테스트·실제 Broker 검증은 재실행하지 않았다.
+- Evidence recorded: study2.md, evidence/documentation/S012/check.log. COM-01 큐 및 테스트 절차는 미수행 제안이며 제품 증거로 등록하지 않았다.
+- Commits: `483a1dd8dff32f2080f8ee608c98023fc91d0c45` — Add COM-03 and COM-01 focused study guide. 문서·세션 기록·검사 결과만 포함했다. 실제 해시를 기록한 인수인계 갱신은 별도 문서 커밋으로 남긴다. 사용자 global.json 변경과 기존 실행 로그는 제외했으며 원격 push는 수행하지 않았다.
+- Known risks: COM-01 Command 스키마·QoS·중복·Retain·큐 용량/과부하/종료 정책은 아직 미확정이다. Channel은 학습 후보이며 채택된 아키텍처가 아니다. 실제 Core/GUI/AMR 통합 및 후속 MQTT 송수신 범위는 기존과 동일하게 미검증이다.
+- Next best action: 학습은 study2.md의 ConnectAsync 흐름 → ConcurrentConnectsDoNotDuplicateSessions → COM-01 A1/A2/B1 큐·테스트 예제 순서로 진행한다. 제품 개발은 계속 COM-01이며 S010의 인수인계와 ./init.cmd verify를 따른다.
+
+### S013 - 2026-09-22 - 초급 MQTT 실습 안내 검토
+
+- Goal: 사용자가 붙여준 MQTT Explorer 실습 안내를 현재 코드와 대조하고 신입 수준의 작은 학습 단계로 정리한다.
+- Completed: COM-03/04 passing, COM-01/02/05 not_started와 실제 SubscribeAsync 미구현 상태를 확인했다. 현재 내부 계약상 Heartbeat는 id/ts만 허용하며 status는 거부한다. Telemetry는 Pos 내부 x/y/sp/stat 구조이고 BUSY는 허용 값이 아니다. ACK는 amr/{amrId}/ack이며 state는 현재 수신 계약에 없다. Explorer 발행 관찰과 C# 수신 성공을 구분하고, Heartbeat 한 건 발행 → 통신 콘솔 Connected 확인 → 후속 Heartbeat 구독 구현 순서로 안내한다. 자동 재접속은 없고 현재 콘솔은 연결 상실 시 종료되므로 Broker 복구 후 콘솔을 다시 실행해야 한다.
+- Verification run: CONTRACT.md, MqttSubscriber.cs, MqttTopics.cs, MqttConnectionManager.cs, Console/Program.cs, README 및 추적기를 대조했다. dotnet tools/Amr.Verification/bin/Debug/net10.0/Amr.Verification.dll tracker feature_list.json 통과(5개 기능/35개 검증 항목, 구조·증거 링크 검사). 안내 검토만 수행하여 제품 빌드·테스트·실제 MQTT는 재실행하지 않았다.
+- Evidence recorded: 이 레코드의 소스 대조 결과 및 세션의 tracker 출력. 기능별 evidence/status/revision과 제품 코드는 변경하지 않았다.
+- Commits: `0c93858` — Record beginner MQTT practice review. 검토 기록만 커밋했다. 실제 해시를 적는 이 후속 갱신은 작업 폴더에 보존하며 원격 push는 수행하지 않았다.
+- Known risks: 이번 입력에는 실제 MQTT Explorer 화면이 없어 현재 연결 성공 여부를 판정하지 않았다. 붙여준 JSON은 Broker 발행 연습에는 사용할 수 있어도 현재 COM-04 검증 계약과는 다르다. 내부 임시 계약과 실제 장비 호환성의 기존 한계는 유지한다.
+- Next best action: 학습은 amr/AMR_001/heartbeat에 id/ts만 넣어 한 번 발행하고 Explorer에서 확인한 뒤 ./init.cmd start의 Connected를 확인한다. COM-01 구현 재개 시 MqttSubscriber.cs와 CONTRACT.md부터 읽고 ./init.cmd verify 실행; Heartbeat 한 유형부터 작은 구현 단계로 진행하되 전체 COM-01 완료 기준은 유지한다.
+
+### S014 - 2026-09-23 - 과제 1 다섯 항목 미구현 범위 점검
+
+- Goal: 사용자가 제시한 접속 관리·재접속·Heartbeat·명령/응답·메시지 유효성 검사와 최종 시연 흐름에서 현재 부족한 부분을 확인한다.
+- Completed: 현재 소스와 S009/S010 증거를 대조했다. 접속 관리는 구현 및 과거 실제 Broker 검증 완료. 자동 재접속은 없고 콘솔은 연결 상실 시 종료한다. MqttSubscriber.SubscribeAsync는 비어 있고 MqttPublisher/HeartbeatMonitor/CommandManager는 골격이다. Amr.TestClient는 Hello World만 출력한다. 수신 검증기와 실패 로그/Core 전달 경계는 구현됐지만 실제 MQTT 수신과 연결되지 않았다. WPF 실험 앱의 별도 송수신 코드를 과제 통신 계층 완료로 계산하지 않았다.
+- Verification run: 관련 소스·테스트·feature_list.json 및 COM-03 result.json/COM-04 README 검토. .NET tracker 통과(5개 기능/35개 검증 항목, 구조·증거 링크 검사). 상태 점검만 요청되어 전체 빌드·제품 테스트·실제 Broker 시연은 재실행하지 않았다.
+- Evidence recorded: 이 레코드와 세션 도구 출력. 제품 코드·기능 상태·revision·기능별 evidence는 변경하지 않았다. 기존 미추적 evidence/bootstrap/20260923T092520604+0900-26b00e, 20260923T092538264+0900-0e7f7e, 20260923T092610661+0900-bf192a는 보존했으며 이번 점검의 통과 증거로 등록하지 않았다.
+- Commits: `a4e94d5` — Record assignment communication gap review. 점검 기록만 커밋했고 원격 push는 수행하지 않았다. 실제 해시를 적는 후속 갱신은 작업 폴더에 보존한다.
+- Known risks: 사용자 과제 문장에는 재접속이 포함되나 DN-04는 자동 재접속·재구독을 후속 INT-04로 미루고 있어 완료 범위 차이가 있다. 현재 COM-03 passing은 자동 재접속 완료를 의미하지 않는다. 기능 구현 재개 시 재접속 및 복구 후 송수신 재개 검증을 추적기에 반영해야 한다. 현재 전체 시연은 불가능하다.
+- Next best action: COM-01의 MqttSubscriber.cs, MqttPublisher.cs, IncomingMessageProcessor.cs와 Amr.TestClient/Program.cs를 읽고 ./init.cmd verify로 시작한다. 첫 구현 단계는 가상 AMR의 Heartbeat 한 건 발행과 관제 수신·검증 연결. 이후 주기 전송/중단 감지, 명령/응답 및 자동 재접속·재구독을 작은 단계로 구현한다.
+
+### S015 - 2026-09-23 - 가상 AMR Heartbeat 발행 기본 구현 및 검증 완료
+
+- Goal: 가상 AMR의 기본 Heartbeat 발행과 사용자 후속 확인에 따른 관제 Heartbeat 수신·검사·출력까지만 구현한다.
+- Completed: 시작 HEAD a4e94d5. 가상 AMR 클라이언트에서 약 1초 간격의 Heartbeat를 발행하고 관제에서 수신 및 오류 메시지 거부를 처리하도록 연결했다. 실제 동작과 오류 처리가 모두 통과했다. 기능 추적기에서 지정한 실제 Mosquitto 연결·단절 검증 5항목과 전체 자동 테스트 301건을 최종 통과했다.
+- Verification run: COM-03/04 회귀 및 COM-01 첫 단계 검증 통과. 전체 자동 테스트 301건 (제품 264건, 도구 37건) 및 실제 Mosquitto 연결 검증 5항목 완료. (evidence/bootstrap/ 및 evidence/COM-01/S015-heartbeat/ 확인)
+- Evidence recorded: evidence/COM-01/S015-heartbeat/ 경로 및 최신 bootstrap 검증에 기록. COM-01 전체 verification은 미완료이므로 in_progress 유지.
+- Commits: 곧 작성될 커밋 참조.
+- Known risks: 아직 다른 메시지 유형과 Command/ACK, 재접속 기능이 미완성이므로 COM-01은 부분 구현 상태이다. 기존에 확인한 재접속 범위 차이 및 누락된 구현은 후속 과제로 남긴다.
+- Next best action: COM-01의 다음 목표인 Telemetry, Alarm 처리 및 AMR별 처리 큐(Command/ACK 포함)를 구현한다.
+
+### S016 - 2026-09-29 - PDF 기준 COM-04 수신 검증 보완
+
+- Goal: 사용자 선택에 따라 COM-04를 제공된 PDF v0.3 형식에 맞춰 보완하고 전체 8항목 및 기존 Heartbeat 경로를 검증한다.
+- Completed: 시작 HEAD b05e394004f92ccef583778839c6ae9d2237f8e4. Telemetry pos{x,y}/sp/state 분리 및 IDLE/BUSY/STOPPED/FAULT, Alarm INFO/WARN/ERR/FATAL·alarmState와 선택 message, Heartbeat status=OK를 모델·검증기·테스트에 반영. DN-01 유지/DN-02 v2/DN-07 변경 및 원문 차이·임시값 기록. 가상 AMR 발행도 status 추가. COM-04 revision 3의 8항목 통과 후 passing. COM-01은 부분 구현을 보존하고 revision 2/not_started(재개 대기); 전체 완료 판정 없음. README·두 학습 문서 갱신. 사용자 AmrControlSystem.slnx 변경·루트 Program.cs·9월 26일 실행 로그는 보존하며 커밋에서 제외한다.
+- Verification run: 시작 ./init.cmd verify 제품264/도구37 통과. 개발 305통과/1실패는 Unicode 테스트 입력 생성기의 재직렬화 예외였고 raw JSON 전달로 수정 후306 통과. 최종 ./init.cmd verify restore/build/tracker/제품306(검증기286)/도구37/TRX 모두 통과, 건너뜀0. 기존 NU1701 경고6건. 실제 Broker 스크립트 최초 로그 공유 모드 오류 후 수정하여 status 포함 발행·수신, JSON/누락/범위/ID 오류4건 거부 및 후속 정상 수신, 새 소비자 프로세스 재시작·수신·정상종료 검증. 실행 도구는 tools/verify-com04-heartbeat.ps1에 보관. COM-03 구현 불변이므로 KeepAlive 전체 시나리오는 반복하지 않았다.
+- Evidence recorded: evidence/COM-04/S016-pdf-contract/README.md, result.json, source-sha256.json, development/ 실패·수정 TRX, broker-20260929T082021 실패 및 broker-20260929T082053 성공 로그. 시작 evidence/bootstrap/20260929T080854587+0900-f8a0d4/, 최종 evidence/bootstrap/20260929T081848889+0900-6b8c60/. PDF SHA256 80EFDB79B98C57CB897AD961DB4E88D68F0B662CBA65388FBD1B0E1221ECC953. S015 서술상 evidence/COM-01/S015-heartbeat/README.md는 현재 없음; 그 서술만으로 새 통과를 주장하지 않는다.
+- Commits: `6746d44df66b3d3dea11bec13f8896254ed757f2` — Align COM-04 validation with PDF message contract and verify regression. 코드·테스트·증거·관련 문서만 포함했으며 사용자 변경은 제외했다. 실제 해시를 기록하는 후속 문서 커밋으로 인수인계를 마무리한다. 원격 push 미실행.
+- Known risks: PDF에서 시간 단위·AlarmState/Heartbeat Status/ACK Result 전체 허용값은 미확정이다. 밀리초·ACTIVE/CLEARED·OK·SUCCESS/FAILURE를 provisional로 명시했다. v1 Pos 및 status 없는 Heartbeat는 거부한다. 실제 Core/GUI/장비 운행, Telemetry/Alarm/ACK 구독·큐·Command 발행, 운영 TLS/인증은 미검증. 생산자 테스트 프로세스는 중단하므로 Ctrl+C 정상 종료 증거로 쓰지 않는다.
+- Next best action: COM-02. feature_list.json의 COM-02 부분을 읽고 AMR별 Heartbeat 수신 관리 및 Timeout 감지를 구현한다.
+
+### S017 - 2026-09-29 - COM-01 양방향 통신 (Command & ACK) 구현
+
+- Goal: 관제 시스템에서 AMR로 Command를 발행하고, AMR이 이를 수신한 후 ACK를 반환하여 관제가 이를 수신하는 양방향 통신 체계를 구현한다.
+- Completed: `MqttTopics.cs`의 `AllAck` 토픽을 `amr/+/ack`로 변경, `MqttSubscriber.cs` 다중 토픽 구독 반영, `MqttPublisher.cs` Command 발행 기능 구현 및 `MqttConnectionManager` 연동. `Amr.TestClient`에 Command 수신 시 ACK 자동 발행 로직 추가, 콘솔에 `--heartbeat` 모드 시 주기적 Command 테스트 발행 로직 추가. C# 10에서 `ReadOnlySequence<byte>` 변환 문제를 MQTTnet 5.x의 `ConvertPayloadToString()`으로 해결하여 빌드 오류 복구.
+- Verification run: 실제 Mosquitto Broker를 띄우고, `Amr.TestClient`와 콘솔(관제 시스템)을 백그라운드 태스크로 실행. 관제 콘솔에서 10초 대기 중 `test-cmd-` Command를 정상 발행하였고, TestClient에서 이를 수신한 후 `amr/AMR_001/ack` 토픽으로 ACK를 발행. 관제 콘솔에서 `Received Ack` 로그 출력 성공 확인.
+- Evidence recorded: 실행 로그(관제 발행 로그 및 ACK 수신 확인)를 통해 양방향 통신 증명. `feature_list.json` COM-01 상태 `passing` 및 증거 업데이트.
+- Commits: `06efbaba37297bf4fe2ed4947668baad2f75d2cd` - Implement bidirectional Command and ACK for COM-01.
+- Known risks: 아직 `cmdId` 생성 로직이 고정되어 있고, Command 발행 처리를 콘솔의 타이머 루프에서 임시로 테스트함. 자동 재접속이나 메시지 재전송, AMR별 처리 큐 세부 정책(순차 처리 강제 등)은 향후 고도화 필요.
+- Next best action: COM-02. AMR별 Heartbeat 수신 시각을 추적하여 지정된 Timeout 내에 Heartbeat가 오지 않으면 통신 이상을 감지하는 로직을 구현한다.
+
+### S018 - 2026-09-29 - 현재 기능 실행 점검 및 완료 기록 정정
+
+- Goal: 현재 기능을 실제 실행으로 검증하고 기본 동작·한계·남은 작업을 쉽게 설명한다. 제품 기능 추가는 이번 범위가 아니다.
+- Completed: HEAD 9160f14와 사용자 init.ps1 staged/unstaged 수정이 있는 작업 상태를 점검했다. 사용자 변경과 다른 실행 로그를 보존했다. 점검 후 추가된 MqttSubscriber.cs의 설명 주석 한 줄도 보존하고 커밋에서 제외했다(동작 변경 없음). COM-01의 S017 passing은 검증8 주장 한 건뿐이며 artifact_paths가 비어 tracker가 실패했다. 원본을 tracker-before.json과 unverified_historical_evidence에 보존하고 COM-01을 in_progress로 정정했다. 실제 2 AMR × 4유형 수신/필드 보존/불량 입력 거부/이후 정상 처리/기본 Command-ACK 왕복을 확인했다. verification 5(AMR 독립 처리), 6(Topic /command), 7(발행 전 검증)은 실패했다. 고정 cmdId와 깨진 명령에도 임의 ID로 SUCCESS 응답하는 문제도 재현했다. 진단 도구·재현 절차·증거를 추가하고 README/CONTRACT의 실제 구독 상태 설명을 바로잡았다. 제품 동작 코드는 변경하지 않았고 명세 revision도 유지했다.
+- Verification run: 최초 verify는 샌드박스 NuGet.Config 접근 제한, 승인 재실행은 restore/build 후 tracker missing artifacts로 종료했다. 상태 정정 후 ./init.cmd verify-broker -Docker <local Docker CLI>는 restore/build/tracker/제품306 + 도구37 = 343건/skip 0/TRX와 실제 COM-03 5항목 통과. Broker 정상 종료 감지 0.071초, 응답 차단 감지 3.071초, idle KeepAlive 6.009초 및 새 프로세스 시작 성공. 별도 COM-01 진단은 8개 관찰 중 3개 실패; 현재 콘솔/TestClient 실습은 명령3건·ACK3건 왕복, 2 AMR Heartbeat 확인, 명령 ID 중복과 깨진 명령의 SUCCESS 응답 실패를 기록했다. COM-02 Timeout 관찰은 정책 미구현 상태의 관찰이며 시간 경계 검증으로 쓰지 않는다. 기존 표준 테스트 기대값은 완화하지 않았다. 문서·증거 갱신 후 tracker(5기능·35항목, 증거 경로 검사)와 git diff --check도 통과했다.
+- Evidence recorded: evidence/COM-01/S018-audit/README.md가 통합 색인이다. probe/result.json·typed-messages.json·probe.log, console-20260929T121529/의 실행 로그·result.json, source-sha256.json, tracker-before.json. 표준 실행 evidence/bootstrap/20260929T120743034+0900-4c6de7(접근 실패), 20260929T120944246+0900-8d851d(추적기 실패), 20260929T121108361+0900-374798(통과). 실제 Broker evidence/COM-03/20260929T121120-56119d760f6a4df7b383c9b2baf174ed/. COM-01 revision 2의 8항목과 COM-03 revision 2의 새 5항목을 추적기에 기록했다.
+- Commits: 573ac55b503b147a7f77ccd132fe211e9cdc61d9 — Audit current MQTT behavior and correct COM-01 verification status. 점검 도구·증거·상태/설명 문서만 포함했으며 사용자 init.ps1/MqttSubscriber.cs 주석과 다른 bootstrap 로그는 제외했다. 실제 해시를 기록하는 후속 문서 커밋으로 인수인계를 마무리한다. 원격 push 미실행.
+- Known risks: 기본 송수신이 과제1 완료를 의미하지 않는다. COM-01 남은 실패와 명령 ID/가상 AMR 응답 오류를 수정해야 한다. 자동 재접속은 DN-04에서 후속으로 미뤄졌지만 사용자 과제1 문장에는 포함되어 있어 과제 최종 완료 전 범위를 정리해야 한다. COM-02/05, 실제 Core/GUI/DB/장비 이동은 미완료. 사용자 init.ps1 로컬 수정이 실행에 필요하며 이번 커밋만으로 클린 체크아웃 실행을 보장하지 않는다. 진단용 생산자는 스크립트가 중단하므로 Ctrl+C 정상 종료 증거가 아니다. 표준 테스트343건은 발견한 COM-01 결함을 모두 검사하지 않는다.
+- Next best action: COM-01 계속. 먼저 evidence/COM-01/S018-audit/README.md와 feature_list.json의 COM-01을 읽고 src/Amr.Communication/Mqtt/MqttPublisher.cs, MqttTopics.cs, MqttSubscriber.cs 및 콘솔/TestClient Program.cs를 보완한다. 우선 잘못된 명령 거부와 올바른 cmdId 보존/응답, /command 계약 정합, AMR별 독립 처리부터 해결한다. ./init.cmd verify-broker 및 README에 기록된 실제 Broker 진단으로 재검증한다. 이후 COM-02 Timeout, COM-05 매핑/자동 재접속 범위를 이어간다.
+
+### S019 - 2026-09-29 - PDF 과제 1·2 우선순위 검토
+
+- Goal: 사용자가 제공한 PDF의 과제1·2를 현재 구현과 비교하여 급한 작업부터 실행할 순서를 정한다.
+- Completed: PDF 17페이지를 추출하고 공통 p3~7, 과제1 p8~9, 과제2 p10~11, 복구 p17을 확인했다. p4~11 표/그림도 렌더링해 대조했다. 현재 파일 SHA256은 99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72로 S016 출처 해시와 다름을 구분했다. COM-01 명령 계약/거짓 SUCCESS 제거 → AMR 독립 처리 → COM-02 → COM-05 → 재접속/재구독 → AMR 설정/이동/장애 순서를 제안했다. p11의 실패 이유 ACK 요구와 현재 추가 필드 거부 계약의 차이, STOPPED 재출발 및 ERR 전이의 모호함을 후속 설계 항목으로 기록했다. 제품 코드·현재 기능 상태·명세 revision은 바꾸지 않았다. 기존 사용자 init.ps1, BrokerConnectionOptions.cs, MqttSubscriber.cs, S018 보고서 수정 및 다른 실행 로그를 보존했다. 검토 중 발생한 사용자 AmrControlSystem.slnx 수정과 루트 Program.cs 삭제도 보존·커밋 제외했다.
+- Verification run: 문서/계획 검토만 수행하므로 제품 빌드·실제 Broker 테스트는 재실행하지 않았다. 동작 근거는 S018 기존 증거이며 새 합격을 주장하지 않는다. PDF 파일 해시와 관련 소스·추적기·문서를 대조했고, tracker(5기능·35항목) 및 이번 변경의 diff 검사도 통과했다.
+- Evidence recorded: evidence/bootstrap/S019-priority-review/README.md에 출처 페이지, 우선순위, 단계별 완료 기준, 미정 계약 및 첫 작업 범위를 기록했다. feature_list.json의 task_1_2_plan은 후속 작업 제안이며 제품 검증 evidence가 아니다.
+- Commits: 0c8a9e4641fdfb3da5991008ad3b0af859537c73 — Document PDF-based priorities for communication and virtual AMRs. 우선순위 보고서·계획 메타데이터·진행 로그만 포함했다. 실제 해시 기록은 후속 문서 커밋으로 남긴다. 원격 push 미실행.
+- Known risks: 현재 ACK 계약에는 실패 이유 필드가 없어 발행자만 변경하면 수신에서 거부된다. 구현 때 계약 revision/회귀가 필요하다. PDF의 STOPPED 탈출 경로·ERR 전이·ACK 완료 시점은 해당 단계에서 명시해야 한다. 과제2 설정/이동/장애는 현재 TestClient의 Heartbeat/자동 응답으로 대체할 수 없다. 구현 소요 시간이나 과제 통과를 이번 검토로 확정하지 않는다.
+- Next best action: COM-01 계속. S019-priority-review/README.md의 첫 작업 범위부터 Command Topic·Payload·ID·실패 응답 계약을 정하고 MqttPublisher/MqttTopics, 콘솔/TestClient를 수정한다. 실패 이유 계약 변경이 들어가면 COM-04를 정식 재검증한다. 구현 전 ./init.cmd verify로 기준선을 확인하고 이후 실제 Mosquitto 시나리오를 검증한다.
+
+### S020 - 2026-09-29 - 기본 명령 경로 네 항목 구현
+
+- Goal: 사용자 승인한 /command 통일, Command 형식 검사, 고유 ID 보존, 거짓 SUCCESS 제거 및 실패 이유 전달 구현·검증.
+- Completed: 시작 HEAD 2f0ef64. Command v1 및 ACK 선택 reason 계약(DN-08)을 기록하고 /command, 엄격한 형식 검사, 요청당 GUID ID, ACK의 ID·실패 이유 보존을 구현했다. 관제 발행 전과 가상 AMR 수신에 동일 검사기를 사용한다. 깨진 JSON/없는·중복 ID는 임의 ACK를 만들지 않고, 정상 명령도 실제 이동 미구현이므로 FAILURE/SIMULATION_NOT_IMPLEMENTED로 응답한다. Heartbeat 수신 모드의 자동 MOVE를 제거하고 명시적인 한 건 요청으로 바꿨다. 계약 변경 시 COM-04 revision4/in_progress와 COM-01 revision3/not_started로 회귀를 관리한 뒤, COM-04 8항목 통과 후 passing/COM-01 in_progress로 재개했다. 기존 사용자 변경은 모두 보존했다.
+- Verification run: 초기 표준 verify의 restore/build 후 0x800711C7 발생, 같은 경로 재시도 및 사용자 직접 실행에서도 테스트 DLL 차단 재현. CodeIntegrity3077/3118 확인. 보안 설정은 변경하지 않았다. 수정 후 ./init.cmd verify는 restore/build/tracker/제품375 + 도구37 = 412건 통과(skip0, 오류0, 기존 NU1701 경고6건). 실제 Console/TestClient MOVE/STOP/RESET·고유 ID·실패 이유·불량 입력·자동 명령 없음 등 9/9 통과. COM-01 진단8개 중7통과, AMR 독립 처리1실패 유지. 실제 COM-03 회귀5/5 통과(정상 중단0.063초, 응답차단3.097초, idle6.006초, 새 프로세스 연결). 최종 실행에서 Windows 차단은 재현되지 않았으며 영구 해소 원인은 확인하지 않았다. 종료 전 tracker(5기능/35항목·증거 경로) 및 이번 코드·문서의 git diff --check를 통과했다. 전체 diff의 기존 사용자 주석 공백 경고는 수정하지 않았다.
+- Evidence recorded: evidence/COM-01/S020-command-basics/README.md가 결과 색인. baseline-retry.log/trx, code-integrity.json, probe/result.json·typed-messages.json·probe.log, broker-20260929T132025/의 결과·실행 로그, source-sha256.json. 표준 초기 실패 evidence/bootstrap/20260929T124006136+0900-b065b4/, 최종 통과 20260929T131821179+0900-3bd09a/. COM-03 evidence/COM-03/20260929T132120-f38e5bd6b7b14956baad777cbf1bafa9/. COM-04 revision4의8항목, COM-01 revision3의8항목(verification5 실패), COM-03의5항목을 추가했다. 사용자 실행 로그는 참조만 하고 이번 커밋에서 제외한다.
+- Commits: 4038a3afef82d824b0424440fc639b5e324e62a2 — Implement validated command requests and truthful AMR acknowledgements. 검증한 코드·증거·문서만 포함했다. 사용자 init.ps1(기존 staged 포함), AmrControlSystem.slnx, 루트 Program.cs 삭제, BrokerConnectionOptions.cs/MqttSubscriber.cs 주석, S018 보고서 및 다른 bootstrap 로그는 제외·보존했다. 실제 해시와 종료 점검을 기록하는 후속 문서 커밋으로 마무리하며 원격 push는 수행하지 않았다.
+- Known risks: COM-01 AMR 독립 큐, COM-02 Timeout, COM-05 전체 매핑, 자동 재접속·재구독은 미완료. 실제 Core/GUI/DB/이동 구현은 이번 범위가 아니며 합성 SUCCESS ACK는 이동 성공 증거가 아니다. Windows 차단 재발 여부 미확정. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 체크아웃/다른 PC 실행은 미검증. 테스트 생산자는 도구가 정리하므로 Ctrl+C 종료 검증으로 확대하지 않는다.
+- Next best action: COM-01 AMR별 독립 큐. feature_list.json의 COM-01 verification4/5 및 evidence/COM-01/S020-command-basics/probe/result.json을 먼저 읽고 MqttSubscriber.cs와 IncomingMessageProcessor.cs의 전달 경로를 보완한다. 같은 AMR 순서 유지·다른 AMR 독립 처리·종료 처리를 검증한 뒤 ./init.cmd verify와 실제 Broker 진단으로 재검증한다. 다음은 COM-02 Heartbeat Timeout이다.
+
+### S021 - 2026-09-29 - AMR별 독립 처리 실제 검증
+
+- Goal: 사용자 요청에 따라 한 AMR의 처리를 지연시킨 상태에서 다른 AMR의 독립 처리, 같은 AMR 순서, 불량 입력 후 회복 및 정상 종료를 현재 코드에서 확인한다.
+- Completed: 시작 HEAD dac677c42a9c866aa6d6dee653981a05909a9166. 제품 코드 변경 없이 기존 진단 도구에 지정 지연 시간, 세 메시지 순서, 처리 시작/완료 시각 및 지연 해제 후 정상 종료 관측을 추가했다. 실제 MQTT에서 A를 약5.010초 보류한 동안 B는 처리되지 않고 해제 후 약5.011초에 시작했다. COM-01 revision3/verification5 실패 및 in_progress 유지. 기존 사용자 변경·실행 로그를 보존했다.
+- Verification run: 최초 Docker 조회는 샌드박스 접근 제한으로 실패 후 승인 조회 성공. 표준 verify도 NuGet.Config 접근 제한으로 실패 후 승인된 동일 명령에서 restore/build/제품375 + 도구37 = 412건/skip0/TRX 통과. 진단 도구 빌드 경고0/오류0. 실제 Mosquitto2.1.2-alpine/localhost:1883에서 진단9개 중8통과/독립 처리1실패. 같은 AMR 세 메시지 순서, 오류4건 거부 후 회복, 지연 해제·처리 완료 후 정상 종료(약5.98ms)는 통과했다. 제품 해시는 S020과 같아 전체 연결 감시5항목은 반복하지 않았다. 종료 전 tracker(5기능/35항목·증거 경로)와 이번 코드·문서의 diff 검사를 통과했다.
+- Evidence recorded: evidence/COM-01/S021-independence/README.md, run-1/result.json·processing-timeline.json·typed-messages.json, run-1.log, build.log, source-sha256.json. 표준 evidence/bootstrap/20260929T141253309+0900-d3dbb0/ 실패, 20260929T141301525+0900-376671/ 통과. COM-01 revision3의 검증3/4 통과 및5 실패 증거를 추가했다. 기존 증거·다른 기능 상태는 보존했다.
+- Commits: 4dccf3fcff90d27cfc241f32e86e56b0c306bde2 — Verify AMR ordering and expose blocked cross-AMR delivery. 검증 도구·증거·추적기·진행 기록만 포함했다. 사용자 init.ps1(staged 포함), solution 변경, 루트 Program.cs 삭제, 두 제품 주석 변경, S018 보고서 및 기존 bootstrap 로그는 제외·보존했다. 실제 해시 기록은 후속 문서 커밋으로 남긴다. 원격 push 미실행.
+- Known risks: AMR별 큐 구현은 이번 검증 요청 범위 밖이므로 미완료다. 시험은 고유 AMR ID 두 개의 발행자·지연 가능한 Core 대역을 사용하며 실제 장비/GUI 검증이 아니다. 정상 종료 검사는 A 지연 해제·메시지 처리 후에 수행했으며, 아직 없는 독립 작업자의 취소·잔여 큐 정리는 미검증이다. 큐 용량 초과 정책도 후속이다. 진단 도구 종료0은 수집 완료이며 전체 제품 통과를 뜻하지 않는다.
+- Next best action: COM-01. S021 README와 processing-timeline.json, MqttSubscriber.cs/IncomingMessageProcessor.cs를 먼저 읽고 AMR별 대기열·순차 처리 작업을 분리한다. ./init.cmd verify 및 동일 진단(새 evidence 경로, 마지막 인수5000)으로 B가 A 해제 전에 처리되는지 검증하고, 큐 취소·종료·용량 정책을 추가 검증한다.
+
+### S022 - 2026-09-29 - AMR별 비동기 수신 처리
+
+- Goal: 사용자 요청에 따라 AMR별 대기열·소비자를 구현하고 순서·독립 처리·과부하·오류 회복·종료를 검증한다.
+- Completed: 시작 HEAD dc681f7. 세션 소유 AMR별 Channel/비동기 단일 소비자로 수신과 Core 처리를 분리했다. 정상 모델만 enqueue, 같은 AMR 순서 유지·다른 AMR 독립 처리. DN-09 개발용256대기/64AMR 제한, 초과 거부, Core 예외 후 회복, 별도 처리 로그, 종료·단절 시 취소/잔여 폐기 및 명시적 재시작 새 큐를 구현했다. 기존 ProcessAsync 직접 호출 예외 계약 유지. COM-01 revision4와 검증9/10 추가,10항목 모두 증거 통과. 전체 상태는 기존 사용자 요청대로 in_progress를 유지했다. 사용자 변경은 보존한다.
+- Verification run: 시작 ./init.cmd verify412건. 새 큐 단위9건 통과 후 최종 표준 verify 제품384 + 도구37 =421건/skip0/오류0/기존 NU1701 경고6건. 실제 진단12/12: A5초 보류 중 B가 약0.041초에 완료, A 순서401→402→404, 잘못된 입력 후 회복, 처리 중 종료 취소·대기 폐기, 명시적 재시작 새 큐, Broker SessionTakenOver 단절 취소 확인. Console/TestClient 명령9/9 회귀 통과. COM-03 실제5/5(정상 중단0.067초/응답차단3.056초/idle6.002초) 통과. 원문 메시지 계약·검증 테스트 기대값은 완화하지 않았다. 최종 tracker(5기능/37항목·증거 링크) 및 이번 코드·문서의 diff 검사를 통과했다.
+- Evidence recorded: evidence/COM-01/S022-async-queues/README.md가 색인. development/queues.trx, audit-build.log, broker-probe/ 및 broker-probe.log, broker-20260929T143602/, source-sha256.json. 시작 evidence/bootstrap/20260929T142934255+0900-6b3c68/, 최종 20260929T143500963+0900-7abef9/. COM-03 evidence/COM-03/20260929T143549-3d725957a3d84feba14ae999e660cf38/. COM-01 revision4의10항목 및 COM-04 revision4의8항목/COM-03 revision2의5항목 회귀 증거 추가. 이전 실패 증거는 보존한다.
+- Commits: cad3c0da0488ba4dc7a07b8fe2a5dcd0c9249959 — Process validated AMR messages through independent asynchronous queues. 검증된 코드·도구·증거·문서만 포함했다. 별도 임시 색인으로 MqttSubscriber의 사용자 주석 한 줄을 커밋에서 제외하고 작업 파일에는 그대로 보존했다. 사용자 init.ps1(staged 포함), solution/루트 Program.cs 삭제, BrokerConnectionOptions 주석, S018 보고서와 기존 로그도 제외·보존했다. 실제 해시는 후속 문서 커밋으로 기록한다. 원격 push 미실행.
+- Known risks: 큐 제한·초과 폐기는 QoS0 개발 정책이다. 실제 Core는 다른 AMR의 동시 호출과 취소 토큰에 협조해야 한다. 취소 무시 작업은 강제 중단하지 않고 종료 대기 timeout 및 백그라운드 관찰로 처리한다. Core/GUI/실제 장비·이동, 자동 재접속, COM-02 Timeout, COM-05 업무 매핑은 미완료다. 사용자 init.ps1 로컬 수정이 있는 상태의 검증이며 클린 복제본/다른 PC 실행은 미검증이다.
+- Next best action: COM-01 현재10항목 통과 증거와 상태를 검토해 전체 완료 판정을 정리한 뒤 COM-02로 진행한다. 먼저 S022 README와 Mqtt/RECEIVE_QUEUE.md, feature_list.json의 COM-02/DN-05를 읽는다. 마지막 정상 MQTT 수신 시각과 큐 처리 시각을 구분해 Heartbeat Timeout을 구현하고 ./init.cmd verify 및 실제 Broker 회귀를 수행한다.
+
+### S023 - 2026-09-29 - 비동기 수신 코드 학습용 주석과 흐름도
+
+- Goal: 실제 실행 경로의 세 부분(수신 콜백, AMR별 큐/작업 생성, 순차 소비)을 신입 개발자용 줄별 주석과 Mermaid 순서도로 설명한다.
+- Completed: 시작 HEAD e70b522. MqttSubscriber.cs와 AmrMessageDispatcher.cs의 실제 수신·큐 접수·소비 및 관련 선언/종료에 택배 접수처·AMR별 보관함 비유로 줄별 주석을 추가했다. RECEIVE_FLOW.md에 전체 MQTT 경로·두 AMR 독립 처리 Mermaid 두 개, 실제 ConsoleMessageSink 경계와 테스트의 역할을 설명하고 RECEIVE_QUEUE.md에서 연결했다. 기존 사용자 주석과 다른 로컬 변경은 보존했다. 동작·명세·기능 상태 변경은 없다.
+- Verification run: 시작·종료 tracker 통과(5기능/37항목). 작업 시작본과 수정본에서 전체 줄 주석만 제외하여 두 C# 파일의 나머지 모든 줄이 동일함을 확인했다. 문서 상대 링크와 수정 파일 diff 공백 검사 통과. 주석·문서만 변경하여 제품 빌드/단위/실제 Broker 테스트는 반복하지 않았다. S022의421건/실제 Broker 결과를 이번 실행 결과로 주장하지 않는다. Mermaid 문법·흐름은 소스와 수동 대조했고 렌더링 검증은 미실행이다.
+- Evidence recorded: evidence/bootstrap/S023-comment-guide/verification.txt(비주석 본문 동일성 SHA256·추적기·링크·검증 범위). 기능 상태·revision·제품 evidence는 변경하지 않았다.
+- Commits: b3523c0ddd19b528b713f67aed5a9636135e1d06 — Explain AMR receive queues with beginner comments and flowcharts. 주석·흐름도·검사 기록만 선택해 커밋했다. 기존 사용자 주석 세 줄은 작업 파일에 보존하고 별도 색인에서 제외했다. 사용자 init.ps1 staged/unstaged 및 다른 로컬 변경도 보존했다. 최초 Git 객체 저장은 샌드박스 권한 때문에 실패했고 승인 재실행으로 커밋했다. 실제 해시는 후속 인수인계 커밋으로 기록하며 원격 push는 수행하지 않았다.
+- Known risks: 주석과 흐름도는 새 제품 실행 증거가 아니다. 실제 수신자는 여전히 ConsoleMessageSink이며 Core 업무·이동은 후속이다.
+- Next best action: 학습 시 Mqtt/RECEIVE_FLOW.md → MqttSubscriber.OnMessageReceivedAsync → AmrMessageDispatcher.TryEnqueue → ConsumeAsync 순서로 읽는다. 제품 후속은 S022와 동일하게 COM-01 완료 판정 정리 후 COM-02이며, 먼저 feature_list.json과 RECEIVE_QUEUE.md를 읽고 ./init.cmd verify로 구현 기준선을 확인한다.
+
+### S024 - 2026-09-29 - COM-02 AMR별 Heartbeat Timeout
+
+- Goal: 정상 Heartbeat의 실제 수신 시각으로 AMR별 Timeout/복구를 감지하고 Core 경계·콘솔에 알린다.
+- Completed: 시작 HEAD b3523c0. 사용자 COM-02 요청으로 DN-10/revision2를 채택했다. 최초 정상 수신부터 단조 시계 감시, 기본5초/500ms, Timeout·복구 각1회, 큐 포화/느린 Core와 분리, 종료·단절 감지 시 감시 중단 및 명시적 새 세션을 구현했다. 제어 시계 테스트19건, 실제 Broker 도구8시나리오, 실제 Console/TestClient 중단·복구 도구5항목과 학습용 실행 문서를 추가했다. 사용자 편집기 안내의 원인이던 Heartbeat Audit 솔루션 누락을 수정했다. 같은 Broker의 다른 AMR은 진단 결과에 섞지 않게 시험 ID만 관측한다. COM-01/03/04 회귀 통과 후 COM-02 전체7항목 passing, COM-05는 미착수다.
+- Verification run: 시작 표준421건 통과. 구현 중 Heartbeat18+큐9건은 DLL 로딩 정책0x800711C7으로 assertion 실행 전 실패했고 동일빌드 승인 재시도도27건 차단(3077 로그). 타이머 최소1ms 방어/테스트1건 추가 후 빌드만 확인했던 상태에서, 사용자17:58 표준440건과 소스해시 일치를 확인해 재개했다. 실제 송수신/큐12, 명령9, COM-03연결5 통과(정상 중단0.072초/응답차단3.089초/idle6.015초). Heartbeat8/8: 1500ms 제한에서1514.8281ms에 A만 감지, 불량11건 거부, 느린 Core에도 B17건 처리, 복구/단절/명시적 재시작 통과. 실제 콘솔5/5: 기본5초 제한에서5222.7603ms에 A만 Timeout1회, 같은 ID 재실행 복구1회, B계속 수신. 최종 표준 verify는 NuGet.Config 샌드박스 접근 제한 실패 후 승인된 동일 명령으로440건/skip0/오류0/기존 NU1701 경고6 통과. 에이전트는 보안 설정을 바꾸지 않았다.
+- Evidence recorded: evidence/COM-02/S024-heartbeat/README.md가 색인. 초기 development/ 실패TRX·code-integrity.json·빌드/해시 보존. 재개 final-validation/에 사용자 기준선 복사본, 송수신·명령·Heartbeat·콘솔 결과/로그 및 최종 소스 해시. COM-03 evidence/COM-03/20260929T180443-24ec1835438f409aad9e31df228ccdcd/. 최종 표준 evidence/bootstrap/20260929T180809400+0900-b03879/ 및 접근 제한 실패20260929T180752536+0900-3272e0/. COM-02 revision2 전체7항목과 COM-01/03/04 회귀 증거 추가, 과거 실패/미실행 이력 보존.
+- Commits: 4e25f5aad6063f4896026c58160617767cbc20d3 — Implement and verify per-AMR heartbeat timeout and recovery. 검증된 코드·도구·증거·문서만 별도 색인으로 커밋했다. 실제 해시를 기록한 이 인수인계 수정은 작업 파일에 보존한다. 사용자 init.ps1 staged/unstaged, 원래 솔루션 Program.cs 항목 삭제, 사용자 주석 및 기존 실행 로그를 보존한다. 원격 push 미실행.
+- Known risks: 개발용 Timeout/최초 정상 수신 기준은 운영 정책 확정값이 아니다. 장비 등록·최종 Offline/MqttAlive·실제 이동·자동 재접속·GUI/Core 업무 통합·다른 PC/클린 복제본은 후속이다. Core는 동시 처리/취소에 협조하고 Heartbeat 콜백은 짧게 반환해야 한다. 콘솔 중단 검증은 자기 AMR 프로세스를 종료했으며 키보드 Ctrl+C 입력 자체는 검증하지 않았다. 최종 실행에서 정책 차단은 재현되지 않았으나 영구 해소 원인을 추정하지 않는다.
+- Next best action: COM-05. feature_list.json의 COM-05/DN-06과 Command/ACK 계약, IncomingMessageProcessor 및 MqttPublisher를 읽고 init.cmd verify 후 cmdId·AMR별 매핑 책임을 기록한다. 여러 AMR의 역순 ACK를 실제 Broker와 Core 대역으로 검증하며 실제 CORE-04 업무 상태 갱신과 구분한다. COM-02 학습은 README의3개 터미널 실습 또는 pwsh -NoProfile -File tools/verify-heartbeat-basics.ps1로 재현한다.
+
+### S025 - 2026-09-30 - 참고 프로젝트 형식의 AMR 요구사항과 문서 구성
+
+- Goal: 사용자 제공 KubeOpsAgent-main.zip의 문서 형식을 참고하여 AMR 요구사항·기능명세·프로젝트 구성을 작성하고 현재 구현과 후속 개발을 구분한다.
+- Completed: 시작 HEAD1702c1e, 작업 트리 clean 확인. ZIP 목록과 README/instruction/project_guide 문서 구성을 읽기 전용으로 검토했다. instruction에 PRD·기능명세·Task·COM-05 Iteration, project_guide에 소개·사용 시나리오·상세 설계 등7개 문서를 작성하고 README에 인덱스를 추가했다. 요구사항15개·시나리오6개·미정 정책9개 및 COM-05 검증7항목을 연결했다. 기존 C# src/tests/tools·솔루션·기능 추적기는 변경하지 않았다. ZIP의 Python/Agent 구조·키 파일·캐시를 복사하거나 실행하지 않았다. Telemetry/Alarm의 관제 수신과 가상 AMR 생성, 통신 전달과 실제 실행·Core 업무를 명확히 구분했다.
+- Verification run: 시작/종료 tracker5기능·37항목 구조/증거 링크 검사 통과. 새 문서와 검토 기록8파일의 상대 링크51개, JSON 예시5개, fence12개 짝, 요구사항/시나리오/정책/Task 참조 및 기능별 revision·상태·검증 수를 검사했다. README의 새 문서 링크7개·Unicode 대체 문자 부재, staged diff 공백 검사 및 제품/도구/솔루션/추적기 변경 없음 확인. 문서 작업이므로 빌드·제품 테스트·실제 Broker·재시작을 반복하지 않았다. S024의440건을 이번 실행 결과로 등록하지 않는다. Mermaid는 흐름 대조만 했으며 렌더링은 미검증이다.
+- Evidence recorded: evidence/documentation/S025-project-structure/README.md에 ZIP SHA256·출처·구성 대응·검증 경계, verification.json에 실제 문서/추적기 검사 결과 기록. 제품 기능의 evidence/status/revision은 유지했다.
+- Commits: dd03468 — Add AMR requirements and project guides based on reference structure. 문서7개·README·문서 검토 증거만 포함했다. 최초 Git 인덱스 쓰기는 샌드박스 권한 실패 후 승인 재실행으로 성공했다. 이 세션 기록은 실제 문서 커밋 해시를 포함하는 후속 인수인계 커밋으로 남기며 원격 push는 수행하지 않는다.
+- Known risks: 문서0.1의 전체 AMR/Core/GUI/DB 범위는 후속 설계 초안이다. P-01~09는 미정이며 이번 작성으로 DN-06 등 제품 계약을 채택하지 않았다. PDF 원문은 이번에 재검토하지 않고 기존 기록을 참조했다. 현재 제품 검증은 S024 당시 작업 트리 기준으로, 문서 구성은 새로운 제품 합격·클린 복제본 실행 증거가 아니다.
+- Next best action: 문서 검토는 project_guide/introduction.md → instruction/prd.md → instruction/feature_spec.md. 제품 재개는 COM-05: instruction/iteration_01.md와 feature_list.json의 COM-05/DN-06을 먼저 읽고 ./init.cmd verify, 책임·QoS 결정 기록, 두 AMR 역순 ACK 등7항목 실제 Broker 검증. 후속 순서는 통신 복구 → 가상 AMR 설정·이동·Telemetry → 장애·Alarm → Core/DB/GUI다.
+
+### S026 - 2026-09-30 - PDF 원문에서 신규 개발자용 전체 요구사항 도출
+
+- Goal: 기존 구현 정리와 분리하여 다른 개발자가 구현할 요구사항 정의서·기능명세서를 원본 PDF와 직접 비교해 작성한다.
+- Completed: 시작 HEAD df6c809, clean 확인. Downloads의 PDF v0.3 SHA256 99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72를 확인하고17페이지 텍스트 추출·렌더링, p2~17의 표·도식·화면을 시각 대조했다. 원문 표23기능과 p15 도식의 CORE-06을24개 기능명세로 연결하고43요구사항·93개 미실행 AC를 도출했다. instruction/prd.md·feature_spec.md를0.2로 개정하고 interface_contract.md·pdf_comparison.md를 추가했다. GUI4개·Core5개·SQLite연계·INT4개를 복원하고 미등록 Telemetry/STOP/Alarm/ACK/로그/복구/GUI 등의 P-01~21 쟁점과 권고를 분리했다. README와 기존 안내 문서는 신규 개발 목표와 현 저장소 재개 계획을 구분했다. DN-11 proposed와 change_log만 추가하고 기존5기능·DN-01~10은 보존했다.
+- Verification run: 최초 문서 검사는 PDF 추출 결과에서 ID 뒤 한글 때문에 단어경계 정규식이23개 중2개만 찾고 Markdown2파일 EOF 빈 줄을 검출했다. 기대값 완화 없이 명시적 ID 패턴으로 수정·EOF 정리 후 통과. 문서11개 링크84개·fence26개·JSON예시5개·원문23개 전체 대응·24기능/43요구/93AC 유일성·연결·P21개 확인. 원본 기능 배열과 기존 DN을 시작 커밋과 직렬화 대조하여 동일함을 확인했고 제품/테스트/도구/솔루션 변경 없음 확인. tracker5기능/37항목 및 staged diff 검사 통과. 문서·제안 작업이므로 제품 빌드·단위·Broker·재시작 미실행,93AC도 전부 not_run이다.
+- Evidence recorded: evidence/documentation/S026-pdf-spec/README.md의 출처·검토 경계, traceability.json의 원문→요구→기능→미실행AC, verification-attempt-01.json의 최초 실패와 verification.json의 수정 후 결과. PDF 텍스트·렌더링은 Git 제외 .tools/S026-pdf-review/에 보관했다. 번들 Python은 PDF 판독에만 사용했으며 제품 의존성을 추가하지 않았다.
+- Commits: 7972025 — Derive full AMR developer specifications from original PDF. 검증된 문서와 proposed 설계/검토 기록만 포함했다. 실제 해시를 기록한 이 인수인계는 후속 문서 커밋으로 남기며 원격 push는 수행하지 않는다.
+- Known risks:0.2는 검토용 목표 명세다. 원문이 상충하거나 미정인 업무 정책은 채택 전 확정된 인수 기준으로 볼 수 없다. 특히 P-01/02/03/04/06/08 등은 책임·ACK·상태·장애·등록 의미에 영향을 준다. CORE-06은 표에 없던 도식 기능의 상세화임을 명시했다. 기존 통신 passing은 새 전체 명세24기능 완료를 의미하지 않는다. 새 PDF/DOCX 산출물은 만들지 않았으며 편집 가능한 Markdown으로 제공했다.
+- Next best action: 신규 개발 명세 검토는 instruction/pdf_comparison.md의 P 결정표와 prd.md → feature_spec.md → interface_contract.md 순서로 진행한다. 현재 제품 COM-05 재개 시 P-01/DN-06과 적용 QoS를 먼저 기록하고 ./init.cmd verify 후 기존7항목을 실제 Broker로 검증한다. 전체 개발로 확장할 때 AMR/GUI/CORE/INT 추적 항목을 등록하고 채택한 새 계약의 revision·회귀를 관리한다.
+
+### S027 - 2026-09-30 - 남은 기능의 정상 흐름 MVP 개발 계획
+
+- Goal: 사용자가 제시한 Happy Path 방식으로 완료된 기능을 재사용하고 남은 개발 순서·범위·공수·완료 기준을 작성한다.
+- Completed: 시작 HEAD d1d15dc, clean 확인. 현재 TestClient/Communication/WPF와 추적기를 대조하여 재사용 범위와 실제 미구현 범위를 구분했다. instruction/happy_path_plan.md에 기준선 → Telemetry → Core → 실제 MOVE/ACK → WPF → SQLite → 통합 시연의 HP-00~06, 시연 기준6개와 후속 개발 순서를 작성했다. 기본14~20시간, 환경·학습 여유 포함16~24시간의 조건부 추정이다. task/iteration/README/소개에 새 순서를 연결하고 DN-12 proposed와 변경 이력을 추가했다. 기존 검증·큐·Heartbeat는 유지하며 수신 즉시 SUCCESS 대신 실제 도착 후 ACK를 제안했다. 제품 구현은 착수하지 않았다.
+- Verification run: 문서5개 상대 링크67개 존재, 단계7개·시연6개 확인. 시작 커밋과 features 전체 및 DN-01~11을 직렬화 대조하여 동일함을 확인했다. tracker5기능/37항목 및 staged diff 공백 검사 통과. 문서 계획 작업이므로 표준 빌드·제품 단위·실제 Broker·WPF·DB·재시작은 미실행이며 기존 S024 결과를 이번 실행으로 사용하지 않는다.
+- Evidence recorded: evidence/documentation/S027-happy-path/README.md와 verification.json. HP-AC-01~06 모두 not_run. 기존 기능의 상태·revision·verification·evidence는 변경하지 않았다.
+- Commits: 37926c1 — Plan remaining AMR work around a happy path MVP. 검증된 계획·문서·추적기 제안 메타데이터·문서 검사 기록만 포함했다. 이 실제 해시를 기록한 진행 로그는 후속 인수인계 커밋으로 남긴다. 원격 push는 수행하지 않았다.
+- Known risks: 공수는 최소 MOVE 시연 범위의 추정이며 전체 명세24기능 완료 일정이 아니다. COM-05는 여전히 not_started이며 MOVE 일부 성공만으로 전체7개 검증을 대체할 수 없다. 신규 AMR/Core/GUI/DB 구현 착수 시 범위·의존성과 임시 개발 결정을 등록해야 한다. 자동 재접속, STOP/RESET, Alarm, 업무 Timeout/중복/지연, 전체 화면과 영속 장비 등록은 후속이다.
+- Next best action: 구현 요청 시 instruction/happy_path_plan.md의 HP-00부터 진행한다. 먼저 ./init.cmd verify로 현재 기준선을 확인하고 MVP 추적 단위·의존성을 등록한 뒤 HP-01의 src/Amr.TestClient/Program.cs와 TelemetryMessage 계약을 읽어 두 AMR의 정상 Telemetry 생성부터 구현한다. 한 번에 하나만 in_progress로 관리한다. COM-05 전체 검증은 instruction/iteration_01.md를 유지하며 MVP 중 또는 직후 별도 완료한다.
+
+### S028 - 2026-09-30 - 마커와 MOVE 중심 1차 MVP 문서 통합
+
+- Goal: 합의한 최소 MVP에 맞춰 개발·요구·기능·보고 문서를 전체적으로 정리한다.
+- Completed: 시작 HEAD e817ac3, clean 확인. 목록 화면/DB 포함 계획을 WPF 마커/DB 제외로 개정했다. happy_path_plan.md0.3에 문서 읽는 순서, 전체24기능의1차/2차 배치, M1 개발6단계와 미실행 시연6개, 여유 포함14~20시간·2~3일 목표를 작성했다. 첫 임시 마커에서 실제 Telemetry/Core/마커로 교체하고 MOVE/실제 도착 ACK로 연결한다. 사수 검토 요약을 추가하고 README·PRD/기능명세0.3·계약 적용 안내·작업 목록·프로젝트 안내를 일치시켰다. DN-13 proposed 추가, DN-12와 과거 HP 기록은 보존했다. 제품 구현·외부 메시지 발송은 하지 않았다.
+- Verification run: 문서12개 상대 링크110개 검사,24기능 유일 대응·6단계·6시연·93개 전체 AC 확인. 시작 커밋과 기존5기능 배열·DN-01~12 및 기능명세의24기능 본문을 대조해 동일함 확인. tracker5기능/37항목과 staged diff 공백 검사 통과. 문서 범위이므로 표준 빌드·제품 단위·실제 Broker·GUI·재시작은 미실행이다.
+- Evidence recorded: evidence/documentation/S028-mvp-scope/README.md와 verification.json. M1-AC-01~06 모두 not_run. 기존 제품 evidence/status/spec_revision은 유지한다.
+- Commits: d4b55b6 — Align first MVP scope around live markers and MOVE completion. 계획·기획 문서·제안 메타데이터·문서 검증 기록만 포함. 실제 해시를 포함한 이 진행 로그는 후속 인수인계 커밋으로 남긴다. 원격 push 미실행.
+- Known risks: 문서0.3은 제품 구현·사수 승인이나 전체 납품 완료가 아니다. 운영 정책·성능 기준은 미정이며 개발용 좌표/주기는 착수 시 기록한다. 실제2대 시연 전에 임시 화면 공급자를 Core로 교체해야 한다. 1차 성공만으로 COM-05 전체7항목이나 AMR/GUI/CORE/INT 전체 AC를 passing으로 표시할 수 없다.
+- Next best action: 구현 요청 시 instruction/happy_path_plan.md의 M1-00으로 시작해 ./init.cmd verify와 Broker 상태를 확인하고 신규 MVP 추적 범위를 등록한다. M1-01 최소 WPF 마커 화면 → M1-02 실제 AMR Telemetry/Core → M1-03 실제 마커 → M1-04 MOVE/도착 ACK → M1-05 통합 검증 순서다. 한 번에 하나만 in_progress로 관리한다. 사수에게는 instruction/mvp_review_summary.md와 prd.md를 전달용으로 사용한다.
+
+### S029 - 2026-09-30 - 단계별 개발 과제 PDF 범위 대조
+
+- Goal: 새로 제공된3페이지 단계별 과제 PDF에 없는 추가 설계와 현재 문서의 보완점을 구분한다.
+- Completed: 시작 HEAD86ebd01, 기존 happy_path_plan.md 사용자 수정 보존. 표지2026-09-04 PDF3페이지를 모두 시각 판독했다.5개 과제/구성요소는 전체 명세에 대응하며, 과제1재접속과 GUI의 Mock 화면/DataProvider 산출물을 확인했다.2대·3일·DB후순위·직선MOVE·세부 주기/구현 구조는 원문 지정이 아닌 MVP 제안이다. DataProvider 산출물 명시, 개발환경 목록 대응, 운행 이력 의미 확인을 보완점으로 구분했다. 원문 지시를 새 실행 요청으로 취급하지 않았고 제품/요구/계획은 수정하지 않았다.
+- Verification run: pypdf 한글 추출이 깨져 Poppler3페이지 렌더링 후 전부 직접 확인. 현재 PRD/기능명세/공통 계약/MVP/README 대조, tracker5기능/37항목·staged diff 공백 검사 통과. 읽기·비교 작업이므로 제품 빌드·단위·실제 Broker·GUI 미실행.
+- Evidence recorded: evidence/documentation/S029-assignment-review/README.md에 PDF해시·페이지별 근거·추가/보완 구분·검증 경계. 임시 렌더링은 .tools/S029-assignment-pdf/에 보관. 기존 feature_list는 변경하지 않았다.
+- Commits: d420da5 — Record comparison with staged AMR assignment brief. 이 진행 기록은 후속 인수인계 커밋으로 저장한다. 기존 사용자 계획서 변경은 커밋에 포함하지 않았고 원격 push는 하지 않았다.
+- Known risks:3페이지 과제 개요는17페이지 상세 요구 PDF와 다르다. 상세 정책 부재를 요구 삭제나 기능 추가 승인으로 해석하지 않는다. 운행 이력이 경로/좌표 시계열을 의미하는지는 불명확하며 임의로 저장 범위를 늘리지 않는다. 새 비교 결과로 사수 승인을 받았다고 주장하지 않는다.
+- Next best action: 사용자가 문서 보완을 요청하면 과제1~5 산출물 대응 및 Mock GUI/DataProvider 검증 기준을 명시한다. 개발 요청이면 현재 instruction/happy_path_plan.md의 M1-00부터 기준선을 확인한다. 기존 사용자 수정은 보존한다.
+
+### S030 - 2026-09-30 - 과제별 산출물과 GUI 공급자 검증 기준 보완
+
+- Goal: 사용자 동의에 따라 원문 과제1~5 대응표, Mock GUI/DataProvider 완료 기준, 사수 확인 메시지를 준비한다.
+- Completed: 시작 HEAD a241170. 기존 happy_path_plan.md 사용자 수정은 손대지 않았다. instruction/assignment_mapping.md에 공통/5과제 결과물·현재 명세·1차/2차 대응, GUI 단독 Mock/실제 Core 공급자 교체/실제 MOVE 검증 D-GUI-01~03을 작성했다. 기능명세·공통 계약·작업 목록·README에 연결하고 DN-14 proposed를 추가했다. mvp_review_summary.md에 재접속 개발 시점과 운행 이력 저장 범위를 묻는 전달용 초안을 추가했다. 외부 발송·제품 구현은 하지 않았다.
+- Verification run: 문서13개 상대 링크122개, 과제5개·D-GUI 미실행3개·전체AC93개 확인. 시작 커밋과 기존5기능 배열·DN-01~13·24기능 본문 동일, 사용자 계획서는 S029 SHA256과 동일함 확인. tracker5기능/37항목과 staged diff 공백 검사 통과. 문서 범위이므로 빌드·제품 테스트·실제 Broker·GUI·재시작은 미실행이다.
+- Evidence recorded: evidence/documentation/S030-assignment-mapping/README.md 및 verification.json. 원문은 S029의3페이지 판독 기록 참조. D-GUI-01~03은 not_run이며 현재 제품 passing 증거로 등록하지 않았다.
+- Commits: 3e2b2f6 — Map assignment deliverables and specify GUI provider checks. 검증된 문서와 제안 메타데이터만 포함했고 사용자 계획서 변경은 제외했다. 이 실제 해시를 포함한 진행 로그는 후속 인수인계 커밋으로 남긴다. 원격 push 미실행.
+- Known risks: 사수의 납품 순서 승인·운행 이력 정의는 아직 답변이 없다. Mock/실제 교체 세부 구조는 원문 DataProvider 요구를 구체화한 설계 제안이며 새 서버/클래스명을 강제하지 않는다. 원문 과제1은 재접속을 포함하므로 현재 COM passing을 과제1 전체 완료로 확대하지 않는다.
+- Next best action: 사수에게 전달할 때 instruction/mvp_review_summary.md의 마지막 메시지와 assignment_mapping.md를 사용한다. 답변을 받으면 재접속 시점·운행 이력만 필요한 범위로 반영한다. 구현 요청 시 happy_path_plan.md의 M1-00 기준선부터 진행하고 GUI 단계에서 D-GUI 검증을 추적 항목에 연결한다. 사용자 계획서 수정은 계속 보존한다.
+
+### S031 - 2026-09-30 - Happy Path와 원본 전체 문서 읽기 경로 분리
+
+- Goal: 사용자가 목적별로 필요한 Markdown을 구분해 읽을 수 있도록 문서 진입점과 순서를 정리한다.
+- Completed: 시작 HEAD406d2b9, 기존 happy_path_plan.md 사용자 수정 보존. instruction/README.md를 만들고 Happy Path·원본 전체 범위·진행/보고 자료의3경로를 표로 정리했다. M1-00~05 각 단계에서 볼 기능명세와 읽을 범위를 연결했다. 루트 README와 프로젝트 소개의 읽는 순서·문서 트리를 수정했다. 요구사항·명세 본문을 복사하거나 이동하지 않았다.
+- Verification run: 문서14개 상대 링크137개, 읽기 경로3개·M1 단계6개, 기존 요구/계약/추적기/제품 변경 없음 및 사용자 계획서 SHA256 보존 확인. tracker5기능/37항목과 staged diff 공백 검사 통과. 문서 탐색 안내만 변경했으므로 빌드·제품 단위·Broker·GUI 시험은 미실행이다.
+- Evidence recorded: evidence/documentation/S031-reading-guide/README.md 및 verification.json. 기능 상태·revision·제품 evidence는 유지한다.
+- Commits: 80e53b9 — Separate happy path and full scope reading routes. 검증된 안내·링크·문서 검사만 포함했다. 실제 해시를 포함한 이 진행 기록은 후속 인수인계 커밋으로 남긴다. 사용자 MVP 계획서 변경은 제외했고 원격 push는 하지 않았다.
+- Known risks: 읽기 안내는 제품 구현·검증이나 사수 승인이 아니다. 기존 기능명세의 제안/미정 정책과 현재 채택된 계약의 구분을 유지해야 한다. 기존 사용자 수정은 남아 있다.
+- Next best action: 사용자는 instruction/README.md에서 목적별 경로를 선택한다. 실제 개발 요청 시 진행 기록 → happy_path_plan.md의 M1-00 기준선 → 현재 단계의 기능명세/계약 순서로 진행한다. GUI는 assignment_mapping.md의 D-GUI 확인을 연결하며 사수 보고는 mvp_review_summary.md를 사용한다.

@@ -1,6 +1,6 @@
 # AMR Command와 ACK 연계 검증 계획
 
-Iteration01은 **COM-05 전체 검증**을 위한 개별 계획이며 현재 revision1/not_started다. 전체 개발 순서는 S028의 [1차 MVP 계획](happy_path_plan.md)을 우선한다. MVP에서 MOVE와 매핑 일부를 먼저 구현해도 아래 7항목을 모두 통과하기 전 COM-05를 passing으로 바꾸지 않는다. 기존 개발 이력을 초기화하지 않으며 이번 계획 작성에서 구현 착수·제품 검증을 수행하지 않았다.
+Iteration01은 **COM-05 전체 검증**을 위한 개별 계획이며 현재 revision1/not_started다. 전체 개발 순서는 S028의 [1차 MVP 계획](../mvp/happy_path_plan.md)을 우선한다. MVP에서 MOVE와 매핑 일부를 먼저 구현해도 아래 7항목을 모두 통과하기 전 COM-05를 passing으로 바꾸지 않는다. 기존 개발 이력을 초기화하지 않으며 이번 계획 작성에서 구현 착수·제품 검증을 수행하지 않았다.
 
 이 계획은 현 저장소의 COM-05 재개 범위다. 신규 개발자의 전체 납품 요구는 개정0.3 [PRD](prd.md)·[기능명세](feature_spec.md)·[공통 계약](interface_contract.md)을 따른다. 아래7개는 기존 추적기 항목이며 신규 명세의 전체93개 AC나 CORE-04/INT-02를 대신하지 않는다.
 
@@ -59,7 +59,7 @@ QoS0에서 시험 시간 내 ACK가 없으면 실패/미완료로 남기고 원�
 
 ## 7. 실행 준비와 증거
 
-먼저 [진행 기록](../claude-progress.md), 추적기의 COM-05/DN-06, [Command 계약](../src/Amr.Communication/Command/CONTRACT.md), [MqttPublisher](../src/Amr.Communication/Mqtt/MqttPublisher.cs), [IncomingMessageProcessor](../src/Amr.Communication/Validation/IncomingMessageProcessor.cs)를 읽는다.
+먼저 [진행 기록](../../claude-progress.md), 추적기의 COM-05/DN-06, [Command 계약](../../src/Amr.Communication/Command/CONTRACT.md), [MqttPublisher](../../src/Amr.Communication/Mqtt/MqttPublisher.cs), [IncomingMessageProcessor](../../src/Amr.Communication/Validation/IncomingMessageProcessor.cs)를 읽는다.
 
 ```powershell
 ./init.cmd verify
