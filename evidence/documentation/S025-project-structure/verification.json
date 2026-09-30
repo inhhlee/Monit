@@ -1,0 +1,21 @@
+{
+  "executed_at": "2026-09-30T11:56:40.5144181+09:00",
+  "scope": "Documentation structure and specification draft only",
+  "source_commit": "1702c1e8b063f52cb59d80816c49f3dcadd6c9be",
+  "document_count": 8,
+  "relative_links_checked": 51,
+  "json_examples_parsed": 5,
+  "balanced_fence_markers": 12,
+  "requirements_count": 15,
+  "scenario_count": 6,
+  "pending_policy_count": 9,
+  "com05_verification_plan_count": 7,
+  "feature_snapshot_matches": true,
+  "tracker_output": "PASS: 5 features, 37 verification items; structure and artifact links only",
+  "tracker_exit_code": 0,
+  "product_changes": [],
+  "product_tests": "not_run: documentation-only; S024 results remain historical",
+  "mermaid_render": "not_run: source and contract flow reviewed",
+  "failures": [],
+  "result": "passed"
+}

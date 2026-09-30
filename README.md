@@ -4,6 +4,22 @@
 
 이 기준선은 **다른 Windows 노트북과 다른 체크아웃 경로에서 같은 명령으로 시작하는 것**을 목표로 한다. WPF 때문에 macOS/Linux 전체 솔루션 실행은 지원하지 않는다. 새 노트북 실물 검증 여부와 최근 증거는 [진행 기록](claude-progress.md)을 따른다.
 
+## 기획과 설계 문서
+
+사용자 제공 KubeOpsAgent의 문서 구성을 참고해 `instruction/`과 `project_guide/`를 추가했다. 기존 C# 소스·테스트·도구 구조는 유지한다. 문서 버전0.1은 현재 적용 계약과 후속 개발 제안을 구분하며, 실제 기능 상태·명세 변경·증거의 기준은 계속 `feature_list.json`과 `claude-progress.md`다.
+
+| 문서 | 내용 |
+| --- | --- |
+| [프로젝트 소개](project_guide/introduction.md) | 목표·현재 상태·폴더 구성·읽는 순서 |
+| [요구사항 정의서](instruction/prd.md) | 범위·요구사항·인수 목표·결정 대기 사항 |
+| [기능명세서](instruction/feature_spec.md) | 입력·처리·출력·예외·메시지 계약·검증 |
+| [사용자 시나리오](project_guide/user_scenario.md) | 생존·명령·이동·장애·복구·통합 흐름 |
+| [상세 설계](project_guide/detail_architecture.md) | 현재/목표 구조·책임·인터페이스 |
+| [개발 작업 목록](instruction/task.md) | 단계별 작업과 완료 기준 |
+| [Iteration 01](instruction/iteration_01.md) | 다음 COM-05의 범위와7개 검증 계획 |
+
+Telemetry·Alarm의 관제 수신은 구현됐지만 가상 AMR의 실제 생성·발행은 후속이다. 위 문서 작성으로 제품 기능 상태나 계약 revision을 변경하지 않았다.
+
 ## 다른 Windows PC에서 처음 시작하기
 
 1. Git for Windows, **.NET SDK 10.0.401**(global.json이 허용하는 10.0.4xx 패치), **PowerShell 7.4 이상**을 설치하고 터미널을 새로 연다. Python과 Codex 전용 런타임은 필요하지 않다.
