@@ -1,0 +1,47 @@
+{
+  "session": "S027",
+  "baseline_commit": "d1d15dc",
+  "result": "passed",
+  "scope": "documentation checks only",
+  "checks": {
+    "documents": 5,
+    "relative_links": 67,
+    "plan_stages": 7,
+    "proposed_scenarios": 6,
+    "features_unchanged": true,
+    "previous_design_notes_unchanged": true,
+    "tracker": "PASS: 5 features, 37 verification items",
+    "diff_whitespace": "passed"
+  },
+  "product_validation": {
+    "result": "not_run",
+    "reason": "Documentation-only planning; source, tests, solution and product contracts unchanged"
+  },
+  "scenario_results": [
+    {
+      "id": "HP-AC-01",
+      "result": "not_run"
+    },
+    {
+      "id": "HP-AC-02",
+      "result": "not_run"
+    },
+    {
+      "id": "HP-AC-03",
+      "result": "not_run"
+    },
+    {
+      "id": "HP-AC-04",
+      "result": "not_run"
+    },
+    {
+      "id": "HP-AC-05",
+      "result": "not_run"
+    },
+    {
+      "id": "HP-AC-06",
+      "result": "not_run"
+    }
+  ],
+  "executed_at": "2026-09-30T15:38:06.1251834+09:00"
+}

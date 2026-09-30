@@ -29,7 +29,7 @@ S024에서 자동 테스트440건과 실제 Broker 시나리오가 통과했다.
 
 ## 4. 목표 범위
 
-통신 기반 → 자동 복구 → 가상 AMR2대의 설정·이동·Telemetry·Alarm → Core·SQLite → GUI 통합을 목표로 한다. 물리 로봇과 고급 경로 탐색·충돌 회피는 범위 밖이다. [PRD](../instruction/prd.md)에 단계와 결정 대기 사항을 정의했다.
+전체 목표는 가상 AMR2대의 설정·이동·Telemetry·Alarm, Core·SQLite·GUI 통합과 통신 복구다. 실행 순서는 [정상 흐름 MVP 계획](../instruction/happy_path_plan.md)에 따라 Telemetry → Core → MOVE/ACK → WPF → DB → 통합 시연을 우선하고 복구·장애 정책을 확장한다. 물리 로봇과 고급 경로 탐색·충돌 회피는 범위 밖이다. 전체 요구와 결정 대기 사항은 [PRD](../instruction/prd.md)에 유지한다.
 
 ## 5. 데이터 흐름
 
@@ -53,7 +53,8 @@ C#/.NET·MQTTnet·Mosquitto는 기존 구현 기반이다. Windows/WPF는 화면
 │   ├── interface_contract.md         공통 데이터·인터페이스
 │   ├── pdf_comparison.md             원문 비교·결정대장
 │   ├── task.md                       개발 작업
-│   └── iteration_01.md               다음 COM-05 계획
+│   ├── happy_path_plan.md            남은 기능의 MVP 우선 개발 계획
+│   └── iteration_01.md               COM-05 전체 검증 계획
 ├── project_guide/
 │   ├── introduction.md               소개
 │   ├── user_scenario.md              사용자 시나리오
