@@ -6,14 +6,14 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-30, Asia/Seoul. S030 과제 산출물 대응·GUI DataProvider 기준 보완; 최신 제품 실행 검증은 S024(2026-09-29). |
+| Last updated | 2026-09-30, Asia/Seoul. S031 Happy Path·원본 전체 문서 읽기 경로 분리; 최신 제품 실행 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목37개(COM-01 과부하·종료2항목 추가). |
 | Highest priority unfinished feature | 현재 등록 기능 중 COM-05 Command/ACK 식별자 연계가 미완료. 사용자 요청의 다음 개발 순서는 happy_path_plan.md의 M1-00~05이며 신규 범위·의존성은 구현 착수 시 등록한다. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
-| Planning documents | S026: PDF v0.3 직접 대조한 instruction/prd.md·feature_spec.md 0.2 및 interface_contract.md·pdf_comparison.md. 원문23개+도식CORE-06=24기능·43요구·93미실행AC·P-01~21. DN-11 proposed, 현재5기능의 실행 계약·revision·증거 유지. S028 PRD/기능명세0.3은 전체 요구·93AC를 유지하고 단계 적용 안내를 추가. happy_path_plan.md의 실제2대 Telemetry/Core/마커/MOVE/도착 ACK가1차, DB는2차다. 여유 포함14~20시간 목표, 사수 검토 요약 추가, DN-13 proposed. COM-05 전체7항목 유지. S030 assignment_mapping.md에 과제1~5와 D-GUI 미실행3항목 연결, DN-14 proposed 및 사수 확인 초안 추가. |
+| Planning documents | S026: PDF v0.3 직접 대조한 instruction/prd.md·feature_spec.md 0.2 및 interface_contract.md·pdf_comparison.md. 원문23개+도식CORE-06=24기능·43요구·93미실행AC·P-01~21. DN-11 proposed, 현재5기능의 실행 계약·revision·증거 유지. S028 PRD/기능명세0.3은 전체 요구·93AC를 유지하고 단계 적용 안내를 추가. happy_path_plan.md의 실제2대 Telemetry/Core/마커/MOVE/도착 ACK가1차, DB는2차다. 여유 포함14~20시간 목표, 사수 검토 요약 추가, DN-13 proposed. COM-05 전체7항목 유지. S030 assignment_mapping.md에 과제1~5와 D-GUI 미실행3항목 연결, DN-14 proposed 및 사수 확인 초안 추가. S031 instruction/README.md에서 Happy Path/원본 전체/진행·보고별 읽기 안내. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -332,3 +332,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: 3e2b2f6 — Map assignment deliverables and specify GUI provider checks. 검증된 문서와 제안 메타데이터만 포함했고 사용자 계획서 변경은 제외했다. 이 실제 해시를 포함한 진행 로그는 후속 인수인계 커밋으로 남긴다. 원격 push 미실행.
 - Known risks: 사수의 납품 순서 승인·운행 이력 정의는 아직 답변이 없다. Mock/실제 교체 세부 구조는 원문 DataProvider 요구를 구체화한 설계 제안이며 새 서버/클래스명을 강제하지 않는다. 원문 과제1은 재접속을 포함하므로 현재 COM passing을 과제1 전체 완료로 확대하지 않는다.
 - Next best action: 사수에게 전달할 때 instruction/mvp_review_summary.md의 마지막 메시지와 assignment_mapping.md를 사용한다. 답변을 받으면 재접속 시점·운행 이력만 필요한 범위로 반영한다. 구현 요청 시 happy_path_plan.md의 M1-00 기준선부터 진행하고 GUI 단계에서 D-GUI 검증을 추적 항목에 연결한다. 사용자 계획서 수정은 계속 보존한다.
+
+### S031 - 2026-09-30 - Happy Path와 원본 전체 문서 읽기 경로 분리
+
+- Goal: 사용자가 목적별로 필요한 Markdown을 구분해 읽을 수 있도록 문서 진입점과 순서를 정리한다.
+- Completed: 시작 HEAD406d2b9, 기존 happy_path_plan.md 사용자 수정 보존. instruction/README.md를 만들고 Happy Path·원본 전체 범위·진행/보고 자료의3경로를 표로 정리했다. M1-00~05 각 단계에서 볼 기능명세와 읽을 범위를 연결했다. 루트 README와 프로젝트 소개의 읽는 순서·문서 트리를 수정했다. 요구사항·명세 본문을 복사하거나 이동하지 않았다.
+- Verification run: 문서14개 상대 링크137개, 읽기 경로3개·M1 단계6개, 기존 요구/계약/추적기/제품 변경 없음 및 사용자 계획서 SHA256 보존 확인. tracker5기능/37항목과 staged diff 공백 검사 통과. 문서 탐색 안내만 변경했으므로 빌드·제품 단위·Broker·GUI 시험은 미실행이다.
+- Evidence recorded: evidence/documentation/S031-reading-guide/README.md 및 verification.json. 기능 상태·revision·제품 evidence는 유지한다.
+- Commits: 80e53b9 — Separate happy path and full scope reading routes. 검증된 안내·링크·문서 검사만 포함했다. 실제 해시를 포함한 이 진행 기록은 후속 인수인계 커밋으로 남긴다. 사용자 MVP 계획서 변경은 제외했고 원격 push는 하지 않았다.
+- Known risks: 읽기 안내는 제품 구현·검증이나 사수 승인이 아니다. 기존 기능명세의 제안/미정 정책과 현재 채택된 계약의 구분을 유지해야 한다. 기존 사용자 수정은 남아 있다.
+- Next best action: 사용자는 instruction/README.md에서 목적별 경로를 선택한다. 실제 개발 요청 시 진행 기록 → happy_path_plan.md의 M1-00 기준선 → 현재 단계의 기능명세/계약 순서로 진행한다. GUI는 assignment_mapping.md의 D-GUI 확인을 연결하며 사수 보고는 mvp_review_summary.md를 사용한다.
