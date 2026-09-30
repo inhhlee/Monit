@@ -6,24 +6,16 @@
 
 ## 기획과 설계 문서
 
-사용자 제공 KubeOpsAgent의 문서 구성을 참고해 `instruction/`과 `project_guide/`를 추가했다. 요구사항·기능명세는 PDF v0.3 원문을 대조하여 **다른 개발자가 구현할 전체 제품의 목표**로 개정했다. 문서0.3은 최종 범위를 유지하면서 1차 MVP와 2차를 구분한다. 현재 구현 상태는 PDF 비교서와 진행 로그에 분리했다. 기존 C# 소스·테스트·도구 구조와 제품 실행 계약은 유지하며, 실제 기능 상태·revision·증거는 계속 `feature_list.json`이 기준이다.
+**먼저 [문서 읽기 안내](instruction/README.md)를 연다.** Happy Path와 원본 전체 범위를 나누고, 각 경로의 읽는 순서·현재 단계에서 필요한 부분을 표로 정리했다. 같은 프로젝트의1차 목표와 최종 목표이며 명세를 두 벌로 복사하지 않는다.
 
-| 문서 | 내용 |
-| --- | --- |
-| [프로젝트 소개](project_guide/introduction.md) | 목표·현재 상태·폴더 구성·읽는 순서 |
-| [요구사항 정의서](instruction/prd.md) | 범위·요구사항·인수 목표·결정 대기 사항 |
-| [기능명세서](instruction/feature_spec.md) | 입력·처리·출력·예외·메시지 계약·검증 |
-| [공통 데이터와 인터페이스](instruction/interface_contract.md) | wire·Core/GUI·저장·상태·설정·시험 프로파일 |
-| [PDF 비교와 결정대장](instruction/pdf_comparison.md) | 원문 페이지별 대응·누락·충돌·권고·현재 구현 차이 |
-| [사용자 시나리오](project_guide/user_scenario.md) | 생존·명령·이동·장애·복구·통합 흐름 |
-| [상세 설계](project_guide/detail_architecture.md) | 현재/목표 구조·책임·인터페이스 |
-| [개발 작업 목록](instruction/task.md) | 단계별 작업과 완료 기준 |
-| [1차 MVP 개발 계획](instruction/happy_path_plan.md) | 매일 볼 문서: 24기능 단계 배치·마커/MOVE 개발 순서·시연 기준 |
-| [사수 검토 요약](instruction/mvp_review_summary.md) | 전달용 목표·1차/2차 범위·3일 일정·검토 요청 |
-| [과제별 산출물 대응표](instruction/assignment_mapping.md) | 원문 과제1~5 연결·Mock GUI/DataProvider 완료 기준·확인 사항 |
-| [Iteration 01](instruction/iteration_01.md) | COM-05의 범위와7개 전체 검증 계획 |
+| 지금 필요한 것 | 읽을 경로 | 중심 문서 |
+| --- | --- | --- |
+| 1차 MVP 개발 | 문서 읽기 안내의 Happy Path 절 | [MVP 개발 계획](instruction/happy_path_plan.md) → 현재 단계의 기능명세·계약 |
+| 원본 전체 범위 확인 | 문서 읽기 안내의 원본 전체 범위 절 | [과제 대응표](instruction/assignment_mapping.md) → [PRD](instruction/prd.md) → [전체 기능명세](instruction/feature_spec.md) |
+| 현재 진행 상태 | 문서 읽기 안내의 진행 상태와 보고 자료 절 | [진행 기록](claude-progress.md)과 feature_list.json |
+| 사수 검토·보고 | 문서 읽기 안내의 진행 상태와 보고 자료 절 | [MVP 검토 요약](instruction/mvp_review_summary.md)과 과제 대응표 |
 
-신규 개발자는 요구사항 → 기능명세 → 공통 계약 → PDF 비교/결정대장 순으로 읽는다. 개발 작업 목록과 Iteration01은 기존 저장소의 재개 계획이다. Telemetry·Alarm의 관제 수신은 구현됐지만 가상 AMR의 실제 생성·발행은 후속이다. 문서 개정으로 제품 기능 상태나 실행 계약 revision을 변경하지 않았다.
+요구사항·기능명세0.3은 원본 PDF에서 도출한 전체 목표를 유지하면서1차/2차 적용을 구분한다. 기존 설계 제안은 원문 요구와 구분하며 현재 구현 상태·revision·증거는 계속 `feature_list.json`이 기준이다. Telemetry·Alarm의 수신과 가상 AMR의 실제 생성, 문서 작성과 제품 구현 완료를 구분한다.
 
 ## 다른 Windows PC에서 처음 시작하기
 

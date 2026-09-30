@@ -1,0 +1,15 @@
+{
+  "session": "S031",
+  "executed_at": "2026-09-30T17:01:39.5543132+09:00",
+  "baseline_commit": "406d2b9",
+  "scope": "reading navigation only",
+  "result": "passed",
+  "documents": 14,
+  "valid_relative_links": 137,
+  "reading_routes": 3,
+  "mvp_step_references": 6,
+  "requirements_contracts_tracker_source": "unchanged",
+  "user_plan_sha256": "649D3457A417CDDC70DBAC3525F6951BC27E6AD93426E504E9BB18E82992E974",
+  "product_tests": "not_run",
+  "reason": "Documentation navigation only"
+}

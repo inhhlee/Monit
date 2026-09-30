@@ -48,6 +48,7 @@ C#/.NET·MQTTnet·Mosquitto는 기존 구현 기반이다. Windows/WPF는 화면
 ├── feature_list.json                 상태·계약·증거 기준
 ├── claude-progress.md                진행 기록
 ├── instruction/
+│   ├── README.md                     Happy Path와 원본 전체 문서 읽기 안내
 │   ├── prd.md                        요구사항 정의서
 │   ├── feature_spec.md               기능명세서
 │   ├── interface_contract.md         공통 데이터·인터페이스
@@ -55,6 +56,7 @@ C#/.NET·MQTTnet·Mosquitto는 기존 구현 기반이다. Windows/WPF는 화면
 │   ├── task.md                       개발 작업
 │   ├── happy_path_plan.md            1차 MVP의 주 개발 문서
 │   ├── mvp_review_summary.md         사수 검토용 범위·일정 요약
+│   ├── assignment_mapping.md         과제별 산출물과 GUI 공급자 검증 기준
 │   └── iteration_01.md               COM-05 전체 검증 계획
 ├── project_guide/
 │   ├── introduction.md               소개
@@ -71,7 +73,7 @@ Core/저장소 프로젝트의 이름·배치는 해당 단계에서 결정한�
 
 ## 8. 읽는 순서
 
-소개 → [시나리오](user_scenario.md) → [PRD](../instruction/prd.md) → [기능명세](../instruction/feature_spec.md) → [설계](detail_architecture.md) → [작업 목록](../instruction/task.md) → [Iteration](../instruction/iteration_01.md) 순서다. 실제 구현 재개는 AGENTS에 따라 진행 로그부터 읽는다.
+읽는 경로는 [문서 읽기 안내](../instruction/README.md)에서 선택한다. 현재 개발은 **진행 기록 → Happy Path 계획 → 해당 단계의 기능명세·계약** 순서다. 최종 범위 검토는 **과제 대응표 → PRD → 전체 기능명세 → 공통 계약·PDF 비교서** 순서다. 사수 보고 자료와 진행 상태 문서는 별도로 구분했다. 전체 문서를 매일 다시 읽을 필요는 없으며 실제 구현 재개는 AGENTS에 따라 진행 로그부터 확인한다.
 
 ## 9. 실행과 검증
 
