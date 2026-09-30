@@ -6,14 +6,14 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-30, Asia/Seoul. S025 문서 구성 갱신; 최신 제품 실행 검증은 S024(2026-09-29). |
+| Last updated | 2026-09-30, Asia/Seoul. S026 PDF 직접 대조·목표 명세0.2 개정; 최신 제품 실행 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
 | Current scope | 과제 1: COM-01~05. 현재 기능별 검증 항목37개(COM-01 과부하·종료2항목 추가). |
 | Highest priority unfinished feature | COM-05 Command/ACK 식별자 연계. COM-02 Heartbeat Timeout·복구는 표준·실제 Mosquitto·콘솔 검증 완료. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
-| Planning documents | S025: instruction/prd.md·feature_spec.md·task.md·iteration_01.md와 project_guide/ 3개 문서 추가. KubeOpsAgent 문서 형식 참고, 전체 AMR 목표와 현재/후속 구분. 제품 기준은 feature_list.json 유지. |
+| Planning documents | S026: PDF v0.3 직접 대조한 instruction/prd.md·feature_spec.md 0.2 및 interface_contract.md·pdf_comparison.md. 원문23개+도식CORE-06=24기능·43요구·93미실행AC·P-01~21. DN-11 proposed, 현재5기능의 실행 계약·revision·증거 유지. task/iteration/project_guide는 기존 저장소 안내와 구분. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -282,3 +282,13 @@ S005 종료 검증: 2026-09-18T18:19:00+09:00에 기준선 커밋만 `.tools/S00
 - Commits: dd03468 — Add AMR requirements and project guides based on reference structure. 문서7개·README·문서 검토 증거만 포함했다. 최초 Git 인덱스 쓰기는 샌드박스 권한 실패 후 승인 재실행으로 성공했다. 이 세션 기록은 실제 문서 커밋 해시를 포함하는 후속 인수인계 커밋으로 남기며 원격 push는 수행하지 않는다.
 - Known risks: 문서0.1의 전체 AMR/Core/GUI/DB 범위는 후속 설계 초안이다. P-01~09는 미정이며 이번 작성으로 DN-06 등 제품 계약을 채택하지 않았다. PDF 원문은 이번에 재검토하지 않고 기존 기록을 참조했다. 현재 제품 검증은 S024 당시 작업 트리 기준으로, 문서 구성은 새로운 제품 합격·클린 복제본 실행 증거가 아니다.
 - Next best action: 문서 검토는 project_guide/introduction.md → instruction/prd.md → instruction/feature_spec.md. 제품 재개는 COM-05: instruction/iteration_01.md와 feature_list.json의 COM-05/DN-06을 먼저 읽고 ./init.cmd verify, 책임·QoS 결정 기록, 두 AMR 역순 ACK 등7항목 실제 Broker 검증. 후속 순서는 통신 복구 → 가상 AMR 설정·이동·Telemetry → 장애·Alarm → Core/DB/GUI다.
+
+### S026 - 2026-09-30 - PDF 원문에서 신규 개발자용 전체 요구사항 도출
+
+- Goal: 기존 구현 정리와 분리하여 다른 개발자가 구현할 요구사항 정의서·기능명세서를 원본 PDF와 직접 비교해 작성한다.
+- Completed: 시작 HEAD df6c809, clean 확인. Downloads의 PDF v0.3 SHA256 99CC217588343A3CD2526EB23779DE818DDF9AF75A8516D93073474D5BA0EB72를 확인하고17페이지 텍스트 추출·렌더링, p2~17의 표·도식·화면을 시각 대조했다. 원문 표23기능과 p15 도식의 CORE-06을24개 기능명세로 연결하고43요구사항·93개 미실행 AC를 도출했다. instruction/prd.md·feature_spec.md를0.2로 개정하고 interface_contract.md·pdf_comparison.md를 추가했다. GUI4개·Core5개·SQLite연계·INT4개를 복원하고 미등록 Telemetry/STOP/Alarm/ACK/로그/복구/GUI 등의 P-01~21 쟁점과 권고를 분리했다. README와 기존 안내 문서는 신규 개발 목표와 현 저장소 재개 계획을 구분했다. DN-11 proposed와 change_log만 추가하고 기존5기능·DN-01~10은 보존했다.
+- Verification run: 최초 문서 검사는 PDF 추출 결과에서 ID 뒤 한글 때문에 단어경계 정규식이23개 중2개만 찾고 Markdown2파일 EOF 빈 줄을 검출했다. 기대값 완화 없이 명시적 ID 패턴으로 수정·EOF 정리 후 통과. 문서11개 링크84개·fence26개·JSON예시5개·원문23개 전체 대응·24기능/43요구/93AC 유일성·연결·P21개 확인. 원본 기능 배열과 기존 DN을 시작 커밋과 직렬화 대조하여 동일함을 확인했고 제품/테스트/도구/솔루션 변경 없음 확인. tracker5기능/37항목 및 staged diff 검사 통과. 문서·제안 작업이므로 제품 빌드·단위·Broker·재시작 미실행,93AC도 전부 not_run이다.
+- Evidence recorded: evidence/documentation/S026-pdf-spec/README.md의 출처·검토 경계, traceability.json의 원문→요구→기능→미실행AC, verification-attempt-01.json의 최초 실패와 verification.json의 수정 후 결과. PDF 텍스트·렌더링은 Git 제외 .tools/S026-pdf-review/에 보관했다. 번들 Python은 PDF 판독에만 사용했으며 제품 의존성을 추가하지 않았다.
+- Commits: 7972025 — Derive full AMR developer specifications from original PDF. 검증된 문서와 proposed 설계/검토 기록만 포함했다. 실제 해시를 기록한 이 인수인계는 후속 문서 커밋으로 남기며 원격 push는 수행하지 않는다.
+- Known risks:0.2는 검토용 목표 명세다. 원문이 상충하거나 미정인 업무 정책은 채택 전 확정된 인수 기준으로 볼 수 없다. 특히 P-01/02/03/04/06/08 등은 책임·ACK·상태·장애·등록 의미에 영향을 준다. CORE-06은 표에 없던 도식 기능의 상세화임을 명시했다. 기존 통신 passing은 새 전체 명세24기능 완료를 의미하지 않는다. 새 PDF/DOCX 산출물은 만들지 않았으며 편집 가능한 Markdown으로 제공했다.
+- Next best action: 신규 개발 명세 검토는 instruction/pdf_comparison.md의 P 결정표와 prd.md → feature_spec.md → interface_contract.md 순서로 진행한다. 현재 제품 COM-05 재개 시 P-01/DN-06과 적용 QoS를 먼저 기록하고 ./init.cmd verify 후 기존7항목을 실제 Broker로 검증한다. 전체 개발로 확장할 때 AMR/GUI/CORE/INT 추적 항목을 등록하고 채택한 새 계약의 revision·회귀를 관리한다.
