@@ -6,7 +6,7 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-09-30, Asia/Seoul. S032 문서 폴더 통합·진행 기록 분리; 최신 제품 실행 검증은 S024(2026-09-29). |
+| Last updated | 2026-10-01, Asia/Seoul. S033 공통 규칙 작성 재개 메모 추가; 최신 제품 실행 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
@@ -14,6 +14,7 @@
 | Highest priority unfinished feature | 현재 등록 기능 중 COM-05 Command/ACK 식별자 연계가 미완료. 사용자 요청의 다음 개발 순서는 docs/mvp/happy_path_plan.md의 M1-00~05이며 신규 범위·의존성은 구현 착수 시 등록한다. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
 | Planning documents | docs/README.md에서 위치 확인. docs/mvp/는1차 계획, docs/full/은 전체24기능·93AC·과제 대응, docs/reports/는 보고 자료. D-GUI3항목은 미실행, DN-11~14 proposed 유지. 현재 제품5기능의 계약/revision/증거는 동일. |
+| Documentation next action | docs/guides/common_rules_worknote.md에서 AMR 식별·시간·Alarm의 기본/상세 규칙·출처·적용 상태를 정리한다. 2026-10-02 재개용 작업 메모이며 새 정책 채택·제품 구현을 뜻하지 않는다. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -40,3 +41,13 @@
 - Commits: 33483d1 — Organize documentation by purpose and archive session history. 검증된 문서 이동·링크·규칙·색인만 포함했다. 사용자 MVP 계획서 수정은 새 위치의 미커밋 차이1줄로 보존했다. 실제 해시를 포함한 이 진행 로그는 후속 인수인계 커밋으로 남기며 원격 push는 하지 않았다.
 - Known risks: 과거 기록의 instruction/project_guide 경로는 당시 기록으로 남아 있다. 현재 위치는 docs/README.md와 이동 대응표를 따른다. 이동한 MVP 계획서의 기존 사용자 수정은 미커밋으로 남기며 문서 정리를 새 제품 구현 완료로 보지 않는다.
 - Next best action: docs/mvp/happy_path_plan.md로1차 개발, docs/full/prd.md로 전체 범위, docs/reports/mvp_review_summary.md로 보고 내용을 확인한다. 실제 개발 착수는 루트에서 ./init.cmd verify 후 M1-00부터 진행한다. 이전 세션은 docs/history/sessions-S001-S031.md에서 확인한다.
+
+### S033 - 2026-10-01 - 공통 규칙 작성 재개 메모
+
+- Goal: 공통 규칙에 대한 대화 내용을 다음 작업일에 이어갈 수 있는 메모로 정리한다.
+- Completed: 시작 HEAD a6a56ad3f687a3761fa889c91ec26531d2c44c64, 시작 작업 트리 clean. 받은 과제와 작성한 PDF의 역할, 기본/상세 수준과 초안/채택 상태의 구분, AMR 식별·시간·Alarm 예시, 다음 작업 순서를 docs/guides/common_rules_worknote.md에 기록하고 docs/README.md에서 연결했다. 원본 PDF·PRD·계약·feature_list.json·제품 코드는 유지했다.
+- Verification run: 변경 문서3개의 상대 링크 대상45개 존재 확인, 출처·상태 표현 검토, feature_list.json SHA256 6D6DA7CCD6581BDA1451C241C3185730C1BD0C71F348A12B1200CEE97DE804ED 보존 확인. tracker5기능/37항목 및 Git 공백 검사 통과. 실행 경로와 제품 계약에 영향이 없는 작성 메모이므로 빌드·단위·Broker·GUI 검증은 미실행이다.
+- Evidence recorded: 위 문서 검사 관찰 결과를 이 Session Record에 기록했다. 제품 실행 증거는 추가하지 않는다.
+- Commits: 없음. 문서 검사 후 관련 변경만 커밋할 예정이다.
+- Known risks: 예시는 새 확정 규칙이 아니다. Alarm 임계값·전이·등록·운영 시간 정책 등은 미정 상태를 보존해야 한다. 현재 COM-01~04 passing은 기존 계약 범위이며 전체 관제 통합 완료가 아니다.
+- Next best action: 2026-10-02 docs/guides/common_rules_worknote.md를 읽고 세 항목을 자신의 말로 작성한다. 기존 PRD 6절·interface_contract와 채택된 계약을 대조하고 미정 사항은 명시한다. 제품 구현 재개 시에는 AGENTS의 표준 기준선 절차를 따른다.
