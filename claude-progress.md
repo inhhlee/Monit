@@ -58,6 +58,6 @@
 - Completed: 시작 HEAD 2bec65d, 시작 작업 트리 clean. ‘기능 명세 만료’는 사용자 답변으로 ‘기능 구현 완료 보고’임을 확인했다. 이번 첨부 260916 PDF6페이지를 읽고 관련 p3~5를 이미지로 확인했다. SHA256 B30FFEC36679B3DEBBC9BEEFB67952C790CE8FDDD976FF53934F2B88C9B0E879이며 기존17페이지 PDF와 구분했다. 기존 common_rules_worknote.md에 네 양식·보고 시점·기록 위치·오늘 완료 기준을 추가했다. 단순 상세 구체화와 계약/합격 기준 변경, 명세 작성과 현재 범위 제품 검증 완료를 구분한다. 문서 수를 늘리지 않았으며 PRD·기능명세·공통 계약·제품·추적기는 유지했다.
 - Verification run: tracker5기능/37항목 구조·증거 링크 PASS, 변경 문서2개 상대 링크17개 존재·Git 공백 검사 통과. feature_list.json SHA256 2A448A0CE96C84FBE4912604170FE52508CF84C7CDA8994953506E0BD540C3EC가 작업 전후 동일하다. PDF 렌더링은 번들 pdftoppm.cmd의 경로 오류 후 실제 Library/bin/pdftoppm.exe로 성공했다. 제품 실행 경로·계약 변경이 없는 보고 기획이므로 빌드·단위·실제 Broker·GUI 검증은 미실행이다.
 - Evidence recorded: 이번 문서 검토는 이 Session Record에 기록한다. PDF 검토 이미지는 임시 디렉터리에 있으며 제품 evidence로 등록하지 않는다.
-- Commits: 없음 — 관련 문서 검사 후 검증된 보고 체계 초안과 진행 기록의 로컬 커밋을 준비한다.
+- Commits: f17aa225cf713dcdfab94392d67578a6dcecd7a7 — Plan requirements and feature reporting workflow. 검증된 보고 체계 초안과 진행 기록2파일을 로컬 커밋했다. 실제 해시 기록은 후속 인수인계 커밋으로 남기며 원격 push는 하지 않았다.
 - Known risks: 보고 양식은 검토용 제안이며 사수에게 발송·승인되지 않았다. 이번6페이지 PDF를 기존17페이지 명세의 교체본으로 채택하지 않았다. p5 운행 상태 행의 ‘상태’ 칸에는 필요한 이유가 들어 있어 이유와 채택 상태를 구분할 필요가 있다. COM-01~04 passing은 기존 추적기 범위이며 새 전체 명세의 모든 AC 또는 과제1 전체 통과를 뜻하지 않는다.
 - Next best action: docs/guides/common_rules_worknote.md의 ‘오늘의 업무 보고 체계 기획’을 읽고 일일 보고 초안 또는 AMR 식별·시간·Alarm 세 상세 규칙에 양식을 적용한다. 원문 출처와 초안/채택·미정 상태를 유지한다. 제품 구현 재개는 ./init.cmd verify와 현재 MVP 순서를 따른다.
