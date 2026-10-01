@@ -47,6 +47,7 @@
 - Verification JSON checkpoint: `dotnet test tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj --no-restore --filter 'FullyQualifiedName~MessageValidationTests|FullyQualifiedName~CommandValidationTests' --logger 'trx;LogFileName=json-contract.trx' --results-directory evidence/documentation/S035-json-contract --verbosity minimal` 실행 결과355건 통과, 실패0/skip0. 관련 프로젝트 빌드를 포함한 단위검증이며 전체 기준선·실제 Broker·GUI 검증은 아니다. 증거는 evidence/documentation/S035-json-contract/json-contract.trx. 65,536byte 수용/65,537byte 거부·깊이17 거부와 잘못된 UTF-8·필수 필드·중복/미정의 필드·선택값 검사를 포함한다. 구현의 일치성을 보여주며 제한값의 최적성을 증명하지 않는다. 제품 코드·추적기 상태는 유지했다.
 - Completed home handoff checkpoint: 사용자 Git 인수인계 요청에 따라 기존 common_rules_worknote.md 앞부분에 공통 정의/JSON 중복 통합안·규칙별 근거·5유형 정정표·내부 관측 데이터 표·집에서 pull/clone 후 이어할 순서를 기록하고 docs/README 진입점을 갱신했다. 기존 S035 보고 체크포인트도 보존했다. 저장소 밖 HWP/PDF는 복사·업로드하지 않았으며 실제 반영 완료로 표시하지 않는다. 다음 시작 지점은 내부 관측 표 작성이다.
 - Verification home handoff checkpoint: 변경 문서3개 상대 링크65개 존재, Git 공백 검사, tracker5기능/37항목 및 기존 TRX355건 검증 PASS. feature_list.json/common_data_spec.md/interface_contract.md SHA256은 위 기준과 동일하다. 이번 인수인계는 문서 변경이므로 제품 테스트를 중복 실행하지 않았다. 관련 문서3개와 이번 TRX1개만 커밋 대상으로 선택한다.
+- Commits home handoff checkpoint: c4f2ec0 — Document common data specification handoff and validation evidence. 문서3개와 관련 TRX1개를 로컬 커밋했다. 실제 해시를 기록하는 이 줄은 후속 인수인계 커밋으로 보존하며 사용자 요청에 따라 origin/master로 업로드한다. 원격 결과는 Git 동기화 확인 후 사용자에게 보고한다.
 
 ### S032 - 2026-09-30 - 문서 폴더 통합과 현재 기록 분리
 
