@@ -27,7 +27,7 @@ HeartbeatTimeout, Broker 연결, 운행 State, 명령 업무 상태는 서로 �
 | Alarm | amr/{amrId}/alarm | 가상 AMR | Communication |
 | Heartbeat | amr/{amrId}/heartbeat | 가상 AMR | Communication |
 | Command | amr/{amrId}/command | Communication | 해당 가상 AMR |
-| ACK | amr/{amrId}/ack | 가상 AMR | Communication |
+| ACK | amr/{amrId}/ack | munication가상 AMR | Com |
 
 원문 p6을 기준으로 한다. 별도 State Topic은 p7/그림에 등장하지만 계약 표에 없으므로 독립 Topic으로 추가하지 않고 Telemetry.state로 처리하는 P-11 정리안을 사용한다. 공통 type 필드는 없고 Command에만 type이 있다.
 
