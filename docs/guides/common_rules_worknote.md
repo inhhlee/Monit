@@ -1,8 +1,89 @@
 # 공통 규칙 작성 재개 메모
 
-작성일 2026-10-01. 받은 과제를 해석해 작성한 PDF에서 공통 규칙을 정리하기 위한 작업 메모다. 현재 목적은 **interface_contract.md·요구사항·기능명세를 참고해6페이지 PDF의 공유 규칙을 상세화하고, 그 기준으로 개별 기능명세를 작성하는 것**이다. AMR 식별·시간·Alarm 세 항목부터 같은 양식으로 작성한다. 다음 작업일인 2026-10-02에도 여기서 이어갈 수 있다.
+작성일 2026-10-01. 현재 재개 지점은 **공통데이터 v0.111의 중복 표를 합치고, 정의 근거와 통신 내부 관측 데이터 표를 작성하는 작업**이다. 아래 집에서 이어할 작업을 먼저 읽는다. 뒤쪽의 초기 공유 규칙·보고 양식 메모는 작성 경위와 참고 자료로 보존한다.
 
-지금 먼저 읽을 부분은 [6페이지 PDF에 공유 규칙을 작성하는 구성](#6페이지-pdf에-공유-규칙을-작성하는-구성)이다. 아래 업무 보고 양식은 작성한 내용·변경·검증을 보고하기 위한 보조 계획이다.
+## 2026-10-01 집에서 이어할 작업
+
+### 현재까지 한 일과 적용 상태
+
+- 요구사항 정의서에 공통 요구 R-01~07과 공유 규칙11개를 작성하고, 공통데이터 명세 v0.111에 식별·시간·Topic·5개 메시지·내부 관측 설명을 작성했다.
+- 이번 대화에서는 현재 구현·계약과 PDF를 비교하고 수정 문안을 정리했다. **HWP/PDF 수정본 저장·반영 완료는 확인하지 않았다.** 이 메모는 대화 내용을 집에서 재사용하기 위한 인수인계이며 새 제품 정책 채택이 아니다.
+- COM-01~04는 기존 범위 passing, COM-05는 not_started다. Command 발행·ACK 수신 경로와 실제 Core 업무 매핑 완료를 구분한다. TestClient 실제 이동은 미구현이다.
+- 먼저 볼 기준: [현재 공통데이터 초안](../full/common_data_spec.md), [수신 계약](../../src/Amr.Communication/Validation/CONTRACT.md), [Command 계약](../../src/Amr.Communication/Command/CONTRACT.md), [Heartbeat 계약](../../src/Amr.Communication/Monitoring/CONTRACT.md). 공통 계약의 ACK 방향 행에는 오타가 있으므로 수신 계약을 대조한다.
+
+### 작성할 문서 구성
+
+| 순서 | 절 | 작성 내용 |
+| --- | --- | --- |
+| 1 | 공통 데이터 정의 및 검증 | 기존 ‘식별·좌표·시간’과 ‘JSON 공통 검증’을 합친다. 전체 검사 조건은 짧은 본문, 개별 데이터는 의미·자료형·조건·근거 표로 한 번만 정의한다. |
+| 2 | MQTT Topic 및 전달 방향 | 어느 AMR의 어떤 데이터인지 식별하고 발행 Topic과 구독 대상이 대응하도록 정의한다. AMR ID를 MQTT ClientId와 혼동하지 않는다. |
+| 3 | 유형별 필드 | 각 메시지의 목적을 한 문장으로 적고 필드·자료형·필수 여부·의미/허용값을 적는다. 공통 조건을 반복하지 않고1절을 참조한다. |
+| 4 | 통신 내부 관측 데이터 | MQTT Payload와 구분해 Broker·Heartbeat·입력 오류의 목적과 데이터 필드를 정의한다. 처리 순서와 상세 Timeout 로직은 기능명세로 연결한다. |
+
+공통 도입 문장: **여러 AMR의 데이터를 각 모듈이 동일하게 해석하고, 잘못되거나 모호한 메시지가 [과제4] 업무 처리에 전달되지 않도록 데이터 형식과 검사 기준을 정의한다.**
+
+### 1절에 남길 공통 규칙과 근거
+
+- 메시지는 UTF-8 JSON 객체다. 필드명은 대소문자를 구분하며 필수 누락·중복 키·미정의 필드·주석·후행 쉼표를 거부한다. 선택 필드도 포함하면 자료형·허용값을 검사한다.
+- JSON 구조 사이 공백·탭·줄바꿈은 허용한다. 공백만 있는 Payload는 거부한다. 문자열 내부 공백은 필드별 조건을 적용한다. AMR ID의 공백 금지와 설명 문자열의 정상 띄어쓰기를 구분한다.
+- UTF-8·문법·구조 사이 공백은 [RFC8259](https://www.rfc-editor.org/rfc/rfc8259) §2/8.1, 중복 이름에 따른 해석 차이는 §4를 근거로 설명한다. 최상위 객체·미정의 필드 거부·필수/선택 필드·중복 키 거부 처리는 프로젝트 계약이다.
+- 최대65,536bytes(UTF-8 Payload 전체, 공백 포함)·중첩 깊이16은 개발용 자원 제한이다. RFC §9는 제한 설정을 허용하지만 이 숫자를 정하지 않는다. **동작 테스트 통과는 수치의 최적성·운영 적정성 증명이 아니다.** 원문 확정값으로 쓰지 않는다.
+
+| 데이터 | 의미·자료형·조건 | 정의 근거·상태 |
+| --- | --- | --- |
+| AMR ID / id | 장비 식별 string. null·빈 값·공백 문자·제어문자·`/`·`+`·`#` 불허. 대소문자 구분. Payload에 있으면 Topic ID와 일치 | 장비 데이터 혼동 방지. 현재 개발 계약 |
+| cmdId | 명령 식별 string. 요청마다 고유하게 생성하고 Command/ACK에서 보존. null·빈 값·공백뿐인 값 불허. 접두사 강제 없음 | 요청과 응답 연결 |
+| ts | 메시지 생성 시각. signed Int64 JSON 정수, UTC Unix 밀리초. 문자열·소수·지수 불허, 자동 단위 변환 없음 | 시각 해석 통일. Int64는 원문 기준, 밀리초는 개발용 채택 |
+| x/y | 현재 위치 또는 이동 목표. 유한 double, m | 2D 위치 표현. 단위는 개발용 채택. 원점·축·범위·도착 오차 미정 |
+| sp | 현재 속도. 0 이상의 유한 double, m/s | 위치와 속도 구분. 단위는 개발용 채택 |
+| code | Alarm 종류 식별 string. null·빈 값·공백뿐인 값 불허. 코드 형식 강제 없음 | Alarm 종류 구분 |
+| message/reason | Alarm/ACK 설명. 선택 string, 포함하면 null·빈 값·공백뿐인 값 불허 | 결과·알람 설명 제공. 현재 개발 계약 |
+
+Heartbeat 수신 시각·경과 시간은 MQTT 필드가 아니므로4절에 한 번 정의한다.
+
+### 2~3절에서 반드시 확인할 내용
+
+Telemetry·Alarm·Heartbeat·ACK는 가상 AMR → Communication, Command는 Communication → 대상 가상 AMR이다. Topic은 `amr/{amrId}/telemetry`, `/alarm`, `/heartbeat`, `/command`, `/ack`다.
+
+| 유형 | 목적 | 필수 필드 | 선택 필드·허용값 |
+| --- | --- | --- | --- |
+| Telemetry | 현재 위치·속도·운행 상태 스냅샷 | id, ts, pos{x,y}, sp, state | state=IDLE/BUSY/STOPPED/FAULT |
+| Alarm | 알람 종류·심각도·발생/해제 전달 | id, ts, code, level, alarmState | message 선택. level=INFO/WARN/ERR/FATAL, alarmState=ACTIVE/CLEARED(개발용 채택) |
+| Heartbeat | AMR별 정상 신호 수신 확인 | id, ts, status | status=OK(개발용 채택). Timeout은 관제 정상 수신 시점 기준 |
+| Command | 대상 AMR에 수행 요청 | cmdId, type, ts, param | type=MOVE/STOP/RESET. MOVE param은 x/y, STOP/RESET은 빈 객체(개발용 채택). id 없음 |
+| ACK | 원래 요청의 수행·거부 결과 전달 | cmdId, ts, result | id/reason 선택. result=SUCCESS/FAILURE. id가 있으면 Topic과 일치 |
+
+기존 PDF7곳: p2 C의 좌표 행에 cmdId 설명이 들어감, 시간 단위 행에 History 용도가 들어감, p3 Alarm level은 잘못된 운행 상태값, alarmState는 미정으로 오기, Command ts는 OK 설명으로 오기, p4 ACK id/result의 필수 여부가 뒤바뀜. 위 통합 표와 유형별 정의를 사용해 정정한다.
+
+ACK 수신 자체를 성공으로 보지 않는다. 현재 TestClient는 실제 동작 미구현으로 정상 명령에도 FAILURE와 SIMULATION_NOT_IMPLEMENTED를 반환한다. reason 없는 기존 ACK는 수신 가능하지만 TestClient 실패 발행에는 reason을 넣는다. 실제 요청 매핑·중복/늦은 ACK·업무 Timeout·알람 업무 조건은 후속이다.
+
+### 4절 통신 내부 관측 데이터 — 다음 작성 지점
+
+도입 문장: **Communication은 Broker 연결 상태, AMR별 Heartbeat 감시 결과, 입력 검증 오류를 관제 연계·진단에 제공한다. 이 데이터는 MQTT Payload와 구분하며, 통신 상태만으로 AMR의 최종 Offline 또는 운행 상태를 확정하지 않는다.**
+
+기존 ‘필요한 이유와 사용 상황’ 표와 긴 ‘실제 사용 예시’는 겹치므로 목적 한 문장과 아래 필드표로 줄인다. 필드·enum·단위는 공통데이터에, 감시 시작·판정 순서·반복 알림·복구 로직은 COM-02 기능명세에 상세히 작성한다.
+
+| 정보·목적 | 데이터 항목과 자료형 | 의미·허용값 |
+| --- | --- | --- |
+| Broker 연결 확인 | State: enum | Disconnected/Connecting/Connected/Disconnecting/Faulted/Disposed |
+| Broker 변경 원인 확인 | Reason: string, TimestampUnixMilliseconds: long, Error: 선택 string | 변경 사유·시각·오류. 시각은 UTC Unix 밀리초 |
+| AMR별 감시 현상 구분 | AmrId: string, Kind: enum | 대상 장비. MonitoringStarted/TimedOut/Recovered |
+| 수신·관측 시점 확인 | LastReceivedUnixMilliseconds: long, ObservedUnixMilliseconds: long | 마지막 정상 수신 시각·현상 관측 시각. UTC Unix 밀리초 |
+| Timeout 판단 정보 제공 | ElapsedMilliseconds: double, TimeoutMilliseconds: double | 경과·제한 시간(ms). 경과 시간은 PC 날짜 변경에 영향을 받지 않는 단조 시계로 계산 |
+| 입력 거부 원인 확인 | Topic: 선택 string, Error.Code/Field/Reason: string | Topic·오류 코드·문제 필드·거부 이유. Log와 업무 History는 구분하며 Payload 원문은 기록하지 않음 |
+
+필드 근거: [Broker 모델](../../src/Amr.Communication/Mqtt/BrokerConnectionSnapshot.cs), [Heartbeat 모델](../../src/Amr.Communication/Monitoring/HeartbeatNotification.cs), [검증 오류 모델](../../src/Amr.Communication/Validation/IncomingMessageProcessor.cs).
+
+### 검증 증거와 집에서 재개하는 순서
+
+관련 MessageValidationTests·CommandValidationTests355건 통과, 실패0·skip0. [실행 결과 TRX](../../evidence/documentation/S035-json-contract/json-contract.trx)에 보존했다. 전체 솔루션·실제 Broker·GUI를 이번에 재검증한 것은 아니다. 제품 상태·revision은 바꾸지 않았다.
+
+1. 집의 기존 저장소에서 `git status --short`로 로컬 변경을 확인하고 `git pull --ff-only`로 받는다. 충돌·분기 시 강제 초기화하지 않는다. 저장소가 없으면 `git clone https://github.com/indsf/practice.git`으로 받는다.
+2. 이 메모의 현재 절과 common_data_spec.md를 읽고, 위1~4절 순서로 사용자 한글 문서에 반영한다. 원본 HWP/PDF는 저장소 밖에 있어 이 Git 인수인계에는 포함하지 않는다. 이 메모만으로 작성 내용은 이어갈 수 있다.
+3. **우선4절 내부 관측 필드표부터 작성**하고, 앞쪽 중복 표 통합·7곳 수정이 실제 문서에 반영됐는지 확인한다.
+4. 문서 반영 후 공유 규칙 번호·단위·필수 여부·근거/개발용/미정을 확인한다. 다음은 COM-03부터 입력·처리·출력·검증 기준을 작성한다. 제품 개발을 재개할 때는 `./init.cmd verify`부터 실행한다.
+
+다음 대화 시작 문장: **“docs/guides/common_rules_worknote.md의 집에서 이어할 작업을 읽고, 통신 내부 관측 데이터 표부터 공통데이터 명세에 반영하자. 중복 표와7곳의 오류도 함께 확인해줘.”**
 
 ## 오늘 정리한 문서 관계
 

@@ -6,7 +6,7 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-10-01, Asia/Seoul. S034 공통데이터 명세 축약·관련 테스트390건 통과 후 사용자 v0.111 PDF의 중복·표 오류 검토; 최근 전체 기준선·실제 Broker 검증은 S024(2026-09-29). |
+| Last updated | 2026-10-01, Asia/Seoul. S035 공통데이터 v0.111 검토·JSON 관련355건 통과·집에서 재개할 문서 인수인계. 최근 전체 기준선·실제 Broker 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
@@ -14,7 +14,7 @@
 | Highest priority unfinished feature | 현재 등록 기능 중 COM-05 Command/ACK 식별자 연계가 미완료. 사용자 요청의 다음 개발 순서는 docs/mvp/happy_path_plan.md의 M1-00~05이며 신규 범위·의존성은 구현 착수 시 등록한다. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
 | Planning documents | docs/README.md에서 위치 확인. docs/mvp/는1차 계획, docs/full/은 전체24기능·93AC·과제 대응, docs/reports/는 보고 자료. D-GUI3항목은 미실행, DN-11~14 proposed 유지. 현재 제품5기능의 계약/revision/증거는 동일. |
-| Documentation next action | docs/full/common_data_spec.md의 필수 데이터·메시지·내부 관측·시험 기준을 검토해 사용자 한글 공통데이터 명세서로 옮긴다. 과제1 기능명세는 이를 참조해 입력·처리·출력·검증 기준을 작성한다. 개발용 채택과 미정을 유지하며 새 정책 채택·제품 구현을 뜻하지 않는다. |
+| Documentation next action | docs/guides/common_rules_worknote.md의 ‘2026-10-01 집에서 이어할 작업’을 먼저 읽고 내부 관측 필드표 작성·공통 정의/JSON 중복 표 통합·PDF7곳 정정을 사용자 문서에 반영한다. 대화 수정 문안과 HWP/PDF 실제 반영 완료는 구분한다. 다음은 COM-03 구현용 기능명세이며 개발용 채택·미정을 유지한다. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -31,6 +31,22 @@
 [S001~S031 세션 기록](docs/history/sessions-S001-S031.md)을 별도로 보관한다. 과거 판단과 실패 증거는 삭제하지 않았다.
 
 ## 세션 레코드 (Session Record)
+
+### S035 - 2026-10-01 - 현재 공통데이터 PDF 누락·차이 검토
+
+- Goal: 현재 프로젝트와 사용자 공통데이터 v0.111 PDF를 대조해 누락·차이를 검토한다. 사용자 답변으로 새 문서 작성 대신 검토 범위를 확정했다.
+- Completed: 시작 HEAD fdc535a, 시작 작업 트리 clean. 요구사항 HWP의 ZIP/XML 본문, 공통데이터 PDF 5페이지와 요구사항 PDF 6페이지 텍스트를 읽고 공통데이터 p2~5·요구사항 p4~5 이미지를 확인했다. 추적기·DN·수신/Command/Heartbeat 계약·PayloadValidator·내부 관측 모델·관련 테스트를 대조했다. 공통데이터 p2 C의 좌표/시간 행, p3 Alarm level/alarmState 및 Command ts, p4 ACK id/result 총7곳의 차이를 확인했다. JSON 구조·선택 문자열 조건, p5 D 내부 필드표, 감시 경계·단위·개발 설정·적용 범위 보완점을 사용자에게 보고한다. MQTT 방향은 일치한다. 요구사항 HWP의 좌표 미정 목록 누락과 운행 상태 행의 상태/이유 혼재도 확인했다. 원본·제품·계약·추적기는 수정하지 않았다.
+- Verification run: tracker 5기능/37항목 구조·증거 링크 PASS. 기존 COM-01~04 passing/COM-05 not_started 유지. 문서 검토로 빌드·단위·실제 Broker·GUI 시험은 재실행하지 않았다. 과거 실행 증거를 이번 실행 결과로 확대하지 않는다. HWP는 텍스트만 검사했으며 레이아웃 미검증이다.
+- Evidence recorded: 이 Session Record 및 대화의 위치별 검토표. 공통데이터 PDF SHA256 BA1180AAFAE0716B0CAE758409DEA5D45020661F147C8EFFA5CF94D9A1068213, 요구사항 PDF B30FFEC36679B3DEBBC9BEEFB67952C790CE8FDDD976FF53934F2B88C9B0E879, HWP 773483E6AE1876969EBA27F07A51C76202FE4063768886BC551803C6DE36DA21. HWP는 S034에서 읽은 파일과 해시가 다르며 이번 본문을 사용했다. feature_list.json 2A448A0CE96C84FBE4912604170FE52508CF84C7CDA8994953506E0BD540C3EC, common_data_spec.md 0583C19FE0CB571ADB32AB984BCDC77BE21AA2C91DC1D8FF2DAE494F62BC63CF, interface_contract.md 4477367A6B5BA7391527F7C707EED79D742234CA4B5134345F6D07A72610015E를 대조 기준으로 기록했다. 제품 evidence는 추가하지 않는다.
+- Commits: 초기 검토 단계에서는 S034 staging 승인 거부를 유지했다. 이후 사용자가 ‘집에서 하게 정리해줘 git에’라고 요청하여 이번 인수인계·관련 검토 기록·TRX의 커밋과 원격 업로드를 승인했다. 아래 종료 체크포인트에 실제 결과를 기록한다.
+- Completed reporting checkpoint: 사용자 요청에 따라 common_rules_worknote.md의 일일 보고 양식(목표·수행·산출물/상태·변경·검증·미정/영향·다음 작업)으로2026-10-01 책임자 보고 문안을 대화에 준비했다. S034의 보고 체계·공통데이터 초안 작성/축약 및390건 테스트 실행과 S035의 PDF 검토를 구분했다. PDF7곳의 차이·중복 설명·빈 내부 데이터 표는 수정 대상 도출이며 정정 완료가 아니다. 신규 요구/계약 채택·제품 코드 변경 없이 초안 작성/검토로 보고하며 PDF 보완과 COM-03 구현용 기능명세를 후속으로 둔다. 외부 발송은 하지 않았다.
+- Verification reporting checkpoint: 일일 보고 양식과 당일 세션 기록·현재 추적기 상태를 대조했다.390건 통과는 S034의 당일 관련 자동 테스트이며 이번 보고 작성에서 재실행하지 않는다. 실제 Broker/GUI·전체 기능 완료로 확대하지 않는다. 문서·계약·추적기 SHA256은 위 대조 기준과 동일하고 보고용 새 산출물 파일은 만들지 않았다. 보고 준비는 문서 검토이므로 제품 기준선은 재실행하지 않는다.
+- Known risks: 이번 260916 요구사항 PDF는6페이지 작성본이며 최초17페이지 원문이 아니다. 개발용 채택값은 운영 확정값이 아니다. 기존 interface_contract.md ACK 방향 행의 오타도 남아 있으므로 올바른 수신 계약 및 common_data_spec.md와 함께 확인한다.
+- Next best action: 사용자가 문서 수정을 요청하면 공통데이터 PDF p2~4의7곳을 정정하고 p5 D를 docs/full/common_data_spec.md 4절 및 실제 모델로 보완한다. 좌표 원점·축·범위·도착 오차와 업무 정책은 미정으로 유지한다. 제품 개발 재개 시 ./init.cmd verify부터 수행한다.
+- JSON rationale checkpoint: 사용자가 UTF-8·객체·필드명·필수/중복/미정의 필드·주석/후행 쉼표·whitespace·크기/깊이·선택 필드 조건의 근거와 증명을 요청했다. RFC8259 2/4/8.1/8.3/9절과 PayloadValidator, 수신 계약, MessageValidationTests 및 CommandValidationTests를 대조했다. 표준 문법과 프로젝트 스키마 정책을 구분하고, 65,536bytes/깊이16은 계약에 명시된 개발용 자원 제한이며 정확한 수치의 최적성·운영 적정성을 입증한 근거는 이번 확인 자료에서 찾지 못했다. JSON 구조 사이 공백은 표준 허용이며 문자열 내부 공백은 필드별 조건으로 구분한다.
+- Verification JSON checkpoint: `dotnet test tests/Amr.Communication.Tests/Amr.Communication.Tests.csproj --no-restore --filter 'FullyQualifiedName~MessageValidationTests|FullyQualifiedName~CommandValidationTests' --logger 'trx;LogFileName=json-contract.trx' --results-directory evidence/documentation/S035-json-contract --verbosity minimal` 실행 결과355건 통과, 실패0/skip0. 관련 프로젝트 빌드를 포함한 단위검증이며 전체 기준선·실제 Broker·GUI 검증은 아니다. 증거는 evidence/documentation/S035-json-contract/json-contract.trx. 65,536byte 수용/65,537byte 거부·깊이17 거부와 잘못된 UTF-8·필수 필드·중복/미정의 필드·선택값 검사를 포함한다. 구현의 일치성을 보여주며 제한값의 최적성을 증명하지 않는다. 제품 코드·추적기 상태는 유지했다.
+- Completed home handoff checkpoint: 사용자 Git 인수인계 요청에 따라 기존 common_rules_worknote.md 앞부분에 공통 정의/JSON 중복 통합안·규칙별 근거·5유형 정정표·내부 관측 데이터 표·집에서 pull/clone 후 이어할 순서를 기록하고 docs/README 진입점을 갱신했다. 기존 S035 보고 체크포인트도 보존했다. 저장소 밖 HWP/PDF는 복사·업로드하지 않았으며 실제 반영 완료로 표시하지 않는다. 다음 시작 지점은 내부 관측 표 작성이다.
+- Verification home handoff checkpoint: 변경 문서3개 상대 링크65개 존재, Git 공백 검사, tracker5기능/37항목 및 기존 TRX355건 검증 PASS. feature_list.json/common_data_spec.md/interface_contract.md SHA256은 위 기준과 동일하다. 이번 인수인계는 문서 변경이므로 제품 테스트를 중복 실행하지 않았다. 관련 문서3개와 이번 TRX1개만 커밋 대상으로 선택한다.
 
 ### S032 - 2026-09-30 - 문서 폴더 통합과 현재 기록 분리
 
