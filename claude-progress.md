@@ -6,7 +6,7 @@
 
 | Field | Verified value |
 | --- | --- |
-| Last updated | 2026-10-01, Asia/Seoul. S033 공통 규칙 작성 재개 메모 추가; 최신 제품 실행 검증은 S024(2026-09-29). |
+| Last updated | 2026-10-01, Asia/Seoul. S034 업무 보고 체계·상세 작성·완료 보고 양식 기획; 최신 제품 실행 검증은 S024(2026-09-29). |
 | Repository root directory | 이 파일이 있는 디렉터리(.). S009 작업 경로는 C:\practice; 새 PC에서는 clone한 위치를 사용한다. |
 | Standard startup path | ./init.cmd broker 후 ./init.cmd start는 연결만 확인. ./init.cmd start -Heartbeat는 수신만 하며 별도 Amr.TestClient가 Heartbeat를 발행한다. 명령은 콘솔 --command MOVE --amr-id AMR_001 --x 30 --y 15로 한 건씩 요청한다(README 참조). Windows PowerShell 5.1에서도 cmd가 PowerShell 7.4+ 호출. Ctrl+C 종료. |
 | Standard verification path | ./init.cmd verify: restore/build, .NET 추적기 검사·전체 자동 테스트·TRX 검사. 실제 Broker 검증은 ./init.cmd verify-broker. Python 불필요. 로그는 evidence/bootstrap/실행ID/. |
@@ -14,7 +14,7 @@
 | Highest priority unfinished feature | 현재 등록 기능 중 COM-05 Command/ACK 식별자 연계가 미완료. 사용자 요청의 다음 개발 순서는 docs/mvp/happy_path_plan.md의 M1-00~05이며 신규 범위·의존성은 구현 착수 시 등록한다. |
 | Active feature | 없음. COM-01 revision4/COM-02 revision2/COM-03 revision2/COM-04 revision4 passing. COM-05 revision1 not_started. |
 | Planning documents | docs/README.md에서 위치 확인. docs/mvp/는1차 계획, docs/full/은 전체24기능·93AC·과제 대응, docs/reports/는 보고 자료. D-GUI3항목은 미실행, DN-11~14 proposed 유지. 현재 제품5기능의 계약/revision/증거는 동일. |
-| Documentation next action | docs/guides/common_rules_worknote.md에서 AMR 식별·시간·Alarm의 기본/상세 규칙·출처·적용 상태를 정리한다. 2026-10-02 재개용 작업 메모이며 새 정책 채택·제품 구현을 뜻하지 않는다. |
+| Documentation next action | docs/guides/common_rules_worknote.md의 오늘 업무 보고 체계 초안을 검토하고 AMR 식별·시간·Alarm 세 항목에 상세 작성 양식을 적용한다. 요구 변경·명세 작성·기능 검증 완료를 구분한다. 새 정책 채택·제품 구현을 뜻하지 않는다. |
 | Verified product behavior | S024: 네 유형 수신·명령/ACK·AMR별 비동기 큐 회귀 통과. 첫 정상 Heartbeat 수신부터 AMR별 감시, 불량 입력은 갱신하지 않음, Timeout/복구1회, 느린 Core/큐 포화와 독립. 실제 기본5초 감시는5222.7603ms에 A만 Timeout, 같은 ID 재시작 복구, B수신 지속. 실제 이동 미구현 FAILURE 유지. |
 | Current blocker | 현재 필수 검증 blocker 없음. 초기 Windows App Control0x800711C7/CodeIntegrity3077 실패는 보존. 사용자17:58 및 최종18:08 실행에서 DLL 로딩과440건 테스트 통과. 에이전트는 Windows 보안 설정을 변경하지 않았다. |
 | Requirements baseline | PDF v0.3을 출발점으로 사용한다. 현재 적용 범위·검증은 feature_list.json, 설계 쟁점은 design_notes에서 관리한다. S019 과제1·2 계획의 첫 작업 네 항목을 S020에서 구현했다. DN-08 Command v1/ACK reason 확장과 개발용 결정은 계약 문서에 기록했다. |
@@ -51,3 +51,13 @@
 - Commits: 5d6bb1cd9fa389ee7ba3d40a773d45acbc5f75a7 — Record common rules writing handoff. 검증된 메모·문서 안내·진행 기록3파일을 커밋했다. 실제 해시 기록은 후속 인수인계 커밋으로 남긴다.
 - Known risks: 예시는 새 확정 규칙이 아니다. Alarm 임계값·전이·등록·운영 시간 정책 등은 미정 상태를 보존해야 한다. 현재 COM-01~04 passing은 기존 계약 범위이며 전체 관제 통합 완료가 아니다.
 - Next best action: 2026-10-02 docs/guides/common_rules_worknote.md를 읽고 세 항목을 자신의 말로 작성한다. 기존 PRD 6절·interface_contract와 채택된 계약을 대조하고 미정 사항은 명시한다. 제품 구현 재개 시에는 AGENTS의 표준 기준선 절차를 따른다.
+
+### S034 - 2026-10-01 - 업무 보고 체계와 상세 작성 기준 기획
+
+- Goal: 사용자 오늘 계획에 맞춰 일일 보고, 요구사항 추가·변경, 상세 기능명세, 기능 구현 완료 보고의 작성 기준을 연결한다.
+- Completed: 시작 HEAD 2bec65d, 시작 작업 트리 clean. ‘기능 명세 만료’는 사용자 답변으로 ‘기능 구현 완료 보고’임을 확인했다. 이번 첨부 260916 PDF6페이지를 읽고 관련 p3~5를 이미지로 확인했다. SHA256 B30FFEC36679B3DEBBC9BEEFB67952C790CE8FDDD976FF53934F2B88C9B0E879이며 기존17페이지 PDF와 구분했다. 기존 common_rules_worknote.md에 네 양식·보고 시점·기록 위치·오늘 완료 기준을 추가했다. 단순 상세 구체화와 계약/합격 기준 변경, 명세 작성과 현재 범위 제품 검증 완료를 구분한다. 문서 수를 늘리지 않았으며 PRD·기능명세·공통 계약·제품·추적기는 유지했다.
+- Verification run: tracker5기능/37항목 구조·증거 링크 PASS, 변경 문서2개 상대 링크17개 존재·Git 공백 검사 통과. feature_list.json SHA256 2A448A0CE96C84FBE4912604170FE52508CF84C7CDA8994953506E0BD540C3EC가 작업 전후 동일하다. PDF 렌더링은 번들 pdftoppm.cmd의 경로 오류 후 실제 Library/bin/pdftoppm.exe로 성공했다. 제품 실행 경로·계약 변경이 없는 보고 기획이므로 빌드·단위·실제 Broker·GUI 검증은 미실행이다.
+- Evidence recorded: 이번 문서 검토는 이 Session Record에 기록한다. PDF 검토 이미지는 임시 디렉터리에 있으며 제품 evidence로 등록하지 않는다.
+- Commits: 없음 — 관련 문서 검사 후 검증된 보고 체계 초안과 진행 기록의 로컬 커밋을 준비한다.
+- Known risks: 보고 양식은 검토용 제안이며 사수에게 발송·승인되지 않았다. 이번6페이지 PDF를 기존17페이지 명세의 교체본으로 채택하지 않았다. p5 운행 상태 행의 ‘상태’ 칸에는 필요한 이유가 들어 있어 이유와 채택 상태를 구분할 필요가 있다. COM-01~04 passing은 기존 추적기 범위이며 새 전체 명세의 모든 AC 또는 과제1 전체 통과를 뜻하지 않는다.
+- Next best action: docs/guides/common_rules_worknote.md의 ‘오늘의 업무 보고 체계 기획’을 읽고 일일 보고 초안 또는 AMR 식별·시간·Alarm 세 상세 규칙에 양식을 적용한다. 원문 출처와 초안/채택·미정 상태를 유지한다. 제품 구현 재개는 ./init.cmd verify와 현재 MVP 순서를 따른다.
